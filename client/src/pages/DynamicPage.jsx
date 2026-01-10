@@ -140,7 +140,7 @@ const DynamicPage = () => {
 
     if (error) {
         return (
-            <div className="min-h-screen bg-[#30136a] flex items-center justify-center text-white">
+            <div className="min-h-screen bg-black flex items-center justify-center text-white">
                 <div className="text-center">
                     <h1 className="text-4xl font-bold mb-4">404</h1>
                     <p className="text-gray-400 mb-6">Page not found</p>
@@ -152,14 +152,14 @@ const DynamicPage = () => {
 
     if (isLoading && !pageData) {
         return (
-            <div className="min-h-screen bg-[#30136a] flex items-center justify-center">
+            <div className="min-h-screen bg-black flex items-center justify-center">
                 <div className="size-12 border-4 border-primary/20 border-t-primary rounded-full animate-spin"></div>
             </div>
         );
     }
 
     return (
-        <div className="bg-[#30136a] min-h-screen text-white font-['Manrope'] pt-20 md:pt-24 pb-20">
+        <div className="bg-black min-h-screen text-white font-['Manrope'] pt-20 md:pt-24 pb-20">
             <SEO
                 title={pageData?.meta_title || pageData?.title || 'Noesis'}
                 description={pageData?.meta_description || pageData?.hero_subtitle || 'Elevate your performance.'}
@@ -225,7 +225,7 @@ const DynamicPage = () => {
                                     </button>
 
                                     {isMoreOpen && (
-                                        <div className="absolute top-full left-0 mt-2 w-48 bg-[#30136a] border border-white/10 rounded-2xl p-2 shadow-2xl z-50">
+                                        <div className="absolute top-full left-0 mt-2 w-48 bg-black border border-white/10 rounded-2xl p-2 shadow-2xl z-50">
                                             {hiddenSubCategories.map((cat) => (
                                                 <button
                                                     key={cat.id}
@@ -277,7 +277,7 @@ const DynamicPage = () => {
                                             <div className="absolute bottom-4 sm:bottom-6 left-4 sm:left-6 right-4 sm:left-6 opacity-0 translate-y-4 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300 pointer-events-none md:pointer-events-auto">
                                                 <button
                                                     onClick={(e) => handleQuickAdd(e, product)}
-                                                    className="w-full h-10 md:h-12 bg-black text-white rounded-xl md:rounded-2xl font-black text-[9px] md:text-[10px] uppercase tracking-widest hover:bg-[#30136a] transition-colors shadow-xl pointer-events-auto"
+                                                    className="w-full h-10 md:h-12 bg-black text-white rounded-xl md:rounded-2xl font-black text-[9px] md:text-[10px] uppercase tracking-widest hover:bg-black transition-colors shadow-xl pointer-events-auto"
                                                 >
                                                     Add to Bag
                                                 </button>
@@ -285,7 +285,7 @@ const DynamicPage = () => {
 
                                             {(product.is_new || product.is_sale) && (
                                                 <div className="absolute top-6 left-6">
-                                                    <span className={`px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-widest ${product.is_new ? 'bg-black text-white' : 'bg-[#30136a] text-white'}`}>
+                                                    <span className={`px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-widest ${product.is_new ? 'bg-black text-white' : 'bg-black text-white'}`}>
                                                         {product.is_new ? 'New Arrival' : 'Sale'}
                                                     </span>
                                                 </div>

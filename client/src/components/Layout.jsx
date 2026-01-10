@@ -22,7 +22,7 @@ const Layout = ({ children }) => {
         <div className="glossy-bg text-white font-display antialiased selection:bg-primary/40 selection:text-white relative min-h-screen">
             <div className="fixed inset-0 -z-10 h-full w-full overflow-hidden pointer-events-none">
                 <div className="absolute top-[-20%] right-[-10%] w-[800px] h-[800px] rounded-full bg-primary/10 blur-[120px] mix-blend-screen"></div>
-                <div className="absolute bottom-[-10%] left-[-20%] w-[900px] h-[900px] rounded-full bg-[#1e0c42]/10 blur-[150px] mix-blend-screen"></div>
+                <div className="absolute bottom-[-10%] left-[-20%] w-[900px] h-[900px] rounded-full bg-black/10 blur-[150px] mix-blend-screen"></div>
                 <div className="absolute top-[30%] left-[10%] w-[500px] h-[500px] rounded-full bg-primary/5 blur-[100px] mix-blend-overlay"></div>
             </div>
 

@@ -158,7 +158,7 @@ const ProductPage = () => {
 
     if (loading) {
         return (
-            <div className="bg-[#30136a] min-h-screen text-white font-['Manrope'] pt-20 md:pt-24 pb-12 overflow-x-hidden">
+            <div className="bg-black min-h-screen text-white font-['Manrope'] pt-20 md:pt-24 pb-12 overflow-x-hidden">
                 <div className="size-16 border-4 border-primary/20 border-t-primary rounded-full animate-spin"></div>
                 <p className="text-white/40 font-bold tracking-[0.3em] uppercase text-xs">Crafting Heritage...</p>
             </div>
@@ -167,7 +167,7 @@ const ProductPage = () => {
 
     if (!product) {
         return (
-            <div className="min-h-screen bg-[#30136a] flex flex-col items-center justify-center text-white p-10 text-center">
+            <div className="min-h-screen bg-black flex flex-col items-center justify-center text-white p-10 text-center">
                 <h1 className="text-4xl md:text-6xl font-bold mb-6">Product Not Found</h1>
                 <Link to="/shop" className="px-8 py-3 bg-white text-black rounded-full font-bold hover:bg-primary hover:text-white transition-all">Back to Collection</Link>
             </div>
@@ -177,7 +177,7 @@ const ProductPage = () => {
     const mainImage = product.images?.[0] || 'https://via.placeholder.com/600x800?text=No+Image';
 
     return (
-        <div className="bg-[#30136a] min-h-screen text-white font-['Manrope'] pt-20 md:pt-24 pb-12 overflow-x-hidden">
+        <div className="bg-black min-h-screen text-white font-['Manrope'] pt-20 md:pt-24 pb-12 overflow-x-hidden">
             <SEO
                 title={product.name}
                 description={product.description}

@@ -173,16 +173,16 @@ const AdminProductsPage = () => {
                         </button>
                         <div className="h-11 w-px bg-white/10 mx-1"></div>
                         <select className="h-11 bg-transparent text-sm font-bold text-gray-300 outline-none cursor-pointer hover:text-white px-2">
-                            <option className="bg-[#1e0c42]">Category: All</option>
-                            <option className="bg-[#1e0c42]">Men</option>
-                            <option className="bg-[#1e0c42]">Women</option>
-                            <option className="bg-[#1e0c42]">Accessories</option>
+                            <option className="bg-black">Category: All</option>
+                            <option className="bg-black">Men</option>
+                            <option className="bg-black">Women</option>
+                            <option className="bg-black">Accessories</option>
                         </select>
                         <select className="h-11 bg-transparent text-sm font-bold text-gray-300 outline-none cursor-pointer hover:text-white px-2">
-                            <option className="bg-[#1e0c42]">Status: All</option>
-                            <option className="bg-[#1e0c42]">Active</option>
-                            <option className="bg-[#1e0c42]">Draft</option>
-                            <option className="bg-[#1e0c42]">Archived</option>
+                            <option className="bg-black">Status: All</option>
+                            <option className="bg-black">Active</option>
+                            <option className="bg-black">Draft</option>
+                            <option className="bg-black">Archived</option>
                         </select>
                     </div>
                 </div>

@@ -141,7 +141,7 @@ const HomePage = () => {
                     <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-black/30"></div>
 
                     {/* Radial Highlight for sleekness */}
-                    <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_50%,rgba(184,32,99,0.2),transparent_60%)]"></div>
+                    <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_50%,rgba(48, 19, 106,0.2),transparent_60%)]"></div>
 
                     {/* Content Section */}
                     <div className="absolute inset-0 flex flex-col justify-center px-12 md:px-28 z-10">
@@ -195,7 +195,7 @@ const HomePage = () => {
                     {/* Overlays & Gradients */}
                     <div className="absolute inset-0 bg-black/40 backdrop-blur-[1px]"></div>
                     <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-black/40"></div>
-                    <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(184,32,99,0.1),transparent_70%)]"></div>
+                    <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(48, 19, 106,0.1),transparent_70%)]"></div>
 
                     {/* Content */}
                     <div className="absolute inset-0 flex flex-col items-center justify-center text-center p-8 md:p-12 z-10">
@@ -357,7 +357,7 @@ const HomePage = () => {
                                     <div className="absolute bottom-4 sm:bottom-6 left-4 sm:left-6 right-4 sm:right-6 opacity-0 translate-y-4 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300 pointer-events-none md:pointer-events-auto">
                                         <button
                                             onClick={(e) => handleQuickAdd(e, product)}
-                                            className="w-full h-10 md:h-12 bg-black text-white rounded-xl md:rounded-2xl font-black text-[9px] md:text-[10px] uppercase tracking-widest hover:bg-[#30136a] transition-colors shadow-xl pointer-events-auto"
+                                            className="w-full h-10 md:h-12 bg-black text-white rounded-xl md:rounded-2xl font-black text-[9px] md:text-[10px] uppercase tracking-widest hover:bg-black transition-colors shadow-xl pointer-events-auto"
                                         >
                                             Add to Bag
                                         </button>
@@ -421,7 +421,7 @@ const HomePage = () => {
                                     <div className="absolute bottom-4 sm:bottom-6 left-4 sm:left-6 right-4 sm:right-6 opacity-0 translate-y-4 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300 pointer-events-none md:pointer-events-auto">
                                         <button
                                             onClick={(e) => handleQuickAdd(e, product)}
-                                            className="w-full h-10 md:h-12 bg-black text-white rounded-xl md:rounded-2xl font-black text-[9px] md:text-[10px] uppercase tracking-widest hover:bg-[#30136a] transition-colors shadow-xl pointer-events-auto"
+                                            className="w-full h-10 md:h-12 bg-black text-white rounded-xl md:rounded-2xl font-black text-[9px] md:text-[10px] uppercase tracking-widest hover:bg-black transition-colors shadow-xl pointer-events-auto"
                                         >
                                             Add to Bag
                                         </button>

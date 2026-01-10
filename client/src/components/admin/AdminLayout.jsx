@@ -14,13 +14,13 @@ const AdminLayout = ({ children }) => {
         : user?.email?.substring(0, 2).toUpperCase() || 'AD';
 
     return (
-        <div className="bg-[#30136a] text-white font-display selection:bg-primary/50 min-h-screen flex">
+        <div className="bg-black text-white font-display selection:bg-primary/50 min-h-screen flex">
             {/* Background Effects */}
             <div className="fixed top-0 left-0 w-full h-full overflow-hidden -z-10 pointer-events-none">
-                <div className="absolute inset-0 bg-gradient-to-b from-[#30136a] via-[#1e0c42] to-[#000000]"></div>
+                <div className="absolute inset-0 bg-gradient-to-b from-black via-[#1e0c42] to-[#000000]"></div>
                 <div className="absolute top-[-10%] right-[-10%] w-[800px] h-[800px] bg-gradient-to-br from-primary/20 to-transparent rounded-full blur-[120px] mix-blend-screen"></div>
-                <div className="absolute bottom-[-10%] left-[-10%] w-[600px] h-[600px] bg-gradient-to-tr from-[#30136a]/10 to-transparent rounded-full blur-[100px] mix-blend-screen"></div>
-                <div className="absolute top-[40%] left-[30%] w-[400px] h-[400px] bg-[#1e0c42]/10 rounded-full blur-[90px] mix-blend-screen"></div>
+                <div className="absolute bottom-[-10%] left-[-10%] w-[600px] h-[600px] bg-gradient-to-tr from-black/10 to-transparent rounded-full blur-[100px] mix-blend-screen"></div>
+                <div className="absolute top-[40%] left-[30%] w-[400px] h-[400px] bg-black/10 rounded-full blur-[90px] mix-blend-screen"></div>
             </div>
 
             <AdminSidebar />
@@ -69,7 +69,7 @@ const AdminLayout = ({ children }) => {
                         className="fixed inset-0 bg-black/60 backdrop-blur-sm"
                         onClick={() => setIsMobileMenuOpen(false)}
                     ></div>
-                    <div className="relative w-72 h-full bg-[#30136a] border-r border-white/5 shadow-2xl animate-slide-in-left flex flex-col">
+                    <div className="relative w-72 h-full bg-black border-r border-white/5 shadow-2xl animate-slide-in-left flex flex-col">
                         <div className="p-6 flex items-center justify-between border-b border-white/5 h-20">
                             <span className="text-xl font-bold">{settings?.storeName ? `${settings.storeName} Admin` : 'Admin'}</span>
                             <button onClick={() => setIsMobileMenuOpen(false)} className="text-gray-400">

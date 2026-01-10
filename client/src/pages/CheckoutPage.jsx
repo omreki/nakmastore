@@ -443,11 +443,11 @@ const CheckoutPage = () => {
     };
 
     return (
-        <div className="bg-[#30136a] min-h-screen text-white font-['Manrope'] pt-20 md:pt-32 pb-10 md:pb-20 relative">
+        <div className="bg-black min-h-screen text-white font-['Manrope'] pt-20 md:pt-32 pb-10 md:pb-20 relative">
             {/* Ambient Lighting */}
             <div className="fixed top-0 left-0 w-full h-full overflow-hidden pointer-events-none -z-10">
-                <div className="absolute top-[-10%] right-[-10%] w-[800px] h-[800px] bg-[#30136a]/10 rounded-full blur-[120px]"></div>
-                <div className="absolute bottom-[-10%] left-[-10%] w-[600px] h-[600px] bg-[#1e0c42]/10 rounded-full blur-[100px]"></div>
+                <div className="absolute top-[-10%] right-[-10%] w-[800px] h-[800px] bg-primary/10 rounded-full blur-[120px]"></div>
+                <div className="absolute bottom-[-10%] left-[-10%] w-[600px] h-[600px] bg-black/10 rounded-full blur-[100px]"></div>
             </div>
 
             {/* Auth Prompt Modal */}
@@ -457,7 +457,7 @@ const CheckoutPage = () => {
                         onClick={() => setShowAuthPrompt(false)}
                         className="absolute inset-0 bg-black/80 backdrop-blur-sm"
                     />
-                    <div className="relative w-full max-w-md bg-[#30136a] glass-panel p-10 rounded-[40px] border border-white/10 shadow-2xl overflow-hidden animate-scale-in">
+                    <div className="relative w-full max-w-md bg-black glass-panel p-10 rounded-[40px] border border-white/10 shadow-2xl overflow-hidden animate-scale-in">
                         <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-[#30136a] to-transparent opacity-50"></div>
 
                         <h2 className="text-2xl font-black italic tracking-tight mb-4 text-center uppercase">Secure Your Order</h2>
@@ -468,7 +468,7 @@ const CheckoutPage = () => {
                         <div className="space-y-4">
                             <button
                                 onClick={handleLoginClick}
-                                className="w-full h-14 bg-[#30136a] hover:bg-[#4a2da0] text-white rounded-full font-black uppercase tracking-[0.2em] text-[10px] transition-all shadow-lg flex items-center justify-center gap-3"
+                                className="w-full h-14 bg-black hover:bg-[#4a2da0] text-white rounded-full font-black uppercase tracking-[0.2em] text-[10px] transition-all shadow-lg flex items-center justify-center gap-3"
                             >
                                 <span>Sign In / Create Account</span>
                                 <span className="material-symbols-outlined text-sm">login</span>
@@ -574,7 +574,7 @@ const CheckoutPage = () => {
                                     <div className="space-y-3 md:space-y-4">
                                         {activeMethods.length > 0 ? (
                                             activeMethods.map((method) => (
-                                                <label key={method.id} className={`flex items-center justify-between p-4 md:p-8 rounded-2xl md:rounded-[30px] border transition-all group cursor-pointer ${selectedShippingId === method.id ? 'bg-[#30136a]/10 border-[#30136a]' : 'bg-white/[0.03] border-white/10 hover:border-white/20'}`}>
+                                                <label key={method.id} className={`flex items-center justify-between p-4 md:p-8 rounded-2xl md:rounded-[30px] border transition-all group cursor-pointer ${selectedShippingId === method.id ? 'bg-primary/10 border-[#30136a]' : 'bg-white/[0.03] border-white/10 hover:border-white/20'}`}>
                                                     <div className="flex items-center gap-4 md:gap-6">
                                                         <input
                                                             type="radio"
@@ -615,7 +615,7 @@ const CheckoutPage = () => {
                                             if (key === 'cod') label = 'Cash on Delivery';
 
                                             return (
-                                                <label key={key} className={`flex items-center gap-3 md:gap-4 p-4 md:p-6 rounded-xl border cursor-pointer transition-all ${selectedPayment === key ? 'bg-[#30136a]/10 border-[#30136a]' : 'bg-white/[0.03] border-white/10 hover:border-white/20'}`}>
+                                                <label key={key} className={`flex items-center gap-3 md:gap-4 p-4 md:p-6 rounded-xl border cursor-pointer transition-all ${selectedPayment === key ? 'bg-primary/10 border-[#30136a]' : 'bg-white/[0.03] border-white/10 hover:border-white/20'}`}>
                                                     <input
                                                         type="radio"
                                                         name="paymentMethod"
@@ -652,7 +652,7 @@ const CheckoutPage = () => {
                                     disabled={isProcessing}
                                     data-track={step === 3 ? 'Place Order' : (step === 2 ? 'Continue to Payment' : 'Continue')}
                                     data-track-meta={JSON.stringify({ step, paymentMethod: selectedPayment })}
-                                    className={`flex-grow h-16 md:h-20 bg-[#1e0c42] text-white rounded-full font-black uppercase tracking-[0.2em] hover:bg-[#30136a] transition-all shadow-2xl flex items-center justify-center gap-4 text-sm md:text-base ${isProcessing ? 'opacity-50 cursor-not-allowed' : ''}`}
+                                    className={`flex-grow h-16 md:h-20 bg-black text-white rounded-full font-black uppercase tracking-[0.2em] hover:bg-black transition-all shadow-2xl flex items-center justify-center gap-4 text-sm md:text-base ${isProcessing ? 'opacity-50 cursor-not-allowed' : ''}`}
                                 >
                                     {isProcessing ? (
                                         <>
@@ -722,7 +722,7 @@ const CheckoutPage = () => {
 
                             <div className="pt-4 space-y-4">
                                 {settings?.checkoutPageSettings?.giftMessage && (
-                                    <div className="flex items-center gap-3 p-4 rounded-2xl bg-[#30136a]/10 border border-[#30136a]/20">
+                                    <div className="flex items-center gap-3 p-4 rounded-2xl bg-primary/10 border border-[#30136a]/20">
                                         <span className="material-symbols-outlined text-[#30136a]">redeem</span>
                                         <p
                                             className="text-[10px] font-bold uppercase tracking-widest leading-tight"

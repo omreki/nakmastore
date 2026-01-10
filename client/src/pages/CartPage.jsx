@@ -34,21 +34,21 @@ const CartPage = () => {
 
     if (cart.length === 0) {
         return (
-            <div className="bg-[#30136a] min-h-screen text-white font-['Manrope'] pt-24 md:pt-32 pb-20">
+            <div className="bg-black min-h-screen text-white font-['Manrope'] pt-24 md:pt-32 pb-20">
                 <span className="material-symbols-outlined text-6xl md:text-8xl text-white/10 mb-8">shopping_bag</span>
                 <h1 className="text-3xl md:text-6xl font-bold mb-6 italic px-4">Your Collection is Empty</h1>
                 <p className="text-white/40 text-base md:text-lg mb-10 max-w-sm md:max-w-md px-6">Embrace your cultural expression with our unique collection. Explore the store to find your perfect fit.</p>
-                <Link to="/shop" className="px-12 py-5 bg-white text-black rounded-full font-bold uppercase tracking-widest hover:bg-[#30136a] hover:text-white transition-all shadow-2xl">Start Exploring</Link>
+                <Link to="/shop" className="px-12 py-5 bg-white text-black rounded-full font-bold uppercase tracking-widest hover:bg-black hover:text-white transition-all shadow-2xl">Start Exploring</Link>
             </div>
         );
     }
 
     return (
-        <div className="bg-[#30136a] min-h-screen text-white font-['Manrope'] pt-24 md:pt-32 pb-20">
+        <div className="bg-black min-h-screen text-white font-['Manrope'] pt-24 md:pt-32 pb-20">
             {/* Ambient Lighting */}
             <div className="fixed top-0 left-0 w-full h-full overflow-hidden pointer-events-none -z-10">
-                <div className="absolute top-[-10%] right-[-10%] w-[800px] h-[800px] bg-[#30136a]/10 rounded-full blur-[120px]"></div>
-                <div className="absolute bottom-[-10%] left-[-10%] w-[600px] h-[600px] bg-[#1e0c42]/10 rounded-full blur-[100px]"></div>
+                <div className="absolute top-[-10%] right-[-10%] w-[800px] h-[800px] bg-primary/10 rounded-full blur-[120px]"></div>
+                <div className="absolute bottom-[-10%] left-[-10%] w-[600px] h-[600px] bg-black/10 rounded-full blur-[100px]"></div>
             </div>
 
             <main className="max-w-[1440px] mx-auto px-6 md:px-10">
@@ -150,7 +150,7 @@ const CartPage = () => {
 
                                 <Link
                                     to="/checkout"
-                                    className="w-full h-20 bg-[#1e0c42] text-white rounded-full flex items-center justify-center gap-4 font-black uppercase tracking-[0.2em] hover:bg-[#30136a] transition-all transform active:scale-[0.98] shadow-2xl"
+                                    className="w-full h-20 bg-black text-white rounded-full flex items-center justify-center gap-4 font-black uppercase tracking-[0.2em] hover:bg-black transition-all transform active:scale-[0.98] shadow-2xl"
                                 >
                                     Proceed to Checkout
                                     <span className="material-symbols-outlined">east</span>

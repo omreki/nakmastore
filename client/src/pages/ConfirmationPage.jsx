@@ -106,7 +106,7 @@ const ConfirmationPage = () => {
 
     if (loading) {
         return (
-            <div className="min-h-screen bg-[#30136a] flex flex-col items-center justify-center text-white">
+            <div className="min-h-screen bg-black flex flex-col items-center justify-center text-white">
                 <div className="size-12 border-4 border-[#30136a]/20 border-t-[#30136a] rounded-full animate-spin mb-4"></div>
                 <p className="font-bold uppercase tracking-widest text-xs opacity-50">Verifying Payment...</p>
             </div>
@@ -280,7 +280,7 @@ const ConfirmationPage = () => {
                                 </div>
                             </div>
                             <div className="mt-8 flex flex-col gap-3">
-                                <Link to="/account" className="flex w-full items-center justify-center gap-2 rounded-full bg-gradient-to-r from-primary to-[#1e0c42] px-6 py-3.5 text-sm font-bold text-white shadow-lg shadow-primary/40 border border-white/10 transition-transform hover:scale-[1.02] active:scale-[0.98]">
+                                <Link to="/account" className="flex w-full items-center justify-center gap-2 rounded-full bg-gradient-to-r from-primary to-black px-6 py-3.5 text-sm font-bold text-white shadow-lg shadow-primary/40 border border-white/10 transition-transform hover:scale-[1.02] active:scale-[0.98]">
                                     <span>Track Order</span>
                                     <span className="material-symbols-outlined text-lg">arrow_forward</span>
                                 </Link>

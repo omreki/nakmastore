@@ -351,10 +351,10 @@ const CustomerManagementPage = () => {
                                             value={statusFilter}
                                             onChange={(e) => setStatusFilter(e.target.value)}
                                         >
-                                            <option className="bg-[#1e0c42]" value="all">Status: All</option>
-                                            <option className="bg-[#1e0c42]" value="active">Active</option>
-                                            <option className="bg-[#1e0c42]" value="inactive">Inactive</option>
-                                            <option className="bg-[#1e0c42]" value="blocked">Blocked</option>
+                                            <option className="bg-black" value="all">Status: All</option>
+                                            <option className="bg-black" value="active">Active</option>
+                                            <option className="bg-black" value="inactive">Inactive</option>
+                                            <option className="bg-black" value="blocked">Blocked</option>
                                         </select>
                                         <span className="material-symbols-outlined absolute right-4 top-1/2 -translate-y-1/2 text-gray-600 pointer-events-none text-xl group-hover:text-white transition-colors">expand_more</span>
                                     </div>

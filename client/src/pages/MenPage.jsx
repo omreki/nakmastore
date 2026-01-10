@@ -119,7 +119,7 @@ const MenPage = () => {
     };
 
     return (
-        <div className="bg-[#30136a] min-h-screen text-white font-['Manrope'] pt-20 md:pt-24 pb-20">
+        <div className="bg-black min-h-screen text-white font-['Manrope'] pt-20 md:pt-24 pb-20">
             <SEO
                 title="Men's Collection"
                 description="Unique African-inspired shirts designed for the modern man. Blending cultural identity with sophisticated silhouettes."
@@ -172,7 +172,7 @@ const MenPage = () => {
                             </button>
 
                             {isMoreOpen && (
-                                <div className="absolute top-full left-0 mt-2 w-48 bg-[#30136a] border border-white/10 rounded-2xl p-2 shadow-2xl z-50">
+                                <div className="absolute top-full left-0 mt-2 w-48 bg-black border border-white/10 rounded-2xl p-2 shadow-2xl z-50">
                                     {hiddenSubCategories.map((cat) => (
                                         <button
                                             key={cat.id}
@@ -213,7 +213,7 @@ const MenPage = () => {
                     <div className="grid grid-cols-2 lg:grid-cols-4 gap-8 md:gap-12">
                         {products.map(product => (
                             <Link to={`/product/${product.slug}`} key={product.id} className="group cursor-pointer">
-                                <div className="relative aspect-[4/5] rounded-[32px] overflow-hidden mb-6 bg-[#1e0c42] transition-transform duration-500 group-hover:-translate-y-2">
+                                <div className="relative aspect-[4/5] rounded-[32px] overflow-hidden mb-6 bg-black transition-transform duration-500 group-hover:-translate-y-2">
                                     <img
                                         src={product.images?.[0] || 'https://via.placeholder.com/400x500?text=No+Image'}
                                         alt={product.name}
@@ -224,7 +224,7 @@ const MenPage = () => {
                                     <div className="absolute bottom-4 sm:bottom-6 left-4 sm:left-6 right-4 sm:left-6 opacity-0 translate-y-4 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300 pointer-events-none md:pointer-events-auto">
                                         <button
                                             onClick={(e) => handleQuickAdd(e, product)}
-                                            className="w-full h-10 md:h-12 bg-black text-white rounded-xl md:rounded-2xl font-black text-[9px] md:text-[10px] uppercase tracking-widest hover:bg-[#30136a] transition-colors shadow-xl pointer-events-auto"
+                                            className="w-full h-10 md:h-12 bg-black text-white rounded-xl md:rounded-2xl font-black text-[9px] md:text-[10px] uppercase tracking-widest hover:bg-black transition-colors shadow-xl pointer-events-auto"
                                         >
                                             Add to Bag
                                         </button>
@@ -232,7 +232,7 @@ const MenPage = () => {
 
                                     {(product.is_new || product.is_sale) && (
                                         <div className="absolute top-6 left-6">
-                                            <span className={`px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-widest ${product.is_new ? 'bg-black text-white' : 'bg-[#30136a] text-white'}`}>
+                                            <span className={`px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-widest ${product.is_new ? 'bg-black text-white' : 'bg-black text-white'}`}>
                                                 {product.is_new ? 'New Arrival' : 'Sale'}
                                             </span>
                                         </div>

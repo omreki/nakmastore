@@ -75,7 +75,7 @@ const AccountPage = () => {
 
     if (loading) {
         return (
-            <div className="min-h-screen bg-[#30136a] flex items-center justify-center">
+            <div className="min-h-screen bg-black flex items-center justify-center">
                 <div className="flex flex-col items-center gap-4">
                     <div className="size-12 border-4 border-primary/20 border-t-primary rounded-full animate-spin"></div>
                     <p className="text-white/50 text-sm font-bold uppercase tracking-[0.2em]">Crafting Your Space...</p>
@@ -85,11 +85,11 @@ const AccountPage = () => {
     }
 
     return (
-        <div className="min-h-screen bg-[#30136a] text-white pt-20 md:pt-24 pb-20 font-['Manrope']">
+        <div className="min-h-screen bg-black text-white pt-20 md:pt-24 pb-20 font-['Manrope']">
             {/* Ambient Lighting */}
             <div className="fixed top-0 left-0 w-full h-full overflow-hidden pointer-events-none -z-10">
-                <div className="absolute top-[-10%] right-[-10%] w-[800px] h-[800px] bg-[#30136a]/10 rounded-full blur-[120px]"></div>
-                <div className="absolute bottom-[-10%] left-[-10%] w-[600px] h-[600px] bg-[#30136a]/10 rounded-full blur-[100px]"></div>
+                <div className="absolute top-[-10%] right-[-10%] w-[800px] h-[800px] bg-primary/10 rounded-full blur-[120px]"></div>
+                <div className="absolute bottom-[-10%] left-[-10%] w-[600px] h-[600px] bg-primary/10 rounded-full blur-[100px]"></div>
             </div>
 
             <main className="max-w-[1200px] mx-auto px-6 md:px-10">

@@ -47,7 +47,7 @@ const ArticleManagementPage = lazy(() => import('./pages/admin/ArticleManagement
 
 // Loading Fallback
 const PageLoader = () => (
-  <div className="min-h-screen flex flex-col items-center justify-center bg-[#30136a]">
+  <div className="min-h-screen flex flex-col items-center justify-center bg-black">
     <div className="size-12 rounded-full border-4 border-primary/20 border-t-primary animate-spin mb-4"></div>
     <p className="text-gray-500 font-black uppercase tracking-widest text-xs">Loading Interface...</p>
   </div>

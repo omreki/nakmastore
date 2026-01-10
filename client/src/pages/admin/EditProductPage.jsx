@@ -661,7 +661,7 @@ const EditProductPage = () => {
                                                     key={size}
                                                     type="button"
                                                     onClick={() => toggleSize(size)}
-                                                    className={`px-5 py-3 rounded-xl text-[10px] font-black tracking-widest transition-all border ${formData.sizes.includes(size) ? 'bg-primary text-white border-primary shadow-[0_0_20px_rgba(184,32,99,0.3)]' : 'bg-white/5 text-gray-400 border-white/5 hover:border-white/20'}`}
+                                                    className={`px-5 py-3 rounded-xl text-[10px] font-black tracking-widest transition-all border ${formData.sizes.includes(size) ? 'bg-primary text-white border-primary shadow-[0_0_20px_rgba(48, 19, 106,0.3)]' : 'bg-white/5 text-gray-400 border-white/5 hover:border-white/20'}`}
                                                 >
                                                     {size}
                                                 </button>

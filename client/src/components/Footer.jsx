@@ -6,7 +6,7 @@ const Footer = () => {
     const { settings, loading } = useStoreSettings();
 
     return (
-        <footer className="bg-[#1e0c42] text-white pt-24 pb-12 border-t border-white/5">
+        <footer className="bg-black text-white pt-24 pb-12 border-t border-white/5">
             <div className="max-w-[1600px] mx-auto px-4 md:px-8">
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-16 mb-24">
                     {/* Brand Column */}

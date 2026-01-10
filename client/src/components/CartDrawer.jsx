@@ -25,7 +25,7 @@ const CartDrawer = () => {
             ></div>
 
             {/* Drawer */}
-            <div className={`fixed top-0 right-0 h-full w-full max-w-[450px] bg-[#1e0c42] z-[101] shadow-2xl transition-transform duration-500 ease-out border-l border-white/5 flex flex-col ${isCartOpen ? 'translate-x-0' : 'translate-x-full'}`}>
+            <div className={`fixed top-0 right-0 h-full w-full max-w-[450px] bg-black z-[101] shadow-2xl transition-transform duration-500 ease-out border-l border-white/5 flex flex-col ${isCartOpen ? 'translate-x-0' : 'translate-x-full'}`}>
                 {/* Header */}
                 <div className="p-8 border-b border-white/5 flex items-center justify-between">
                     <div>
@@ -127,7 +127,7 @@ const CartDrawer = () => {
                         <Link
                             to="/checkout"
                             onClick={() => setIsCartOpen(false)}
-                            className="w-full h-14 bg-white text-black rounded-full flex items-center justify-center font-black text-xs uppercase tracking-[0.2em] hover:bg-[#30136a] hover:text-white transition-all transform active:scale-[0.98] shadow-xl"
+                            className="w-full h-14 bg-white text-black rounded-full flex items-center justify-center font-black text-xs uppercase tracking-[0.2em] hover:bg-black hover:text-white transition-all transform active:scale-[0.98] shadow-xl"
                         >
                             Checkout
                             <span className="material-symbols-outlined ml-3 text-lg">east</span>

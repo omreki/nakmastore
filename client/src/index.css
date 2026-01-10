@@ -13,10 +13,10 @@
     --color-primary-bright: #5d34a4;
     --color-primary-accent: #d86928;
     --color-accent: #d86928;
-    --color-secondary: #30136a;
-    --color-background-light: #4a2da0;
-    --color-background-dark: #1e0c42;
-    --color-card-dark: rgba(30, 12, 66, 0.6);
+    --color-secondary: #000000;
+    --color-background-light: #0a0a0a;
+    --color-background-dark: #000000;
+    --color-card-dark: rgba(0, 0, 0, 0.6);
     --color-text-main: #ffffff;
     --color-text-muted: #a1a1aa;
 }
@@ -49,7 +49,7 @@ html.lenis body {
 
 body {
     color: white;
-    background-color: #30136a;
+    background-color: #000000;
 }
 
 
@@ -72,7 +72,7 @@ body {
 }
 
 ::-webkit-scrollbar-thumb {
-    background-color: rgba(184, 32, 99, 0.2);
+    background-color: rgba(48, 19, 106, 0.5);
     border-radius: 20px;
 }
 
@@ -82,11 +82,11 @@ body {
 }
 
 .shop-page ::-webkit-scrollbar-track {
-    background: #1e0c42;
+    background: #000000;
 }
 
 .shop-page ::-webkit-scrollbar-thumb {
-    background: #1e0c42;
+    background: rgba(48, 19, 106, 0.5);
     border-radius: 4px;
 }
 
@@ -106,7 +106,7 @@ body {
 }
 
 .glossy-panel {
-    background: rgba(30, 12, 66, 0.6);
+    background: rgba(0, 0, 0, 0.6);
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
     border: 1px solid rgba(255, 255, 255, 0.08);
@@ -114,7 +114,7 @@ body {
 }
 
 .glass-card {
-    background: rgba(48, 19, 106, 0.4);
+    background: rgba(0, 0, 0, 0.4);
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
     border: 1px solid rgba(255, 255, 255, 0.05);
@@ -123,7 +123,7 @@ body {
 }
 
 .glass-card:hover {
-    background: rgba(58, 29, 116, 0.5);
+    background: rgba(30, 30, 30, 0.5);
     border-color: rgba(255, 255, 255, 0.15);
     transform: translateY(-4px);
     box-shadow: 0 10px 40px -10px rgba(0, 0, 0, 0.5);
@@ -165,7 +165,7 @@ body {
 .bg-gradient-mesh {
     background-color: #30136a;
     background-image:
-        radial-gradient(at 50% 0%, rgba(184, 32, 99, 0.25) 0px, transparent 70%),
+        radial-gradient(at 50% 0%, rgba(48, 19, 106, 0.25) 0px, transparent 70%),
         radial-gradient(at 100% 0%, rgba(48, 19, 106, 1) 0px, transparent 50%),
         radial-gradient(at 90% 90%, rgba(216, 105, 40, 0.15) 0px, transparent 60%),
         radial-gradient(at 0% 100%, rgba(30, 13, 106, 1) 0px, transparent 50%);
@@ -177,7 +177,7 @@ body {
 .glossy-bg {
     background-color: #30136a;
     background-image:
-        radial-gradient(circle at 15% 50%, rgba(184, 32, 99, 0.15), transparent 40%),
+        radial-gradient(circle at 15% 50%, rgba(48, 19, 106, 0.15), transparent 40%),
         radial-gradient(circle at 85% 30%, rgba(216, 105, 40, 0.1), transparent 40%),
         linear-gradient(to bottom, rgba(255, 255, 255, 0.015) 1px, transparent 1px),
         linear-gradient(to right, rgba(255, 255, 255, 0.015) 1px, transparent 1px);

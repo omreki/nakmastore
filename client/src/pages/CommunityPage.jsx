@@ -87,7 +87,7 @@ const CommunityPage = () => {
     };
 
     return (
-        <div className="bg-[#30136a] min-h-screen text-white font-['Manrope'] pt-20 md:pt-24 pb-20">
+        <div className="bg-black min-h-screen text-white font-['Manrope'] pt-20 md:pt-24 pb-20">
             <SEO
                 title={pageSettings.meta_title || pageSettings.title || "Community & Articles"}
                 description={pageSettings.meta_description || pageSettings.hero_subtitle || "Explore our latest articles, guides, and community insights on African-inspired fashion and cultural heritage."}

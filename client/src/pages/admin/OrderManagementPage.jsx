@@ -344,11 +344,11 @@ const OrderManagementPage = () => {
                                 value={statusFilter}
                                 onChange={(e) => setStatusFilter(e.target.value)}
                             >
-                                <option className="bg-[#1e0c42]" value="all">Status: All</option>
-                                <option className="bg-[#1e0c42]" value="processing">Processing</option>
-                                <option className="bg-[#1e0c42]" value="shipped">Shipped</option>
-                                <option className="bg-[#1e0c42]" value="delivered">Delivered</option>
-                                <option className="bg-[#1e0c42]" value="returned">Returned</option>
+                                <option className="bg-black" value="all">Status: All</option>
+                                <option className="bg-black" value="processing">Processing</option>
+                                <option className="bg-black" value="shipped">Shipped</option>
+                                <option className="bg-black" value="delivered">Delivered</option>
+                                <option className="bg-black" value="returned">Returned</option>
                             </select>
                             <span className="material-symbols-outlined absolute right-4 top-1/2 -translate-y-1/2 text-gray-600 pointer-events-none text-xl group-hover:text-white transition-colors">expand_more</span>
                         </div>
@@ -358,9 +358,9 @@ const OrderManagementPage = () => {
                                 value={dateFilter}
                                 onChange={(e) => setDateFilter(e.target.value)}
                             >
-                                <option className="bg-[#1e0c42]" value="last7">Filter: Last 7D</option>
-                                <option className="bg-[#1e0c42]" value="last30">Filter: Last 30D</option>
-                                <option className="bg-[#1e0c42]" value="month">This Month</option>
+                                <option className="bg-black" value="last7">Filter: Last 7D</option>
+                                <option className="bg-black" value="last30">Filter: Last 30D</option>
+                                <option className="bg-black" value="month">This Month</option>
                             </select>
                             <span className="material-symbols-outlined absolute right-4 top-1/2 -translate-y-1/2 text-gray-600 pointer-events-none text-xl group-hover:text-white transition-colors">calendar_today</span>
                         </div>
