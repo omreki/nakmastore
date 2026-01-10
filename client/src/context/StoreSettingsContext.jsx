@@ -85,7 +85,7 @@ export const StoreSettingsProvider = ({ children }) => {
         ],
         aboutPageSettings: {
             hero: {
-                bgImage: "https://images.unsplash.com/photo-1534438327276-14e5300c3a48?q=80&w=2070&auto=format&fit=crop",
+                bgImage: "",
                 estText: "EST. 2024",
                 title: "Beyond \n The Limits",
                 subtitle: "Nakma Store is dedicated to blending African heritage with modern design for the contemporary man."
@@ -127,7 +127,7 @@ export const StoreSettingsProvider = ({ children }) => {
                 authorTitle: "Founder / Creative Director"
             },
             join: {
-                bgImage: "https://images.unsplash.com/photo-1517836357463-d25dfeac3438?q=80&w=2070&auto=format&fit=crop",
+                bgImage: "",
                 title: "Ready to Evolve?",
                 subtitle: "Step into the next chapter of your athletic journey. Explore the full collection today.",
                 buttonText: "Explore Store",

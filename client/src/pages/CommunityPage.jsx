@@ -94,28 +94,30 @@ const CommunityPage = () => {
             />
 
             {/* Hero Section */}
-            <div className="w-full px-4 md:px-6 max-w-[1600px] mx-auto mb-12 md:mb-16">
-                <div className="relative w-full h-[300px] md:h-[400px] rounded-[32px] md:rounded-[40px] overflow-hidden group shadow-2xl bg-gradient-to-br from-primary/20 to-[#1a1a1a]">
-                    <div
-                        className="absolute inset-0 bg-cover bg-center transition-transform duration-[2s] group-hover:scale-105"
-                        style={{ backgroundImage: pageSettings.hero_image_url ? `url(${pageSettings.hero_image_url})` : 'none' }}
-                    ></div>
-                    <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/40 to-transparent"></div>
-                    <div className="absolute inset-0 flex flex-col justify-center px-6 md:px-16">
-                        {pageSettings.hero_title && (
-                            <span className="text-primary-light text-[10px] md:text-xs font-bold uppercase tracking-[0.4em] mb-4 text-[#b82063]">
-                                {pageSettings.hero_title}
-                            </span>
-                        )}
-                        <h1 className="text-4xl md:text-8xl font-bold text-white tracking-tight leading-[1] mb-4 md:mb-6">
-                            {pageSettings.title}
-                        </h1>
-                        <p className="text-white/60 text-sm md:text-xl font-medium max-w-xl line-clamp-2 md:line-clamp-none">
-                            {pageSettings.hero_subtitle}
-                        </p>
+            {pageSettings.hero_image_url && (
+                <div className="w-full px-4 md:px-6 max-w-[1600px] mx-auto mb-12 md:mb-16">
+                    <div className="relative w-full h-[300px] md:h-[400px] rounded-[32px] md:rounded-[40px] overflow-hidden group shadow-2xl bg-gradient-to-br from-primary/20 to-[#1a1a1a]">
+                        <div
+                            className="absolute inset-0 bg-cover bg-center transition-transform duration-[2s] group-hover:scale-105"
+                            style={{ backgroundImage: `url(${pageSettings.hero_image_url})` }}
+                        ></div>
+                        <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/40 to-transparent"></div>
+                        <div className="absolute inset-0 flex flex-col justify-center px-6 md:px-16">
+                            {pageSettings.hero_title && (
+                                <span className="text-primary-light text-[10px] md:text-xs font-bold uppercase tracking-[0.4em] mb-4 text-[#b82063]">
+                                    {pageSettings.hero_title}
+                                </span>
+                            )}
+                            <h1 className="text-4xl md:text-8xl font-bold text-white tracking-tight leading-[1] mb-4 md:mb-6">
+                                {pageSettings.title}
+                            </h1>
+                            <p className="text-white/60 text-sm md:text-xl font-medium max-w-xl line-clamp-2 md:line-clamp-none">
+                                {pageSettings.hero_subtitle}
+                            </p>
+                        </div>
                     </div>
                 </div>
-            </div>
+            )}
 
             {/* Category Filter */}
             <div className="w-full px-4 md:px-8 max-w-[1600px] mx-auto mb-12">
