@@ -1,0 +1,354 @@
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@200..800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap');
+@import url('https://fonts.googleapis.com/icon?family=Material+Icons+Outlined');
+
+@import "tailwindcss";
+@plugin "@tailwindcss/postcss";
+
+@theme {
+    --color-primary: #59000a;
+    --color-primary-hover: #7a000e;
+    --color-primary-light: #a14550;
+    --color-primary-dark: #3d0007;
+    --color-primary-bright: #a30012;
+    --color-primary-accent: #ff2a4d;
+    --color-accent: #ff4d6d;
+    --color-secondary: #ce8d94;
+    --color-background-light: #f8f5f6;
+    --color-background-dark: #0a0506;
+    --color-card-dark: rgba(20, 20, 20, 0.6);
+    --color-text-main: #ffffff;
+    --color-text-muted: #a1a1aa;
+}
+
+:root {
+    color-scheme: dark;
+}
+
+/* Lenis Smooth Scroll */
+html.lenis,
+html.lenis body {
+    height: auto;
+}
+
+.lenis.lenis-smooth {
+    scroll-behavior: auto !important;
+}
+
+.lenis.lenis-smooth [data-lenis-prevent] {
+    overscroll-behavior: contain;
+}
+
+.lenis.lenis-stopped {
+    overflow: hidden;
+}
+
+.lenis.lenis-scrolling iframe {
+    pointer-events: none;
+}
+
+body {
+    color: white;
+    background-color: #050505;
+}
+
+
+.no-scrollbar::-webkit-scrollbar {
+    display: none;
+}
+
+.no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+
+/* Custom Scrollbar for the app */
+::-webkit-scrollbar {
+    width: 6px;
+}
+
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: rgba(89, 0, 10, 0.2);
+    border-radius: 20px;
+}
+
+/* Store page specific scrollbar override */
+.shop-page ::-webkit-scrollbar {
+    width: 8px;
+}
+
+.shop-page ::-webkit-scrollbar-track {
+    background: #1a0b0d;
+}
+
+.shop-page ::-webkit-scrollbar-thumb {
+    background: #4b2025;
+    border-radius: 4px;
+}
+
+.shop-page ::-webkit-scrollbar-thumb:hover {
+    background: #57000a;
+}
+
+/* Glass & Background Utilities */
+.glass-panel {
+    background: rgba(18, 18, 18, 0.65);
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-top: 1px solid rgba(255, 255, 255, 0.15);
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+    position: relative;
+}
+
+.glossy-panel {
+    background: rgba(20, 20, 20, 0.6);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.5);
+}
+
+.glass-card {
+    background: rgba(30, 30, 30, 0.4);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.glass-card:hover {
+    background: rgba(40, 40, 40, 0.5);
+    border-color: rgba(255, 255, 255, 0.15);
+    transform: translateY(-4px);
+    box-shadow: 0 10px 40px -10px rgba(0, 0, 0, 0.5);
+}
+
+.glossy-card {
+    background: rgba(255, 255, 255, 0.03);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    transition: all 0.3s ease;
+}
+
+.glossy-card:hover {
+    background: rgba(255, 255, 255, 0.08);
+    border-color: rgba(255, 255, 255, 0.15);
+    transform: translateY(-2px);
+}
+
+.glossy-input {
+    background: rgba(0, 0, 0, 0.3);
+    backdrop-filter: blur(4px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: white;
+}
+
+.glossy-input:focus {
+    background: rgba(0, 0, 0, 0.5);
+    border-color: rgba(255, 255, 255, 0.3);
+    box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.05);
+}
+
+.glossy-input::placeholder {
+    color: #6b7280;
+}
+
+
+/* About Us Specifics */
+.bg-gradient-mesh {
+    background-color: #000000;
+    background-image:
+        radial-gradient(at 50% 0%, rgba(89, 0, 10, 0.25) 0px, transparent 70%),
+        radial-gradient(at 100% 0%, rgba(0, 0, 0, 1) 0px, transparent 50%),
+        radial-gradient(at 90% 90%, rgba(89, 0, 10, 0.15) 0px, transparent 60%),
+        radial-gradient(at 0% 100%, rgba(20, 20, 20, 1) 0px, transparent 50%);
+    background-attachment: fixed;
+}
+
+
+/* Login/Register Specifics */
+.glossy-bg {
+    background-color: #050102;
+    background-image:
+        radial-gradient(circle at 15% 50%, rgba(89, 0, 10, 0.15), transparent 40%),
+        radial-gradient(circle at 85% 30%, rgba(60, 20, 20, 0.1), transparent 40%),
+        linear-gradient(to bottom, rgba(255, 255, 255, 0.015) 1px, transparent 1px),
+        linear-gradient(to right, rgba(255, 255, 255, 0.015) 1px, transparent 1px);
+    background-size: 100% 100%, 100% 100%, 40px 40px, 40px 40px;
+    background-attachment: fixed;
+}
+
+.orb {
+    position: fixed;
+    border-radius: 50%;
+    filter: blur(100px);
+    z-index: -1;
+    opacity: 0.5;
+    animation: float 10s infinite ease-in-out alternate;
+}
+
+.orb-1 {
+    width: 600px;
+    height: 600px;
+    background: radial-gradient(circle, #59000a 0%, transparent 70%);
+    top: -150px;
+    left: -150px;
+}
+
+.orb-2 {
+    width: 500px;
+    height: 500px;
+    background: radial-gradient(circle, #2d0005 0%, transparent 70%);
+    bottom: -100px;
+    right: -100px;
+    animation-delay: -5s;
+}
+
+.input-gloss {
+    background: rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    color: white;
+}
+
+.input-gloss:focus {
+    background: rgba(0, 0, 0, 0.6);
+    border-color: #59000a;
+    box-shadow: 0 0 0 1px #59000a, 0 0 0 4px rgba(89, 0, 10, 0.15);
+    transform: translateY(-1px);
+}
+
+.input-gloss::placeholder {
+    color: rgba(255, 255, 255, 0.3);
+}
+
+.segmented-control {
+    background: rgba(0, 0, 0, 0.3);
+    padding: 4px;
+    border-radius: 9999px;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.segment-active {
+    background: rgba(255, 255, 255, 0.08);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    color: #fff;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Checkbox override */
+input[type="checkbox"] {
+    background-color: rgba(0, 0, 0, 0.3);
+    border-color: rgba(255, 255, 255, 0.2);
+}
+
+input[type="checkbox"]:checked {
+    background-color: #59000a;
+    border-color: #59000a;
+    background-image: url("data:image/svg+xml,%3csvg viewBox='0 0 16 16' fill='white' xmlns='http://www.w3.org/2000/svg'%3e%3cpath d='M12.207 4.793a1 1 0 010 1.414l-5 5a1 1 0 01-1.414 0l-2-2a1 1 0 011.414-1.414L6.5 9.086l4.293-4.293a1 1 0 011.414 0z'/%3e%3c/svg%3e");
+}
+
+/* Global utility for layout containers */
+.layout-container {
+    max-width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* Page specific backgrounds */
+.cart-page-bg {
+    background-color: #050505;
+    background-image:
+        radial-gradient(circle at 50% -20%, #4a0008 0%, transparent 60%),
+        linear-gradient(180deg, #0f0f0f 0%, #000000 100%);
+    background-attachment: fixed;
+}
+
+.checkout-page-bg {
+    background-color: #050505;
+}
+
+.confirmation-page-bg {
+    background: radial-gradient(circle at 50% -20%, #2e0005 0%, #1a0003 40%, #000000 100%);
+    background-attachment: fixed;
+    color: white;
+}
+
+/* Base Styles */
+.custom-scrollbar::-webkit-scrollbar-thumb {
+    background-color: rgba(255, 255, 255, 0.15);
+}
+
+.text-gradient {
+    background: linear-gradient(to right, #ffffff, #a0a0a0);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+/* Contact specific text gradient */
+.text-gradient-contact {
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-image: linear-gradient(to right, #fff, #ccc);
+}
+
+.hover-zoom-img {
+    transition: transform 0.6s cubic-bezier(0.19, 1, 0.22, 1);
+}
+
+.group:hover .hover-zoom-img {
+    transform: scale(1.08);
+}
+
+::selection {
+    background-color: #59000a;
+    color: white;
+}
+
+.hide-scroll::-webkit-scrollbar {
+    display: none;
+}
+
+.hide-scroll {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+
+/* Modal animations */
+@keyframes scaleIn {
+    from {
+        opacity: 0;
+        transform: scale(0.9) translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+}
+
+.animate-scale-in {
+    animation: scaleIn 0.3s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+.animate-fade-in {
+    animation: fadeIn 0.3s ease-out forwards;
+}

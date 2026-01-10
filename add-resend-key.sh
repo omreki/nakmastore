@@ -1,0 +1,33 @@
+#!/bin/bash
+
+# NOESIS Store - Add Resend API Key to Supabase
+# This script helps you add the RESEND_API_KEY to your Supabase project
+
+echo "================================================"
+echo "  Adding Resend API Key to Supabase"
+echo "================================================"
+echo ""
+echo "MANUAL STEPS:"
+echo ""
+echo "1. Go to: https://supabase.com/dashboard/project/gronxrtxnzhynubzkkcz/settings/functions"
+echo ""
+echo "2. Scroll down to 'Secrets' section"
+echo ""
+echo "3. Click 'Add new secret'"
+echo ""
+echo "4. Enter:"
+echo "   Name:  RESEND_API_KEY"
+echo "   Value: re_a4QYTxX2_ALHQVXLqkQq1C5YmZty297VJ"
+echo ""
+echo "5. Click 'Save'"
+echo ""
+echo "6. The secret will be immediately available to all Edge Functions"
+echo ""
+echo "================================================"
+echo ""
+echo "After adding the secret, run:"
+echo "  curl -X POST 'https://gronxrtxnzhynubzkkcz.supabase.co/functions/v1/send-email' \\"
+echo "    -H 'Authorization: Bearer YOUR_ANON_KEY' \\"
+echo "    -H 'Content-Type: application/json' \\"
+echo "    -d '{\"to\": \"gitsmor@gmail.com\", \"subject\": \"Test\", \"html\": \"<p>Test</p>\"}'"
+echo ""

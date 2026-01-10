@@ -1,0 +1,11 @@
+User-agent: *
+Allow: /
+
+# Disallow admin and account specific pages
+Disallow: /admin
+Disallow: /account
+Disallow: /checkout
+Disallow: /cart
+Disallow: /confirmation
+
+Sitemap: https://noesis.fit/sitemap.xml

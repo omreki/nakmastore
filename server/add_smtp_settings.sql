@@ -1,0 +1,9 @@
+-- Add SMTP configuration columns to store_settings table
+ALTER TABLE public.store_settings 
+ADD COLUMN IF NOT EXISTS smtp_host TEXT,
+ADD COLUMN IF NOT EXISTS smtp_port INTEGER DEFAULT 587,
+ADD COLUMN IF NOT EXISTS smtp_user TEXT,
+ADD COLUMN IF NOT EXISTS smtp_pass TEXT,
+ADD COLUMN IF NOT EXISTS smtp_from TEXT,
+ADD COLUMN IF NOT EXISTS smtp_secure BOOLEAN DEFAULT TRUE,
+ADD COLUMN IF NOT EXISTS email_notifications_enabled BOOLEAN DEFAULT FALSE;
