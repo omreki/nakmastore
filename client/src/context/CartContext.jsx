@@ -7,14 +7,14 @@ export const useCart = () => useContext(CartContext);
 
 export const CartProvider = ({ children }) => {
     const [cart, setCart] = useState(() => {
-        const localData = localStorage.getItem('noesis_cart');
+        const localData = localStorage.getItem('nakma_cart');
         return localData ? JSON.parse(localData) : [];
     });
 
     const [isCartOpen, setIsCartOpen] = useState(false);
 
     useEffect(() => {
-        localStorage.setItem('noesis_cart', JSON.stringify(cart));
+        localStorage.setItem('nakma_cart', JSON.stringify(cart));
     }, [cart]);
 
     const addToCart = (product, quantity = 1, selectedSize = 'M', selectedColor = null) => {

@@ -94,7 +94,7 @@ const ShopPage = () => {
         <div className="bg-[#050505] min-h-screen text-white font-['Manrope'] pt-20 md:pt-24 pb-20">
             <SEO
                 title={searchQuery ? `Search results for "${searchQuery}"` : `Shop ${activeCategory.slug === 'all' ? 'Collection' : activeCategory.name}`}
-                description="Browse our complete range of high-performance gear. Designed for durability, engineered for excellence."
+                description="Browse our complete range of unique African-inspired shirts. Crafted for comfort, designed for cultural expression."
             />
             {/* Hero / Header Section */}
             {!searchQuery && (
@@ -107,12 +107,12 @@ const ShopPage = () => {
                         </div>
                         <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/30 to-transparent"></div>
                         <div className="absolute inset-0 flex flex-col justify-center px-6 md:px-16">
-                            <span className="text-primary-light text-[10px] md:text-xs font-bold uppercase tracking-[0.4em] mb-4 text-[#a14550]">THE FULL COLLECTION</span>
+                            <span className="text-primary-light text-[10px] md:text-xs font-bold uppercase tracking-[0.4em] mb-4 text-[#059669]">THE FULL COLLECTION</span>
                             <h1 className="text-4xl md:text-8xl font-bold text-white tracking-tight leading-[1] mb-4 md:mb-6">
-                                Elevate Every <br /> Movement
+                                Timeless African <br /> Elegance
                             </h1>
                             <p className="text-white/60 text-sm md:text-xl font-medium max-w-xl line-clamp-2 md:line-clamp-none">
-                                Our complete range of high-performance gear. Designed for durability, engineered for excellence.
+                                Our complete range of unique African-inspired shirts. Crafted for comfort, designed for cultural expression.
                             </p>
                         </div>
                     </div>
@@ -180,7 +180,7 @@ const ShopPage = () => {
                     </div>
                     <div className="flex items-center gap-4">
                         <span className="text-white/40 text-sm font-medium uppercase tracking-widest px-1">Sort:</span>
-                        <button className="flex items-center gap-2 text-white font-bold hover:text-[#a14550] transition-colors group">
+                        <button className="flex items-center gap-2 text-white font-bold hover:text-[#059669] transition-colors group">
                             Newest Arrivals <span className="material-symbols-outlined text-[20px] transition-transform group-hover:translate-y-0.5">expand_more</span>
                         </button>
                     </div>
@@ -200,8 +200,8 @@ const ShopPage = () => {
             <div className="w-full px-4 md:px-8 max-w-[1600px] mx-auto">
                 {isLoading ? (
                     <div className="flex flex-col items-center justify-center py-32 gap-6">
-                        <div className="size-12 border-4 border-[#a14550]/20 border-t-[#a14550] rounded-full animate-spin"></div>
-                        <p className="text-white/40 font-bold tracking-widest uppercase text-sm">Loading Excellence...</p>
+                        <div className="size-12 border-4 border-[#059669]/20 border-t-[#059669] rounded-full animate-spin"></div>
+                        <p className="text-white/40 font-bold tracking-widest uppercase text-sm">Crafting Heritage...</p>
                     </div>
                 ) : products.length === 0 ? (
                     <div className="text-center py-32 rounded-[40px] border border-white/5 bg-white/[0.02] flex flex-col items-center justify-center">
@@ -243,7 +243,7 @@ const ShopPage = () => {
                                         <div className="absolute bottom-4 sm:bottom-6 left-4 sm:left-6 right-4 sm:right-6 opacity-0 translate-y-4 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300 pointer-events-none md:pointer-events-auto">
                                             <button
                                                 onClick={(e) => handleQuickAdd(e, product)}
-                                                className="w-full h-10 md:h-12 bg-black text-white rounded-xl md:rounded-2xl font-black text-[9px] md:text-[10px] uppercase tracking-widest hover:bg-[#a14550] transition-colors shadow-xl pointer-events-auto"
+                                                className="w-full h-10 md:h-12 bg-black text-white rounded-xl md:rounded-2xl font-black text-[9px] md:text-[10px] uppercase tracking-widest hover:bg-[#059669] transition-colors shadow-xl pointer-events-auto"
                                             >
                                                 Add to Bag
                                             </button>
@@ -251,7 +251,7 @@ const ShopPage = () => {
 
                                         {(product.is_new || product.is_sale) && (
                                             <div className="absolute top-6 left-6">
-                                                <span className={`px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-widest ${product.is_new ? 'bg-black text-white' : 'bg-[#a14550] text-white'}`}>
+                                                <span className={`px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-widest ${product.is_new ? 'bg-black text-white' : 'bg-[#059669] text-white'}`}>
                                                     {product.is_new ? 'New Arrival' : 'Sale'}
                                                 </span>
                                             </div>
@@ -259,11 +259,11 @@ const ShopPage = () => {
                                     </div>
                                     <div className="px-2">
                                         <div className="flex flex-col gap-1 mb-1">
-                                            <h3 className="text-white font-bold text-lg group-hover:text-[#a14550] transition-colors line-clamp-1 uppercase tracking-tight">{product.name}</h3>
+                                            <h3 className="text-white font-bold text-lg group-hover:text-[#059669] transition-colors line-clamp-1 uppercase tracking-tight">{product.name}</h3>
                                             <div className="flex items-center gap-2">
                                                 {product.is_sale && product.sale_price ? (
                                                     <>
-                                                        <span className="text-[#a14550] font-black italic text-lg whitespace-nowrap leading-none">{formatPrice(product.sale_price)}</span>
+                                                        <span className="text-[#059669] font-black italic text-lg whitespace-nowrap leading-none">{formatPrice(product.sale_price)}</span>
                                                         <span className="text-white/30 font-bold text-[10px] line-through decoration-1">{formatPrice(product.price)}</span>
                                                     </>
                                                 ) : (

@@ -159,8 +159,8 @@ const ProductPage = () => {
     if (loading) {
         return (
             <div className="min-h-screen bg-[#050505] flex flex-col items-center justify-center gap-6">
-                <div className="size-16 border-4 border-[#a14550]/20 border-t-[#a14550] rounded-full animate-spin"></div>
-                <p className="text-white/40 font-bold tracking-[0.3em] uppercase text-xs">Assembling Performance...</p>
+                <div className="size-16 border-4 border-[#059669]/20 border-t-[#059669] rounded-full animate-spin"></div>
+                <p className="text-white/40 font-bold tracking-[0.3em] uppercase text-xs">Crafting Heritage...</p>
             </div>
         );
     }
@@ -169,7 +169,7 @@ const ProductPage = () => {
         return (
             <div className="min-h-screen bg-[#050505] flex flex-col items-center justify-center text-white p-10 text-center">
                 <h1 className="text-4xl md:text-6xl font-bold mb-6">Product Not Found</h1>
-                <Link to="/shop" className="px-8 py-3 bg-white text-black rounded-full font-bold hover:bg-[#a14550] hover:text-white transition-all">Back to Collection</Link>
+                <Link to="/shop" className="px-8 py-3 bg-white text-black rounded-full font-bold hover:bg-[#059669] hover:text-white transition-all">Back to Collection</Link>
             </div>
         );
     }
@@ -194,8 +194,8 @@ const ProductPage = () => {
             />
             {/* Ambient Lighting */}
             <div className="fixed top-0 left-0 w-full h-full overflow-hidden pointer-events-none -z-10">
-                <div className="absolute top-[-10%] right-[-10%] w-[600px] h-[600px] bg-[#a14550]/10 rounded-full blur-[100px]"></div>
-                <div className="absolute bottom-[-10%] left-[-10%] w-[400px] h-[400px] bg-[#59000a]/10 rounded-full blur-[80px]"></div>
+                <div className="absolute top-[-10%] right-[-10%] w-[600px] h-[600px] bg-[#059669]/10 rounded-full blur-[100px]"></div>
+                <div className="absolute bottom-[-10%] left-[-10%] w-[400px] h-[400px] bg-[#064e3b]/10 rounded-full blur-[80px]"></div>
             </div>
 
             <main className="max-w-[1280px] mx-auto px-6 md:px-10">
@@ -230,7 +230,7 @@ const ProductPage = () => {
                                     <div
                                         key={idx}
                                         onClick={() => setActiveImage(img)}
-                                        className={`size-20 rounded-[16px] overflow-hidden bg-[#1a1a1a] cursor-pointer group border transition-all ${activeImage === img ? 'border-[#a14550] ring-2 ring-[#a14550]/20' : 'border-white/5 hover:border-[#a14550]/50'}`}
+                                        className={`size-20 rounded-[16px] overflow-hidden bg-[#1a1a1a] cursor-pointer group border transition-all ${activeImage === img ? 'border-[#059669] ring-2 ring-[#059669]/20' : 'border-white/5 hover:border-[#059669]/50'}`}
                                     >
                                         <div
                                             className="w-full h-full bg-cover bg-no-repeat bg-center transition-transform duration-500 group-hover:scale-110"
@@ -245,15 +245,15 @@ const ProductPage = () => {
                     {/* Product Details Panel - Optimized for Height */}
                     <div className="flex-grow space-y-6 lg:max-h-[800px] lg:overflow-y-auto pr-0 lg:pr-2 custom-scrollbar">
                         <div className="space-y-3">
-                            <span className="text-[#a14550] text-[10px] font-black uppercase tracking-[0.4em]">{product.category}</span>
+                            <span className="text-[#059669] text-[10px] font-black uppercase tracking-[0.4em]">{product.category}</span>
                             <div className="flex flex-col gap-2">
                                 <h1 className="text-3xl md:text-4xl font-black tracking-tight leading-none uppercase">{product.name}</h1>
                                 <div className="flex items-center gap-3">
                                     {selectedVariation ? (
-                                        <span className="text-xl md:text-2xl font-black italic text-[#a14550]">{formatPrice(selectedVariation.price || product.price)}</span>
+                                        <span className="text-xl md:text-2xl font-black italic text-[#059669]">{formatPrice(selectedVariation.price || product.price)}</span>
                                     ) : product.is_sale && product.sale_price ? (
                                         <>
-                                            <span className="text-xl md:text-2xl font-black italic text-[#a14550]">{formatPrice(product.sale_price)}</span>
+                                            <span className="text-xl md:text-2xl font-black italic text-[#059669]">{formatPrice(product.sale_price)}</span>
                                             <span className="text-sm md:text-base font-bold text-white/30 line-through decoration-primary decoration-2">{formatPrice(product.price)}</span>
                                         </>
                                     ) : (
@@ -261,7 +261,7 @@ const ProductPage = () => {
                                     )}
                                 </div>
                                 <div className="flex items-center gap-3">
-                                    <div className="flex text-[#a14550]">
+                                    <div className="flex text-[#059669]">
                                         {[1, 2, 3, 4, 5].map((s) => (
                                             <span key={s} className="material-symbols-outlined text-[14px] fill-current">star</span>
                                         ))}
@@ -278,8 +278,8 @@ const ProductPage = () => {
                                         </div>
                                     ) : (selectedVariation ? selectedVariation.stock : product.stock) <= 5 && (selectedVariation ? selectedVariation.stock : product.stock) > 0 ? (
                                         <div className="flex items-center gap-2">
-                                            <div className="size-1.5 rounded-full bg-[#a14550] animate-pulse shadow-[0_0_8px_rgba(161,69,80,0.6)]"></div>
-                                            <p className="text-[#a14550] text-[10px] font-black uppercase tracking-widest">
+                                            <div className="size-1.5 rounded-full bg-[#059669] animate-pulse shadow-[0_0_8px_rgba(5,150,105,0.6)]"></div>
+                                            <p className="text-[#059669] text-[10px] font-black uppercase tracking-widest">
                                                 Low Stock: Only {(selectedVariation ? selectedVariation.stock : product.stock)} units left!
                                             </p>
                                         </div>
@@ -295,7 +295,7 @@ const ProductPage = () => {
                             </div>
 
                             <p className="text-white/50 text-sm leading-relaxed font-medium max-w-xl line-clamp-3">
-                                {product.description || "Uncompromising performance meets minimalist design. Engineered for those who demand the absolute best in both function and aesthetic."}
+                                {product.description || "Unique African-inspired men's shirts that seamlessly blend heritage with modern design. Crafted for the modern man who values cultural identity and sophisticated silhouettes."}
                             </p>
 
                             {/* Options - Tighter Spacing */}
@@ -332,7 +332,7 @@ const ProductPage = () => {
                                 <div className="space-y-3">
                                     <div className="flex justify-between items-center">
                                         <p className="text-[10px] font-black uppercase tracking-widest text-white/30">Size: <span className="text-white ml-2">{selectedSize}</span></p>
-                                        <button className="text-[#a14550] text-[9px] font-black uppercase tracking-widest hover:underline">Size Guide</button>
+                                        <button className="text-[#059669] text-[9px] font-black uppercase tracking-widest hover:underline">Size Guide</button>
                                     </div>
                                     <div className="flex flex-wrap gap-2">
                                         {(product.sizes || ['S', 'M', 'L', 'XL']).map((size) => (
@@ -385,7 +385,7 @@ const ProductPage = () => {
                                 <button
                                     onClick={handleAddToCart}
                                     disabled={(selectedVariation ? selectedVariation.stock : product.stock) === 0}
-                                    className="w-full h-14 rounded-full bg-[#59000a] text-white font-black text-sm uppercase tracking-[0.2em] hover:bg-[#7a000e] transition-all transform active:scale-[0.98] shadow-xl flex items-center justify-center gap-3 group disabled:opacity-50 disabled:cursor-not-allowed disabled:grayscale"
+                                    className="w-full h-14 rounded-full bg-[#064e3b] text-white font-black text-sm uppercase tracking-[0.2em] hover:bg-[#065f46] transition-all transform active:scale-[0.98] shadow-xl flex items-center justify-center gap-3 group disabled:opacity-50 disabled:cursor-not-allowed disabled:grayscale"
                                 >
                                     {(selectedVariation ? selectedVariation.stock : product.stock) === 0 ? 'Out of Stock' : (
                                         <>
@@ -407,8 +407,8 @@ const ProductPage = () => {
                             {/* Specifications - Tighter Accordions */}
                             <div className="space-y-2 !mt-8">
                                 {[
-                                    { title: 'Features', content: 'Advanced moisture-wicking and 4-way stretch.' },
-                                    { title: 'Care', content: 'Machine wash cold. Tumble dry low.' }
+                                    { title: 'Heritage', content: 'Premium African fabrics with tailored heritage cuts.' },
+                                    { title: 'Care', content: 'Dry clean recommended for best maintenance of fabric integrity.' }
                                 ].map((item, idx) => (
                                     <details key={idx} className="group border-b border-white/5 pb-2">
                                         <summary className="flex items-center justify-between cursor-pointer list-none">
@@ -430,7 +430,7 @@ const ProductPage = () => {
                         <div className="mt-20 pt-16 border-t border-white/5">
                             <div className="flex justify-between items-end mb-10">
                                 <h2 className="text-2xl md:text-4xl font-black italic tracking-tight uppercase">Complete <br /> The Look</h2>
-                                <Link to="/shop" className="text-[#a14550] text-xs font-black uppercase tracking-widest hover:underline flex items-center gap-2 pb-1">
+                                <Link to="/shop" className="text-[#059669] text-xs font-black uppercase tracking-widest hover:underline flex items-center gap-2 pb-1">
                                     Explore Collection <span className="material-symbols-outlined text-[16px]">east</span>
                                 </Link>
                             </div>
@@ -445,11 +445,11 @@ const ProductPage = () => {
                                             />
                                         </div>
                                         <div className="flex flex-col gap-1 px-1">
-                                            <h3 className="font-bold text-xs group-hover:text-[#a14550] transition-colors uppercase tracking-tight">{p.name}</h3>
+                                            <h3 className="font-bold text-xs group-hover:text-[#059669] transition-colors uppercase tracking-tight">{p.name}</h3>
                                             <div className="flex items-center gap-2">
                                                 {p.is_sale && p.sale_price ? (
                                                     <>
-                                                        <span className="font-black text-xs italic text-[#a14550]">{formatPrice(p.sale_price)}</span>
+                                                        <span className="font-black text-xs italic text-[#059669]">{formatPrice(p.sale_price)}</span>
                                                         <span className="font-bold text-[10px] text-white/30 line-through decoration-1">{formatPrice(p.price)}</span>
                                                     </>
                                                 ) : (

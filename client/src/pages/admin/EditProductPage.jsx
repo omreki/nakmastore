@@ -426,7 +426,7 @@ const EditProductPage = () => {
 
             console.log('Product updated successfully:', data);
 
-            notify('RECONFIG_COMPLETE: Product entity updated in Noesis Core.', 'success');
+            notify('Product updated successfully.', 'success');
 
             setTimeout(() => {
                 navigate('/admin/products');
@@ -434,7 +434,7 @@ const EditProductPage = () => {
 
         } catch (error) {
             console.error('Error updating product:', error);
-            notify(`RECONFIG_ALERT: ${error.message || 'Operation failed during sync.'}`, 'error');
+            notify(`Error: ${error.message || 'Failed to update product.'}`, 'error');
         } finally {
             setSaving(false);
             setUploading(false);
@@ -446,7 +446,7 @@ const EditProductPage = () => {
             <AdminLayout>
                 <div className="flex flex-col items-center justify-center min-h-[60vh] gap-4">
                     <div className="size-12 rounded-full border-4 border-primary/20 border-t-primary animate-spin"></div>
-                    <p className="text-gray-500 font-black uppercase tracking-widest text-xs">Accessing Identity Matrix...</p>
+                    <p className="text-gray-500 font-black uppercase tracking-widest text-xs">Loading Product Details...</p>
                 </div>
             </AdminLayout>
         );
@@ -459,20 +459,20 @@ const EditProductPage = () => {
                     <div className="flex flex-col gap-2">
                         <div className="flex items-center gap-2 mb-1 justify-center md:justify-start">
                             <span className="inline-flex items-center rounded-full bg-primary/20 px-2.5 py-0.5 text-[10px] font-black uppercase tracking-widest text-primary-light ring-1 ring-inset ring-primary/30 backdrop-blur-sm">
-                                Inventory Modification
+                                Collection Management
                             </span>
-                            <span className="text-gray-500 text-sm font-medium">/ Object Re-registration</span>
+                            <span className="text-gray-500 text-sm font-medium">/ Edit Product</span>
                         </div>
                         <h1 className="text-white text-4xl md:text-5xl font-black leading-tight tracking-[-0.033em] drop-shadow-lg">
                             Edit <span className="text-transparent bg-clip-text bg-gradient-to-r from-white via-gray-200 to-gray-400 font-black">Product</span>
                         </h1>
                         <p className="text-gray-400 text-base font-medium leading-relaxed max-w-2xl mt-2">
-                            Update architectural specifications, valuation, and visual assets for the existing inventory entity.
+                            Update the details, pricing, and visual presentation for this collection piece.
                         </p>
                     </div>
                     <div className="flex gap-4">
                         <Link to="/admin/products" className="hidden md:flex items-center justify-center rounded-xl h-12 bg-white/5 hover:bg-white/10 text-gray-400 hover:text-white gap-2 text-[10px] font-black uppercase tracking-widest px-6 transition-all border border-white/10 group">
-                            Abort Update
+                            Cancel Update
                         </Link>
                     </div>
                 </div>
@@ -490,14 +490,14 @@ const EditProductPage = () => {
                                         <span className="material-symbols-outlined text-primary-light text-[24px]">edit_note</span>
                                     </div>
                                     <div>
-                                        <h3 className="text-xl font-black text-white tracking-tight uppercase tracking-widest text-sm">Entity Specifications</h3>
-                                        <p className="text-[10px] text-gray-500 font-bold uppercase tracking-widest mt-1">Foundational Attributes & Logistics</p>
+                                        <h3 className="text-xl font-black text-white tracking-tight uppercase tracking-widest text-sm">Product Details</h3>
+                                        <p className="text-[10px] text-gray-500 font-bold uppercase tracking-widest mt-1">Core Information & Pricing</p>
                                     </div>
                                 </div>
 
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8 relative z-10">
                                     <div className="flex flex-col gap-2.5">
-                                        <label className="text-gray-500 text-[10px] font-black tracking-[0.2em] uppercase ml-1">Label Designation</label>
+                                        <label className="text-gray-500 text-[10px] font-black tracking-[0.2em] uppercase ml-1">Product Name</label>
                                         <input
                                             type="text"
                                             name="name"
@@ -508,7 +508,7 @@ const EditProductPage = () => {
                                         />
                                     </div>
                                     <div className="flex flex-col gap-2.5">
-                                        <label className="text-gray-500 text-[10px] font-black tracking-[0.2em] uppercase ml-1">Universal SKU</label>
+                                        <label className="text-gray-500 text-[10px] font-black tracking-[0.2em] uppercase ml-1">Product SKU</label>
                                         <input
                                             type="text"
                                             name="sku"
@@ -519,7 +519,7 @@ const EditProductPage = () => {
                                         />
                                     </div>
                                     <div className="flex flex-col gap-2.5">
-                                        <label className="text-gray-500 text-[10px] font-black tracking-[0.2em] uppercase ml-1">Reg. Pricing ($)</label>
+                                        <label className="text-gray-500 text-[10px] font-black tracking-[0.2em] uppercase ml-1">Regular Price ($)</label>
                                         <input
                                             type="number"
                                             name="price"
@@ -531,7 +531,7 @@ const EditProductPage = () => {
                                         />
                                     </div>
                                     <div className={`flex flex-col gap-2.5 transition-all duration-500 ${formData.is_sale ? 'opacity-100 translate-y-0' : 'opacity-20 pointer-events-none md:translate-y-2'}`}>
-                                        <label className="text-[#a14550] text-[10px] font-black tracking-[0.2em] uppercase ml-1">Sale Valuation ($)</label>
+                                        <label className="text-[#a14550] text-[10px] font-black tracking-[0.2em] uppercase ml-1">Sale Price ($)</label>
                                         <input
                                             type="number"
                                             name="sale_price"
@@ -546,7 +546,7 @@ const EditProductPage = () => {
 
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mt-8 relative z-10">
                                     <div className="md:col-span-2 flex flex-col gap-4">
-                                        <label className="text-gray-500 text-[10px] font-black tracking-[0.2em] uppercase ml-1">Category Classification</label>
+                                        <label className="text-gray-500 text-[10px] font-black tracking-[0.2em] uppercase ml-1">Product Category</label>
                                         <div className="glossy-input w-full rounded-2xl bg-black/40 border-white/5 p-6 min-h-[200px] flex flex-col gap-4">
                                             {categories.filter(c => !c.parent_id).map(parent => (
                                                 <div key={parent.id} className="flex flex-col gap-2">
@@ -586,7 +586,7 @@ const EditProductPage = () => {
                                     </div>
 
                                     <div className="flex flex-col gap-2.5">
-                                        <label className="text-gray-500 text-[10px] font-black tracking-[0.2em] uppercase ml-1">Static Stock (Fallback)</label>
+                                        <label className="text-gray-500 text-[10px] font-black tracking-[0.2em] uppercase ml-1">Total Stock</label>
                                         <input
                                             type="number"
                                             name="stock"
@@ -600,7 +600,7 @@ const EditProductPage = () => {
                                 </div>
 
                                 <div className="flex flex-col gap-2.5 mt-8 relative z-10">
-                                    <label className="text-gray-500 text-[10px] font-black tracking-[0.2em] uppercase ml-1">Architectural Abstract</label>
+                                    <label className="text-gray-500 text-[10px] font-black tracking-[0.2em] uppercase ml-1">Product Description</label>
                                     <textarea
                                         name="description"
                                         required
@@ -618,7 +618,7 @@ const EditProductPage = () => {
                                             <div className="w-12 h-6 rounded-full bg-gray-800 peer-checked:bg-primary/40 ring-1 ring-white/5 transition-colors"></div>
                                             <div className="absolute top-1 left-1 size-4 bg-white rounded-full transition-all peer-checked:left-7 shadow-xl"></div>
                                         </div>
-                                        <span className="text-[10px] font-black text-gray-500 uppercase tracking-widest">NEW_ARRIVAL_FLAG</span>
+                                        <span className="text-[10px] font-black text-gray-500 uppercase tracking-widest">NEW ARRIVAL</span>
                                     </label>
                                     <label className={`flex items-center gap-4 cursor-pointer group transition-all duration-300 ${!formData.price ? 'opacity-40 cursor-not-allowed grayscale' : 'hover:opacity-100'}`}>
                                         <div className="relative">
@@ -634,7 +634,7 @@ const EditProductPage = () => {
                                             <div className="absolute top-1 left-1 size-4 bg-white rounded-full transition-all peer-checked:left-7 shadow-xl"></div>
                                         </div>
                                         <span className={`text-[10px] font-black uppercase tracking-widest transition-colors ${!formData.price ? 'text-gray-700' : 'text-gray-500 group-hover:text-white'}`}>
-                                            {formData.price ? 'MARKET_SPEC_SALE' : 'ENTER_PRICE_TO_ACTIVATE_SALE'}
+                                            {formData.price ? 'MARK AS SALE' : 'ENTER PRICE TO ACTIVATE SALE'}
                                         </span>
                                     </label>
                                 </div>
@@ -647,14 +647,14 @@ const EditProductPage = () => {
                                         <span className="material-symbols-outlined text-primary-light text-[24px]">palette</span>
                                     </div>
                                     <div>
-                                        <h3 className="text-xl font-black text-white tracking-tight uppercase tracking-widest text-sm">Aesthetic & Sizing Selection</h3>
-                                        <p className="text-[10px] text-gray-500 font-bold uppercase tracking-widest mt-1">Foundational variants for the matrix</p>
+                                        <h3 className="text-xl font-black text-white tracking-tight uppercase tracking-widest text-sm">Style & Size Options</h3>
+                                        <p className="text-[10px] text-gray-500 font-bold uppercase tracking-widest mt-1">Available variations for the collection</p>
                                     </div>
                                 </div>
 
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-12 relative z-10">
                                     <div className="flex flex-col gap-6">
-                                        <label className="text-gray-500 text-[10px] font-black tracking-[0.2em] uppercase ml-1">Available Sizing Matrix</label>
+                                        <label className="text-gray-500 text-[10px] font-black tracking-[0.2em] uppercase ml-1">Available Sizes</label>
                                         <div className="flex flex-wrap gap-3">
                                             {availableSizes.map(size => (
                                                 <button
@@ -670,7 +670,7 @@ const EditProductPage = () => {
                                     </div>
 
                                     <div className="flex flex-col gap-6">
-                                        <label className="text-gray-500 text-[10px] font-black tracking-[0.2em] uppercase ml-1">Aesthetic Palette (Colors)</label>
+                                        <label className="text-gray-500 text-[10px] font-black tracking-[0.2em] uppercase ml-1">Color Palette</label>
                                         <div className="flex flex-col gap-4">
                                             <div className="flex flex-wrap gap-3">
                                                 {formData.colors.map((color, idx) => (
@@ -718,8 +718,8 @@ const EditProductPage = () => {
                                         <span className="material-symbols-outlined text-primary-light text-[24px]">grid_view</span>
                                     </div>
                                     <div>
-                                        <h3 className="text-xl font-black text-white tracking-tight uppercase tracking-widest text-sm">Variation Matrix</h3>
-                                        <p className="text-[10px] text-gray-500 font-bold uppercase tracking-widest mt-1">SKU, Pricing & Inventory Per Variant</p>
+                                        <h3 className="text-xl font-black text-white tracking-tight uppercase tracking-widest text-sm">Product Variations</h3>
+                                        <p className="text-[10px] text-gray-500 font-bold uppercase tracking-widest mt-1">SKU, Price & Stock Per Variant</p>
                                     </div>
                                 </div>
 
@@ -742,7 +742,7 @@ const EditProductPage = () => {
                                 </div>
                                 <div>
                                     <h4 className="text-white font-black text-xs uppercase tracking-widest">Asset Management</h4>
-                                    <p className="text-[10px] text-gray-600 font-bold uppercase tracking-widest">Visual Data Matrix</p>
+                                    <p className="text-[10px] text-gray-600 font-bold uppercase tracking-widest">Visual Presentation</p>
                                 </div>
                             </div>
 
@@ -751,7 +751,7 @@ const EditProductPage = () => {
                                 <div className="border-2 border-dashed border-white/10 rounded-3xl p-8 flex flex-col items-center justify-center gap-4 hover:border-primary/40 transition-all cursor-pointer relative bg-black/30 group">
                                     <input type="file" multiple accept="image/*" onChange={handleImageChange} className="absolute inset-0 opacity-0 cursor-pointer z-10" />
                                     <span className="material-symbols-outlined text-gray-500 group-hover:text-primary-light text-3xl transition-colors">upload_file</span>
-                                    <p className="text-gray-400 text-[10px] font-black uppercase tracking-widest">Inject New Assets</p>
+                                    <p className="text-gray-400 text-[10px] font-black uppercase tracking-widest">Add New Photos</p>
                                 </div>
 
                                 {/* Preview Combined */}
@@ -811,7 +811,7 @@ const EditProductPage = () => {
                                             {(isNewImageFeatured && idx === 0) && (
                                                 <div className="absolute top-2 left-2 px-2 py-0.5 rounded-lg bg-primary text-[8px] font-black text-white uppercase tracking-widest shadow-lg">FEATURED</div>
                                             )}
-                                            <div className="absolute bottom-2 right-2 px-2 py-0.5 rounded-lg bg-primary/80 text-[8px] font-black text-white uppercase tracking-widest">NEW_STAGED</div>
+                                            <div className="absolute bottom-2 right-2 px-2 py-0.5 rounded-lg bg-primary/80 text-[8px] font-black text-white uppercase tracking-widest">STAGED</div>
                                         </div>
                                     ))}
                                 </div>
@@ -827,11 +827,11 @@ const EditProductPage = () => {
                                     {saving ? (
                                         <>
                                             <span className="animate-spin size-4 border-2 border-black/20 border-t-black rounded-full"></span>
-                                            SYNCING_CHANGES...
+                                            SAVING...
                                         </>
                                     ) : (
                                         <>
-                                            Commit Changes
+                                            Save Changes
                                             <span className="material-symbols-outlined text-sm">published_with_changes</span>
                                         </>
                                     )}

@@ -24,13 +24,13 @@ const PrivacyPolicyPage = () => {
             <div className="max-w-4xl mx-auto px-6">
                 <div className="mb-16">
                     <span className="inline-flex items-center rounded-full bg-primary/20 px-3 py-1 text-xs font-black uppercase tracking-widest text-primary-light ring-1 ring-inset ring-primary/30 backdrop-blur-sm mb-6">
-                        Legal Protocol
+                        Protecting You
                     </span>
                     <h1 className="text-white text-4xl md:text-7xl font-black leading-tight tracking-[-0.04em]">
                         Privacy <span className="text-transparent bg-clip-text bg-gradient-to-r from-white via-gray-400 to-gray-600">Policy</span>
                     </h1>
                     <p className="text-gray-500 text-lg font-medium mt-6 max-w-2xl leading-relaxed">
-                        Our commitment to data integrity and user sovereignty. This document outlines the parameters of data collection and processing.
+                        Our commitment to your privacy and data security. This document outlines how we handle and protect your information.
                     </p>
                 </div>
 

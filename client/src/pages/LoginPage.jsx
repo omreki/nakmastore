@@ -37,7 +37,7 @@ const LoginPage = () => {
     };
 
     return (
-        <div className="glossy-bg min-h-screen flex flex-col font-display text-white antialiased selection:bg-[#59000a] selection:text-white relative overflow-x-hidden">
+        <div className="glossy-bg min-h-screen flex flex-col font-display text-white antialiased selection:bg-[#059669] selection:text-white relative overflow-x-hidden">
             <div className="orb orb-1"></div>
             <div className="orb orb-2"></div>
 
@@ -54,7 +54,7 @@ const LoginPage = () => {
                             </svg>
                         </div>
                     )}
-                    <h1 className="text-xl font-bold tracking-tight text-white">{settings?.storeName || 'Noesis'}</h1>
+                    <h1 className="text-xl font-bold tracking-tight text-white">{settings?.storeName || 'Nakma Store'}</h1>
                 </Link>
                 <Link to="#" className="text-sm font-medium text-white/70 hover:text-white transition-colors">
                     Need help?
@@ -64,25 +64,25 @@ const LoginPage = () => {
             <div className="flex-1 flex items-center justify-center p-4 pt-24 md:pt-20 lg:p-8 z-10">
                 <div className="w-full max-w-[1200px] min-h-[600px] md:min-h-[700px] glass-card shadow-gloss rounded-[2rem] md:rounded-[2.5rem] overflow-hidden flex flex-col lg:flex-row">
                     {/* Left Panel: Hero Image */}
-                    <div className="relative w-full lg:w-1/2 h-64 lg:h-auto overflow-hidden bg-[#1a080a] group">
+                    <div className="relative w-full lg:w-1/2 h-64 lg:h-auto overflow-hidden bg-[#0a0a0a] group">
                         <div
                             className="absolute inset-0 bg-cover bg-center transition-transform duration-1000 group-hover:scale-105"
                             style={{
                                 backgroundImage: settings?.loginPageSettings?.login_bg_url
                                     ? `url('${settings.loginPageSettings.login_bg_url}')`
-                                    : (settings?.loginPageSettings?.login_bg_url === '' ? 'none' : "url('/hero-clothes-bg.png')")
+                                    : (settings?.loginPageSettings?.login_bg_url === '' ? 'none' : "url('https://images.unsplash.com/photo-1490730141103-6cac27aaab94?q=80&w=2070&auto=format&fit=crop')")
                             }}
                         ></div>
-                        <div className="absolute inset-0 bg-gradient-to-t from-[#0f0506] via-[#1a080a]/60 to-transparent"></div>
+                        <div className="absolute inset-x-0 bottom-0 h-2/3 bg-gradient-to-t from-[#064e3b] via-[#059669]/40 to-transparent"></div>
                         <div className="absolute bottom-0 left-0 p-8 lg:p-12 text-white z-10">
                             <div className="mb-6 inline-flex items-center justify-center w-14 h-14 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-white shadow-lg">
-                                <span className="material-symbols-outlined text-2xl">fitness_center</span>
+                                <span className="material-symbols-outlined text-2xl">stylus_note</span>
                             </div>
                             <h2 className="text-3xl lg:text-4xl font-bold leading-tight mb-4 tracking-tight drop-shadow-lg">
-                                {settings?.loginPageSettings?.login_title ?? "Elevate Your Performance."}
+                                {settings?.loginPageSettings?.login_title ?? "Crafting African Heritage."}
                             </h2>
                             <p className="text-white/80 text-sm lg:text-base font-light leading-relaxed max-w-md drop-shadow-md">
-                                {settings?.loginPageSettings?.login_subtitle ?? `Join the ${settings?.storeName ?? 'Noesis'} community to access exclusive drops, track your orders, and customize your fitness profile.`}
+                                {settings?.loginPageSettings?.login_subtitle ?? `Join the ${settings?.storeName ?? 'Nakma Store'} community to access exclusive prints, track your orders, and manage your profile.`}
                             </p>
                         </div>
                     </div>
@@ -111,7 +111,7 @@ const LoginPage = () => {
                                 <h3 className="text-2xl font-bold text-white tracking-tight">{isLogin ? 'Welcome Back' : 'Create Account'}</h3>
                                 <p className="text-gray-400 text-sm mt-2">{isLogin ? 'Enter your details to access your account.' : 'Join us to start your journey.'}</p>
                                 {error && (
-                                    <div className={`mt-4 p-3 rounded-2xl text-xs font-bold uppercase tracking-widest ${error.includes('successful') ? 'bg-green-500/20 text-green-400 border border-green-500/30' : 'bg-[#a14550]/20 text-[#ff4d4d] border border-[#a14550]/30'}`}>
+                                    <div className={`mt-4 p-3 rounded-2xl text-xs font-bold uppercase tracking-widest ${error.includes('successful') ? 'bg-green-500/20 text-green-400 border border-green-500/30' : 'bg-[#059669]/20 text-[#10b981] border border-[#059669]/30'}`}>
                                         {error}
                                     </div>
                                 )}
@@ -180,12 +180,12 @@ const LoginPage = () => {
                                             </div>
                                             <span className="text-xs text-gray-400 font-medium group-hover:text-white transition-colors">Remember me</span>
                                         </label>
-                                        <Link to="#" className="text-xs font-semibold text-primary hover:text-[#ff334b] hover:underline transition-colors">Forgot Password?</Link>
+                                        <Link to="#" className="text-xs font-semibold text-primary hover:text-[#10b981] hover:underline transition-colors">Forgot Password?</Link>
                                     </div>
                                 )}
 
                                 <button
-                                    className={`mt-2 w-full h-12 bg-primary hover:bg-[#6e000d] text-white rounded-full font-bold text-sm tracking-wide shadow-[0_0_20px_-5px_rgba(89,0,10,0.5)] transition-all hover:shadow-[0_0_25px_-5px_rgba(89,0,10,0.7)] active:scale-[0.98] flex items-center justify-center gap-2 group ${loading ? 'opacity-70 cursor-not-allowed' : ''}`}
+                                    className={`mt-2 w-full h-12 bg-primary hover:bg-[#064e3b] text-white rounded-full font-bold text-sm tracking-wide shadow-[0_0_20px_-5px_rgba(5,150,105,0.5)] transition-all hover:shadow-[0_0_25px_-5px_rgba(5,150,105,0.7)] active:scale-[0.98] flex items-center justify-center gap-2 group ${loading ? 'opacity-70 cursor-not-allowed' : ''}`}
                                     type="submit"
                                     disabled={loading}
                                 >
@@ -197,7 +197,7 @@ const LoginPage = () => {
                             <div className="mt-8 text-center">
                                 <p className="text-sm text-gray-500">
                                     {isLogin ? "Don't have an account?" : "Already have an account?"}
-                                    <button onClick={() => setIsLogin(!isLogin)} className="font-bold text-primary hover:underline hover:text-[#ff334b] ml-1">
+                                    <button onClick={() => setIsLogin(!isLogin)} className="font-bold text-primary hover:underline hover:text-[#10b981] ml-1">
                                         {isLogin ? "Sign up for free" : "Sign In"}
                                     </button>
                                 </p>
@@ -207,10 +207,10 @@ const LoginPage = () => {
                 </div>
 
                 <div className="fixed bottom-4 w-full text-center pointer-events-none z-0 hidden lg:block">
-                    <p className="text-xs text-white/30">© {new Date().getFullYear()} {settings?.storeName || 'Noesis'}. All rights reserved.</p>
+                    <p className="text-xs text-white/30">© {new Date().getFullYear()} {settings?.storeName || 'Nakma Store'}. All rights reserved.</p>
                 </div>
             </div>
-        </div>
+        </div >
     );
 };
 

@@ -7,17 +7,17 @@ import { useStoreSettings } from '../context/StoreSettingsContext';
 const AboutPage = () => {
     const { settings, loading } = useStoreSettings();
     const aboutSettings = settings?.aboutPageSettings || {
-        hero: { bgImage: '', estText: 'EST. 2024', title: 'Beyond \n The Limits', subtitle: 'Noesis is more than apparel. It\'s a philosophy of constant evolution, engineered for the intellectual athlete.' },
-        philosophy: { imageUrl: '', label: 'OUR PHILOSOPHY', title: 'Intellect Meets \n Performance.', description: 'At Noesis, we believe that true athletic excellence is achieved when the mind and body are in perfect alignment. Our gear is designed to eliminate distractions, allowing you to focus purely on your movement and strategy.', stats: [{ value: '100%', label: 'Recycling' }, { value: '0', label: 'Compromise' }] },
+        hero: { bgImage: '', estText: 'EST. 2024', title: 'Crafting \n African Style', subtitle: 'Nakma Store is a fashion house dedicated to blending heritage with modern design for the modern man.' },
+        philosophy: { imageUrl: '', label: 'OUR IDENTITY', title: 'Confidence Meets \n Heritage.', description: 'At Nakma Store, we believe that true style lies in confidence, comfort, and cultural expression. Our collection is designed to empower men through vibrant cultural identity and sophisticated silhouettes.', stats: [{ value: '100%', label: 'Authentic' }, { value: '0', label: 'Compromise' }] },
         coreValues: {
-            label: 'CORE VALUES', title: 'Built On Precision', values: [
-                { title: "Technical Innovation", desc: "We push the boundaries of fabric science, sourcing materials that offer superior compression and thermal regulation.", icon: "biotech" },
-                { title: "Sovereign Design", desc: "Every seam, every pocket, and every cut is intentional. We strip away the unnecessary to reveal pure function.", icon: "design_services" },
-                { title: "Ethical Craft", desc: "Sustainability isn't a feature; it's our foundation. Our supply chain is as transparent as our vision.", icon: "eco" }
+            label: 'CORE VALUES', title: 'Built On Tradition', values: [
+                { title: "Cultural Expression", desc: "We celebrate heritage through bold patterns and modern tailoring, ensuring every piece tells a story of identity.", icon: "stylus_note" },
+                { title: "Modern Silhouette", desc: "Every cut is intentional, bridging the gap between traditional African tailoring and contemporary global style.", icon: "design_services" },
+                { title: "Premium Quality", desc: "Quality isn't a feature; it's our foundation. We source the finest materials for lasting comfort and elegance.", icon: "auto_awesome" }
             ]
         },
-        quote: { text: "We didn't set out to build another sportswear brand. We set out to create the gear that we wished existed—gear that respects the intelligence of the athlete.", author: 'Charity Lopeyok', authorTitle: 'Founder / Creative Director' },
-        join: { bgImage: '', title: 'Ready to Evolve?', subtitle: 'Step into the next chapter of your athletic journey. Explore the full collection today.', buttonText: 'Explore Store', buttonLink: '/shop' }
+        quote: { text: "We didn't set out to build another fashion brand. We set out to create the garments that reflect the soul and confidence of the modern African man.", author: 'Nakma Founders', authorTitle: 'Creative Direction' },
+        join: { bgImage: '', title: 'Embrace Your Style', subtitle: 'Step into the next chapter of cultural elegance. Explore our latest collection of unique shirts today.', buttonText: 'Shop Collection', buttonLink: '/shop' }
     };
 
     return (
@@ -28,15 +28,15 @@ const AboutPage = () => {
             />
             {/* Ambient Lighting */}
             <div className="fixed top-0 left-0 w-full h-full overflow-hidden pointer-events-none -z-10">
-                <div className="absolute top-[-20%] right-[-10%] w-[1000px] h-[1000px] bg-[#a14550]/10 rounded-full blur-[150px]"></div>
-                <div className="absolute bottom-[-10%] left-[-10%] w-[800px] h-[800px] bg-[#59000a]/10 rounded-full blur-[120px]"></div>
+                <div className="absolute top-[-20%] right-[-10%] w-[1000px] h-[1000px] bg-[#059669]/10 rounded-full blur-[150px]"></div>
+                <div className="absolute bottom-[-10%] left-[-10%] w-[800px] h-[800px] bg-[#064e3b]/10 rounded-full blur-[120px]"></div>
             </div>
 
             {/* Hero Section */}
             <section className="relative w-full h-[500px] md:h-[800px] flex items-center justify-center text-center px-6 overflow-hidden">
                 <div
                     className="absolute inset-0 bg-cover bg-center opacity-50"
-                    style={{ backgroundImage: `url(${aboutSettings.hero.bgImage || 'https://images.unsplash.com/photo-1534438327276-14e5300c3a48?q=80&w=2070&auto=format&fit=crop'})` }}
+                    style={{ backgroundImage: `url(${aboutSettings.hero.bgImage || 'https://images.unsplash.com/photo-1490730141103-6cac27aaab94?q=80&w=2070&auto=format&fit=crop'})` }}
                 ></div>
                 {/* Sleek Gradient Overlay */}
                 <div className="absolute inset-0 bg-gradient-to-b from-[#050505] via-transparent to-[#050505]"></div>
@@ -44,7 +44,7 @@ const AboutPage = () => {
                 <div className="absolute inset-0 bg-black/20"></div>
 
                 <div className="relative z-10 max-w-4xl space-y-6 md:space-y-8">
-                    <span className="text-[#a14550] text-xs md:text-sm font-bold uppercase tracking-[0.4em] md:tracking-[0.6em]">{aboutSettings.hero.estText}</span>
+                    <span className="text-[#059669] text-xs md:text-sm font-bold uppercase tracking-[0.4em] md:tracking-[0.6em]">{aboutSettings.hero.estText}</span>
                     <h1 className="text-5xl md:text-9xl font-bold tracking-tight leading-[0.9] whitespace-pre-line">
                         {aboutSettings.hero.title.split('\\n').map((line, i) => (
                             <React.Fragment key={i}>
@@ -62,7 +62,7 @@ const AboutPage = () => {
             {/* Our Philosophy */}
             <section className="max-w-[1440px] mx-auto px-6 md:px-10 py-16 md:py-32 grid grid-cols-1 lg:grid-cols-2 gap-12 md:gap-20 items-center">
                 <div className="space-y-10 order-2 lg:order-1">
-                    <span className="text-[#a14550] text-sm font-bold uppercase tracking-[0.4em]">{aboutSettings.philosophy.label}</span>
+                    <span className="text-[#059669] text-sm font-bold uppercase tracking-[0.4em]">{aboutSettings.philosophy.label}</span>
                     <h2 className="text-3xl md:text-6xl font-bold tracking-tight leading-tight whitespace-pre-line">
                         {aboutSettings.philosophy.title.replace('\\n', '\n')}
                     </h2>
@@ -81,12 +81,12 @@ const AboutPage = () => {
                 <div className="relative order-1 lg:order-2">
                     <div className="aspect-[4/5] rounded-[32px] md:rounded-[40px] overflow-hidden shadow-2xl skew-y-3 lg:skew-y-0 lg:rotate-3 hover:rotate-0 transition-transform duration-700">
                         <img
-                            src={aboutSettings.philosophy.imageUrl || philosophyImage}
+                            src={aboutSettings.philosophy.imageUrl || 'https://images.unsplash.com/photo-1489987707025-afc232f7ea0f?q=80&w=2070&auto=format&fit=crop'}
                             alt="Philosophy"
                             className="w-full h-full object-cover"
                         />
                     </div>
-                    <div className="absolute -bottom-10 -left-10 w-48 h-48 bg-[#a14550] rounded-[32px] -z-10 blur-3xl opacity-20"></div>
+                    <div className="absolute -bottom-10 -left-10 w-48 h-48 bg-[#059669] rounded-[32px] -z-10 blur-3xl opacity-20"></div>
                 </div>
             </section>
 
@@ -94,14 +94,14 @@ const AboutPage = () => {
             <section className="bg-white/[0.02] border-y border-white/5 py-16 md:py-32">
                 <div className="max-w-[1440px] mx-auto px-6 md:px-10">
                     <div className="text-center space-y-4 mb-12 md:mb-20">
-                        <span className="text-[#a14550] text-sm font-bold uppercase tracking-[0.4em]">{aboutSettings.coreValues.label}</span>
+                        <span className="text-[#059669] text-sm font-bold uppercase tracking-[0.4em]">{aboutSettings.coreValues.label}</span>
                         <h2 className="text-3xl md:text-6xl font-bold tracking-tight italic">{aboutSettings.coreValues.title}</h2>
                     </div>
 
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
                         {aboutSettings.coreValues.values.map((value, idx) => (
-                            <div key={idx} className="bg-white/[0.03] border border-white/10 p-8 md:p-12 rounded-[32px] md:rounded-[40px] hover:bg-[#59000a]/10 hover:border-[#a14550]/30 transition-all group">
-                                <span className="material-symbols-outlined text-4xl text-[#a14550] mb-6 md:mb-8 group-hover:scale-110 transition-transform">{value.icon}</span>
+                            <div key={idx} className="bg-white/[0.03] border border-white/10 p-8 md:p-12 rounded-[32px] md:rounded-[40px] hover:bg-[#059669]/10 hover:border-[#059669]/30 transition-all group">
+                                <span className="material-symbols-outlined text-4xl text-[#059669] mb-6 md:mb-8 group-hover:scale-110 transition-transform">{value.icon}</span>
                                 <h3 className="text-xl md:text-2xl font-bold mb-4">{value.title}</h3>
                                 <p className="text-white/50 text-sm md:text-base leading-relaxed font-medium">
                                     {value.desc}
@@ -120,7 +120,7 @@ const AboutPage = () => {
                         "{aboutSettings.quote.text}"
                     </blockquote>
                     <div className="mt-12 flex flex-col items-center">
-                        <span className="text-[#a14550] font-bold tracking-widest uppercase text-xs">{aboutSettings.quote.author}</span>
+                        <span className="text-[#059669] font-bold tracking-widest uppercase text-xs">{aboutSettings.quote.author}</span>
                         <span className="text-white/40 text-[10px] font-bold uppercase tracking-widest mt-1">{aboutSettings.quote.authorTitle}</span>
                     </div>
                 </div>
@@ -128,7 +128,7 @@ const AboutPage = () => {
 
             {/* Join the Movement */}
             <section className="max-w-[1440px] mx-auto px-4 md:px-10 py-10">
-                <div className="relative w-full rounded-[32px] md:rounded-[40px] overflow-hidden bg-[#59000a] p-8 md:p-24 text-center space-y-8 shadow-2xl group">
+                <div className="relative w-full rounded-[32px] md:rounded-[40px] overflow-hidden bg-[#064e3b] p-8 md:p-24 text-center space-y-8 shadow-2xl group">
                     <div
                         className="absolute inset-0 bg-cover bg-center transition-transform duration-1000"
                         style={{ backgroundImage: `url(${aboutSettings.join.bgImage || 'https://images.unsplash.com/photo-1517836357463-d25dfeac3438?q=80&w=2070&auto=format&fit=crop'})` }}

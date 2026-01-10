@@ -293,7 +293,7 @@ const AddProductPage = () => {
 
             console.log('Product created successfully:', productDataResult);
 
-            notify('SYSTEM_STABLE: Product successfully registered to Noesis Core.', 'success');
+            notify('Product successfully added to the collection.', 'success');
 
             // 4. Redirect after delay
             setTimeout(() => {
@@ -302,7 +302,7 @@ const AddProductPage = () => {
 
         } catch (error) {
             console.error('Error creating product:', error);
-            notify(`SYSTEM_ALERT: ${error.message || 'Operation failed during data commit.'}`, 'error');
+            notify(`Error: ${error.message || 'Failed to save product details.'}`, 'error');
         } finally {
             setLoading(false);
             setUploading(false);
@@ -317,20 +317,20 @@ const AddProductPage = () => {
                     <div className="flex flex-col gap-2">
                         <div className="flex items-center gap-2 mb-1 justify-center md:justify-start">
                             <span className="inline-flex items-center rounded-full bg-primary/20 px-2.5 py-0.5 text-[10px] font-black uppercase tracking-widest text-primary-light ring-1 ring-inset ring-primary/30 backdrop-blur-sm">
-                                Inventory Procurement
+                                Collection Management
                             </span>
-                            <span className="text-gray-500 text-sm font-medium">/ Object Registration</span>
+                            <span className="text-gray-500 text-sm font-medium">/ New Product</span>
                         </div>
                         <h1 className="text-white text-4xl md:text-5xl font-black leading-tight tracking-[-0.033em] drop-shadow-lg">
                             Add New <span className="text-transparent bg-clip-text bg-gradient-to-r from-white via-gray-200 to-gray-400 font-black">Product</span>
                         </h1>
                         <p className="text-gray-400 text-base font-medium leading-relaxed max-w-2xl mt-2">
-                            Specify architectural details, market positioning, and visual assets for the new inventory entity.
+                            Define the heritage, craftsmanship, and visual presentation for your new collection piece.
                         </p>
                     </div>
                     <div className="flex gap-4">
                         <Link to="/admin/products" className="hidden md:flex items-center justify-center rounded-xl h-12 bg-white/5 hover:bg-white/10 text-gray-400 hover:text-white gap-2 text-[10px] font-black uppercase tracking-widest px-6 transition-all border border-white/10 group">
-                            Abort Registration
+                            Cancel Creation
                         </Link>
                     </div>
                 </div>
@@ -350,14 +350,14 @@ const AddProductPage = () => {
                                         <span className="material-symbols-outlined text-primary-light text-[24px]">description</span>
                                     </div>
                                     <div>
-                                        <h3 className="text-xl font-black text-white tracking-tight uppercase tracking-widest text-sm">Entity Metadata</h3>
-                                        <p className="text-[10px] text-gray-500 font-bold uppercase tracking-widest mt-1">Foundational Attributes & Logistics</p>
+                                        <h3 className="text-xl font-black text-white tracking-tight uppercase tracking-widest text-sm">Product Details</h3>
+                                        <p className="text-[10px] text-gray-500 font-bold uppercase tracking-widest mt-1">Core Information & Pricing</p>
                                     </div>
                                 </div>
 
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8 relative z-10">
                                     <div className="flex flex-col gap-2.5">
-                                        <label className="text-gray-500 text-[10px] font-black tracking-[0.2em] uppercase ml-1">Label Designation</label>
+                                        <label className="text-gray-500 text-[10px] font-black tracking-[0.2em] uppercase ml-1">Product Name</label>
                                         <input
                                             type="text"
                                             name="name"
@@ -365,11 +365,11 @@ const AddProductPage = () => {
                                             value={formData.name}
                                             onChange={handleInputChange}
                                             className="glossy-input w-full rounded-2xl bg-black/40 border-white/5 text-white font-bold h-14 px-6 text-sm transition-all outline-none focus:ring-1 focus:ring-primary/40 focus:bg-black/60"
-                                            placeholder="e.g. Apex Performance Tee"
+                                            placeholder="e.g. African Print Silk Shirt"
                                         />
                                     </div>
                                     <div className="flex flex-col gap-2.5">
-                                        <label className="text-gray-500 text-[10px] font-black tracking-[0.2em] uppercase ml-1">Universal SKU</label>
+                                        <label className="text-gray-500 text-[10px] font-black tracking-[0.2em] uppercase ml-1">Product SKU</label>
                                         <input
                                             type="text"
                                             name="sku"
@@ -380,7 +380,7 @@ const AddProductPage = () => {
                                         />
                                     </div>
                                     <div className="flex flex-col gap-2.5">
-                                        <label className="text-gray-500 text-[10px] font-black tracking-[0.2em] uppercase ml-1">Reg. Pricing ($)</label>
+                                        <label className="text-gray-500 text-[10px] font-black tracking-[0.2em] uppercase ml-1">Regular Price ($)</label>
                                         <input
                                             type="number"
                                             name="price"
@@ -393,7 +393,7 @@ const AddProductPage = () => {
                                         />
                                     </div>
                                     <div className={`flex flex-col gap-2.5 transition-all duration-500 ${formData.is_sale ? 'opacity-100 translate-y-0' : 'opacity-20 pointer-events-none md:translate-y-2'}`}>
-                                        <label className="text-[#a14550] text-[10px] font-black tracking-[0.2em] uppercase ml-1">Sale Valuation ($)</label>
+                                        <label className="text-[#a14550] text-[10px] font-black tracking-[0.2em] uppercase ml-1">Sale Price ($)</label>
                                         <input
                                             type="number"
                                             name="sale_price"
@@ -407,7 +407,7 @@ const AddProductPage = () => {
                                 </div>
 
                                 <div className="flex flex-col gap-2.5 mt-8 relative z-10">
-                                    <label className="text-gray-500 text-[10px] font-black tracking-[0.2em] uppercase ml-1">Architectural Abstract</label>
+                                    <label className="text-gray-500 text-[10px] font-black tracking-[0.2em] uppercase ml-1">Product Description</label>
                                     <textarea
                                         name="description"
                                         required
@@ -427,15 +427,15 @@ const AddProductPage = () => {
                                         <span className="material-symbols-outlined text-primary-light text-[24px]">palette</span>
                                     </div>
                                     <div>
-                                        <h3 className="text-xl font-black text-white tracking-tight uppercase tracking-widest text-sm">Aesthetic & Sizing Selection</h3>
-                                        <p className="text-[10px] text-gray-500 font-bold uppercase tracking-widest mt-1">Foundational variants for the matrix</p>
+                                        <h3 className="text-xl font-black text-white tracking-tight uppercase tracking-widest text-sm">Style & Size Options</h3>
+                                        <p className="text-[10px] text-gray-500 font-bold uppercase tracking-widest mt-1">Available variations for the collection</p>
                                     </div>
                                 </div>
 
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-12 relative z-10">
                                     {/* Sizing Subsection */}
                                     <div className="flex flex-col gap-6">
-                                        <label className="text-gray-500 text-[10px] font-black tracking-[0.2em] uppercase ml-1">Available Sizing Matrix</label>
+                                        <label className="text-gray-500 text-[10px] font-black tracking-[0.2em] uppercase ml-1">Available Sizes</label>
                                         <div className="flex flex-wrap gap-3">
                                             {availableSizes.map(size => (
                                                 <button
@@ -452,7 +452,7 @@ const AddProductPage = () => {
 
                                     {/* Aesthetic Options Subsection */}
                                     <div className="flex flex-col gap-6">
-                                        <label className="text-gray-500 text-[10px] font-black tracking-[0.2em] uppercase ml-1">Aesthetic Palette (Colors)</label>
+                                        <label className="text-gray-500 text-[10px] font-black tracking-[0.2em] uppercase ml-1">Color Palette</label>
                                         <div className="flex flex-col gap-4">
                                             <div className="flex flex-wrap gap-3">
                                                 {formData.colors.map((color, idx) => (
@@ -500,8 +500,8 @@ const AddProductPage = () => {
                                         <span className="material-symbols-outlined text-primary-light text-[24px]">grid_view</span>
                                     </div>
                                     <div>
-                                        <h3 className="text-xl font-black text-white tracking-tight uppercase tracking-widest text-sm">Variation Matrix</h3>
-                                        <p className="text-[10px] text-gray-500 font-bold uppercase tracking-widest mt-1">SKU, Pricing & Inventory Per Variant</p>
+                                        <h3 className="text-xl font-black text-white tracking-tight uppercase tracking-widest text-sm">Product Variations</h3>
+                                        <p className="text-[10px] text-gray-500 font-bold uppercase tracking-widest mt-1">SKU, Price & Stock Per Variant</p>
                                     </div>
                                 </div>
 
@@ -521,14 +521,14 @@ const AddProductPage = () => {
                                         <span className="material-symbols-outlined text-primary-light text-[24px]">category</span>
                                     </div>
                                     <div>
-                                        <h3 className="text-xl font-black text-white tracking-tight uppercase tracking-widest text-sm">Taxonomy Mapping</h3>
-                                        <p className="text-[10px] text-gray-500 font-bold uppercase tracking-widest mt-1">Hierarchical Placement & Market Flags</p>
+                                        <h3 className="text-xl font-black text-white tracking-tight uppercase tracking-widest text-sm">Classification</h3>
+                                        <p className="text-[10px] text-gray-500 font-bold uppercase tracking-widest mt-1">Categories & Display Settings</p>
                                     </div>
                                 </div>
 
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8 relative z-10">
                                     <div className="md:col-span-2 flex flex-col gap-4">
-                                        <label className="text-gray-500 text-[10px] font-black tracking-[0.2em] uppercase ml-1">Category Classification</label>
+                                        <label className="text-gray-500 text-[10px] font-black tracking-[0.2em] uppercase ml-1">Product Category</label>
                                         <div className="glossy-input w-full rounded-2xl bg-black/40 border-white/5 p-6 min-h-[200px] flex flex-col gap-4">
                                             {categories.filter(c => !c.parent_id).map(parent => (
                                                 <div key={parent.id} className="flex flex-col gap-2">
@@ -568,7 +568,7 @@ const AddProductPage = () => {
                                     </div>
 
                                     <div className="flex flex-col gap-2.5">
-                                        <label className="text-gray-500 text-[10px] font-black tracking-[0.2em] uppercase ml-1">Static Stock (Fallback)</label>
+                                        <label className="text-gray-500 text-[10px] font-black tracking-[0.2em] uppercase ml-1">Total Stock</label>
                                         <input
                                             type="number"
                                             name="stock"
@@ -595,7 +595,7 @@ const AddProductPage = () => {
                                             <div className="w-12 h-6 rounded-full bg-gray-800 transition-colors duration-300 peer-checked:bg-primary/40 shadow-inner ring-1 ring-white/5"></div>
                                             <div className="absolute top-1 left-1 size-4 bg-white rounded-full transition-all duration-300 peer-checked:left-7 shadow-xl"></div>
                                         </div>
-                                        <span className="text-[10px] font-black text-gray-500 uppercase tracking-widest group-hover:text-white transition-colors">NEW_ARRIVAL_FLAG</span>
+                                        <span className="text-[10px] font-black text-gray-500 uppercase tracking-widest group-hover:text-white transition-colors">NEW ARRIVAL</span>
                                     </label>
 
                                     <label className={`flex items-center gap-4 cursor-pointer group transition-all duration-300 ${!formData.price ? 'opacity-40 cursor-not-allowed grayscale' : 'hover:opacity-100'}`}>
@@ -612,7 +612,7 @@ const AddProductPage = () => {
                                             <div className="absolute top-1 left-1 size-4 bg-white rounded-full transition-all duration-300 peer-checked:left-7 shadow-xl"></div>
                                         </div>
                                         <span className={`text-[10px] font-black uppercase tracking-widest transition-colors ${!formData.price ? 'text-gray-700' : 'text-gray-500 group-hover:text-white'}`}>
-                                            {formData.price ? 'MARKET_SPEC_SALE' : 'ENTER_PRICE_TO_ACTIVATE_SALE'}
+                                            {formData.price ? 'MARK AS SALE' : 'ENTER PRICE TO ACTIVATE SALE'}
                                         </span>
                                     </label>
                                 </div>
@@ -629,8 +629,8 @@ const AddProductPage = () => {
                                     <span className="material-symbols-outlined text-primary-light text-[22px]">add_a_photo</span>
                                 </div>
                                 <div>
-                                    <h4 className="text-white font-black text-sm tracking-tight uppercase tracking-widest text-xs">Asset Injection</h4>
-                                    <p className="text-[10px] text-gray-600 font-bold uppercase tracking-widest">Visual Data Matrix</p>
+                                    <h4 className="text-white font-black text-sm tracking-tight uppercase tracking-widest text-xs">Product Images</h4>
+                                    <p className="text-[10px] text-gray-600 font-bold uppercase tracking-widest">Visual Presentation</p>
                                 </div>
                             </div>
 
@@ -647,8 +647,8 @@ const AddProductPage = () => {
                                         <span className="material-symbols-outlined text-[32px]">upload_file</span>
                                     </div>
                                     <div className="text-center">
-                                        <p className="text-gray-400 text-xs font-black uppercase tracking-[0.2em] group-hover:text-white transition-colors">Upload Assets</p>
-                                        <p className="text-[8px] text-gray-700 font-bold uppercase tracking-tighter mt-1">MAX_LOAD: 10MB // PNG_JPG</p>
+                                        <p className="text-gray-400 text-xs font-black uppercase tracking-[0.2em] group-hover:text-white transition-colors">Upload Photos</p>
+                                        <p className="text-[8px] text-gray-700 font-bold uppercase tracking-tighter mt-1">MAX 10MB // PNG or JPG</p>
                                     </div>
                                 </div>
 
@@ -690,7 +690,7 @@ const AddProductPage = () => {
                                 ) : (
                                     <div className="flex-1 flex flex-col items-center justify-center py-20 opacity-20 border border-white/5 rounded-3xl bg-black/10">
                                         <span className="material-symbols-outlined text-[48px] text-gray-700">image_not_supported</span>
-                                        <p className="text-[10px] font-black uppercase tracking-widest mt-4">Buffer Empty</p>
+                                        <p className="text-[10px] font-black uppercase tracking-widest mt-4">No Images</p>
                                     </div>
                                 )}
                             </div>
@@ -705,37 +705,26 @@ const AddProductPage = () => {
                                     {loading ? (
                                         <>
                                             <span className="animate-spin size-4 border-2 border-black/20 border-t-black group-hover:border-white/20 group-hover:border-t-white rounded-full"></span>
-                                            {uploading ? 'UPLOADING_VISUALS' : 'WRITING_TO_CORE'}
+                                            {uploading ? 'UPLOADING...' : 'SAVING...'}
                                         </>
                                     ) : (
                                         <>
                                             Add Product
-                                            <span className="material-symbols-outlined text-[18px] group-hover:translate-x-2 transition-transform duration-300">rocket_launch</span>
+                                            <span className="material-symbols-outlined text-[18px] group-hover:translate-x-2 transition-transform duration-300">check</span>
                                         </>
                                     )}
                                 </button>
-                                <p className="text-[8px] text-gray-700 font-black text-center mt-4 uppercase tracking-[0.2em]">Deployment: US_EAST_CLUSTER_01</p>
+
                             </div>
                         </div>
                     </div>
                 </div>
 
                 {/* System Registry Footer Meta */}
-                <div className="flex items-center justify-between px-2 pt-12 border-t border-white/5 mt-auto opacity-40 grayscale hover:opacity-100 hover:grayscale-0 transition-all duration-700">
+                <div className="flex items-center justify-center px-2 pt-12 border-t border-white/5 mt-auto opacity-40">
                     <p className="text-[9px] text-gray-700 font-black uppercase tracking-[0.3em] flex items-center gap-4">
-                        <span className="size-1.5 rounded-full bg-primary-light pulse"></span>
-                        Module: INVENTORY_REG_01_X
+                        NAKMA STORE ADMIN
                     </p>
-                    <div className="flex gap-12">
-                        <div className="flex flex-col items-end">
-                            <span className="text-[7px] text-gray-800 uppercase font-black tracking-tighter">Security Protocol</span>
-                            <span className="text-[9px] font-bold text-white uppercase tracking-widest">TLS_1.3_AUTH</span>
-                        </div>
-                        <div className="flex flex-col items-end">
-                            <span className="text-[7px] text-gray-800 uppercase font-black tracking-tighter">Node Latency</span>
-                            <span className="text-[9px] font-bold text-white uppercase tracking-widest">2.1ms</span>
-                        </div>
-                    </div>
                 </div>
             </div>
 

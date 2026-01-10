@@ -184,14 +184,14 @@ const AdminDashboard = () => {
                 <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 relative z-10">
                     <div>
                         <div className="flex items-center gap-2 mb-2">
-                            <span className="inline-flex items-center rounded-full bg-primary/20 px-2.5 py-0.5 text-xs font-bold text-primary-light ring-1 ring-inset ring-primary/30">Admin Only</span>
-                            <span className="text-gray-500 text-sm font-medium">/ Dashboard Overview</span>
+                            <span className="inline-flex items-center rounded-full bg-primary/20 px-2.5 py-0.5 text-xs font-bold text-primary-light ring-1 ring-inset ring-primary/30">Nakma House</span>
+                            <span className="text-gray-500 text-sm font-medium">/ Executive Overview</span>
                         </div>
                         <h1 className="text-white text-4xl font-black leading-tight tracking-[-0.033em] drop-shadow-lg">
                             Dashboard <span className="text-transparent bg-clip-text bg-gradient-to-r from-white via-gray-200 to-gray-400 font-black">Overview</span>
                         </h1>
                         <p className="text-gray-400 text-base font-medium mt-2 max-w-xl">
-                            Welcome back. Here's what's happening in your shop today.
+                            Welcome to the Nakma Store command center. Monitor your performance and growth.
                         </p>
                     </div>
                     <div className="flex gap-4">
@@ -273,7 +273,7 @@ const AdminDashboard = () => {
                     <div className="lg:col-span-2 glossy-panel rounded-[2rem] p-6 md:p-8 flex flex-col gap-6 relative border border-white/5 shadow-2xl">
                         <div className="flex items-center justify-between mb-2">
                             <div>
-                                <h3 className="text-lg font-bold">Sales Overview</h3>
+                                <h3 className="text-lg font-bold">Performance Metrics</h3>
                                 <p className="text-xs text-gray-500">Real-time revenue tracking</p>
                             </div>
                             <select className="glossy-input rounded-xl px-4 py-2 text-xs border border-white/10 bg-black/40 outline-none cursor-pointer hover:border-white/30 transition-colors">
@@ -362,7 +362,7 @@ const AdminDashboard = () => {
                 {/* Info Boxes */}
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
                     <div className="glossy-panel rounded-[2rem] p-6 md:p-8 border border-white/5 shadow-2xl">
-                        <h3 className="text-lg font-bold mb-6">Operations Hub</h3>
+                        <h3 className="text-lg font-bold mb-6">Store Control</h3>
                         <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
                             <Link to="/admin/products/new" className="flex flex-col items-center justify-center gap-3 p-4 rounded-2xl bg-white/5 hover:bg-primary/20 border border-white/5 hover:border-primary/30 transition-all group">
                                 <div className="size-12 rounded-full bg-white/5 flex items-center justify-center group-hover:bg-primary group-hover:text-white transition-colors border border-white/5 shadow-inner">
@@ -374,7 +374,7 @@ const AdminDashboard = () => {
                                 <div className="size-12 rounded-full bg-white/5 flex items-center justify-center group-hover:bg-blue-500 group-hover:text-white transition-colors border border-white/5 shadow-inner">
                                     <span className="material-symbols-outlined text-[20px]">local_shipping</span>
                                 </div>
-                                <span className="text-[10px] font-bold uppercase tracking-widest text-gray-400 group-hover:text-white">Ship Orders</span>
+                                <span className="text-[10px] font-bold uppercase tracking-widest text-gray-400 group-hover:text-white">Process Orders</span>
                             </Link>
                             <Link to="/admin/categories" className="flex flex-col items-center justify-center gap-3 p-4 rounded-2xl bg-white/5 hover:bg-green-900/10 border border-white/5 hover:border-green-500/30 transition-all group">
                                 <div className="size-12 rounded-full bg-white/5 flex items-center justify-center group-hover:bg-green-500 group-hover:text-white transition-colors border border-white/5 shadow-inner">
@@ -394,7 +394,7 @@ const AdminDashboard = () => {
                     <div className="glossy-panel rounded-[2rem] p-6 md:p-8 border border-white/5 shadow-2xl">
                         <div className="flex items-center justify-between mb-6">
                             <div>
-                                <h3 className="text-lg font-bold">Inventory Alerts</h3>
+                                <h3 className="text-lg font-bold">Stock Alerts</h3>
                                 <p className="text-xs text-gray-500">Products requiring attention</p>
                             </div>
                             <span className="text-[10px] font-black uppercase tracking-widest text-red-500 bg-red-500/10 px-2 py-1 rounded-md border border-red-500/20">Critical Status</span>

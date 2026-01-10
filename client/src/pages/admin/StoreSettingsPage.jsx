@@ -53,22 +53,22 @@ const StoreSettingsPage = () => {
         homepageSettings: {
             hero: {
                 subHeadline: "Collection 01",
-                headlineLine1: "PRECISION",
-                headlineLine2: "APPAREL.",
-                descriptionLine1: "High-performance engineered wear.",
-                descriptionLine2: "Designed for the relentless mind. Built for the elite body.",
+                headlineLine1: "HANDCRAFTED",
+                headlineLine2: "HERITAGE.",
+                descriptionLine1: "Premium African-inspired fashion.",
+                descriptionLine2: "Where tradition meets contemporary silhouette. Crafted for the modern man.",
                 imageUrl: ""
             },
             philosophy: {
-                subHeadline: "The Noesis Philosophy",
-                quote: "The right gear is the catalyst for your next breakthrough.",
-                descriptionLine1: "Engineered for the relentless individual.",
-                descriptionLine2: "Designed to transcend the boundaries of performance and aesthetic.",
+                subHeadline: "The Nakma Philosophy",
+                quote: "Your style is the reflection of your heritage and confidence.",
+                descriptionLine1: "Crafted for the modern African man.",
+                descriptionLine2: "Where tradition meets contemporary silhouette.",
                 imageUrl: ""
             },
             categories: {
-                men: { title: "Men", subtitle: "Engineered Apparel", imageUrl: "" },
-                women: { title: "Women", subtitle: "Sculpted Fit", imageUrl: "" }
+                men: { title: "Men", subtitle: "Heritage Cuts", imageUrl: "" },
+                women: { title: "Women", subtitle: "Modern Silhouettes", imageUrl: "" }
             }
         },
         navigationSettings: [],
@@ -295,22 +295,22 @@ const StoreSettingsPage = () => {
                 homepageSettings: contextSettings.homepageSettings || {
                     hero: {
                         subHeadline: "Collection 01",
-                        headlineLine1: "PRECISION",
-                        headlineLine2: "APPAREL.",
-                        descriptionLine1: "High-performance engineered wear.",
-                        descriptionLine2: "Designed for the relentless mind. Built for the elite body.",
+                        headlineLine1: "HANDCRAFTED",
+                        headlineLine2: "HERITAGE.",
+                        descriptionLine1: "Premium African-inspired fashion.",
+                        descriptionLine2: "Where tradition meets contemporary silhouette. Crafted for the modern man.",
                         imageUrl: ""
                     },
                     philosophy: {
-                        subHeadline: "The Noesis Philosophy",
-                        quote: "The right gear is the catalyst for your next breakthrough.",
-                        descriptionLine1: "Engineered for the relentless individual.",
-                        descriptionLine2: "Designed to transcend the boundaries of performance and aesthetic.",
+                        subHeadline: "The Nakma Philosophy",
+                        quote: "Your style is the reflection of your heritage and confidence.",
+                        descriptionLine1: "Crafted for the modern African man.",
+                        descriptionLine2: "Where tradition meets contemporary silhouette.",
                         imageUrl: ""
                     },
                     categories: {
-                        men: { title: "Men", subtitle: "Engineered Apparel", imageUrl: "" },
-                        women: { title: "Women", subtitle: "Sculpted Fit", imageUrl: "" }
+                        men: { title: "Men", subtitle: "Heritage Cuts", imageUrl: "" },
+                        women: { title: "Women", subtitle: "Modern Silhouettes", imageUrl: "" }
                     }
                 },
                 navigationSettings: contextSettings.navigationSettings || [],
@@ -418,7 +418,7 @@ const StoreSettingsPage = () => {
                     title: 'Community',
                     slug: 'community',
                     hero_title: 'KNOWLEDGE HUB',
-                    hero_subtitle: 'Articles, insights, and stories from the world of performance apparel and athletic excellence.',
+                    hero_subtitle: 'Articles, insights, and stories from the world of African-inspired fashion and cultural heritage.',
                     hero_image_url: '',
                     status: 'published',
                     is_system: true,

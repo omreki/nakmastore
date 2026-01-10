@@ -28,7 +28,7 @@ const Footer = () => {
                             )}
                         </div>
                         <p className="text-white/50 text-base leading-relaxed mb-8 max-w-sm">
-                            Engineered for the intellectual athlete. We bridge the gap between mind and motion with premium apparel designed for performance.
+                            Crafting unique, high-quality African-inspired men’s shirts that seamlessly blend heritage with modern design. Confidence, comfort, and cultural expression.
                         </p>
                         <div className="flex gap-6">
                             <Link to="#" className="text-white/40 hover:text-white transition-colors transition-transform hover:scale-110">
@@ -44,9 +44,9 @@ const Footer = () => {
                     <div>
                         <h3 className="text-xl font-bold mb-8">Shop</h3>
                         <ul className="space-y-4">
-                            <li><Link to="/men" className="text-white/50 hover:text-white transition-colors text-base font-medium">Men's Collection</Link></li>
-                            <li><Link to="/women" className="text-white/50 hover:text-white transition-colors text-base font-medium">Women's Collection</Link></li>
-                            <li><Link to="/accessories" className="text-white/50 hover:text-white transition-colors text-base font-medium">Accessories</Link></li>
+                            <li><Link to="/category/vibrant-prints" className="text-white/50 hover:text-white transition-colors text-base font-medium">Vibrant Prints</Link></li>
+                            <li><Link to="/category/classic-plains" className="text-white/50 hover:text-white transition-colors text-base font-medium">Classic Plains</Link></li>
+                            <li><Link to="/shop" className="text-white/50 hover:text-white transition-colors text-base font-medium">Shop All</Link></li>
                             <li><Link to="/shop" className="text-white/50 hover:text-white transition-colors text-base font-medium">New Arrivals</Link></li>
                         </ul>
                     </div>
@@ -81,7 +81,7 @@ const Footer = () => {
 
                 {/* Bottom Bar */}
                 <div className="pt-12 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-8">
-                    <p className="text-sm text-white/30 font-medium">© {new Date().getFullYear()} {settings.storeName || 'Noesis'}. All rights reserved.</p>
+                    <p className="text-sm text-white/30 font-medium">© {new Date().getFullYear()} {settings.storeName || 'Nakma Store'}. All rights reserved.</p>
                     <div className="flex gap-10 text-sm text-white/30 font-medium">
                         <Link to="/privacy-policy" className="hover:text-white transition-colors">Privacy Policy</Link>
                         <Link to="/terms-of-service" className="hover:text-white transition-colors">Terms of Service</Link>

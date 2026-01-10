@@ -78,7 +78,7 @@ const AccountPage = () => {
             <div className="min-h-screen bg-[#050505] flex items-center justify-center">
                 <div className="flex flex-col items-center gap-4">
                     <div className="size-12 border-4 border-primary/20 border-t-primary rounded-full animate-spin"></div>
-                    <p className="text-white/50 text-sm font-bold uppercase tracking-[0.2em]">Synchronizing Registry...</p>
+                    <p className="text-white/50 text-sm font-bold uppercase tracking-[0.2em]">Crafting Your Space...</p>
                 </div>
             </div>
         );
@@ -88,8 +88,8 @@ const AccountPage = () => {
         <div className="min-h-screen bg-[#050505] text-white pt-20 md:pt-24 pb-20 font-['Manrope']">
             {/* Ambient Lighting */}
             <div className="fixed top-0 left-0 w-full h-full overflow-hidden pointer-events-none -z-10">
-                <div className="absolute top-[-10%] right-[-10%] w-[800px] h-[800px] bg-[#59000a]/10 rounded-full blur-[120px]"></div>
-                <div className="absolute bottom-[-10%] left-[-10%] w-[600px] h-[600px] bg-[#59000a]/10 rounded-full blur-[100px]"></div>
+                <div className="absolute top-[-10%] right-[-10%] w-[800px] h-[800px] bg-[#059669]/10 rounded-full blur-[120px]"></div>
+                <div className="absolute bottom-[-10%] left-[-10%] w-[600px] h-[600px] bg-[#059669]/10 rounded-full blur-[100px]"></div>
             </div>
 
             <main className="max-w-[1200px] mx-auto px-6 md:px-10">
@@ -97,9 +97,9 @@ const AccountPage = () => {
                     <div>
                         <div className="flex items-center gap-2 mb-2">
                             <span className="inline-flex items-center rounded-full bg-primary/20 px-2.5 py-0.5 text-[10px] font-black uppercase tracking-widest text-primary-light ring-1 ring-inset ring-primary/30 backdrop-blur-sm">
-                                Personal Hub
+                                Profile Hub
                             </span>
-                            <span className="text-gray-500 text-sm font-medium">/ Customer Registry</span>
+                            <span className="text-gray-500 text-sm font-medium">/ Member Profile</span>
                         </div>
                         <h1 className="text-3xl md:text-5xl font-black tracking-tight text-white italic">
                             My <span className="text-transparent bg-clip-text bg-gradient-to-r from-white via-gray-200 to-gray-400">Account</span>
@@ -142,7 +142,7 @@ const AccountPage = () => {
                                     className="flex items-center gap-3 px-5 py-4 rounded-xl transition-all text-left text-red-500/60 hover:text-red-500 hover:bg-red-500/10 mt-4 border border-transparent hover:border-red-500/20"
                                 >
                                     <span className="material-symbols-outlined text-[20px]">logout</span>
-                                    <span className="font-black text-[10px] uppercase tracking-widest">Terminate Session</span>
+                                    <span className="font-black text-[10px] uppercase tracking-widest">Logout</span>
                                 </button>
                             </nav>
                         </div>
@@ -157,8 +157,8 @@ const AccountPage = () => {
                                         <div className="size-20 bg-white/5 rounded-full flex items-center justify-center mx-auto mb-6">
                                             <span className="material-symbols-outlined text-gray-600 text-4xl">inventory_2</span>
                                         </div>
-                                        <h3 className="text-xl font-black mb-2">No Transactions Found</h3>
-                                        <p className="text-gray-500 text-sm max-w-xs mx-auto mb-8 font-medium">Your order sequence is currently empty. Start exploring the collection to initiate your first order.</p>
+                                        <h3 className="text-xl font-black mb-2">No Orders Found</h3>
+                                        <p className="text-gray-500 text-sm max-w-xs mx-auto mb-8 font-medium">Your order history is currently empty. Explore our collection to find your perfect fit.</p>
                                         <button
                                             onClick={() => navigate('/shop')}
                                             className="px-8 py-3 bg-white text-black rounded-full text-xs font-black uppercase tracking-widest hover:bg-primary hover:text-white transition-all shadow-xl"
@@ -171,21 +171,21 @@ const AccountPage = () => {
                                         <div
                                             key={order.id}
                                             id={`order-${order.id}`}
-                                            className={`glass-panel rounded-[1.5rem] md:rounded-[2rem] overflow-hidden border transition-all duration-500 ${highlightOrderId === order.id ? 'border-primary shadow-[0_0_30px_rgba(89,0,10,0.3)] ring-1 ring-primary/50' : 'border-white/5 bg-black/20'}`}
+                                            className={`glass-panel rounded-[1.5rem] md:rounded-[2rem] overflow-hidden border transition-all duration-500 ${highlightOrderId === order.id ? 'border-primary shadow-[0_0_30px_rgba(5,150,105,0.3)] ring-1 ring-primary/50' : 'border-white/5 bg-black/20'}`}
                                         >
                                             {/* Order Header */}
                                             <div className="p-6 md:p-8 bg-white/[0.02] border-b border-white/5 flex flex-col md:flex-row justify-between gap-6">
                                                 <div className="flex flex-wrap gap-8">
                                                     <div>
-                                                        <p className="text-[10px] text-gray-500 font-black uppercase tracking-widest mb-1.5">Registry ID</p>
+                                                        <p className="text-[10px] text-gray-500 font-black uppercase tracking-widest mb-1.5">Order ID</p>
                                                         <p className="text-sm font-black italic tracking-tight">#{order.id.slice(0, 8).toUpperCase()}</p>
                                                     </div>
                                                     <div>
-                                                        <p className="text-[10px] text-gray-500 font-black uppercase tracking-widest mb-1.5">Initiated On</p>
+                                                        <p className="text-[10px] text-gray-500 font-black uppercase tracking-widest mb-1.5">Order Date</p>
                                                         <p className="text-sm font-bold text-white/80">{new Date(order.created_at).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}</p>
                                                     </div>
                                                     <div>
-                                                        <p className="text-[10px] text-gray-500 font-black uppercase tracking-widest mb-1.5">Total Value</p>
+                                                        <p className="text-[10px] text-gray-500 font-black uppercase tracking-widest mb-1.5">Total Amount</p>
                                                         <p className="text-sm font-black text-primary-light">{formatPrice(order.total_amount)}</p>
                                                     </div>
                                                 </div>
@@ -222,60 +222,52 @@ const AccountPage = () => {
                                             <div className="px-6 md:px-8 py-4 bg-white/[0.01] flex flex-col sm:flex-row justify-between items-center gap-4 text-[10px] font-black uppercase tracking-widest border-t border-white/5">
                                                 <div className="flex items-center gap-2 text-gray-500">
                                                     <span className="material-symbols-outlined text-[16px]">local_shipping</span>
-                                                    <span>Standard Transit Protocol</span>
+                                                    <span>Standard Shipping</span>
                                                 </div>
                                                 <button
-                                                    onClick={() => notify('Tracking module initializing...', 'info')}
-                                                    className="flex items-center gap-2 text-primary hover:text-white transition-colors group"
-                                                >
-                                                    Trace Signal <span className="material-symbols-outlined text-[16px] group-hover:translate-x-1 transition-transform">arrow_forward</span>
-                                                </button>
-                                            </div>
+                                                    Track Order <span className="material-symbols-outlined text-[16px] group-hover:translate-x-1 transition-transform">arrow_forward</span>
+                                            </button>
                                         </div>
-                                    ))
+                                        </div>
+                        ))
                                 )}
-                            </div>
-                        ) : (
-                            <div className="glass-panel rounded-[1.5rem] md:rounded-[2.5rem] p-6 md:p-10 border border-white/5 bg-black/20">
-                                <h3 className="text-xl font-black mb-8 italic tracking-tight">Identity <span className="text-primary-light">Manifest</span></h3>
-                                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                                    <div className="space-y-2">
-                                        <p className="text-[10px] text-gray-500 font-black uppercase tracking-widest ml-1">Email Descriptor</p>
-                                        <div className="h-14 flex items-center px-6 rounded-2xl bg-white/[0.03] border border-white/5 text-sm font-bold opacity-60">
-                                            {user?.email}
-                                        </div>
-                                    </div>
-                                    <div className="space-y-2">
-                                        <p className="text-[10px] text-gray-500 font-black uppercase tracking-widest ml-1">Member Status</p>
-                                        <div className="h-14 flex items-center px-6 rounded-2xl bg-green-500/5 border border-green-500/10 text-green-400 text-sm font-black italic uppercase tracking-widest shadow-inner">
-                                            Verified System Core
-                                        </div>
-                                    </div>
-                                    <div className="space-y-2">
-                                        <p className="text-[10px] text-gray-500 font-black uppercase tracking-widest ml-1">Authentication Layer</p>
-                                        <button
-                                            onClick={() => notify('Security module locked.', 'info')}
-                                            className="h-14 w-full flex items-center justify-between px-6 rounded-2xl bg-white/5 border border-white/5 hover:border-primary/40 transition-all group font-bold text-sm"
-                                        >
-                                            <span>Update Passcode</span>
-                                            <span className="material-symbols-outlined text-gray-600 group-hover:text-primary transition-colors">key</span>
-                                        </button>
-                                    </div>
-                                    <div className="space-y-2">
-                                        <p className="text-[10px] text-gray-500 font-black uppercase tracking-widest ml-1">Communication Channel</p>
-                                        <div className="h-14 flex items-center justify-between px-6 rounded-2xl bg-white/5 border border-white/5 text-sm font-bold">
-                                            <span>Email Notifications</span>
-                                            <div className="size-2 bg-green-500 rounded-full shadow-[0_0_10px_rgba(34,197,94,0.5)]"></div>
-                                        </div>
-                                    </div>
+                    </div>
+                    ) : (
+                    <div className="glass-panel rounded-[1.5rem] md:rounded-[2.5rem] p-6 md:p-10 border border-white/5 bg-black/20">
+                        <h3 className="text-xl font-black mb-8 italic tracking-tight">Profile <span className="text-primary-light">Details</span></h3>
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                            <div className="space-y-2">
+                                <p className="text-[10px] text-gray-500 font-black uppercase tracking-widest ml-1">Email Address</p>
+                                <div className="h-14 flex items-center px-6 rounded-2xl bg-white/[0.03] border border-white/5 text-sm font-bold opacity-60">
+                                    {user?.email}
                                 </div>
                             </div>
-                        )}
+                            <div className="space-y-2">
+                                <p className="text-[10px] text-gray-500 font-black uppercase tracking-widest ml-1">Account Status</p>
+                                <div className="h-14 flex items-center px-6 rounded-2xl bg-green-500/5 border border-green-500/10 text-green-400 text-sm font-black italic uppercase tracking-widest shadow-inner">
+                                    Verified Member
+                                </div>
+                            </div>
+                            <div className="space-y-2">
+                                <span>Update Password</span>
+                                <span className="material-symbols-outlined text-gray-600 group-hover:text-primary transition-colors">key</span>
+                            </button>
+                        </div>
+                        <div className="space-y-2">
+                            <p className="text-[10px] text-gray-500 font-black uppercase tracking-widest ml-1">Communication Channel</p>
+                            <div className="h-14 flex items-center justify-between px-6 rounded-2xl bg-white/5 border border-white/5 text-sm font-bold">
+                                <span>Email Notifications</span>
+                                <div className="size-2 bg-green-500 rounded-full shadow-[0_0_10px_rgba(34,197,94,0.5)]"></div>
+                            </div>
+                        </div>
                     </div>
                 </div>
-            </main>
+                        )}
+        </div>
+                </div >
+            </main >
 
-            <style>{`
+    <style>{`
                 @keyframes pulse-subtle {
                     0%, 100% { opacity: 1; transform: scale(1); }
                     50% { opacity: 0.8; transform: scale(0.98); }
@@ -284,7 +276,7 @@ const AccountPage = () => {
                     animation: pulse-subtle 3s infinite ease-in-out;
                 }
             `}</style>
-        </div>
+        </div >
     );
 };
 

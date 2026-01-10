@@ -1,8 +1,8 @@
 import { supabase } from '../lib/supabase';
 import { v4 as uuidv4 } from 'uuid';
 
-const SESSION_KEY = 'noesis_analytics_session_id';
-const PERSISTENT_KEY = 'noesis_analytics_persistent_id';
+const SESSION_KEY = 'nakma_analytics_session_id';
+const PERSISTENT_KEY = 'nakma_analytics_persistent_id';
 
 class AnalyticsService {
     constructor() {

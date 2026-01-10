@@ -102,7 +102,7 @@ const CategoryPage = () => {
         <div className="min-h-screen bg-black font-display selection:bg-primary selection:text-white pb-20">
             <SEO
                 title={category.name}
-                description={category.description || `Browse our ${category.name} collection. Engineered for performance and style.`}
+                description={category.description || `Browse our ${category.name} collection. Unique African-inspired shirts blended with modern design.`}
             />
 
             {/* Hero Section */}
@@ -155,7 +155,7 @@ const CategoryPage = () => {
                     </div>
                 ) : (
                     <div className="text-center py-20 border border-white/5 rounded-3xl bg-white/[0.02]">
-                        <p className="text-gray-500 font-bold uppercase tracking-widest text-sm">No artifacts found in this sector.</p>
+                        <p className="text-gray-500 font-bold uppercase tracking-widest text-sm">No items found in this collection.</p>
                     </div>
                 )}
             </div>
@@ -187,7 +187,7 @@ const ProductCard = ({ product, formatPrice, index }) => {
                         </span>
                     )}
                     {product.is_sale && (
-                        <span className="bg-[#a14550] text-white text-[9px] font-black px-2 py-1 uppercase tracking-widest rounded-sm">
+                        <span className="bg-[#059669] text-white text-[9px] font-black px-2 py-1 uppercase tracking-widest rounded-sm">
                             Sale
                         </span>
                     )}
@@ -199,12 +199,12 @@ const ProductCard = ({ product, formatPrice, index }) => {
                     <h3 className="text-sm text-gray-200 font-bold group-hover:text-white transition-colors uppercase tracking-wide">
                         {product.name}
                     </h3>
-                    <p className="mt-1 text-xs text-gray-500 font-medium">Noesis Core</p>
+                    <p className="mt-1 text-xs text-gray-500 font-medium">{settings?.storeName || 'Nakma Store'}</p>
                 </div>
                 <div className="text-right">
                     {product.is_sale ? (
                         <div className="flex flex-col items-end">
-                            <span className="text-xs text-[#a14550] font-bold">{formatPrice(product.sale_price)}</span>
+                            <span className="text-xs text-[#059669] font-bold">{formatPrice(product.sale_price)}</span>
                             <span className="text-[10px] text-gray-600 line-through">{formatPrice(product.price)}</span>
                         </div>
                     ) : (

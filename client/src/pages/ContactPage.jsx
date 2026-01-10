@@ -52,7 +52,7 @@ const ContactPage = () => {
                                 Reach <span className="text-white/20 italic font-medium">Out</span>
                             </h1>
                             <p className="text-gray-500 text-lg font-medium max-w-md leading-relaxed">
-                                Our elite team is ready to assist your journey with precision and care.
+                                Our dedicated team is here to assist you with elegance and care.
                             </p>
                         </div>
 
@@ -62,7 +62,7 @@ const ContactPage = () => {
                                     <span className="material-symbols-outlined text-[20px]">mail</span>
                                 </div>
                                 <div>
-                                    <p className="text-[10px] font-black uppercase tracking-widest text-gray-600 mb-0.5">Electronic Mail</p>
+                                    <p className="text-[10px] font-black uppercase tracking-widest text-gray-600 mb-0.5">Email Address</p>
                                     <p className="text-lg font-bold">{settings.supportEmail}</p>
                                 </div>
                             </div>
@@ -82,8 +82,8 @@ const ContactPage = () => {
                                     <span className="material-symbols-outlined text-[20px]">location_on</span>
                                 </div>
                                 <div>
-                                    <p className="text-[10px] font-black uppercase tracking-widest text-gray-600 mb-0.5">Atelier</p>
-                                    <p className="text-lg font-bold leading-tight">{settings.contactAddress}</p>
+                                    <p className="text-[10px] font-black uppercase tracking-widest text-gray-600 mb-0.5">Our Studio</p>
+                                    <p className="text-lg font-bold leading-tight">{settings.contactAddress || 'Nakma Store, Nairobi'}</p>
                                 </div>
                             </div>
                         </div>
@@ -91,7 +91,7 @@ const ContactPage = () => {
                         <div className="space-y-8">
                             {settings.operatingHours && (
                                 <div className="p-8 rounded-[2rem] bg-primary/5 border border-primary/10">
-                                    <h3 className="text-xs font-black uppercase tracking-widest text-primary-light mb-4">Availability Window</h3>
+                                    <h3 className="text-xs font-black uppercase tracking-widest text-primary-light mb-4">Hours of Operation</h3>
                                     <div className="space-y-3">
                                         <div className="flex justify-between text-sm font-bold">
                                             <span className="text-gray-500 uppercase">Mon — Fri</span>
@@ -135,12 +135,12 @@ const ContactPage = () => {
                         <form onSubmit={handleSubmit} className="relative z-10 space-y-8">
                             <div className="space-y-2">
                                 <h2 className="text-2xl font-black italic tracking-tight">Direct Inquiry</h2>
-                                <p className="text-gray-500 text-sm font-medium">Please provide your details for priority processing.</p>
+                                <p className="text-gray-500 text-sm font-medium">Please provide your details and we will reach out to you shortly.</p>
                             </div>
 
                             <div className="space-y-6">
                                 <div className="space-y-2.5">
-                                    <label className="text-[10px] font-black uppercase tracking-[0.2em] text-gray-500 ml-1">Identity</label>
+                                    <label className="text-[10px] font-black uppercase tracking-[0.2em] text-gray-500 ml-1">Name</label>
                                     <input
                                         required
                                         placeholder="Full Name"
@@ -151,7 +151,7 @@ const ContactPage = () => {
                                 </div>
 
                                 <div className="space-y-2.5">
-                                    <label className="text-[10px] font-black uppercase tracking-[0.2em] text-gray-500 ml-1">Node Address</label>
+                                    <label className="text-[10px] font-black uppercase tracking-[0.2em] text-gray-500 ml-1">Email</label>
                                     <input
                                         required
                                         type="email"
@@ -163,7 +163,7 @@ const ContactPage = () => {
                                 </div>
 
                                 <div className="space-y-2.5">
-                                    <label className="text-[10px] font-black uppercase tracking-[0.2em] text-gray-500 ml-1">Message Payload</label>
+                                    <label className="text-[10px] font-black uppercase tracking-[0.2em] text-gray-500 ml-1">Message</label>
                                     <textarea
                                         required
                                         rows="4"
@@ -183,11 +183,11 @@ const ContactPage = () => {
                                 {status.loading ? (
                                     <>
                                         <div className="size-4 rounded-full border-2 border-white/20 border-t-white animate-spin"></div>
-                                        Processing...
+                                        Sending...
                                     </>
                                 ) : (
                                     <>
-                                        Transmit Message
+                                        Send Message
                                         <span className="material-symbols-outlined text-[18px]">east</span>
                                     </>
                                 )}
@@ -199,7 +199,7 @@ const ContactPage = () => {
                                     animate={{ opacity: 1, y: 0 }}
                                     className="p-4 rounded-2xl bg-green-500/10 border border-green-500/20 text-green-400 text-xs font-black uppercase tracking-widest text-center"
                                 >
-                                    Transmission Successful. We'll reply shortly.
+                                    Message Sent. We'll reply shortly.
                                 </motion.div>
                             )}
 
@@ -209,7 +209,7 @@ const ContactPage = () => {
                                     animate={{ opacity: 1, y: 0 }}
                                     className="p-4 rounded-2xl bg-red-500/10 border border-red-500/20 text-red-400 text-xs font-black uppercase tracking-widest text-center"
                                 >
-                                    Transmission Failed: {status.error}
+                                    Failed to send: {status.error}
                                 </motion.div>
                             )}
                         </form>

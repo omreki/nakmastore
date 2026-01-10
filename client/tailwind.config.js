@@ -7,26 +7,26 @@ export default {
     theme: {
         extend: {
             colors: {
-                "primary": "#59000a", // Keeping original primary for consistency unless specified otherwise, Shop page uses #57000a which is very close
-                "primary-hover": "#7a000e",
-                "primary-light": "#a14550",
-                "primary-dark": "#3d0007",
-                "primary-bright": "#a30012",
-                "primary-accent": "#ff2a4d",
-                "accent": "#ff4d6d",
-                "secondary": "#ce8d94", // Updated from Shop All
-                "background-light": "#f8f5f6",
-                "background-dark": "#1a0b0d", // Updated from Shop All
-                "card-dark": "rgba(20, 20, 20, 0.6)",
+                "primary": "#059669",
+                "primary-hover": "#047857",
+                "primary-light": "#34d399",
+                "primary-dark": "#064e3b",
+                "primary-bright": "#10b981",
+                "primary-accent": "#34d399",
+                "accent": "#10b981",
+                "secondary": "#a7f3d0",
+                "background-light": "#f0fdf4",
+                "background-dark": "#022c22",
+                "card-dark": "rgba(4, 30, 24, 0.6)",
                 "text-main": "#ffffff",
-                "text-muted": "#a1a1aa",
+                "text-muted": "#94a3b8",
                 "surface": "#ffffff",
-                "surface-dark": "#240f12", // New from Shop All
-                "surface-highlight": "#2f1518", // New from Shop All
+                "surface-dark": "#064e3b",
+                "surface-highlight": "#065f46",
                 "surface-solid": "#ffffff",
                 "surface-white": "#ffffff",
                 "surface-light": "rgba(255, 255, 255, 0.6)",
-                "surface-hover": "rgba(40, 40, 40, 0.6)",
+                "surface-hover": "rgba(16, 185, 129, 0.1)",
                 "surface-gloss": "rgba(255, 255, 255, 0.03)",
                 "surface-gloss-hover": "rgba(255, 255, 255, 0.08)",
                 "border-glass": "rgba(255, 255, 255, 0.1)",

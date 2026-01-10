@@ -2,9 +2,9 @@ import React, { createContext, useContext, useState, useEffect } from 'react';
 import { supabase } from '../lib/supabase';
 
 const DEFAULT_LOGIN_SETTINGS = {
-    login_bg_url: "/hero-clothes-bg.png",
-    login_title: "Elevate Your Performance.",
-    login_subtitle: "Join the community to access exclusive drops, track your orders, and customize your fitness profile."
+    login_bg_url: "https://images.unsplash.com/photo-1490730141103-6cac27aaab94?q=80&w=2070&auto=format&fit=crop",
+    login_title: "Crafting African Heritage.",
+    login_subtitle: "Join the community to access exclusive prints, track your orders, and manage your profile."
 };
 
 const StoreSettingsContext = createContext();
@@ -15,20 +15,20 @@ export const useStoreSettings = () => {
 
 export const StoreSettingsProvider = ({ children }) => {
     const [settings, setSettings] = useState({
-        storeName: 'Noesis Fitness',
-        supportEmail: 'support@noesis.fit',
+        storeName: 'Nakma Store',
+        supportEmail: 'info@nakma.co',
         currency: 'KES',
-        timezone: 'EST',
+        timezone: 'EAT',
         showDecimals: false,
         paymentGateways: { stripe: true, paypal: false, paystack: false, cod: true },
         logoUrl: '',
         heroImageUrl: '',
         shippingMethods: [
-            { id: 'standard', name: 'Standard Ground', description: 'Primary Distribution', deliveryTime: '5-7 CYCLES', cost: 5, enabled: true },
-            { id: 'express', name: 'Exosphere Velocity', description: 'Priority Transit', deliveryTime: '2-3 CYCLES', cost: 15, enabled: true },
-            { id: 'free', name: 'Zero-Cost Yield', description: 'Volume Reward Tier', deliveryTime: '10+ CYCLES', cost: 0, enabled: true }
+            { id: 'standard', name: 'Standard Shipping', description: 'Standard Delivery', deliveryTime: '3-5 Days', cost: 5, enabled: true },
+            { id: 'express', name: 'Express Shipping', description: 'Priority Delivery', deliveryTime: '1-2 Days', cost: 15, enabled: true },
+            { id: 'free', name: 'Free Shipping', description: 'Over KSh 10,000', deliveryTime: '5-7 Days', cost: 0, enabled: true }
         ],
-        siteUrl: 'https://wearnoesis.com',
+        siteUrl: 'https://nakma.co',
         alertEmails: [],
         resendConfig: { apiKey: '', fromEmail: '', verifiedDomain: '' },
         taxesEnabled: true,
@@ -53,21 +53,21 @@ export const StoreSettingsProvider = ({ children }) => {
                 subHeadline: "Collection 01",
                 headlineLine1: "PRECISION",
                 headlineLine2: "APPAREL.",
-                descriptionLine1: "High-performance engineered wear.",
-                descriptionLine2: "Designed for the relentless mind. Built for the elite body.",
+                descriptionLine1: "Premium African-inspired fashion.",
+                descriptionLine2: "Where tradition meets contemporary silhouette. Crafted for the modern man.",
                 imageUrl: "",
                 hollowText: ""
             },
             philosophy: {
-                subHeadline: "The Noesis Philosophy",
-                quote: "The right gear is the catalyst for your next breakthrough.",
-                descriptionLine1: "Engineered for the relentless individual.",
-                descriptionLine2: "Designed to transcend the boundaries of performance and aesthetic.",
+                subHeadline: "The Nakma Philosophy",
+                quote: "Your style is the reflection of your heritage and confidence.",
+                descriptionLine1: "Crafted for the modern African man.",
+                descriptionLine2: "Where tradition meets contemporary silhouette.",
                 imageUrl: ""
             },
             categories: {
-                men: { title: "Men", subtitle: "Engineered Apparel", imageUrl: "" },
-                women: { title: "Women", subtitle: "Sculpted Fit", imageUrl: "" }
+                men: { title: "Men", subtitle: "Heritage Cuts", imageUrl: "" },
+                women: { title: "Women", subtitle: "Modern Silhouettes", imageUrl: "" }
             },
             seo: {
                 metaTitle: "",
@@ -88,13 +88,13 @@ export const StoreSettingsProvider = ({ children }) => {
                 bgImage: "https://images.unsplash.com/photo-1534438327276-14e5300c3a48?q=80&w=2070&auto=format&fit=crop",
                 estText: "EST. 2024",
                 title: "Beyond \n The Limits",
-                subtitle: "Noesis is more than apparel. It's a philosophy of constant evolution, engineered for the intellectual athlete."
+                subtitle: "Nakma Store is dedicated to blending African heritage with modern design for the contemporary man."
             },
             philosophy: {
                 imageUrl: "",
                 label: "OUR PHILOSOPHY",
-                title: "Intellect Meets \n Performance.",
-                description: "At Noesis, we believe that true athletic excellence is achieved when the mind and body are in perfect alignment. Our gear is designed to eliminate distractions, allowing you to focus purely on your movement and strategy.",
+                title: "Heritage Meets \n Modernity.",
+                description: "At Nakma, we believe that true style lies in confidence, comfort, and cultural expression. Our collection is designed to empower men through vibrant identity and sophisticated silhouettes.",
                 stats: [
                     { value: "100%", label: "Recycled Materials" },
                     { value: "0", label: "Compromise" }
@@ -138,11 +138,11 @@ export const StoreSettingsProvider = ({ children }) => {
         seoSettings: {
             metaTitle: "",
             metaDescription: "",
-            keywords: "fitness, apparel, gym wear, performance gear, noesis",
+            keywords: "fashion, african prints, men's style, shirts, nakma",
             googleSiteVerification: ""
         },
         checkoutPageSettings: {
-            giftMessage: "Free gift included with <br /> <span class=\"text-[#a14550]\">first collection</span> purchase."
+            giftMessage: "Exclusive print included with <br /> <span class=\"text-[#059669]\">your first Nakma</span> purchase."
         }
     });
     const [loading, setLoading] = useState(true);
@@ -224,22 +224,21 @@ export const StoreSettingsProvider = ({ children }) => {
                                     subHeadline: "Collection 01",
                                     headlineLine1: "PRECISION",
                                     headlineLine2: "APPAREL.",
-                                    descriptionLine1: "High-performance engineered wear.",
-                                    descriptionLine1: "High-performance engineered wear.",
-                                    descriptionLine2: "Designed for the relentless mind. Built for the elite body.",
+                                    descriptionLine1: "Premium African-inspired fashion.",
+                                    descriptionLine2: "Where tradition meets contemporary silhouette. Crafted for the modern man. Built for the cultural expression.",
                                     imageUrl: "/hero-clothes-bg.png",
                                     hollowText: ""
                                 },
                                 philosophy: {
-                                    subHeadline: "The Noesis Philosophy",
-                                    quote: "The right gear is the catalyst for your next breakthrough.",
-                                    descriptionLine1: "Engineered for the relentless individual.",
-                                    descriptionLine2: "Designed to transcend the boundaries of performance and aesthetic.",
+                                    subHeadline: "The Nakma Philosophy",
+                                    quote: "Your style is the reflection of your heritage and confidence.",
+                                    descriptionLine1: "Crafted for the modern African man.",
+                                    descriptionLine2: "Where tradition meets contemporary silhouette.",
                                     imageUrl: "/philosophy-bg.png"
                                 },
                                 categories: {
-                                    men: { title: "Men", subtitle: "Engineered Apparel", imageUrl: "/men-category.png" },
-                                    women: { title: "Women", subtitle: "Sculpted Fit", imageUrl: "/women-category.png" }
+                                    men: { title: "Men", subtitle: "Heritage Cuts", imageUrl: "/men-category.png" },
+                                    women: { title: "Women", subtitle: "Modern Silhouettes", imageUrl: "/women-category.png" }
                                 },
                                 seo: {
                                     metaTitle: "",
@@ -256,8 +255,8 @@ export const StoreSettingsProvider = ({ children }) => {
                                 philosophy: {
                                     imageUrl: "",
                                     label: "OUR PHILOSOPHY",
-                                    title: "Intellect Meets \n Performance.",
-                                    description: "At Noesis, we believe that true athletic excellence is achieved when the mind and body are in perfect alignment. Our gear is designed to eliminate distractions, allowing you to focus purely on your movement and strategy.",
+                                    title: "Heritage Meets \n Modernity.",
+                                    description: "At Nakma, we believe that true style lies in confidence, comfort, and cultural expression. Our collection is designed to empower men through vibrant identity and sophisticated silhouettes.",
                                     stats: [
                                         { value: "100%", label: "Recycled Materials" },
                                         { value: "0", label: "Compromise" }
@@ -285,7 +284,7 @@ export const StoreSettingsProvider = ({ children }) => {
                                     ]
                                 },
                                 quote: {
-                                    text: "We didn't set out to build another sportswear brand. We set out to create the gear that we wished existed—gear that respects the intelligence of the athlete.",
+                                    text: "We didn't set out to build another fashion brand. We set out to create the pieces that we wished existed—garments that respect the heritage of the modern man.",
                                     author: "Charity Lopeyok",
                                     authorTitle: "Founder / Creative Director"
                                 },
@@ -301,11 +300,11 @@ export const StoreSettingsProvider = ({ children }) => {
                             seoSettings: data.seo_settings || {
                                 metaTitle: "",
                                 metaDescription: "",
-                                keywords: "fitness, apparel, gym wear, performance gear, noesis",
+                                keywords: "fashion, african prints, men's style, shirts, nakma",
                                 googleSiteVerification: ""
                             },
                             checkoutPageSettings: data.checkout_page_settings || {
-                                giftMessage: "Free gift included with <br /> <span class=\"text-[#a14550]\">first collection</span> purchase."
+                                giftMessage: "Exclusive print included with <br /> <span class=\"text-[#059669]\">your first Nakma</span> purchase."
                             }
                         });
                     }
@@ -410,8 +409,8 @@ export const StoreSettingsProvider = ({ children }) => {
                             imageUrl: "/philosophy-bg.png"
                         },
                         categories: {
-                            men: { title: "Men", subtitle: "Engineered Apparel", imageUrl: "/men-category.png" },
-                            women: { title: "Women", subtitle: "Sculpted Fit", imageUrl: "/women-category.png" }
+                            men: { title: "Men", subtitle: "Heritage Cuts", imageUrl: "/men-category.png" },
+                            women: { title: "Women", subtitle: "Modern Silhouettes", imageUrl: "/women-category.png" }
                         },
                         seo: {
                             metaTitle: "",
@@ -432,7 +431,7 @@ export const StoreSettingsProvider = ({ children }) => {
                             bgImage: "https://images.unsplash.com/photo-1534438327276-14e5300c3a48?q=80&w=2070&auto=format&fit=crop",
                             estText: "EST. 2024",
                             title: "Beyond \n The Limits",
-                            subtitle: "Noesis is more than apparel. It's a philosophy of constant evolution, engineered for the intellectual athlete."
+                            subtitle: "Nakma Store is dedicated to blending African heritage with modern design for the contemporary man."
                         },
                         philosophy: {
                             imageUrl: "",
@@ -482,11 +481,11 @@ export const StoreSettingsProvider = ({ children }) => {
                     seoSettings: data.seo_settings || {
                         metaTitle: "",
                         metaDescription: "",
-                        keywords: "fitness, apparel, gym wear, performance gear, noesis",
+                        keywords: "fashion, african prints, men's style, shirts, nakma",
                         googleSiteVerification: ""
                     },
                     checkoutPageSettings: data.checkout_page_settings || {
-                        giftMessage: "Free gift included with <br /> <span class=\"text-[#a14550]\">first collection</span> purchase."
+                        giftMessage: "Exclusive print included with <br /> <span class=\"text-[#059669]\">your first Nakma</span> purchase."
                     }
                 });
             }
@@ -629,7 +628,7 @@ export const StoreSettingsProvider = ({ children }) => {
     // Dynamic SEO and Favicon updates
     useEffect(() => {
         if (settings.storeName) {
-            document.title = `${settings.storeName} | Elevate Your Performance`;
+            document.title = `${settings.storeName} | Heritage & Modern Design`;
         }
 
         if (settings.logoUrl) {

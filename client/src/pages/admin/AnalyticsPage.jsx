@@ -335,8 +335,8 @@ const AnalyticsPage = () => {
                 <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
                     <div>
                         <div className="flex items-center gap-2 mb-2">
-                            <span className="inline-flex items-center rounded-full bg-primary/20 px-2.5 py-0.5 text-xs font-bold text-primary-light ring-1 ring-inset ring-primary/30">Admin Only</span>
-                            <span className="text-gray-500 text-sm font-medium">/ Shop Intelligence</span>
+                            <span className="inline-flex items-center rounded-full bg-primary/20 px-2.5 py-0.5 text-xs font-bold text-primary-light ring-1 ring-inset ring-primary/30">Executive Center</span>
+                            <span className="text-gray-500 text-sm font-medium">/ Shop Insights</span>
                         </div>
                         <h1 className="text-white text-4xl font-black leading-tight tracking-[-0.033em]">
                             Performance <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary-light via-white to-gray-500">Analytics</span>
@@ -617,7 +617,7 @@ const AnalyticsPage = () => {
 
                         {/* Recent Interactions */}
                         <div className="glossy-panel rounded-[2rem] p-8 border border-white/5 shadow-2xl bg-black/40">
-                            <h3 className="text-xl font-black text-white mb-6">Live Feed</h3>
+                            <h3 className="text-xl font-black text-white mb-6">Real-time Activity</h3>
                             <div className="space-y-3 h-[280px] overflow-y-auto custom-scrollbar pr-2">
                                 {interactionData.length > 0 ? (
                                     interactionData.map((item, idx) => (

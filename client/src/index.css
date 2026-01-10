@@ -6,17 +6,17 @@
 @plugin "@tailwindcss/postcss";
 
 @theme {
-    --color-primary: #59000a;
-    --color-primary-hover: #7a000e;
-    --color-primary-light: #a14550;
-    --color-primary-dark: #3d0007;
-    --color-primary-bright: #a30012;
-    --color-primary-accent: #ff2a4d;
-    --color-accent: #ff4d6d;
-    --color-secondary: #ce8d94;
-    --color-background-light: #f8f5f6;
-    --color-background-dark: #0a0506;
-    --color-card-dark: rgba(20, 20, 20, 0.6);
+    --color-primary: #059669;
+    --color-primary-hover: #10b981;
+    --color-primary-light: #34d399;
+    --color-primary-dark: #064e3b;
+    --color-primary-bright: #059669;
+    --color-primary-accent: #10b981;
+    --color-accent: #10b981;
+    --color-secondary: #6ee7b7;
+    --color-background-light: #f0fdf4;
+    --color-background-dark: #050505;
+    --color-card-dark: rgba(10, 20, 15, 0.6);
     --color-text-main: #ffffff;
     --color-text-muted: #a1a1aa;
 }
@@ -72,7 +72,7 @@ body {
 }
 
 ::-webkit-scrollbar-thumb {
-    background-color: rgba(89, 0, 10, 0.2);
+    background-color: rgba(5, 150, 105, 0.2);
     border-radius: 20px;
 }
 
@@ -82,16 +82,16 @@ body {
 }
 
 .shop-page ::-webkit-scrollbar-track {
-    background: #1a0b0d;
+    background: #050505;
 }
 
 .shop-page ::-webkit-scrollbar-thumb {
-    background: #4b2025;
+    background: #064e3b;
     border-radius: 4px;
 }
 
 .shop-page ::-webkit-scrollbar-thumb:hover {
-    background: #57000a;
+    background: #059669;
 }
 
 /* Glass & Background Utilities */
@@ -165,20 +165,20 @@ body {
 .bg-gradient-mesh {
     background-color: #000000;
     background-image:
-        radial-gradient(at 50% 0%, rgba(89, 0, 10, 0.25) 0px, transparent 70%),
+        radial-gradient(at 50% 0%, rgba(5, 150, 105, 0.25) 0px, transparent 70%),
         radial-gradient(at 100% 0%, rgba(0, 0, 0, 1) 0px, transparent 50%),
-        radial-gradient(at 90% 90%, rgba(89, 0, 10, 0.15) 0px, transparent 60%),
-        radial-gradient(at 0% 100%, rgba(20, 20, 20, 1) 0px, transparent 50%);
+        radial-gradient(at 90% 90%, rgba(6, 78, 59, 0.15) 0px, transparent 60%),
+        radial-gradient(at 0% 100%, rgba(10, 10, 10, 1) 0px, transparent 50%);
     background-attachment: fixed;
 }
 
 
 /* Login/Register Specifics */
 .glossy-bg {
-    background-color: #050102;
+    background-color: #050505;
     background-image:
-        radial-gradient(circle at 15% 50%, rgba(89, 0, 10, 0.15), transparent 40%),
-        radial-gradient(circle at 85% 30%, rgba(60, 20, 20, 0.1), transparent 40%),
+        radial-gradient(circle at 15% 50%, rgba(5, 150, 105, 0.15), transparent 40%),
+        radial-gradient(circle at 85% 30%, rgba(6, 78, 59, 0.1), transparent 40%),
         linear-gradient(to bottom, rgba(255, 255, 255, 0.015) 1px, transparent 1px),
         linear-gradient(to right, rgba(255, 255, 255, 0.015) 1px, transparent 1px);
     background-size: 100% 100%, 100% 100%, 40px 40px, 40px 40px;
@@ -197,7 +197,7 @@ body {
 .orb-1 {
     width: 600px;
     height: 600px;
-    background: radial-gradient(circle, #59000a 0%, transparent 70%);
+    background: radial-gradient(circle, #059669 0%, transparent 70%);
     top: -150px;
     left: -150px;
 }
@@ -205,7 +205,7 @@ body {
 .orb-2 {
     width: 500px;
     height: 500px;
-    background: radial-gradient(circle, #2d0005 0%, transparent 70%);
+    background: radial-gradient(circle, #064e3b 0%, transparent 70%);
     bottom: -100px;
     right: -100px;
     animation-delay: -5s;
@@ -220,8 +220,8 @@ body {
 
 .input-gloss:focus {
     background: rgba(0, 0, 0, 0.6);
-    border-color: #59000a;
-    box-shadow: 0 0 0 1px #59000a, 0 0 0 4px rgba(89, 0, 10, 0.15);
+    border-color: #059669;
+    box-shadow: 0 0 0 1px #059669, 0 0 0 4px rgba(5, 150, 105, 0.15);
     transform: translateY(-1px);
 }
 
@@ -250,8 +250,8 @@ input[type="checkbox"] {
 }
 
 input[type="checkbox"]:checked {
-    background-color: #59000a;
-    border-color: #59000a;
+    background-color: #059669;
+    border-color: #059669;
     background-image: url("data:image/svg+xml,%3csvg viewBox='0 0 16 16' fill='white' xmlns='http://www.w3.org/2000/svg'%3e%3cpath d='M12.207 4.793a1 1 0 010 1.414l-5 5a1 1 0 01-1.414 0l-2-2a1 1 0 011.414-1.414L6.5 9.086l4.293-4.293a1 1 0 011.414 0z'/%3e%3c/svg%3e");
 }
 
@@ -266,7 +266,7 @@ input[type="checkbox"]:checked {
 .cart-page-bg {
     background-color: #050505;
     background-image:
-        radial-gradient(circle at 50% -20%, #4a0008 0%, transparent 60%),
+        radial-gradient(circle at 50% -20%, #064e3b 0%, transparent 60%),
         linear-gradient(180deg, #0f0f0f 0%, #000000 100%);
     background-attachment: fixed;
 }
@@ -276,7 +276,7 @@ input[type="checkbox"]:checked {
 }
 
 .confirmation-page-bg {
-    background: radial-gradient(circle at 50% -20%, #2e0005 0%, #1a0003 40%, #000000 100%);
+    background: radial-gradient(circle at 50% -20%, #064e3b 0%, #050505 40%, #000000 100%);
     background-attachment: fixed;
     color: white;
 }
@@ -309,7 +309,7 @@ input[type="checkbox"]:checked {
 }
 
 ::selection {
-    background-color: #59000a;
+    background-color: #059669;
     color: white;
 }
 

@@ -197,7 +197,7 @@ const CheckoutPage = () => {
                     line1: formData.address,
                     country: formData.country,
                     phone: formData.phoneNumber,
-                    method: selectedMethod?.name || 'Standard Ground'
+                    method: selectedMethod?.name || 'Standard Shipping'
                 },
                 items: cart.map(item => ({
                     name: item.name,
@@ -290,7 +290,7 @@ const CheckoutPage = () => {
                     } else {
                         const { data: authData, error: authError } = await supabase.auth.signUp({
                             email: formData.email,
-                            password: 'Noesis@2026',
+                            password: 'NakmaStore@2026',
                             options: {
                                 data: {
                                     full_name: `${formData.firstName} ${formData.lastName}`,
@@ -309,7 +309,7 @@ const CheckoutPage = () => {
                             }]).then(({ error }) => error && console.error('Profile backup error:', error));
 
                             // Send account details email
-                            emailService.sendGuestAccountDetails(formData.email, 'Noesis@2026').catch(console.error);
+                            emailService.sendGuestAccountDetails(formData.email, 'NakmaStore@2026').catch(console.error);
                         }
                     }
                 } catch (err) {
@@ -407,7 +407,7 @@ const CheckoutPage = () => {
                             line1: formData.address,
                             country: formData.country,
                             phone: formData.phoneNumber,
-                            method: selectedMethod?.name || 'Standard Ground'
+                            method: selectedMethod?.name || 'Standard Shipping'
                         },
                         items: cart.map(item => ({
                             name: item.name,
@@ -446,8 +446,8 @@ const CheckoutPage = () => {
         <div className="bg-[#050505] min-h-screen text-white font-['Manrope'] pt-20 md:pt-32 pb-10 md:pb-20 relative">
             {/* Ambient Lighting */}
             <div className="fixed top-0 left-0 w-full h-full overflow-hidden pointer-events-none -z-10">
-                <div className="absolute top-[-10%] right-[-10%] w-[800px] h-[800px] bg-[#a14550]/10 rounded-full blur-[120px]"></div>
-                <div className="absolute bottom-[-10%] left-[-10%] w-[600px] h-[600px] bg-[#59000a]/10 rounded-full blur-[100px]"></div>
+                <div className="absolute top-[-10%] right-[-10%] w-[800px] h-[800px] bg-[#059669]/10 rounded-full blur-[120px]"></div>
+                <div className="absolute bottom-[-10%] left-[-10%] w-[600px] h-[600px] bg-[#064e3b]/10 rounded-full blur-[100px]"></div>
             </div>
 
             {/* Auth Prompt Modal */}
@@ -458,7 +458,7 @@ const CheckoutPage = () => {
                         className="absolute inset-0 bg-black/80 backdrop-blur-sm"
                     />
                     <div className="relative w-full max-w-md bg-[#0a0a0a] glass-panel p-10 rounded-[40px] border border-white/10 shadow-2xl overflow-hidden animate-scale-in">
-                        <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-[#a14550] to-transparent opacity-50"></div>
+                        <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-[#059669] to-transparent opacity-50"></div>
 
                         <h2 className="text-2xl font-black italic tracking-tight mb-4 text-center uppercase">Secure Your Order</h2>
                         <p className="text-white/60 text-center mb-10 text-sm leading-relaxed">
@@ -468,7 +468,7 @@ const CheckoutPage = () => {
                         <div className="space-y-4">
                             <button
                                 onClick={handleLoginClick}
-                                className="w-full h-14 bg-[#a14550] hover:bg-[#c25e6a] text-white rounded-full font-black uppercase tracking-[0.2em] text-[10px] transition-all shadow-lg flex items-center justify-center gap-3"
+                                className="w-full h-14 bg-[#059669] hover:bg-[#10b981] text-white rounded-full font-black uppercase tracking-[0.2em] text-[10px] transition-all shadow-lg flex items-center justify-center gap-3"
                             >
                                 <span>Sign In / Create Account</span>
                                 <span className="material-symbols-outlined text-sm">login</span>
@@ -501,11 +501,11 @@ const CheckoutPage = () => {
                         <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 md:gap-6">
                             <h1 className="text-2xl md:text-4xl font-bold tracking-tight">Secure Checkout</h1>
                             <div className="flex items-center gap-3 md:gap-4 text-[9px] md:text-xs font-bold uppercase tracking-[0.2em] md:tracking-[0.3em]">
-                                <span className={step >= 1 ? 'text-[#a14550]' : 'text-white/20'}>Info</span>
+                                <span className={step >= 1 ? 'text-[#059669]' : 'text-white/20'}>Info</span>
                                 <span className="text-white/10">/</span>
-                                <span className={step >= 2 ? 'text-[#a14550]' : 'text-white/20'}>Delivery</span>
+                                <span className={step >= 2 ? 'text-[#059669]' : 'text-white/20'}>Delivery</span>
                                 <span className="text-white/10">/</span>
-                                <span className={step >= 3 ? 'text-[#a14550]' : 'text-white/20'}>Pay</span>
+                                <span className={step >= 3 ? 'text-[#059669]' : 'text-white/20'}>Pay</span>
                             </div>
                         </div>
 
@@ -522,7 +522,7 @@ const CheckoutPage = () => {
                                                 placeholder="Email Address"
                                                 value={formData.email}
                                                 onChange={handleInputChange}
-                                                className="w-full h-12 bg-white/[0.03] border border-white/10 rounded-xl px-4 text-sm outline-none focus:border-[#a14550] transition-all placeholder:text-white/20"
+                                                className="w-full h-12 bg-white/[0.03] border border-white/10 rounded-xl px-4 text-sm outline-none focus:border-[#059669] transition-all placeholder:text-white/20"
                                             />
                                         </div>
                                     </div>
@@ -535,14 +535,14 @@ const CheckoutPage = () => {
                                                 name="firstName"
                                                 placeholder="First Name"
                                                 onChange={handleInputChange}
-                                                className="h-12 bg-white/[0.03] border border-white/10 rounded-xl px-4 text-sm outline-none focus:border-[#a14550] transition-all placeholder:text-white/20"
+                                                className="h-12 bg-white/[0.03] border border-white/10 rounded-xl px-4 text-sm outline-none focus:border-[#059669] transition-all placeholder:text-white/20"
                                             />
                                             <input
                                                 required
                                                 name="lastName"
                                                 placeholder="Last Name"
                                                 onChange={handleInputChange}
-                                                className="h-12 bg-white/[0.03] border border-white/10 rounded-xl px-4 text-sm outline-none focus:border-[#a14550] transition-all placeholder:text-white/20"
+                                                className="h-12 bg-white/[0.03] border border-white/10 rounded-xl px-4 text-sm outline-none focus:border-[#059669] transition-all placeholder:text-white/20"
                                             />
                                         </div>
                                         <input
@@ -551,7 +551,7 @@ const CheckoutPage = () => {
                                             placeholder="Street Address"
                                             value={formData.address}
                                             onChange={handleInputChange}
-                                            className="w-full h-12 bg-white/[0.03] border border-white/10 rounded-xl px-4 text-sm outline-none focus:border-[#a14550] transition-all placeholder:text-white/20"
+                                            className="w-full h-12 bg-white/[0.03] border border-white/10 rounded-xl px-4 text-sm outline-none focus:border-[#059669] transition-all placeholder:text-white/20"
                                         />
 
                                         <div className="group relative">
@@ -561,7 +561,7 @@ const CheckoutPage = () => {
                                                 name="phoneNumber"
                                                 placeholder="Phone Number"
                                                 onChange={handleInputChange}
-                                                className="w-full h-12 bg-white/[0.03] border border-white/10 rounded-xl px-4 text-sm outline-none focus:border-[#a14550] transition-all placeholder:text-white/20"
+                                                className="w-full h-12 bg-white/[0.03] border border-white/10 rounded-xl px-4 text-sm outline-none focus:border-[#059669] transition-all placeholder:text-white/20"
                                             />
                                         </div>
                                     </div>
@@ -574,14 +574,14 @@ const CheckoutPage = () => {
                                     <div className="space-y-3 md:space-y-4">
                                         {activeMethods.length > 0 ? (
                                             activeMethods.map((method) => (
-                                                <label key={method.id} className={`flex items-center justify-between p-4 md:p-8 rounded-2xl md:rounded-[30px] border transition-all group cursor-pointer ${selectedShippingId === method.id ? 'bg-[#a14550]/10 border-[#a14550]' : 'bg-white/[0.03] border-white/10 hover:border-white/20'}`}>
+                                                <label key={method.id} className={`flex items-center justify-between p-4 md:p-8 rounded-2xl md:rounded-[30px] border transition-all group cursor-pointer ${selectedShippingId === method.id ? 'bg-[#059669]/10 border-[#059669]' : 'bg-white/[0.03] border-white/10 hover:border-white/20'}`}>
                                                     <div className="flex items-center gap-4 md:gap-6">
                                                         <input
                                                             type="radio"
                                                             name="shipping"
                                                             checked={selectedShippingId === method.id}
                                                             onChange={() => setSelectedShippingId(method.id)}
-                                                            className="size-6 accent-[#a14550]"
+                                                            className="size-6 accent-[#059669]"
                                                         />
                                                         <div>
                                                             <p className="font-bold text-lg md:text-xl">{method.name}</p>
@@ -615,14 +615,14 @@ const CheckoutPage = () => {
                                             if (key === 'cod') label = 'Cash on Delivery';
 
                                             return (
-                                                <label key={key} className={`flex items-center gap-3 md:gap-4 p-4 md:p-6 rounded-xl border cursor-pointer transition-all ${selectedPayment === key ? 'bg-[#a14550]/10 border-[#a14550]' : 'bg-white/[0.03] border-white/10 hover:border-white/20'}`}>
+                                                <label key={key} className={`flex items-center gap-3 md:gap-4 p-4 md:p-6 rounded-xl border cursor-pointer transition-all ${selectedPayment === key ? 'bg-[#059669]/10 border-[#059669]' : 'bg-white/[0.03] border-white/10 hover:border-white/20'}`}>
                                                     <input
                                                         type="radio"
                                                         name="paymentMethod"
                                                         value={key}
                                                         checked={selectedPayment === key}
                                                         onChange={(e) => setSelectedPayment(e.target.value)}
-                                                        className="accent-[#a14550] size-4 md:size-5"
+                                                        className="accent-[#059669] size-4 md:size-5"
                                                     />
                                                     <span className="font-bold text-sm uppercase tracking-wider">{label}</span>
                                                 </label>
@@ -652,11 +652,11 @@ const CheckoutPage = () => {
                                     disabled={isProcessing}
                                     data-track={step === 3 ? 'Place Order' : (step === 2 ? 'Continue to Payment' : 'Continue')}
                                     data-track-meta={JSON.stringify({ step, paymentMethod: selectedPayment })}
-                                    className={`flex-grow h-16 md:h-20 bg-[#59000a] text-white rounded-full font-black uppercase tracking-[0.2em] hover:bg-[#7a000e] transition-all shadow-2xl flex items-center justify-center gap-4 text-sm md:text-base ${isProcessing ? 'opacity-50 cursor-not-allowed' : ''}`}
+                                    className={`flex-grow h-16 md:h-20 bg-[#064e3b] text-white rounded-full font-black uppercase tracking-[0.2em] hover:bg-[#059669] transition-all shadow-2xl flex items-center justify-center gap-4 text-sm md:text-base ${isProcessing ? 'opacity-50 cursor-not-allowed' : ''}`}
                                 >
                                     {isProcessing ? (
                                         <>
-                                            <span>Processing...</span>
+                                            <span>Confirming...</span>
                                             <div className="size-5 border-2 border-white/20 border-t-white rounded-full animate-spin"></div>
                                         </>
                                     ) : (
@@ -673,7 +673,7 @@ const CheckoutPage = () => {
                     {/* Right Column: Mini Cart */}
                     <div className="lg:w-1/3">
                         <div className="sticky top-32 bg-white/[0.03] border border-white/10 rounded-[24px] md:rounded-[40px] p-5 md:p-10 space-y-6 md:space-y-10 shadow-2xl backdrop-blur-xl">
-                            <h2 className="text-xl md:text-3xl font-bold italic tracking-tight underline decoration-[#a14550] decoration-2 md:decoration-4 underline-offset-4 md:underline-offset-8">In Your Bag</h2>
+                            <h2 className="text-xl md:text-3xl font-bold italic tracking-tight underline decoration-[#059669] decoration-2 md:decoration-4 underline-offset-4 md:underline-offset-8">In Your Bag</h2>
 
                             <div className="space-y-6 max-h-[400px] overflow-y-auto pr-4 custom-scrollbar">
                                 {cart.map((item) => (
@@ -716,14 +716,14 @@ const CheckoutPage = () => {
                                 )}
                                 <div className="flex justify-between items-center text-2xl font-black italic pt-4">
                                     <span>Total</span>
-                                    <span className="text-[#a14550]">{formatPrice(total)}</span>
+                                    <span className="text-[#059669]">{formatPrice(total)}</span>
                                 </div>
                             </div>
 
                             <div className="pt-4 space-y-4">
                                 {settings?.checkoutPageSettings?.giftMessage && (
-                                    <div className="flex items-center gap-3 p-4 rounded-2xl bg-[#a14550]/10 border border-[#a14550]/20">
-                                        <span className="material-symbols-outlined text-[#a14550]">redeem</span>
+                                    <div className="flex items-center gap-3 p-4 rounded-2xl bg-[#059669]/10 border border-[#059669]/20">
+                                        <span className="material-symbols-outlined text-[#059669]">redeem</span>
                                         <p
                                             className="text-[10px] font-bold uppercase tracking-widest leading-tight"
                                             dangerouslySetInnerHTML={{ __html: settings.checkoutPageSettings.giftMessage }}

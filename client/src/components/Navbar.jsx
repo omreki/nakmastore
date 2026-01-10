@@ -189,7 +189,7 @@ const Navbar = () => {
                                 {user ? (
                                     <div className="flex items-center gap-2">
                                         {isAdmin && (
-                                            <Link to="/admin" className="p-2 text-[#a14550] hover:text-[#ff334b] transition-colors">
+                                            <Link to="/admin" className="p-2 text-[#059669] hover:text-[#10b981] transition-colors">
                                                 <span className="material-symbols-outlined text-[20px]">dashboard_customize</span>
                                             </Link>
                                         )}
@@ -228,7 +228,7 @@ const Navbar = () => {
                                         <span className="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-white/40 group-focus-within:text-primary transition-colors">search</span>
                                         <input
                                             type="text"
-                                            placeholder="Search excellence..."
+                                            placeholder="Search heritage..."
                                             value={searchQuery}
                                             onChange={(e) => setSearchQuery(e.target.value)}
                                             onKeyDown={handleSearch}
@@ -272,7 +272,7 @@ const Navbar = () => {
                                                     onClick={() => setIsMenuOpen(false)}
                                                     className="bg-white/5 border border-white/10 p-4 rounded-2xl flex flex-col items-center gap-2 hover:bg-white/10 transition-colors"
                                                 >
-                                                    <span className="material-symbols-outlined text-[#a14550]">dashboard_customize</span>
+                                                    <span className="material-symbols-outlined text-[#059669]">dashboard_customize</span>
                                                     <span className="text-[10px] font-black tracking-widest uppercase text-white/60">Admin</span>
                                                 </Link>
                                             ) : (
@@ -328,11 +328,11 @@ const Navbar = () => {
                                 ) : (
                                     <>
                                         <div className="w-8 h-8 text-primary">
-                                            <svg className="w-full h-full drop-shadow-[0_0_8px_rgba(89,0,10,0.6)]" fill="none" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+                                            <svg className="w-full h-full drop-shadow-[0_0_8px_rgba(5,150,105,0.6)]" fill="none" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
                                                 <path d="M44 11.2727C44 14.0109 39.8386 16.3957 33.69 17.6364C39.8386 18.877 44 21.2618 44 24C44 26.7382 39.8386 29.123 33.69 30.3636C39.8386 31.6043 44 33.9891 44 36.7273C44 40.7439 35.0457 44 24 44C12.9543 44 4 40.7439 4 36.7273C4 33.9891 8.16144 31.6043 14.31 30.3636C8.16144 29.123 4 26.7382 4 24C4 21.2618 8.16144 18.877 14.31 17.6364C8.16144 16.3957 4 14.0109 4 11.2727C4 7.25611 12.9543 4 24 4C35.0457 4 44 7.25611 44 11.2727Z" fill="currentColor"></path>
                                             </svg>
                                         </div>
-                                        <span className="text-2xl font-bold tracking-tight">{settings.storeName}</span>
+                                        <span className="text-2xl font-bold tracking-tight">Nakma Store</span>
                                     </>
                                 )}
                             </Link>
@@ -348,7 +348,7 @@ const Navbar = () => {
                                         <Link
                                             key={item.id}
                                             to={item.path}
-                                            className={`text-sm font-medium transition-colors py-1 ${location.pathname === item.path ? 'text-red-500 border-b-2 border-primary' : 'text-gray-400 hover:text-white'}`}
+                                            className={`text-sm font-medium transition-colors py-1 ${location.pathname === item.path ? 'text-primary border-b-2 border-primary' : 'text-gray-400 hover:text-white'}`}
                                         >
                                             {item.label}
                                         </Link>
@@ -404,7 +404,7 @@ const Navbar = () => {
                                     {user ? (
                                         <>
                                             {isAdmin && (
-                                                <Link to="/admin" className="p-2 text-[#a14550] hover:text-[#ff334b] transition-colors">
+                                                <Link to="/admin" className="p-2 text-[#059669] hover:text-[#10b981] transition-colors">
                                                     <span className="material-symbols-outlined">dashboard_customize</span>
                                                 </Link>
                                             )}
@@ -444,7 +444,7 @@ const Navbar = () => {
                                         <span className="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-white/40 group-focus-within:text-primary transition-colors">search</span>
                                         <input
                                             type="text"
-                                            placeholder="Search excellence..."
+                                            placeholder="Search heritage..."
                                             value={searchQuery}
                                             onChange={(e) => setSearchQuery(e.target.value)}
                                             onKeyDown={handleSearch}
@@ -480,7 +480,7 @@ const Navbar = () => {
                                                 className="bg-white/5 border border-white/10 p-4 rounded-2xl flex flex-col items-center gap-2"
                                             >
                                                 <span className="material-symbols-outlined text-primary">account_circle</span>
-                                                <span className="text-[10px] font-black tracking-widest text-white/60">LOYALTY HUB</span>
+                                                <span className="text-[10px] font-black tracking-widest text-white/60">MY PROFILE</span>
                                             </Link>
                                             {isAdmin ? (
                                                 <Link
@@ -488,8 +488,8 @@ const Navbar = () => {
                                                     onClick={() => setIsMenuOpen(false)}
                                                     className="bg-white/5 border border-white/10 p-4 rounded-2xl flex flex-col items-center gap-2"
                                                 >
-                                                    <span className="material-symbols-outlined text-[#a14550]">dashboard_customize</span>
-                                                    <span className="text-[10px] font-black tracking-widest text-white/60">COMMAND</span>
+                                                    <span className="material-symbols-outlined text-[#059669]">dashboard_customize</span>
+                                                    <span className="text-[10px] font-black tracking-widest text-white/60">ADMIN</span>
                                                 </Link>
                                             ) : (
                                                 <button
@@ -497,7 +497,7 @@ const Navbar = () => {
                                                     className="bg-white/5 border border-white/10 p-4 rounded-2xl flex flex-col items-center gap-2"
                                                 >
                                                     <span className="material-symbols-outlined text-gray-500">logout</span>
-                                                    <span className="text-[10px] font-black tracking-widest text-white/60">EXIT</span>
+                                                    <span className="text-[10px] font-black tracking-widest text-white/60">LOGOUT</span>
                                                 </button>
                                             )}
                                             {isAdmin && (
@@ -506,7 +506,7 @@ const Navbar = () => {
                                                     className="col-span-2 bg-white/5 border border-white/10 p-3 rounded-xl flex items-center justify-center gap-2 text-gray-500"
                                                 >
                                                     <span className="material-symbols-outlined text-[18px]">logout</span>
-                                                    <span className="text-[10px] font-black tracking-widest">EXIT SYSTEM</span>
+                                                    <span className="text-[10px] font-black tracking-widest">LOGOUT</span>
                                                 </button>
                                             )}
                                         </div>
@@ -515,7 +515,7 @@ const Navbar = () => {
                                             onClick={() => { setIsLoginModalOpen(true); setIsMenuOpen(false); }}
                                             className="w-full bg-white text-black h-14 rounded-2xl font-black uppercase tracking-[0.2em] text-[10px] shadow-2xl active:scale-95"
                                         >
-                                            Authorized Access
+                                            Enter Store
                                         </button>
                                     )}
                                 </motion.div>

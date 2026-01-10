@@ -107,7 +107,7 @@ const ConfirmationPage = () => {
     if (loading) {
         return (
             <div className="min-h-screen bg-[#050505] flex flex-col items-center justify-center text-white">
-                <div className="size-12 border-4 border-[#a14550]/20 border-t-[#a14550] rounded-full animate-spin mb-4"></div>
+                <div className="size-12 border-4 border-[#059669]/20 border-t-[#059669] rounded-full animate-spin mb-4"></div>
                 <p className="font-bold uppercase tracking-widest text-xs opacity-50">Verifying Payment...</p>
             </div>
         );
@@ -127,17 +127,24 @@ const ConfirmationPage = () => {
             {/* Header */}
             <header className="sticky top-0 z-50 w-full glass-panel border-b border-white/5">
                 <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-6 lg:px-8">
-                    <div className="flex items-center gap-3">
-                        <Link to="/" className="flex items-center justify-center size-8 rounded-full bg-white/10 text-white shadow-glow">
-                            <span className="material-symbols-outlined text-xl">fitness_center</span>
-                        </Link>
-                        <h1 className="text-xl font-bold tracking-tight text-white">Noesis</h1>
-                    </div>
+                    <Link to="/" className="flex items-center gap-3 group">
+                        {settings.logoUrl ? (
+                            <div className="h-8 flex items-center">
+                                <img src={settings.logoUrl} alt={settings.storeName} className="h-full w-auto object-contain" />
+                            </div>
+                        ) : (
+                            <>
+                                <div className="flex items-center justify-center size-8 rounded-full bg-white/10 text-white shadow-glow group-hover:bg-primary transition-colors">
+                                    <span className="material-symbols-outlined text-xl">stylus_note</span>
+                                </div>
+                                <h1 className="text-xl font-bold tracking-tight text-white">{settings.storeName}</h1>
+                            </>
+                        )}
+                    </Link>
                     <div className="flex items-center gap-4">
                         <nav className="hidden md:flex gap-6 text-sm font-medium text-white/70 mr-4">
-                            <Link to="/men" className="hover:text-white transition-colors">Men</Link>
-                            <Link to="/women" className="hover:text-white transition-colors">Women</Link>
-                            <Link to="/accessories" className="hover:text-white transition-colors">Accessories</Link>
+                            <Link to="/category/vibrant-prints" className="hover:text-primary transition-colors">Vibrant Prints</Link>
+                            <Link to="/category/classic-plains" className="hover:text-primary transition-colors">Classic Plains</Link>
                         </nav>
                         <Link to="/" className="flex items-center justify-center rounded-full size-8 bg-white/5 border border-white/10 text-white/50 hover:text-white hover:bg-white/10 transition-all">
                             <span className="material-symbols-outlined text-xl">close</span>
@@ -154,7 +161,7 @@ const ConfirmationPage = () => {
                     </div>
                     <h2 className="text-2xl md:text-5xl font-black tracking-tight text-white drop-shadow-md">Order Confirmed</h2>
                     <div className="flex flex-col gap-1 text-zinc-300">
-                        <p className="text-base md:text-lg font-medium px-4">Thank you{order.shippingDetails?.firstName ? `, ${order.shippingDetails.firstName}` : ''}! Your gear is on its way.</p>
+                        <p className="text-base md:text-lg font-medium px-4">Thank you{order.shippingDetails?.firstName ? `, ${order.shippingDetails.firstName}` : ''}! Your order is confirmed.</p>
                         <p className="text-xs md:text-sm opacity-60 font-body px-6">Order #{order.id} {order.shippingDetails?.email ? `• We sent a confirmation email to ${order.shippingDetails.email}` : ''}</p>
                     </div>
                 </div>
@@ -273,7 +280,7 @@ const ConfirmationPage = () => {
                                 </div>
                             </div>
                             <div className="mt-8 flex flex-col gap-3">
-                                <Link to="/account" className="flex w-full items-center justify-center gap-2 rounded-full bg-gradient-to-r from-primary to-[#7a000e] px-6 py-3.5 text-sm font-bold text-white shadow-lg shadow-primary/40 border border-white/10 transition-transform hover:scale-[1.02] active:scale-[0.98]">
+                                <Link to="/account" className="flex w-full items-center justify-center gap-2 rounded-full bg-gradient-to-r from-primary to-[#064e3b] px-6 py-3.5 text-sm font-bold text-white shadow-lg shadow-primary/40 border border-white/10 transition-transform hover:scale-[1.02] active:scale-[0.98]">
                                     <span>Track Order</span>
                                     <span className="material-symbols-outlined text-lg">arrow_forward</span>
                                 </Link>
@@ -298,7 +305,7 @@ const ConfirmationPage = () => {
             </main>
 
             <footer className="w-full py-8 text-center text-white/20 text-xs border-t border-white/5 mt-auto">
-                <p>© 2026 Noesis. All rights reserved.</p>
+                <p>© 2026 {settings.storeName}. All rights reserved.</p>
             </footer>
         </div>
     );

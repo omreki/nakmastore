@@ -15,15 +15,15 @@ const SEO = ({
 }) => {
     const { pathname } = useLocation();
     const { settings } = useStoreSettings();
-    const siteUrl = settings?.siteUrl || 'https://wearnoesis.com';
+    const siteUrl = settings?.siteUrl || 'https://nakma.co';
     const fullUrl = `${siteUrl}${pathname}`;
 
     const seoSettings = settings?.seoSettings || {};
-    const siteName = settings?.storeName || 'Noesis';
+    const siteName = settings?.storeName || 'Nakma Store';
 
-    const defaultTitle = seoSettings.metaTitle || `${siteName} | Elevate Your Performance`;
-    const defaultDescription = seoSettings.metaDescription || 'Noesis is a premium fitness apparel brand designed for those who demand excellence. Elevate your performance with our precision-engineered gear.';
-    const defaultKeywords = seoSettings.keywords || 'fitness, apparel, gym wear, performance gear, noesis';
+    const defaultTitle = seoSettings.metaTitle || `${siteName} | Crafting Unique African Style`;
+    const defaultDescription = seoSettings.metaDescription || 'Nakma Store is a premium fashion house dedicated to unique, high-quality African-inspired men’s shirts. Blending heritage with modern design.';
+    const defaultKeywords = seoSettings.keywords || 'african fashion, men shirts, printed shirts, nakma, african tailoring';
     const defaultImage = `${siteUrl}/hero-bg.png`; // Fallback to hero background
 
     const metaTitle = title ? `${title} | ${siteName}` : defaultTitle;

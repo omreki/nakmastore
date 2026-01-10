@@ -62,7 +62,7 @@ export const emailService = {
             <body style="margin: 0; padding: 0; background-color: #f3f4f6; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;">
                 <div style="max-width: 600px; margin: 0 auto; background-color: #ffffff;">
                     <!-- Header -->
-                    <div style="background: linear-gradient(135deg, #59000a 0%, #8b0000 100%); padding: 40px 30px; text-align: center;">
+                    <div style="background: linear-gradient(135deg, #059669 0%, #064e3b 100%); padding: 40px 30px; text-align: center;">
                         <h1 style="color: #ffffff; margin: 0; font-size: 28px; font-weight: bold;">ORDER CONFIRMED</h1>
                         <p style="color: rgba(255,255,255,0.9); margin: 10px 0 0 0; font-size: 14px;">Thank you for your order!</p>
                     </div>
@@ -76,7 +76,7 @@ export const emailService = {
                         
                         <!-- Order Info Box -->
                         <div style="background: linear-gradient(135deg, #f9fafb 0%, #f3f4f6 100%); border: 2px solid #e5e7eb; border-radius: 12px; padding: 25px; margin: 30px 0;">
-                            <h2 style="color: #59000a; margin: 0 0 20px 0; font-size: 18px; font-weight: bold;">Order Details</h2>
+                            <h2 style="color: #059669; margin: 0 0 20px 0; font-size: 18px; font-weight: bold;">Order Details</h2>
                             <table style="width: 100%; border-collapse: collapse;">
                                 <tr>
                                     <td style="padding: 8px 0; color: #6b7280; font-size: 14px;">Order Number:</td>
@@ -103,7 +103,7 @@ export const emailService = {
                             ${itemsHtml || '<tr><td style="padding: 15px; text-align: center; color: #6b7280;">No items available</td></tr>'}
                             <tr style="background: #f9fafb;">
                                 <td style="padding: 20px; font-weight: bold; color: #1f2937; font-size: 16px;">Total</td>
-                                <td style="padding: 20px; text-align: right; font-weight: bold; color: #59000a; font-size: 18px;">
+                                <td style="padding: 20px; text-align: right; font-weight: bold; color: #059669; font-size: 18px;">
                                     ${formatCurrency(order.total_amount, order.currency)}
                                 </td>
                             </tr>
@@ -113,7 +113,7 @@ export const emailService = {
                         ${order.shipping_address ? `
                         <div style="margin: 30px 0;">
                             <h3 style="color: #1f2937; margin: 0 0 15px 0; font-size: 18px; font-weight: bold;">Delivery Address</h3>
-                            <div style="background: #f9fafb; padding: 20px; border-radius: 8px; border-left: 4px solid #59000a;">
+                            <div style="background: #f9fafb; padding: 20px; border-radius: 8px; border-left: 4px solid #059669;">
                                 <p style="margin: 0; color: #374151; font-size: 14px; line-height: 1.6;">
                                     ${typeof order.shipping_address === 'string'
                     ? order.shipping_address.replace(/\n/g, '<br>')
@@ -125,22 +125,22 @@ export const emailService = {
                         ` : ''}
                         
                         <div style="text-align: center; margin: 40px 0 30px 0;">
-                            <a href="${typeof window !== 'undefined' ? window.location.origin : 'https://wearnoesis.com'}/account?orderId=${order.id}" style="background: #59000a; color: #ffffff; padding: 14px 32px; text-decoration: none; border-radius: 8px; font-weight: 600; font-size: 15px; display: inline-block;">
+                            <a href="${typeof window !== 'undefined' ? window.location.origin : 'https://nakma.co'}/account?orderId=${order.id}" style="background: #059669; color: #ffffff; padding: 14px 32px; text-decoration: none; border-radius: 8px; font-weight: 600; font-size: 15px; display: inline-block;">
                                 Track Your Order
                             </a>
                         </div>
                         
                         <p style="color: #9ca3af; font-size: 13px; line-height: 1.6; margin: 30px 0 0 0; text-align: center;">
-                            If you have any questions, contact us at <a href="mailto:info@shop.wearnoesis.com" style="color: #59000a; text-decoration: none;">info@shop.wearnoesis.com</a>
+                            If you have any questions, contact us at <a href="mailto:info@nakma.co" style="color: #059669; text-decoration: none;">info@nakma.co</a>
                         </p>
                     </div>
                     
                     <!-- Footer -->
                     <div style="background: #f9fafb; padding: 30px; text-align: center; border-top: 1px solid #e5e7eb;">
-                        <p style="margin: 0 0 10px 0; color: #1f2937; font-size: 16px; font-weight: 600;">NOESIS</p>
-                        <p style="margin: 0; color: #9ca3af; font-size: 12px;">Premium Athletic Wear</p>
+                        <p style="margin: 0 0 10px 0; color: #1f2937; font-size: 16px; font-weight: 600;">NAKMA STORE</p>
+                        <p style="margin: 0; color: #9ca3af; font-size: 12px;">Heritage & Modern Design</p>
                         <p style="margin: 15px 0 0 0; color: #9ca3af; font-size: 11px;">
-                            © ${new Date().getFullYear()} NOESIS. All rights reserved.
+                            © ${new Date().getFullYear()} NAKMA STORE. All rights reserved.
                         </p>
                     </div>
                 </div>
@@ -228,7 +228,7 @@ export const emailService = {
                         
                         <!-- Action Button -->
                         <div style="text-align: center; margin: 35px 0 25px 0;">
-                            <a href="${typeof window !== 'undefined' ? window.location.origin : ''}/admin/orders" style="background: #59000a; color: #ffffff; padding: 14px 32px; text-decoration: none; border-radius: 8px; font-weight: 600; font-size: 14px; display: inline-block;">
+                            <a href="${typeof window !== 'undefined' ? window.location.origin : ''}/admin/orders" style="background: #059669; color: #ffffff; padding: 14px 32px; text-decoration: none; border-radius: 8px; font-weight: 600; font-size: 14px; display: inline-block;">
                                 View in Dashboard
                             </a>
                         </div>
@@ -236,7 +236,7 @@ export const emailService = {
                     
                     <!-- Footer -->
                     <div style="background: #f9fafb; padding: 20px; text-align: center; border-top: 1px solid #e5e7eb;">
-                        <p style="margin: 0; color: #9ca3af; font-size: 11px;">NOESIS Admin Panel</p>
+                        <p style="margin: 0; color: #9ca3af; font-size: 11px;">NAKMA STORE Admin Panel</p>
                     </div>
                 </div>
             </body>
@@ -302,7 +302,7 @@ export const emailService = {
                                 </tr>
                                 <tr>
                                     <td style="padding: 8px 0; color: #6b7280; font-size: 14px;">Total Amount:</td>
-                                    <td style="text-align: right; font-weight: 600; color: #59000a; font-size: 14px;">${formatCurrency(order.total_amount, order.currency)}</td>
+                                    <td style="text-align: right; font-weight: 600; color: #059669; font-size: 14px;">${formatCurrency(order.total_amount, order.currency)}</td>
                                 </tr>
                             </table>
                         </div>
@@ -326,22 +326,22 @@ export const emailService = {
                         ` : ''}
                         
                         <div style="text-align: center; margin: 40px 0 30px 0;">
-                            <a href="${typeof window !== 'undefined' ? window.location.origin : 'https://wearnoesis.com'}/account?orderId=${order.id}" style="background: #59000a; color: #ffffff; padding: 14px 32px; text-decoration: none; border-radius: 8px; font-weight: 600; font-size: 15px; display: inline-block;">
+                            <a href="${typeof window !== 'undefined' ? window.location.origin : 'https://nakma.co'}/account?orderId=${order.id}" style="background: #059669; color: #ffffff; padding: 14px 32px; text-decoration: none; border-radius: 8px; font-weight: 600; font-size: 15px; display: inline-block;">
                                 View Order Details
                             </a>
                         </div>
                         
                         <p style="color: #9ca3af; font-size: 13px; line-height: 1.6; margin: 30px 0 0 0; text-align: center;">
-                            Questions? Contact us at <a href="mailto:info@shop.wearnoesis.com" style="color: #59000a; text-decoration: none;">info@shop.wearnoesis.com</a>
+                            Questions? Contact us at <a href="mailto:info@nakma.co" style="color: #059669; text-decoration: none;">info@nakma.co</a>
                         </p>
                     </div>
                     
                     <!-- Footer -->
                     <div style="background: #f9fafb; padding: 30px; text-align: center; border-top: 1px solid #e5e7eb;">
-                        <p style="margin: 0 0 10px 0; color: #1f2937; font-size: 16px; font-weight: 600;">NOESIS</p>
-                        <p style="margin: 0; color: #9ca3af; font-size: 12px;">Premium Athletic Wear</p>
+                        <p style="margin: 0 0 10px 0; color: #1f2937; font-size: 16px; font-weight: 600;">NAKMA STORE</p>
+                        <p style="margin: 0; color: #9ca3af; font-size: 12px;">Heritage & Modern Design</p>
                         <p style="margin: 15px 0 0 0; color: #9ca3af; font-size: 11px;">
-                            © ${new Date().getFullYear()} NOESIS. All rights reserved.
+                            © ${new Date().getFullYear()} NAKMA STORE. All rights reserved.
                         </p>
                     </div>
                 </div>
@@ -353,11 +353,11 @@ export const emailService = {
     },
 
     sendTestEmail: async (toEmail) => {
-        const subject = "🚀 NOESIS Email System Test";
+        const subject = "🚀 NAKMA STORE Email System Test";
         const html = `
             <div style="font-family: sans-serif; padding: 20px; border: 1px solid #eee; border-radius: 10px; max-width: 500px; margin: auto;">
-                <h2 style="color: #59000a;">System Check Successful</h2>
-                <p>This is a test email from your NOESIS store to verify that the email integration (Resend + Supabase Edge Functions) is working correctly.</p>
+                <h2 style="color: #059669;">System Check Successful</h2>
+                <p>This is a test email from your NAKMA STORE to verify that the email integration (Resend + Supabase Edge Functions) is working correctly.</p>
                 <div style="background: #f9fafb; padding: 15px; border-radius: 8px; margin: 20px 0;">
                     <p style="margin: 0; font-size: 13px; color: #6b7280;">Timestamp: ${new Date().toLocaleString()}</p>
                     <p style="margin: 5px 0 0 0; font-size: 13px; color: #6b7280;">Status: ACTIVE</p>
@@ -430,27 +430,27 @@ export const emailService = {
             </head>
             <body style="margin: 0; padding: 0; background-color: #f3f4f6; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;">
                 <div style="max-width: 600px; margin: 20px auto; background-color: #ffffff; border-radius: 12px; overflow: hidden; border: 1px solid #e5e7eb;">
-                    <div style="background: #59000a; padding: 30px; text-align: center;">
+                    <div style="background: #059669; padding: 30px; text-align: center;">
                         <h1 style="color: #ffffff; margin: 0; font-size: 22px; font-weight: bold;">NEW INQUIRY</h1>
                     </div>
                     <div style="padding: 30px;">
                         <div style="margin-bottom: 25px;">
                             <label style="display: block; color: #6b7280; font-size: 12px; font-weight: bold; text-transform: uppercase; margin-bottom: 5px;">From</label>
                             <p style="margin: 0; color: #1f2937; font-size: 16px; font-weight: 600;">${name}</p>
-                            <p style="margin: 2px 0 0 0; color: #59000a; font-size: 14px;">${email}</p>
+                            <p style="margin: 2px 0 0 0; color: #059669; font-size: 14px;">${email}</p>
                         </div>
-                        <div style="background: #f9fafb; padding: 20px; border-radius: 8px; border-left: 4px solid #59000a;">
+                        <div style="background: #f9fafb; padding: 20px; border-radius: 8px; border-left: 4px solid #059669;">
                             <label style="display: block; color: #6b7280; font-size: 12px; font-weight: bold; text-transform: uppercase; margin-bottom: 10px;">Message</label>
                             <p style="margin: 0; color: #374151; font-size: 15px; line-height: 1.6; white-space: pre-wrap;">${message}</p>
                         </div>
                         <div style="margin-top: 30px; text-align: center;">
-                            <a href="mailto:${email}?subject=RE: Your inquiry to NOESIS" style="background: #111827; color: #ffffff; padding: 12px 24px; text-decoration: none; border-radius: 8px; font-weight: 600; font-size: 14px; display: inline-block;">
+                            <a href="mailto:${email}?subject=RE: Your inquiry to NAKMA STORE" style="background: #111827; color: #ffffff; padding: 12px 24px; text-decoration: none; border-radius: 8px; font-weight: 600; font-size: 14px; display: inline-block;">
                                 Reply to ${name}
                             </a>
                         </div>
                     </div>
                     <div style="background: #f9fafb; padding: 20px; text-align: center; border-top: 1px solid #e5e7eb;">
-                        <p style="margin: 0; color: #9ca3af; font-size: 11px;">NOESIS Contact System</p>
+                        <p style="margin: 0; color: #9ca3af; font-size: 11px;">NAKMA STORE Contact System</p>
                     </div>
                 </div>
             </body>
@@ -461,7 +461,7 @@ export const emailService = {
     },
 
     sendGuestAccountDetails: async (email, password) => {
-        const subject = `Your NOESIS Account Details`;
+        const subject = `Your NAKMA STORE Account Details`;
         const html = `
             <!DOCTYPE html>
             <html>
@@ -471,13 +471,13 @@ export const emailService = {
             </head>
             <body style="margin: 0; padding: 0; background-color: #f3f4f6; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;">
                 <div style="max-width: 600px; margin: 20px auto; background-color: #ffffff; border-radius: 12px; overflow: hidden; border: 1px solid #e5e7eb;">
-                    <div style="background: #59000a; padding: 30px; text-align: center;">
-                        <h1 style="color: #ffffff; margin: 0; font-size: 24px; font-weight: bold;">WELCOME TO NOESIS</h1>
+                    <div style="background: #059669; padding: 30px; text-align: center;">
+                        <h1 style="color: #ffffff; margin: 0; font-size: 24px; font-weight: bold;">WELCOME TO NAKMA STORE</h1>
                     </div>
                     <div style="padding: 40px 30px;">
                         <p style="font-size: 16px; color: #374151; margin: 0 0 20px 0;">Hello,</p>
                         <p style="font-size: 15px; line-height: 1.6; color: #6b7280; margin: 0 0 30px 0;">
-                            Thank you for shopping with NOESIS! As a guest, we've automatically created an account for you so you can track your order and view your history.
+                            Thank you for shopping with NAKMA STORE! As a guest, we've automatically created an account for you so you can track your order and view your history.
                         </p>
                         
                         <div style="background: #f9fafb; padding: 25px; border-radius: 12px; border: 1px solid #e5e7eb; margin-bottom: 30px;">
@@ -491,13 +491,13 @@ export const emailService = {
                         </p>
                         
                         <div style="text-align: center;">
-                            <a href="${typeof window !== 'undefined' ? window.location.origin : 'https://wearnoesis.com'}/account" style="background: #59000a; color: #ffffff; padding: 14px 32px; text-decoration: none; border-radius: 8px; font-weight: 600; font-size: 15px; display: inline-block;">
+                            <a href="${typeof window !== 'undefined' ? window.location.origin : 'https://nakma.co'}/account" style="background: #059669; color: #ffffff; padding: 14px 32px; text-decoration: none; border-radius: 8px; font-weight: 600; font-size: 15px; display: inline-block;">
                                 Go to My Account
                             </a>
                         </div>
                     </div>
                     <div style="background: #f9fafb; padding: 20px; text-align: center; border-top: 1px solid #e5e7eb;">
-                        <p style="margin: 0; color: #9ca3af; font-size: 11px;">© ${new Date().getFullYear()} NOESIS. Premium Athletic Wear.</p>
+                        <p style="margin: 0; color: #9ca3af; font-size: 11px;">© ${new Date().getFullYear()} NAKMA STORE. Heritage & Modern Design.</p>
                     </div>
                 </div>
             </body>

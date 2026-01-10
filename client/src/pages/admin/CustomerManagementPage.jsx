@@ -93,7 +93,7 @@ const CustomerManagementPage = () => {
 
         } catch (error) {
             console.error('Error fetching customers:', error);
-            notify('Failed to fetch customer registry', 'error');
+            notify('Failed to fetch customer list', 'error');
         } finally {
             setLoading(false);
         }
@@ -155,7 +155,7 @@ const CustomerManagementPage = () => {
     const handleDeleteCustomer = async (customerId, customerName) => {
         const confirmed = await confirm({
             title: 'Delete Member',
-            message: `Are you sure you want to permanently delete user "${customerName}" from the registry? This action cannot be undone.`,
+            message: `Are you sure you want to permanently delete user "${customerName}"? This action cannot be undone.`,
             confirmLabel: 'Delete User',
             type: 'danger'
         });
@@ -167,7 +167,7 @@ const CustomerManagementPage = () => {
 
             if (error) throw error;
 
-            notify(`User ${customerName} has been purged from the core registry.`, 'success');
+            notify(`User ${customerName} has been removed.`, 'success');
 
             // Remove from local state
             setCustomers(prev => prev.filter(c => c.id !== customerId));
@@ -195,7 +195,7 @@ const CustomerManagementPage = () => {
             if (error) throw new Error(error.message || "Function invocation failed");
             if (data && data.error) throw new Error(data.error);
 
-            notify(`User ${newMember.email} successfully created and added to registry.`, 'success');
+            notify(`User ${newMember.email} successfully created.`, 'success');
             setShowAddModal(false);
             setNewMember({ email: '', firstName: '', lastName: '', password: '' });
 
@@ -241,15 +241,15 @@ const CustomerManagementPage = () => {
                     <div>
                         <div className="flex items-center gap-2 mb-2">
                             <span className="inline-flex items-center rounded-full bg-primary/20 px-2.5 py-0.5 text-[10px] font-black uppercase tracking-widest text-primary-light ring-1 ring-inset ring-primary/30 backdrop-blur-sm">
-                                Community Nodes
+                                Community
                             </span>
-                            <span className="text-gray-500 text-sm font-medium">/ User Registry</span>
+                            <span className="text-gray-500 text-sm font-medium">/ Customer List</span>
                         </div>
                         <h1 className="text-white text-4xl font-black leading-tight tracking-[-0.033em] drop-shadow-lg">
-                            Customer <span className="text-transparent bg-clip-text bg-gradient-to-r from-white via-gray-200 to-gray-400 font-black">Retention</span>
+                            Customer <span className="text-transparent bg-clip-text bg-gradient-to-r from-white via-gray-200 to-gray-400 font-black">Management</span>
                         </h1>
                         <p className="text-gray-400 text-base font-medium mt-2 max-w-xl">
-                            Curate your community, analyze user behavior, and manage global membership parameters.
+                            Manage your community, analyze shopper behavior, and oversee memberships.
                         </p>
                     </div>
                     <div className="flex gap-4">
@@ -292,7 +292,7 @@ const CustomerManagementPage = () => {
                         <div className="absolute top-0 right-0 w-24 h-24 bg-blue-500/10 rounded-full blur-2xl -mr-10 -mt-10 group-hover:bg-blue-500/20 transition-all"></div>
                         <div className="flex justify-between items-start mb-4 relative z-10">
                             <div>
-                                <p className="text-gray-500 text-[10px] font-black uppercase tracking-widest mb-1">Active Pulses</p>
+                                <p className="text-gray-500 text-[10px] font-black uppercase tracking-widest mb-1">Active Members</p>
                                 <h3 className="text-3xl font-black text-white tracking-tight">{customers.filter(c => c.status === 'Active').length}</h3>
                             </div>
                             <div className="size-11 rounded-xl bg-white/5 flex items-center justify-center text-blue-400 border border-white/5 shadow-inner">
@@ -338,7 +338,7 @@ const CustomerManagementPage = () => {
                                     <span className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500 material-symbols-outlined text-lg group-focus-within:text-white transition-colors">search</span>
                                     <input
                                         className="glossy-input w-full pl-11 pr-4 py-3 rounded-2xl text-sm focus:ring-1 focus:ring-primary/40 bg-black/40 border-white/5"
-                                        placeholder="Find by name, email, or ID..."
+                                        placeholder="Search by name, email, or ID..."
                                         type="text"
                                         value={searchQuery}
                                         onChange={(e) => setSearchQuery(e.target.value)}
@@ -369,17 +369,17 @@ const CustomerManagementPage = () => {
                                 <table className="w-full text-left border-collapse min-w-[700px]">
                                     <thead className="bg-white/[0.01] text-gray-500 text-[10px] font-black uppercase tracking-widest border-b border-white/5">
                                         <tr>
-                                            <th className="p-6">Member Entity</th>
-                                            <th className="p-6">Registry State</th>
+                                            <th className="p-6">Customer</th>
+                                            <th className="p-6">Status</th>
                                             <th className="p-6">Joined Date</th>
-                                            <th className="p-6 text-right">Yield Gross</th>
-                                            <th className="p-6 text-right pr-12">Operations</th>
+                                            <th className="p-6 text-right">Total Spent</th>
+                                            <th className="p-6 text-right pr-12">Actions</th>
                                         </tr>
                                     </thead>
                                     <tbody className="text-sm divide-y divide-white/5">
                                         {loading ? (
                                             <tr>
-                                                <td colSpan="5" className="p-10 text-center text-gray-500">Loading user registry...</td>
+                                                <td colSpan="5" className="p-10 text-center text-gray-500">Loading Customers...</td>
                                             </tr>
                                         ) : filteredCustomers.length === 0 ? (
                                             <tr>
@@ -466,7 +466,7 @@ const CustomerManagementPage = () => {
                             <div className="glossy-panel rounded-[2.5rem] p-8 relative overflow-hidden border border-white/5 bg-black/20 shadow-2xl">
                                 <div className="absolute -bottom-8 -right-8 size-48 bg-primary/10 rounded-full blur-3xl pointer-events-none"></div>
                                 <div className="flex justify-between items-center mb-8">
-                                    <h3 className="text-white text-xs font-black uppercase tracking-[0.25em]">Featured Member</h3>
+                                    <h3 className="text-white text-xs font-black uppercase tracking-[0.25em]">Top Shopper</h3>
                                     <div className="size-2 rounded-full bg-primary shadow-[0_0_10px_rgba(89,0,10,1)]"></div>
                                 </div>
                                 <div className="flex flex-col items-center text-center">
@@ -522,7 +522,7 @@ const CustomerManagementPage = () => {
                         {/* Audit Log / Recent Activity */}
                         <div className="glossy-panel rounded-[2.5rem] p-8 flex-1 flex flex-col border border-white/5 bg-black/20 shadow-2xl h-full">
                             <div className="flex items-center justify-between mb-8">
-                                <h3 className="text-white text-xs font-black uppercase tracking-[0.25em]">Access & Audit Log</h3>
+                                <h3 className="text-white text-xs font-black uppercase tracking-[0.25em]">Activity Log</h3>
                                 <button className="size-10 flex items-center justify-center rounded-2xl hover:bg-white/5 text-gray-600 hover:text-white transition-all border border-transparent hover:border-white/10 group">
                                     <span className="material-symbols-outlined text-[20px] group-hover:rotate-180 transition-transform duration-500">refresh</span>
                                 </button>
@@ -546,10 +546,10 @@ const CustomerManagementPage = () => {
 
                 {/* Developer Footer Meta */}
                 <div className="flex items-center justify-between px-2 pt-10 border-t border-white/5 mt-auto">
-                    <p className="text-[10px] text-gray-700 font-black uppercase tracking-[0.3em]">Noesis Core v4.1.2 // Module: CRM_01</p>
+                    <p className="text-[10px] text-gray-700 font-black uppercase tracking-[0.3em]">© 2026 Nakma Store • All Rights Reserved</p>
                     <div className="flex gap-10">
-                        <a className="text-[10px] text-gray-700 hover:text-white transition-colors font-bold uppercase tracking-[0.1em]" href="#">Privacy Shield</a>
-                        <a className="text-[10px] text-gray-700 hover:text-white transition-colors font-bold uppercase tracking-[0.1em]" href="#">System Status</a>
+                        <a className="text-[10px] text-gray-700 hover:text-white transition-colors font-bold uppercase tracking-[0.1em]" href="#">Privacy Policy</a>
+                        <a className="text-[10px] text-gray-700 hover:text-white transition-colors font-bold uppercase tracking-[0.1em]" href="#">Help Center</a>
                     </div>
                 </div>
             </div>
@@ -570,8 +570,8 @@ const CustomerManagementPage = () => {
                                     <span className="material-symbols-outlined text-[24px]">person_add</span>
                                 </div>
                                 <div>
-                                    <h3 className="text-2xl font-black text-white uppercase tracking-tight">Init New User</h3>
-                                    <p className="text-gray-400 text-xs font-medium uppercase tracking-widest mt-0.5">Create a new entry in the registry</p>
+                                    <h3 className="text-2xl font-black text-white uppercase tracking-tight">Add New User</h3>
+                                    <p className="text-gray-400 text-xs font-medium uppercase tracking-widest mt-0.5">Create a new entry in the customer list</p>
                                 </div>
                             </div>
 
@@ -602,7 +602,7 @@ const CustomerManagementPage = () => {
                                 </div>
 
                                 <div className="flex flex-col gap-2">
-                                    <label className="text-gray-500 text-[10px] font-black tracking-[0.2em] uppercase ml-1">Email Coordinates</label>
+                                    <label className="text-gray-500 text-[10px] font-black tracking-[0.2em] uppercase ml-1">Email Address</label>
                                     <input
                                         type="email"
                                         name="email"

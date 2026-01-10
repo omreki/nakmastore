@@ -16,8 +16,8 @@ const WomenPage = () => {
     const [isMoreOpen, setIsMoreOpen] = useState(false);
     const [pageContent, setPageContent] = useState({
         title: "Women's Collection",
-        hero_title: "SCULPTED MOTION",
-        hero_subtitle: "Elegance in movement. Engineered for the modern athlete who demands both style and substance.",
+        hero_title: "CULTURAL ELEGANCE",
+        hero_subtitle: "Unique African-inspired fashion for the modern woman. Sophisticated silhouettes meeting timeless heritage.",
         imageUrl: womenHeroImage
     });
     const { addToCart } = useCart();
@@ -60,8 +60,8 @@ const WomenPage = () => {
             if (pageData) {
                 setPageContent({
                     title: pageData.title || "Women's Collection",
-                    hero_title: pageData.hero_title || "SCULPTED MOTION",
-                    hero_subtitle: pageData.hero_subtitle || "Elegance in movement. Engineered for the modern athlete who demands both style and substance.",
+                    hero_title: pageData.hero_title || "CULTURAL ELEGANCE",
+                    hero_subtitle: pageData.hero_subtitle || "Unique African-inspired fashion for the modern woman. Sophisticated silhouettes meeting timeless heritage.",
                     imageUrl: pageData.hero_image_url || womenHeroImage
                 });
             }
@@ -122,7 +122,7 @@ const WomenPage = () => {
         <div className="bg-[#050505] min-h-screen text-white font-['Manrope'] pt-20 md:pt-24 pb-20">
             <SEO
                 title="Women's Collection"
-                description="Elegance in movement. Engineered for the modern athlete who demands both style and substance."
+                description="Unique African-inspired fashion for the modern woman. Sophisticated silhouettes meeting timeless heritage."
             />
             {/* Header / Hero Section */}
             <div className="w-full px-4 md:px-6 max-w-[1600px] mx-auto mb-12 md:mb-16">
@@ -201,8 +201,8 @@ const WomenPage = () => {
             <div className="w-full px-4 md:px-8 max-w-[1600px] mx-auto">
                 {isLoading ? (
                     <div className="flex flex-col items-center justify-center py-32 gap-6">
-                        <div className="size-12 border-4 border-[#a14550]/20 border-t-[#a14550] rounded-full animate-spin"></div>
-                        <p className="text-white/40 font-bold tracking-widest uppercase text-sm">Loading Excellence...</p>
+                        <div className="size-12 border-4 border-[#059669]/20 border-t-[#059669] rounded-full animate-spin"></div>
+                        <p className="text-white/40 font-bold tracking-widest uppercase text-sm">Crafting Heritage...</p>
                     </div>
                 ) : products.length === 0 ? (
                     <div className="text-center py-32 rounded-[40px] border border-white/5 bg-white/[0.02]">

@@ -244,15 +244,15 @@ const OrderManagementPage = () => {
                     <div>
                         <div className="flex items-center gap-2 mb-2">
                             <span className="inline-flex items-center rounded-full bg-primary/20 px-2.5 py-0.5 text-[10px] font-black uppercase tracking-widest text-primary-light ring-1 ring-inset ring-primary/30 backdrop-blur-sm">
-                                Logistics Hub
+                                Order Center
                             </span>
-                            <span className="text-gray-500 text-sm font-medium">/ Transaction Stream</span>
+                            <span className="text-gray-500 text-sm font-medium">/ Orders</span>
                         </div>
                         <h1 className="text-white text-4xl font-black leading-tight tracking-[-0.033em] drop-shadow-lg">
-                            Order <span className="text-transparent bg-clip-text bg-gradient-to-r from-white via-gray-200 to-gray-400 font-black">Fulfillment</span>
+                            Order <span className="text-transparent bg-clip-text bg-gradient-to-r from-white via-gray-200 to-gray-400 font-black">Management</span>
                         </h1>
                         <p className="text-gray-400 text-base font-medium mt-2 max-w-xl">
-                            Monitor, process, and optimize global customer acquisition cycles.
+                            Monitor and process your collection orders and customer purchases.
                         </p>
                     </div>
                     <div className="flex gap-3">
@@ -374,13 +374,13 @@ const OrderManagementPage = () => {
                         <table className="w-full text-left border-collapse min-w-[900px]">
                             <thead>
                                 <tr className="bg-white/[0.03] text-gray-500 font-black text-[10px] uppercase tracking-widest border-b border-white/10">
-                                    <th className="p-7">Order Entry</th>
-                                    <th className="p-7">Customer Node</th>
-                                    <th className="p-7">Timestamp</th>
-                                    <th className="p-7">Logistics</th>
-                                    <th className="p-7">Transaction State</th>
-                                    <th className="p-7 text-right">Yield</th>
-                                    <th className="p-7 text-right pr-12">Operations</th>
+                                    <th className="p-7">Order</th>
+                                    <th className="p-7">Customer</th>
+                                    <th className="p-7">Date</th>
+                                    <th className="p-7">Status</th>
+                                    <th className="p-7">Payment</th>
+                                    <th className="p-7 text-right">Total</th>
+                                    <th className="p-7 text-right pr-12">Actions</th>
                                 </tr>
                             </thead>
                             <tbody className="text-sm divide-y divide-white/5">
@@ -389,7 +389,7 @@ const OrderManagementPage = () => {
                                         <td colSpan="7" className="p-20 text-center">
                                             <div className="flex flex-col items-center gap-4">
                                                 <div className="size-12 border-4 border-primary/20 border-t-primary rounded-full animate-spin"></div>
-                                                <p className="text-gray-500 text-[10px] font-black uppercase tracking-widest">Fetching Order Stream...</p>
+                                                <p className="text-gray-500 text-[10px] font-black uppercase tracking-widest">Fetching Orders...</p>
                                             </div>
                                         </td>
                                     </tr>
@@ -399,7 +399,7 @@ const OrderManagementPage = () => {
                                             <div className="flex flex-col items-center opacity-30">
                                                 <span className="material-symbols-outlined text-6xl mb-4">inventory_2</span>
                                                 <p className="text-white font-black text-lg uppercase tracking-widest">No Sequences Found</p>
-                                                <p className="text-gray-500 text-xs mt-2 uppercase tracking-widest">Awaiting first customer acquisition</p>
+                                                <p className="text-gray-500 text-xs mt-2 uppercase tracking-widest">Ready for your first sale</p>
                                             </div>
                                         </td>
                                     </tr>
@@ -549,7 +549,7 @@ const OrderManagementPage = () => {
                             <span className="text-[10px] font-bold text-white uppercase tracking-widest">Stripe • DHL • Twilio</span>
                         </div>
                     </div>
-                    <p className="text-[10px] text-gray-600 font-black uppercase tracking-[0.3em]">Noesis Core v4.1.2 // Production Environment</p>
+                    <p className="text-[10px] text-gray-600 font-black uppercase tracking-[0.3em]">© 2026 Nakma Store • All Rights Reserved</p>
                 </div>
             </div>
         </AdminLayout >

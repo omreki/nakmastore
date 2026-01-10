@@ -161,8 +161,8 @@ const CategoryManagementPage = () => {
 
     const handleDelete = async (categoryId, categoryName) => {
         const confirmed = await confirm({
-            title: 'Confirm Purge',
-            message: `You are about to permanently remove "${categoryName}" from the global registry. This action cannot be reversed.`,
+            title: 'Delete Category',
+            message: `Are you sure you want to permanently delete the "${categoryName}" category? This action cannot be reversed.`,
             confirmLabel: 'Permanently Delete',
             type: 'danger'
         });
@@ -238,7 +238,7 @@ const CategoryManagementPage = () => {
                     </div>
                     <div>
                         <div className={`${isChild ? 'font-bold text-sm' : 'font-black text-base'} text-white group-hover:text-primary-light transition-colors tracking-tight`}>{category.name}</div>
-                        <div className="text-[10px] text-gray-500 font-bold uppercase tracking-tight">{isChild ? 'Sub-node' : 'Root Entity'}</div>
+                        <div className="text-[10px] text-gray-500 font-bold uppercase tracking-tight">{isChild ? 'Subcategory' : 'Main Category'}</div>
                     </div>
                 </div>
             </td>
@@ -289,15 +289,15 @@ const CategoryManagementPage = () => {
                     <div className="flex flex-col gap-2 text-center md:text-left">
                         <div className="flex items-center gap-2 mb-1 justify-center md:justify-start">
                             <span className="inline-flex items-center rounded-full bg-primary/20 px-2.5 py-0.5 text-[10px] font-black uppercase tracking-widest text-primary-light ring-1 ring-inset ring-primary/30 backdrop-blur-sm">
-                                Taxonomy Nodes
+                                Store Structure
                             </span>
                             <span className="text-gray-500 text-sm font-medium">/ Catalog Structure</span>
                         </div>
                         <h1 className="text-white text-4xl md:text-5xl font-black leading-tight tracking-[-0.033em] drop-shadow-2xl">
-                            Category <span className="text-transparent bg-clip-text bg-gradient-to-r from-white via-gray-200 to-gray-400 font-black">Architecture</span>
+                            Category <span className="text-transparent bg-clip-text bg-gradient-to-r from-white via-gray-200 to-gray-400 font-black">Management</span>
                         </h1>
                         <p className="text-gray-400 text-base font-medium leading-relaxed max-w-2xl">
-                            Organize your store structure, architect new collections, and manage global grouping parameters.
+                            Organize your store structure, create new collections, and manage product categories.
                         </p>
                     </div>
 
@@ -338,7 +338,7 @@ const CategoryManagementPage = () => {
                                     />
                                 </div>
                                 <div className="text-[10px] text-gray-500 font-black uppercase tracking-widest whitespace-nowrap ml-4">
-                                    Total: <span className="text-white">{categories.length}</span> Objects
+                                    Total: <span className="text-white">{categories.length}</span> Categories
                                 </div>
                             </div>
 
@@ -350,10 +350,10 @@ const CategoryManagementPage = () => {
                                             <th className="py-4 px-4 w-12 text-center">
                                                 <input className="rounded border-gray-600 bg-transparent text-primary focus:ring-primary focus:ring-offset-gray-900" type="checkbox" />
                                             </th>
-                                            <th className="py-4 px-4">Entity</th>
-                                            <th className="py-4 px-4">Alias</th>
+                                            <th className="py-4 px-4">Category</th>
+                                            <th className="py-4 px-4">Slug</th>
                                             <th className="py-4 px-4 text-center">Items</th>
-                                            <th className="py-4 px-4 text-center">State</th>
+                                            <th className="py-4 px-4 text-center">Status</th>
                                             <th className="py-4 px-4 text-right">Actions</th>
                                         </tr>
                                     </thead>
@@ -363,7 +363,7 @@ const CategoryManagementPage = () => {
                                                 <td colSpan="6" className="py-20 text-center">
                                                     <div className="flex flex-col items-center gap-3 text-gray-500">
                                                         <div className="size-8 rounded-full border-2 border-primary/30 border-t-primary animate-spin"></div>
-                                                        <span className="font-bold tracking-widest text-[10px] uppercase">Retrieving Architecture...</span>
+                                                        <span className="font-bold tracking-widest text-[10px] uppercase">Fetching Categories...</span>
                                                     </div>
                                                 </td>
                                             </tr>
@@ -423,7 +423,7 @@ const CategoryManagementPage = () => {
                         <div className="p-8">
                             <div className="flex items-center justify-between mb-8">
                                 <h2 className="text-2xl font-black text-white uppercase tracking-tight">
-                                    {selectedCategory ? 'Edit Category Node' : 'Initialize New Node'}
+                                    {selectedCategory ? 'Edit Category' : 'Add New Category'}
                                 </h2>
                                 <button
                                     onClick={() => setShowModal(false)}
@@ -437,7 +437,7 @@ const CategoryManagementPage = () => {
                                 {/* Left Column: Inputs */}
                                 <div className="flex-1 flex flex-col gap-6">
                                     <div className="flex flex-col gap-2">
-                                        <label className="text-gray-500 text-[10px] font-black tracking-[0.2em] uppercase ml-1">Label Name</label>
+                                        <label className="text-gray-500 text-[10px] font-black tracking-[0.2em] uppercase ml-1">Category Name</label>
                                         <input
                                             name="name"
                                             className="glossy-input w-full rounded-2xl bg-black/40 border-white/5 placeholder:text-gray-700 h-12 px-5 text-sm transition-all outline-none focus:ring-1 focus:ring-primary/40 text-white font-bold"
@@ -450,7 +450,7 @@ const CategoryManagementPage = () => {
                                     </div>
 
                                     <div className="flex flex-col gap-2">
-                                        <label className="text-gray-500 text-[10px] font-black tracking-[0.2em] uppercase ml-1">URI Identifier</label>
+                                        <label className="text-gray-500 text-[10px] font-black tracking-[0.2em] uppercase ml-1">URL Slug</label>
                                         <div className="flex group">
                                             <span className="inline-flex items-center px-4 rounded-l-2xl border border-r-0 border-white/5 bg-white/5 text-gray-600 text-sm font-bold">/</span>
                                             <input
@@ -466,7 +466,7 @@ const CategoryManagementPage = () => {
                                     </div>
 
                                     <div className="flex flex-col gap-2">
-                                        <label className="text-gray-500 text-[10px] font-black tracking-[0.2em] uppercase ml-1">Hierarchy Placement</label>
+                                        <label className="text-gray-500 text-[10px] font-black tracking-[0.2em] uppercase ml-1">Parent Category</label>
                                         <div className="relative group">
                                             <select
                                                 name="parent_id"
@@ -486,7 +486,7 @@ const CategoryManagementPage = () => {
                                     </div>
 
                                     <div className="flex flex-col gap-2">
-                                        <label className="text-gray-500 text-[10px] font-black tracking-[0.2em] uppercase ml-1">SEO Description</label>
+                                        <label className="text-gray-500 text-[10px] font-black tracking-[0.2em] uppercase ml-1">Description</label>
                                         <textarea
                                             name="description"
                                             className="glossy-input w-full rounded-2xl bg-black/40 border-white/5 min-h-[120px] placeholder:text-gray-700 p-5 text-sm transition-all outline-none resize-none text-gray-300 font-medium leading-relaxed scrollbar-hide"
@@ -500,7 +500,7 @@ const CategoryManagementPage = () => {
                                 {/* Right Column: Status & visual placeholder */}
                                 <div className="flex-1 flex flex-col gap-6">
                                     <div className="flex flex-col gap-2">
-                                        <label className="text-gray-500 text-[10px] font-black tracking-[0.2em] uppercase ml-1">Visibility State</label>
+                                        <label className="text-gray-500 text-[10px] font-black tracking-[0.2em] uppercase ml-1">Status</label>
                                         <div className="flex bg-black/40 p-1 rounded-2xl border border-white/5">
                                             {['Active', 'Hidden'].map((statusOption) => (
                                                 <button
@@ -548,7 +548,7 @@ const CategoryManagementPage = () => {
                                     disabled={isSaving}
                                     className="flex-1 cursor-pointer items-center justify-center rounded-2xl h-14 bg-white hover:bg-primary-light text-black hover:text-white text-xs font-black uppercase tracking-widest transition-all shadow-2xl border border-white/10 disabled:opacity-50 disabled:cursor-not-allowed"
                                 >
-                                    {isSaving ? 'Processing...' : (selectedCategory ? 'Save Changes' : 'Initialize Node')}
+                                    {isSaving ? 'Processing...' : (selectedCategory ? 'Save Changes' : 'Create Category')}
                                 </button>
                             </div>
                         </div>

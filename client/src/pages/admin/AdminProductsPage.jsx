@@ -46,8 +46,8 @@ const AdminProductsPage = () => {
 
     const handleDeleteProduct = async (productId, productName) => {
         const confirmed = await confirm({
-            title: 'Confirm Purge',
-            message: `You are about to permanently remove "${productName}" from the global registry. This action cannot be reversed.`,
+            title: 'Confirm Removal',
+            message: `You are about to permanently remove "${productName}" from the collection. This action cannot be reversed.`,
             confirmLabel: 'Permanently Delete',
             type: 'danger'
         });
@@ -62,12 +62,12 @@ const AdminProductsPage = () => {
 
             if (error) throw error;
 
-            notify('PURGE_SUCCESS: Product entity removed from registry.', 'success');
+            notify('Product successfully removed.', 'success');
             fetchProducts();
 
         } catch (error) {
             console.error('Error deleting product:', error);
-            notify(`PURGE_FAILURE: ${error.message || 'Operation failed.'}`, 'error');
+            notify(`Error: ${error.message || 'Operation failed.'}`, 'error');
         }
     };
 
@@ -82,7 +82,7 @@ const AdminProductsPage = () => {
             fetchProducts();
         } catch (error) {
             console.error('Error toggling product status:', error);
-            notify(`SYNC_FAILURE: ${error.message || 'Failed to update product state.'}`, 'error');
+            notify(`Error: ${error.message || 'Failed to update product state.'}`, 'error');
         }
     };
 
@@ -94,15 +94,15 @@ const AdminProductsPage = () => {
                     <div>
                         <div className="flex items-center gap-2 mb-2">
                             <span className="inline-flex items-center rounded-full bg-primary/20 px-2.5 py-0.5 text-[10px] font-black uppercase tracking-widest text-primary-light ring-1 ring-inset ring-primary/30 backdrop-blur-sm">
-                                Inventory Nodes
+                                Collection
                             </span>
-                            <span className="text-gray-500 text-sm font-medium">/ Product Registry</span>
+                            <span className="text-gray-500 text-sm font-medium">/ Product List</span>
                         </div>
                         <h1 className="text-white text-4xl font-black leading-tight tracking-[-0.033em] drop-shadow-lg">
                             Product <span className="text-transparent bg-clip-text bg-gradient-to-r from-white via-gray-200 to-gray-400 font-black">Management</span>
                         </h1>
                         <p className="text-gray-400 text-base font-medium mt-2 max-w-xl">
-                            Architect, curate, and optimize your global stock distribution.
+                            Curate and manage your collection of premium African attire.
                         </p>
                     </div>
                     <div className="flex gap-4">
@@ -125,7 +125,7 @@ const AdminProductsPage = () => {
                             <h3 className="text-3xl font-black text-white tracking-tight">{stats.totalProducts}</h3>
                             <p className="text-green-500 text-[9px] font-black mt-2 flex items-center gap-1 uppercase tracking-widest">
                                 <span className="material-symbols-outlined text-sm">trending_up</span>
-                                +12% Efficiency
+                                +12% vs last month
                             </p>
                         </div>
                         <div className="size-12 rounded-xl bg-white/5 flex items-center justify-center text-white border border-white/5 shadow-inner">
@@ -134,11 +134,11 @@ const AdminProductsPage = () => {
                     </div>
                     <div className="glossy-panel rounded-[1.5rem] p-6 flex items-start justify-between border border-white/5 hover:border-white/10 transition-colors bg-black/20">
                         <div>
-                            <p className="text-gray-500 text-[10px] font-black uppercase tracking-widest mb-1">Low Stock Pulse</p>
+                            <p className="text-gray-500 text-[10px] font-black uppercase tracking-widest mb-1">Low Stock Items</p>
                             <h3 className="text-3xl font-black text-white tracking-tight">{stats.lowStock}</h3>
                             <p className="text-orange-400 text-[9px] font-black mt-2 flex items-center gap-1 uppercase tracking-widest">
                                 <span className="material-symbols-outlined text-sm">warning</span>
-                                Critical Delta
+                                Restock Soon
                             </p>
                         </div>
                         <div className="size-12 rounded-xl bg-white/5 flex items-center justify-center text-orange-400 border border-white/5 shadow-inner">
@@ -151,7 +151,7 @@ const AdminProductsPage = () => {
                             <h3 className="text-3xl font-black text-white tracking-tight">{stats.outOfStock}</h3>
                             <p className="text-red-500 text-[9px] font-black mt-2 flex items-center gap-1 uppercase tracking-widest">
                                 <span className="material-symbols-outlined text-sm">error</span>
-                                RESTOCK_REQD
+                                OUT OF STOCK
                             </p>
                         </div>
                         <div className="size-12 rounded-xl bg-white/5 flex items-center justify-center text-red-500 border border-white/5 shadow-inner">
@@ -197,14 +197,14 @@ const AdminProductsPage = () => {
                                     <th className="p-5 pl-8 text-[10px] font-black uppercase tracking-widest text-gray-500">
                                         <div className="flex items-center gap-3">
                                             <input className="rounded border-gray-600 bg-white/5 text-primary focus:ring-primary focus:ring-offset-0" type="checkbox" />
-                                            <span>Product Entity</span>
+                                            <span>Product</span>
                                         </div>
                                     </th>
-                                    <th className="p-5 text-[10px] font-black uppercase tracking-widest text-gray-500">Taxonomy</th>
-                                    <th className="p-5 text-[10px] font-black uppercase tracking-widest text-gray-500">Registry State</th>
-                                    <th className="p-5 text-[10px] font-black uppercase tracking-widest text-gray-500">Valuation</th>
+                                    <th className="p-5 text-[10px] font-black uppercase tracking-widest text-gray-500">Category</th>
+                                    <th className="p-5 text-[10px] font-black uppercase tracking-widest text-gray-500">Status</th>
+                                    <th className="p-5 text-[10px] font-black uppercase tracking-widest text-gray-500">Price</th>
                                     <th className="p-5 text-[10px] font-black uppercase tracking-widest text-gray-500">In Stock</th>
-                                    <th className="p-5 text-[10px] font-black uppercase tracking-widest text-gray-500 text-right pr-8">Operations</th>
+                                    <th className="p-5 text-[10px] font-black uppercase tracking-widest text-gray-500 text-right pr-8">Actions</th>
                                 </tr>
                             </thead>
                             <tbody className="text-sm divide-y divide-white/5">
@@ -213,7 +213,7 @@ const AdminProductsPage = () => {
                                         <td colSpan="6" className="p-12 text-center">
                                             <div className="flex flex-col items-center gap-3 text-gray-500">
                                                 <div className="size-8 rounded-full border-2 border-primary/30 border-t-primary animate-spin"></div>
-                                                <span className="font-bold tracking-widest text-[10px] uppercase">Loading inventory...</span>
+                                                <span className="font-bold tracking-widest text-[10px] uppercase">Loading collection...</span>
                                             </div>
                                         </td>
                                     </tr>
@@ -321,10 +321,10 @@ const AdminProductsPage = () => {
 
                 {/* Footer Meta */}
                 <div className="flex items-center justify-between px-2 pt-4">
-                    <p className="text-[10px] text-gray-600 font-bold uppercase tracking-[0.2em]">System Version 2.4.0 • Build ID: NOE-PROD-922</p>
+                    <p className="text-[10px] text-gray-600 font-black uppercase tracking-[0.2em]">© 2026 Nakma Store • All Rights Reserved</p>
                     <div className="flex gap-6">
-                        <a className="text-[10px] text-gray-600 hover:text-white transition-colors font-bold uppercase tracking-widest" href="#">Support Desk</a>
-                        <a className="text-[10px] text-gray-600 hover:text-white transition-colors font-bold uppercase tracking-widest" href="#">Access Log</a>
+                        <a className="text-[10px] text-gray-600 hover:text-white transition-colors font-bold uppercase tracking-widest" href="#">Help Center</a>
+                        <a className="text-[10px] text-gray-600 hover:text-white transition-colors font-bold uppercase tracking-widest" href="#">Terms of Use</a>
                     </div>
                 </div>
             </div>
