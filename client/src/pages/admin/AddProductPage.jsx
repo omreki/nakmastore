@@ -393,14 +393,14 @@ const AddProductPage = () => {
                                         />
                                     </div>
                                     <div className={`flex flex-col gap-2.5 transition-all duration-500 ${formData.is_sale ? 'opacity-100 translate-y-0' : 'opacity-20 pointer-events-none md:translate-y-2'}`}>
-                                        <label className="text-[#30136a] text-[10px] font-black tracking-[0.2em] uppercase ml-1">Sale Price ($)</label>
+                                        <label className="text-[#b82063] text-[10px] font-black tracking-[0.2em] uppercase ml-1">Sale Price ($)</label>
                                         <input
                                             type="number"
                                             name="sale_price"
                                             step="0.01"
                                             value={formData.sale_price}
                                             onChange={handleInputChange}
-                                            className="glossy-input w-full rounded-2xl bg-black/40 border-[#30136a]/20 text-[#30136a] font-black h-14 px-6 text-sm transition-all outline-none focus:ring-1 focus:ring-[#30136a]/40 focus:bg-black/60 font-mono"
+                                            className="glossy-input w-full rounded-2xl bg-black/40 border-[#b82063]/20 text-[#b82063] font-black h-14 px-6 text-sm transition-all outline-none focus:ring-1 focus:ring-[#b82063]/40 focus:bg-black/60 font-mono"
                                             placeholder="0.00"
                                         />
                                     </div>

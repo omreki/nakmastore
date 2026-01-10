@@ -73,7 +73,7 @@ const LoginPage = () => {
                                     : (settings?.loginPageSettings?.login_bg_url === '' ? 'none' : "url('https://images.unsplash.com/photo-1490730141103-6cac27aaab94?q=80&w=2070&auto=format&fit=crop')")
                             }}
                         ></div>
-                        <div className="absolute inset-x-0 bottom-0 h-2/3 bg-gradient-to-t from-black via-[#30136a]/40 to-transparent"></div>
+                        <div className="absolute inset-x-0 bottom-0 h-2/3 bg-gradient-to-t from-black via-[#b82063]/40 to-transparent"></div>
                         <div className="absolute bottom-0 left-0 p-8 lg:p-12 text-white z-10">
                             <div className="mb-6 inline-flex items-center justify-center w-14 h-14 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-white shadow-lg">
                                 <span className="material-symbols-outlined text-2xl">stylus_note</span>
@@ -111,7 +111,7 @@ const LoginPage = () => {
                                 <h3 className="text-2xl font-bold text-white tracking-tight">{isLogin ? 'Welcome Back' : 'Create Account'}</h3>
                                 <p className="text-gray-400 text-sm mt-2">{isLogin ? 'Enter your details to access your account.' : 'Join us to start your journey.'}</p>
                                 {error && (
-                                    <div className={`mt-4 p-3 rounded-2xl text-xs font-bold uppercase tracking-widest ${error.includes('successful') ? 'bg-green-500/20 text-green-400 border border-green-500/30' : 'bg-primary/20 text-[#4a2da0] border border-[#30136a]/30'}`}>
+                                    <div className={`mt-4 p-3 rounded-2xl text-xs font-bold uppercase tracking-widest ${error.includes('successful') ? 'bg-green-500/20 text-green-400 border border-green-500/30' : 'bg-primary/20 text-[#4a2da0] border border-[#b82063]/30'}`}>
                                         {error}
                                     </div>
                                 )}

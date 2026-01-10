@@ -204,7 +204,7 @@ const ProductCard = ({ product, formatPrice, index }) => {
                 <div className="text-right">
                     {product.is_sale ? (
                         <div className="flex flex-col items-end">
-                            <span className="text-xs text-[#30136a] font-bold">{formatPrice(product.sale_price)}</span>
+                            <span className="text-xs text-[#b82063] font-bold">{formatPrice(product.sale_price)}</span>
                             <span className="text-[10px] text-gray-600 line-through">{formatPrice(product.price)}</span>
                         </div>
                     ) : (

@@ -142,7 +142,7 @@ export const StoreSettingsProvider = ({ children }) => {
             googleSiteVerification: ""
         },
         checkoutPageSettings: {
-            giftMessage: "Exclusive print included with <br /> <span class=\"text-[#30136a]\">your first Nakma</span> purchase."
+            giftMessage: "Exclusive print included with <br /> <span class=\"text-[#b82063]\">your first Nakma</span> purchase."
         },
         brandSettings: {
             primaryColor: "#b82063",
@@ -314,7 +314,7 @@ export const StoreSettingsProvider = ({ children }) => {
                                 googleSiteVerification: ""
                             },
                             checkoutPageSettings: data.checkout_page_settings || {
-                                giftMessage: "Exclusive print included with <br /> <span class=\"text-[#30136a]\">your first Nakma</span> purchase."
+                                giftMessage: "Exclusive print included with <br /> <span class=\"text-[#b82063]\">your first Nakma</span> purchase."
                             }
                         });
                     }
@@ -495,7 +495,7 @@ export const StoreSettingsProvider = ({ children }) => {
                         googleSiteVerification: ""
                     },
                     checkoutPageSettings: data.checkout_page_settings || {
-                        giftMessage: "Exclusive print included with <br /> <span class=\"text-[#30136a]\">your first Nakma</span> purchase."
+                        giftMessage: "Exclusive print included with <br /> <span class=\"text-[#b82063]\">your first Nakma</span> purchase."
                     },
                     brandSettings: data.brand_settings ? {
                         primaryColor: "#b82063",

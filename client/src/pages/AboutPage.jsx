@@ -44,7 +44,7 @@ const AboutPage = () => {
                 <div className="absolute inset-0 bg-black/20"></div>
 
                 <div className="relative z-10 max-w-4xl space-y-6 md:space-y-8">
-                    <span className="text-[#30136a] text-xs md:text-sm font-bold uppercase tracking-[0.4em] md:tracking-[0.6em]">{aboutSettings.hero.estText}</span>
+                    <span className="text-[#b82063] text-xs md:text-sm font-bold uppercase tracking-[0.4em] md:tracking-[0.6em]">{aboutSettings.hero.estText}</span>
                     <h1 className="text-5xl md:text-9xl font-bold tracking-tight leading-[0.9] whitespace-pre-line">
                         {aboutSettings.hero.title.split('\\n').map((line, i) => (
                             <React.Fragment key={i}>
@@ -62,7 +62,7 @@ const AboutPage = () => {
             {/* Our Philosophy */}
             <section className="max-w-[1440px] mx-auto px-6 md:px-10 py-16 md:py-32 grid grid-cols-1 lg:grid-cols-2 gap-12 md:gap-20 items-center">
                 <div className="space-y-10 order-2 lg:order-1">
-                    <span className="text-[#30136a] text-sm font-bold uppercase tracking-[0.4em]">{aboutSettings.philosophy.label}</span>
+                    <span className="text-[#b82063] text-sm font-bold uppercase tracking-[0.4em]">{aboutSettings.philosophy.label}</span>
                     <h2 className="text-3xl md:text-6xl font-bold tracking-tight leading-tight whitespace-pre-line">
                         {aboutSettings.philosophy.title.replace('\\n', '\n')}
                     </h2>
@@ -94,14 +94,14 @@ const AboutPage = () => {
             <section className="bg-white/[0.02] border-y border-white/5 py-16 md:py-32">
                 <div className="max-w-[1440px] mx-auto px-6 md:px-10">
                     <div className="text-center space-y-4 mb-12 md:mb-20">
-                        <span className="text-[#30136a] text-sm font-bold uppercase tracking-[0.4em]">{aboutSettings.coreValues.label}</span>
+                        <span className="text-[#b82063] text-sm font-bold uppercase tracking-[0.4em]">{aboutSettings.coreValues.label}</span>
                         <h2 className="text-3xl md:text-6xl font-bold tracking-tight italic">{aboutSettings.coreValues.title}</h2>
                     </div>
 
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
                         {aboutSettings.coreValues.values.map((value, idx) => (
-                            <div key={idx} className="bg-white/[0.03] border border-white/10 p-8 md:p-12 rounded-[32px] md:rounded-[40px] hover:bg-primary/10 hover:border-[#30136a]/30 transition-all group">
-                                <span className="material-symbols-outlined text-4xl text-[#30136a] mb-6 md:mb-8 group-hover:scale-110 transition-transform">{value.icon}</span>
+                            <div key={idx} className="bg-white/[0.03] border border-white/10 p-8 md:p-12 rounded-[32px] md:rounded-[40px] hover:bg-primary/10 hover:border-[#b82063]/30 transition-all group">
+                                <span className="material-symbols-outlined text-4xl text-[#b82063] mb-6 md:mb-8 group-hover:scale-110 transition-transform">{value.icon}</span>
                                 <h3 className="text-xl md:text-2xl font-bold mb-4">{value.title}</h3>
                                 <p className="text-white/50 text-sm md:text-base leading-relaxed font-medium">
                                     {value.desc}
@@ -120,7 +120,7 @@ const AboutPage = () => {
                         "{aboutSettings.quote.text}"
                     </blockquote>
                     <div className="mt-12 flex flex-col items-center">
-                        <span className="text-[#30136a] font-bold tracking-widest uppercase text-xs">{aboutSettings.quote.author}</span>
+                        <span className="text-[#b82063] font-bold tracking-widest uppercase text-xs">{aboutSettings.quote.author}</span>
                         <span className="text-white/40 text-[10px] font-bold uppercase tracking-widest mt-1">{aboutSettings.quote.authorTitle}</span>
                     </div>
                 </div>

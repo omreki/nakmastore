@@ -27,7 +27,24 @@ const ShopPage = () => {
     const [isLoading, setIsLoading] = useState(true);
     const [activeCategory, setActiveCategory] = useState({ name: 'All Products', slug: 'all' });
     const [isMoreOpen, setIsMoreOpen] = useState(false);
+    const [pageSettings, setPageSettings] = useState(null);
     const { addToCart } = useCart();
+
+    useEffect(() => {
+        const fetchPageSettings = async () => {
+            try {
+                const { data, error } = await supabase
+                    .from('pages')
+                    .select('*')
+                    .eq('slug', 'shop')
+                    .single();
+                if (data) setPageSettings(data);
+            } catch (error) {
+                console.error('Error fetching page settings:', error);
+            }
+        };
+        fetchPageSettings();
+    }, []);
 
     useEffect(() => {
         fetchCategories();
@@ -93,8 +110,8 @@ const ShopPage = () => {
     return (
         <div className="bg-black min-h-screen text-white font-['Manrope'] pt-20 md:pt-24 pb-20">
             <SEO
-                title={searchQuery ? `Search results for "${searchQuery}"` : `Shop ${activeCategory.slug === 'all' ? 'Collection' : activeCategory.name}`}
-                description="Browse our complete range of unique African-inspired shirts. Crafted for comfort, designed for cultural expression."
+                title={searchQuery ? `Search results for "${searchQuery}"` : (pageSettings?.meta_title || `Shop ${activeCategory.slug === 'all' ? 'Collection' : activeCategory.name}`)}
+                description={pageSettings?.meta_description || "Browse our complete range of unique African-inspired shirts. Crafted for comfort, designed for cultural expression."}
             />
             {/* Hero / Header Section */}
             {!searchQuery && (
@@ -102,17 +119,17 @@ const ShopPage = () => {
                     <div className="relative w-full h-[300px] md:h-[450px] rounded-[32px] md:rounded-[40px] overflow-hidden group shadow-2xl">
                         <div
                             className="absolute inset-0 bg-cover bg-center transition-transform duration-[2s] group-hover:scale-105"
-                            style={{ backgroundImage: `url(${shopHeroImage})` }}
+                            style={{ backgroundImage: `url(${pageSettings?.hero_image_url || shopHeroImage})` }}
                         >
                         </div>
                         <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/30 to-transparent"></div>
                         <div className="absolute inset-0 flex flex-col justify-center px-6 md:px-16">
-                            <span className="text-primary-light text-[10px] md:text-xs font-bold uppercase tracking-[0.4em] mb-4 text-[#30136a]">THE FULL COLLECTION</span>
+                            <span className="text-primary-light text-[10px] md:text-xs font-bold uppercase tracking-[0.4em] mb-4 text-[#b82063]">THE FULL COLLECTION</span>
                             <h1 className="text-4xl md:text-8xl font-bold text-white tracking-tight leading-[1] mb-4 md:mb-6">
-                                Timeless African <br /> Elegance
+                                {pageSettings?.hero_title || <>Timeless African <br /> Elegance</>}
                             </h1>
                             <p className="text-white/60 text-sm md:text-xl font-medium max-w-xl line-clamp-2 md:line-clamp-none">
-                                Our complete range of unique African-inspired shirts. Crafted for comfort, designed for cultural expression.
+                                {pageSettings?.hero_subtitle || "Our complete range of unique African-inspired shirts. Crafted for comfort, designed for cultural expression."}
                             </p>
                         </div>
                     </div>
@@ -180,7 +197,7 @@ const ShopPage = () => {
                     </div>
                     <div className="flex items-center gap-4">
                         <span className="text-white/40 text-sm font-medium uppercase tracking-widest px-1">Sort:</span>
-                        <button className="flex items-center gap-2 text-white font-bold hover:text-[#30136a] transition-colors group">
+                        <button className="flex items-center gap-2 text-white font-bold hover:text-[#b82063] transition-colors group">
                             Newest Arrivals <span className="material-symbols-outlined text-[20px] transition-transform group-hover:translate-y-0.5">expand_more</span>
                         </button>
                     </div>
@@ -200,7 +217,7 @@ const ShopPage = () => {
             <div className="w-full px-4 md:px-8 max-w-[1600px] mx-auto">
                 {isLoading ? (
                     <div className="flex flex-col items-center justify-center py-32 gap-6">
-                        <div className="size-12 border-4 border-[#30136a]/20 border-t-[#30136a] rounded-full animate-spin"></div>
+                        <div className="size-12 border-4 border-[#b82063]/20 border-t-[#b82063] rounded-full animate-spin"></div>
                         <p className="text-white/40 font-bold tracking-widest uppercase text-sm">Crafting Heritage...</p>
                     </div>
                 ) : products.length === 0 ? (
@@ -259,11 +276,11 @@ const ShopPage = () => {
                                     </div>
                                     <div className="px-2">
                                         <div className="flex flex-col gap-1 mb-1">
-                                            <h3 className="text-white font-bold text-lg group-hover:text-[#30136a] transition-colors line-clamp-1 uppercase tracking-tight">{product.name}</h3>
+                                            <h3 className="text-white font-bold text-lg group-hover:text-[#b82063] transition-colors line-clamp-1 uppercase tracking-tight">{product.name}</h3>
                                             <div className="flex items-center gap-2">
                                                 {product.is_sale && product.sale_price ? (
                                                     <>
-                                                        <span className="text-[#30136a] font-black italic text-lg whitespace-nowrap leading-none">{formatPrice(product.sale_price)}</span>
+                                                        <span className="text-[#b82063] font-black italic text-lg whitespace-nowrap leading-none">{formatPrice(product.sale_price)}</span>
                                                         <span className="text-white/30 font-bold text-[10px] line-through decoration-1">{formatPrice(product.price)}</span>
                                                     </>
                                                 ) : (

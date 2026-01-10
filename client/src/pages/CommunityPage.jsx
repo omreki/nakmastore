@@ -103,7 +103,7 @@ const CommunityPage = () => {
                     <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/40 to-transparent"></div>
                     <div className="absolute inset-0 flex flex-col justify-center px-6 md:px-16">
                         {pageSettings.hero_title && (
-                            <span className="text-primary-light text-[10px] md:text-xs font-bold uppercase tracking-[0.4em] mb-4 text-[#30136a]">
+                            <span className="text-primary-light text-[10px] md:text-xs font-bold uppercase tracking-[0.4em] mb-4 text-[#b82063]">
                                 {pageSettings.hero_title}
                             </span>
                         )}
@@ -148,7 +148,7 @@ const CommunityPage = () => {
             <div className="w-full px-4 md:px-8 max-w-[1600px] mx-auto">
                 {isLoading ? (
                     <div className="flex flex-col items-center justify-center py-32 gap-6">
-                        <div className="size-12 border-4 border-[#30136a]/20 border-t-[#30136a] rounded-full animate-spin"></div>
+                        <div className="size-12 border-4 border-[#b82063]/20 border-t-[#b82063] rounded-full animate-spin"></div>
                         <p className="text-white/40 font-bold tracking-widest uppercase text-sm">Loading Articles...</p>
                     </div>
                 ) : articles.length === 0 ? (
@@ -192,7 +192,7 @@ const CommunityPage = () => {
 
                                     {/* Content */}
                                     <div className="px-2">
-                                        <h3 className="text-white font-bold text-xl mb-3 group-hover:text-[#30136a] transition-colors line-clamp-2 uppercase tracking-tight">
+                                        <h3 className="text-white font-bold text-xl mb-3 group-hover:text-[#b82063] transition-colors line-clamp-2 uppercase tracking-tight">
                                             {article.title}
                                         </h3>
 

@@ -107,7 +107,7 @@ const ConfirmationPage = () => {
     if (loading) {
         return (
             <div className="min-h-screen bg-black flex flex-col items-center justify-center text-white">
-                <div className="size-12 border-4 border-[#30136a]/20 border-t-[#30136a] rounded-full animate-spin mb-4"></div>
+                <div className="size-12 border-4 border-[#b82063]/20 border-t-[#b82063] rounded-full animate-spin mb-4"></div>
                 <p className="font-bold uppercase tracking-widest text-xs opacity-50">Verifying Payment...</p>
             </div>
         );

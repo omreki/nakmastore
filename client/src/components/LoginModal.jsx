@@ -130,7 +130,7 @@ const LoginModal = () => {
                             <div className="text-center mb-8">
                                 <h3 className="text-2xl font-black text-white tracking-widest uppercase italic">{isLogin ? 'Welcome Back' : 'Create Account'}</h3>
                                 {error && (
-                                    <div className={`mt-4 p-4 rounded-2xl text-[10px] font-black uppercase tracking-widest ${error.includes('successful') ? 'bg-green-500/10 text-green-400 border border-green-500/20' : 'bg-primary/10 text-[#30136a] border border-[#30136a]/20'}`}>
+                                    <div className={`mt-4 p-4 rounded-2xl text-[10px] font-black uppercase tracking-widest ${error.includes('successful') ? 'bg-green-500/10 text-green-400 border border-green-500/20' : 'bg-primary/10 text-[#b82063] border border-[#b82063]/20'}`}>
                                         {error}
                                     </div>
                                 )}
@@ -140,7 +140,7 @@ const LoginModal = () => {
                                 {!isLogin && (
                                     <div className="group">
                                         <input
-                                            className="w-full h-14 px-6 bg-white/[0.03] border border-white/[0.08] rounded-full text-sm font-medium text-white placeholder:text-white/20 focus:outline-none focus:border-[#30136a] transition-colors"
+                                            className="w-full h-14 px-6 bg-white/[0.03] border border-white/[0.08] rounded-full text-sm font-medium text-white placeholder:text-white/20 focus:outline-none focus:border-[#b82063] transition-colors"
                                             placeholder="FULL NAME"
                                             type="text"
                                             value={fullName}
@@ -151,7 +151,7 @@ const LoginModal = () => {
                                 )}
                                 <div className="group">
                                     <input
-                                        className="w-full h-14 px-6 bg-white/[0.03] border border-white/[0.08] rounded-full text-sm font-medium text-white placeholder:text-white/20 focus:outline-none focus:border-[#30136a] transition-colors"
+                                        className="w-full h-14 px-6 bg-white/[0.03] border border-white/[0.08] rounded-full text-sm font-medium text-white placeholder:text-white/20 focus:outline-none focus:border-[#b82063] transition-colors"
                                         placeholder="EMAIL ADDRESS"
                                         type="email"
                                         value={email}
@@ -161,7 +161,7 @@ const LoginModal = () => {
                                 </div>
                                 <div className="group">
                                     <input
-                                        className="w-full h-14 px-6 bg-white/[0.03] border border-white/[0.08] rounded-full text-sm font-medium text-white placeholder:text-white/20 focus:outline-none focus:border-[#30136a] transition-colors"
+                                        className="w-full h-14 px-6 bg-white/[0.03] border border-white/[0.08] rounded-full text-sm font-medium text-white placeholder:text-white/20 focus:outline-none focus:border-[#b82063] transition-colors"
                                         placeholder="PASSWORD"
                                         type="password"
                                         value={password}
@@ -172,7 +172,7 @@ const LoginModal = () => {
 
                                 {isLogin && (
                                     <div className="flex items-center justify-end px-2">
-                                        <button type="button" className="text-[10px] font-black uppercase tracking-widest text-[#30136a] hover:text-[#ff334b] transition-colors">Forgot Password?</button>
+                                        <button type="button" className="text-[10px] font-black uppercase tracking-widest text-[#b82063] hover:text-[#ff334b] transition-colors">Forgot Password?</button>
                                     </div>
                                 )}
 

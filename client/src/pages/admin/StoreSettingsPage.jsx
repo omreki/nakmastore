@@ -468,6 +468,23 @@ const StoreSettingsPage = () => {
                 });
             }
 
+            // Ensure shop page is in the list
+            const hasShop = allPages.some(p => p.slug === 'shop');
+            if (!hasShop) {
+                // Add a "virtual" entry that will be saved to DB if edited
+                allPages.push({
+                    id: 'shop-init',
+                    title: 'Shop',
+                    slug: 'shop',
+                    hero_title: 'OUR COLLECTION',
+                    hero_subtitle: 'Explore our curated selection of African-inspired designs and heritage pieces.',
+                    hero_image_url: '',
+                    status: 'published',
+                    is_system: true,
+                    created_at: new Date().toISOString()
+                });
+            }
+
             setPages(allPages);
         } catch (error) {
             console.error('Error fetching pages:', error);
@@ -613,7 +630,7 @@ const StoreSettingsPage = () => {
                 custom_css: pageForm.custom_css
             };
 
-            if (editingPageId && editingPageId !== 'community-init') {
+            if (editingPageId && editingPageId !== 'community-init' && editingPageId !== 'shop-init') {
                 const { data, error } = await supabase
                     .from('pages')
                     .update(payload)
@@ -630,7 +647,7 @@ const StoreSettingsPage = () => {
                     .select()
                     .single();
                 if (error) throw error;
-                setPages(prev => [data, ...prev.filter(p => p.id !== 'community-init')]);
+                setPages(prev => [data, ...prev.filter(p => p.id !== 'community-init' && p.id !== 'shop-init')]);
                 notify('Page created successfully', 'success');
             }
             setShowPageModal(false);

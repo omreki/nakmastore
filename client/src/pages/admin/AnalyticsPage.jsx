@@ -502,7 +502,7 @@ const AnalyticsPage = () => {
                                             tick={{ fill: '#6b7280', fontSize: 10, fontWeight: 700 }}
                                         />
                                         <Tooltip
-                                            contentStyle={{ backgroundColor: '#30136a', borderColor: '#ffffff10', borderRadius: '12px', fontSize: '12px' }}
+                                            contentStyle={{ backgroundColor: '#b82063', borderColor: '#ffffff10', borderRadius: '12px', fontSize: '12px' }}
                                             itemStyle={{ color: '#fff' }}
                                         />
                                         <Area type="monotone" dataKey="visits" stroke="#59000a" strokeWidth={3} fillOpacity={1} fill="url(#colorVisits)" />

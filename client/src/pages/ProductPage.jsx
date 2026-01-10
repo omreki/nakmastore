@@ -445,11 +445,11 @@ const ProductPage = () => {
                                             />
                                         </div>
                                         <div className="flex flex-col gap-1 px-1">
-                                            <h3 className="font-bold text-xs group-hover:text-[#30136a] transition-colors uppercase tracking-tight">{p.name}</h3>
+                                            <h3 className="font-bold text-xs group-hover:text-[#b82063] transition-colors uppercase tracking-tight">{p.name}</h3>
                                             <div className="flex items-center gap-2">
                                                 {p.is_sale && p.sale_price ? (
                                                     <>
-                                                        <span className="font-black text-xs italic text-[#30136a]">{formatPrice(p.sale_price)}</span>
+                                                        <span className="font-black text-xs italic text-[#b82063]">{formatPrice(p.sale_price)}</span>
                                                         <span className="font-bold text-[10px] text-white/30 line-through decoration-1">{formatPrice(p.price)}</span>
                                                     </>
                                                 ) : (

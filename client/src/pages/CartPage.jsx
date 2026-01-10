@@ -74,7 +74,7 @@ const CartPage = () => {
                                         <div className="flex justify-between items-start">
                                             <div className="space-y-2">
                                                 <Link to={`/product/${item.slug}`}>
-                                                    <h3 className="text-2xl font-bold group-hover:text-[#30136a] transition-colors cursor-pointer">{item.name}</h3>
+                                                    <h3 className="text-2xl font-bold group-hover:text-[#b82063] transition-colors cursor-pointer">{item.name}</h3>
                                                 </Link>
                                                 <div className="flex flex-col gap-1">
                                                     <div className="flex gap-4 text-xs font-bold uppercase tracking-widest text-white/40">
@@ -108,7 +108,7 @@ const CartPage = () => {
                                             </div>
                                             <button
                                                 onClick={() => removeFromCart(item.id, item.selectedSize, item.selectedColor, item.variation_id)}
-                                                className="text-white/20 hover:text-[#30136a] transition-colors flex items-center gap-2 font-bold uppercase tracking-widest text-[10px]"
+                                                className="text-white/20 hover:text-[#b82063] transition-colors flex items-center gap-2 font-bold uppercase tracking-widest text-[10px]"
                                             >
                                                 <span className="material-symbols-outlined text-lg">delete</span>
                                                 Remove
@@ -144,7 +144,7 @@ const CartPage = () => {
                                     <div className="h-px bg-white/10 pt-4"></div>
                                     <div className="flex justify-between items-center text-2xl font-black italic">
                                         <span>Total</span>
-                                        <span className="text-[#30136a]">{formatPrice(total)}</span>
+                                        <span className="text-[#b82063]">{formatPrice(total)}</span>
                                     </div>
                                 </div>
 
@@ -180,7 +180,7 @@ const CartPage = () => {
                                                     <img src={p.images?.[0] || 'https://via.placeholder.com/80'} className="w-full h-full object-contain mix-blend-multiply" alt="" />
                                                 </div>
                                                 <div className="flex flex-col justify-center">
-                                                    <span className="font-bold text-sm group-hover:text-[#30136a] transition-colors">{p.name}</span>
+                                                    <span className="font-bold text-sm group-hover:text-[#b82063] transition-colors">{p.name}</span>
                                                     <span className="text-white/40 text-xs font-bold">{formatPrice(p.price)}</span>
                                                 </div>
                                             </Link>
