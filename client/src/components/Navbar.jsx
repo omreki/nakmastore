@@ -106,8 +106,8 @@ const Navbar = () => {
 
     if (isHomePage) {
         return (
-            <nav className="fixed top-6 left-1/2 -translate-x-1/2 z-50 w-[95%] max-w-[1400px] mx-auto rounded-full backdrop-blur-md border border-white/10 shadow-2xl transition-all duration-300 navbar-gradient-bg">
-                <div className="px-6 sm:px-10">
+            <nav className="fixed top-6 left-1/2 -translate-x-1/2 z-50 w-full max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8">
+                <div className="rounded-full backdrop-blur-md border border-white/10 shadow-2xl transition-all duration-300 navbar-gradient-bg px-6 sm:px-10">
                     <div className="flex items-center justify-between h-14 md:h-16 relative">
                         {/* Logo */}
                         <div className="flex-1 flex justify-start">
@@ -127,7 +127,7 @@ const Navbar = () => {
                                         </div>
                                         <span className="text-navbar-text text-lg md:text-xl font-bold tracking-tight">{settings.storeName}</span>
                                     </>
-                                ))}
+                                )}
                             </Link>
                         </div>
 
