@@ -5,7 +5,10 @@
 @import "tailwindcss";
 @plugin "@tailwindcss/postcss";
 
-@theme {
+
+
+:root {
+    color-scheme: dark;
     --color-primary: #30136a;
     --color-primary-hover: #1e0c42;
     --color-primary-light: #4a2da0;
@@ -19,10 +22,6 @@
     --color-card-dark: rgba(0, 0, 0, 0.6);
     --color-text-main: #ffffff;
     --color-text-muted: #a1a1aa;
-}
-
-:root {
-    color-scheme: dark;
 }
 
 /* Lenis Smooth Scroll */

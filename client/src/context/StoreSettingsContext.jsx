@@ -143,6 +143,12 @@ export const StoreSettingsProvider = ({ children }) => {
         },
         checkoutPageSettings: {
             giftMessage: "Exclusive print included with <br /> <span class=\"text-[#30136a]\">your first Nakma</span> purchase."
+        },
+        brandSettings: {
+            primaryColor: "#30136a",
+            secondaryColor: "#000000",
+            accentColor: "#d86928",
+            backgroundColor: "#000000"
         }
     });
     const [loading, setLoading] = useState(true);
@@ -486,6 +492,12 @@ export const StoreSettingsProvider = ({ children }) => {
                     },
                     checkoutPageSettings: data.checkout_page_settings || {
                         giftMessage: "Exclusive print included with <br /> <span class=\"text-[#30136a]\">your first Nakma</span> purchase."
+                    },
+                    brandSettings: data.brand_settings || {
+                        primaryColor: "#30136a",
+                        secondaryColor: "#000000",
+                        accentColor: "#d86928",
+                        backgroundColor: "#000000"
                     }
                 });
             }
@@ -536,7 +548,8 @@ export const StoreSettingsProvider = ({ children }) => {
                 about_page_settings: newSettings.aboutPageSettings,
                 login_page_settings: newSettings.loginPageSettings,
                 seo_settings: newSettings.seoSettings,
-                checkout_page_settings: newSettings.checkoutPageSettings
+                checkout_page_settings: newSettings.checkoutPageSettings,
+                brand_settings: newSettings.brandSettings
             };
 
             // Upsert the single row (id: 1)
@@ -584,7 +597,8 @@ export const StoreSettingsProvider = ({ children }) => {
                     aboutPageSettings: data.about_page_settings || newSettings.aboutPageSettings,
                     loginPageSettings: data.login_page_settings ? { ...DEFAULT_LOGIN_SETTINGS, ...data.login_page_settings } : newSettings.loginPageSettings,
                     seoSettings: data.seo_settings || newSettings.seoSettings,
-                    checkoutPageSettings: data.checkout_page_settings || newSettings.checkoutPageSettings
+                    checkoutPageSettings: data.checkout_page_settings || newSettings.checkoutPageSettings,
+                    brandSettings: data.brand_settings || newSettings.brandSettings
                 });
             }
             return { success: true };
@@ -638,6 +652,28 @@ export const StoreSettingsProvider = ({ children }) => {
             });
         }
     }, [settings.storeName, settings.logoUrl]);
+
+    // Dynamic Brand Colors Injection
+    useEffect(() => {
+        if (settings.brandSettings) {
+            const root = document.documentElement;
+            // Helper to convert hex to rgb if needed, but hex works for variable replacement if tailwind uses var()
+
+            // Primary Logic
+            root.style.setProperty('--color-primary', settings.brandSettings.primaryColor);
+            // We can generate variations here if we want, or just let them fallback
+            // Simple lightening/darkening could be done with a small helper library or simple manipulation
+
+            // Secondary / Black
+            root.style.setProperty('--color-secondary', settings.brandSettings.secondaryColor);
+
+            // Accent
+            root.style.setProperty('--color-accent', settings.brandSettings.accentColor);
+
+            // Backgrounds
+            root.style.setProperty('--color-background-dark', settings.brandSettings.backgroundColor);
+        }
+    }, [settings.brandSettings]);
 
     // Calculate tax based on enabled settings and tax configuration
     const calculateTax = (amount) => {
