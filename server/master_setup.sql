@@ -74,7 +74,7 @@ BEGIN
     ALTER TABLE public.store_settings ADD COLUMN IF NOT EXISTS alert_emails text[];
     ALTER TABLE public.store_settings ADD COLUMN IF NOT EXISTS seo_settings jsonb;
     ALTER TABLE public.store_settings ADD COLUMN IF NOT EXISTS brand_settings jsonb DEFAULT '{
-        "primaryColor": "#30136a",
+        "primaryColor": "#b82063",
         "secondaryColor": "#000000",
         "accentColor": "#d86928",
         "backgroundColor": "#000000"
@@ -352,6 +352,8 @@ BEGIN
     ALTER TABLE pages ADD COLUMN IF NOT EXISTS slug TEXT;
     ALTER TABLE pages ADD COLUMN IF NOT EXISTS content TEXT;
     ALTER TABLE pages ADD COLUMN IF NOT EXISTS is_published BOOLEAN DEFAULT FALSE;
+    ALTER TABLE pages ADD COLUMN IF NOT EXISTS status TEXT DEFAULT 'published';
+    ALTER TABLE pages ADD COLUMN IF NOT EXISTS custom_css TEXT;
     ALTER TABLE pages ADD COLUMN IF NOT EXISTS meta_title TEXT;
     ALTER TABLE pages ADD COLUMN IF NOT EXISTS meta_description TEXT;
     ALTER TABLE pages ADD COLUMN IF NOT EXISTS created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW();
