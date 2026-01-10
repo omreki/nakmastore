@@ -109,7 +109,7 @@ const CategoryPage = () => {
             <div className="relative pt-24 pb-8 md:pt-32 md:pb-20 px-6 overflow-hidden">
                 <div className="absolute top-0 right-0 w-[50%] h-[50%] bg-primary/10 blur-[120px] rounded-full pointer-events-none"></div>
 
-                <div className="max-w-[1440px] mx-auto text-center relative z-10">
+                <div className="layout-container text-center relative z-10">
                     <p className="text-primary font-black uppercase tracking-[0.2em] text-xs mb-4 animate-fade-in-up">Collection</p>
                     <h1 className="text-4xl md:text-7xl font-black text-white uppercase tracking-tighter mb-4 md:mb-6 animate-fade-in-up" style={{ animationDelay: '0.1s' }}>
                         {category.name}
@@ -124,7 +124,7 @@ const CategoryPage = () => {
 
             {/* Subcategories Filter */}
             {subCategories.length > 0 && (
-                <div className="max-w-[1440px] mx-auto px-6 mb-8 md:mb-12 animate-fade-in-up" style={{ animationDelay: '0.3s' }}>
+                <div className="layout-container mb-8 md:mb-12 animate-fade-in-up" style={{ animationDelay: '0.3s' }}>
                     <div className="flex flex-wrap justify-center gap-2 md:gap-4">
                         <button
                             onClick={() => setActiveSubCategory('all')}
@@ -146,7 +146,7 @@ const CategoryPage = () => {
             )}
 
             {/* Products Grid */}
-            <div className="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="layout-container">
                 {displayedProducts.length > 0 ? (
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-x-6 gap-y-12">
                         {displayedProducts.map((product, index) => (

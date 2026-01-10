@@ -130,7 +130,7 @@ const ShopPage = () => {
             />
             {/* Hero / Header Section */}
             {!searchQuery && (
-                <div className="w-full px-4 md:px-6 max-w-[1700px] mx-auto mb-12 md:mb-16">
+                <div className="layout-container mb-12 md:mb-16">
                     <div className="relative w-full h-[300px] md:h-[450px] rounded-[40px] md:rounded-[56px] overflow-hidden group shadow-2xl bg-white/[0.03]">
                         <div
                             className="absolute inset-0 bg-cover bg-center transition-transform duration-[2s] group-hover:scale-105"
@@ -152,7 +152,7 @@ const ShopPage = () => {
             )}
 
             {/* Breadcrumbs */}
-            <div className="w-full px-4 md:px-8 max-w-[1700px] mx-auto mb-8">
+            <div className="layout-container mb-8">
                 <nav className="flex items-center gap-2 text-sm font-medium text-white/40">
                     <Link to="/" className="hover:text-white transition-colors">Home</Link>
                     <span className="material-symbols-outlined text-xs">chevron_right</span>
@@ -168,7 +168,7 @@ const ShopPage = () => {
 
             {/* Filter Bar */}
             {!searchQuery && (
-                <div className="w-full px-4 md:px-8 max-w-[1700px] mx-auto mb-12 flex flex-col md:flex-row md:items-center justify-between gap-6">
+                <div className="layout-container mb-12 flex flex-col md:flex-row md:items-center justify-between gap-6">
                     <div className="flex items-center gap-3 overflow-x-visible pb-2 md:pb-0 scrollbar-hide relative">
                         <button
                             onClick={() => setActiveCategory({ name: 'All Products', slug: 'all' })}
@@ -221,7 +221,7 @@ const ShopPage = () => {
 
             {/* Search Results Title */}
             {searchQuery && (
-                <div className="w-full px-4 md:px-8 max-w-[1700px] mx-auto mb-12">
+                <div className="layout-container mb-12">
                     <h2 className="text-2xl md:text-4xl font-black text-white uppercase tracking-tighter">
                         {products.length} Results for <span className="text-primary italic">"{searchQuery}"</span>
                     </h2>
@@ -229,7 +229,7 @@ const ShopPage = () => {
             )}
 
             {/* Product Grid Area */}
-            <div className="w-full px-4 md:px-8 max-w-[1700px] mx-auto">
+            <div className="layout-container">
                 {isLoading ? (
                     <div className="flex flex-col items-center justify-center py-32 gap-6">
                         <div className="size-12 border-4 border-primary/20 border-t-primary rounded-full animate-spin"></div>

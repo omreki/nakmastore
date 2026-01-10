@@ -198,7 +198,7 @@ const ProductPage = () => {
                 <div className="absolute bottom-[-10%] left-[-10%] w-[400px] h-[400px] bg-primary-dark/10 rounded-full blur-[80px]"></div>
             </div>
 
-            <main className="max-w-[1280px] mx-auto px-6 md:px-10">
+            <main className="layout-container">
                 {/* Breadcrumbs - Compact */}
                 <nav className="flex items-center gap-2 text-[10px] font-bold uppercase tracking-widest text-white/30 mb-6">
                     <Link to="/" className="hover:text-white transition-colors">Home</Link>

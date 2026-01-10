@@ -94,7 +94,7 @@ const CommunityPage = () => {
             />
 
             {/* Hero Section */}
-            <div className="w-full px-4 md:px-6 max-w-[1600px] mx-auto mb-12 md:mb-16">
+            <div className="layout-container mb-12 md:mb-16">
                 <div className="relative w-full h-[300px] md:h-[400px] rounded-[32px] md:rounded-[40px] overflow-hidden group shadow-2xl bg-gradient-to-br from-primary/20 to-[#1a1a1a]">
                     <div
                         className="absolute inset-0 bg-cover bg-center transition-transform duration-[2s] group-hover:scale-105"
@@ -118,7 +118,7 @@ const CommunityPage = () => {
             </div>
 
             {/* Category Filter */}
-            <div className="w-full px-4 md:px-8 max-w-[1600px] mx-auto mb-12">
+            <div className="layout-container mb-12">
                 <div className="flex items-center gap-3 overflow-x-auto pb-2 md:pb-0 scrollbar-hide">
                     <button
                         onClick={() => setSelectedCategory('all')}
@@ -145,7 +145,7 @@ const CommunityPage = () => {
             </div>
 
             {/* Articles Grid */}
-            <div className="w-full px-4 md:px-8 max-w-[1600px] mx-auto">
+            <div className="layout-container">
                 {isLoading ? (
                     <div className="flex flex-col items-center justify-center py-32 gap-6">
                         <div className="size-12 border-4 border-[#b82063]/20 border-t-[#b82063] rounded-full animate-spin"></div>

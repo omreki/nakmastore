@@ -296,10 +296,28 @@ input[type="checkbox"]:checked {
 
 /* Global utility for layout containers */
 .layout-container {
-    max-width: 100%;
+    width: 100%;
+    max-width: 1800px;
     margin-left: auto;
     margin-right: auto;
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
 }
+
+@media (min-width: 768px) {
+    .layout-container {
+        padding-left: 4rem;
+        padding-right: 4rem;
+    }
+}
+
+@media (min-width: 1024px) {
+    .layout-container {
+        padding-left: 6rem;
+        padding-right: 6rem;
+    }
+}
+
 
 /* Page specific backgrounds */
 .cart-page-bg {

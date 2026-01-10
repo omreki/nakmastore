@@ -87,7 +87,7 @@ const HomePage = () => {
                 description={settings?.homepageSettings?.seo?.metaDescription || "Nakma Store: Unique African-inspired men's fashion. Blend heritage with modern design for the contemporary man."}
             />
             {/* Hero Section */}
-            <div className="w-full px-4 md:px-8 pt-24 pb-8 max-w-[1700px] mx-auto relative group">
+            <div className="layout-container pt-24 pb-8 relative group">
                 {/* Background Ambient Glows */}
                 <div className="absolute top-1/4 right-1/4 w-[500px] h-[500px] bg-primary/20 rounded-full blur-[120px] pointer-events-none animate-pulse duration-[4s]"></div>
                 <div className="absolute bottom-1/4 left-1/4 w-[400px] h-[400px] bg-primary-dark/15 rounded-full blur-[100px] pointer-events-none animate-pulse duration-[6s]"></div>
@@ -163,7 +163,7 @@ const HomePage = () => {
             </div>
 
             {/* New Arrivals Header */}
-            <div className="w-full px-4 md:px-8 max-w-[1700px] mx-auto pt-16 md:pt-24 pb-8 flex items-end justify-between">
+            <div className="layout-container pt-16 md:pt-24 pb-8 flex items-end justify-between">
                 <div>
                     <h2 className="text-white text-2xl md:text-4xl font-black tracking-tighter uppercase leading-none">New Arrivals</h2>
                     <p className="text-white/40 mt-3 text-sm md:text-lg font-medium italic">Elevated African style for the modern man.</p>
@@ -174,7 +174,7 @@ const HomePage = () => {
             </div>
 
             {/* New Arrivals Grid */}
-            <div className="w-full px-4 md:px-8 max-w-[1700px] mx-auto pb-16">
+            <div className="layout-container pb-16">
                 {loading ? (
                     <div className="flex justify-center py-20">
                         <div className="size-12 border-4 border-white/5 border-t-primary rounded-full animate-spin"></div>
@@ -222,7 +222,7 @@ const HomePage = () => {
             </div>
 
             {/* Philosophy/Women's Collection Section */}
-            <div className="w-full px-4 md:px-8 py-12 md:py-16 max-w-[1700px] mx-auto">
+            <div className="layout-container py-12 md:py-16">
                 <div className="relative w-full h-[400px] md:h-[600px] rounded-[32px] md:rounded-[56px] overflow-hidden group shadow-2xl border border-white/[0.03]">
                     {/* Background Image - Women's Gym Outfit */}
                     {philImg && (
@@ -263,7 +263,7 @@ const HomePage = () => {
             </div>
 
             {/* Category Section */}
-            <div className="w-full px-4 md:px-8 py-12 max-w-[1700px] mx-auto">
+            <div className="layout-container py-12">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                     {/* Vibrant Prints Card */}
                     <Link to="/category/vibrant-prints" className="relative aspect-[4/5] md:aspect-[4/3] rounded-[40px] overflow-hidden group block shadow-2xl bg-[#121212]">
