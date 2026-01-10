@@ -187,7 +187,7 @@ const ProductCard = ({ product, formatPrice, index }) => {
                         </span>
                     )}
                     {product.is_sale && (
-                        <span className="bg-[#b82063] text-white text-[9px] font-black px-2 py-1 uppercase tracking-widest rounded-sm">
+                        <span className="bg-[#30136a] text-white text-[9px] font-black px-2 py-1 uppercase tracking-widest rounded-sm">
                             Sale
                         </span>
                     )}
@@ -204,7 +204,7 @@ const ProductCard = ({ product, formatPrice, index }) => {
                 <div className="text-right">
                     {product.is_sale ? (
                         <div className="flex flex-col items-end">
-                            <span className="text-xs text-[#b82063] font-bold">{formatPrice(product.sale_price)}</span>
+                            <span className="text-xs text-[#30136a] font-bold">{formatPrice(product.sale_price)}</span>
                             <span className="text-[10px] text-gray-600 line-through">{formatPrice(product.price)}</span>
                         </div>
                     ) : (

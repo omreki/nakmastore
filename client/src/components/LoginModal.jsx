@@ -75,7 +75,7 @@ const LoginModal = () => {
                     </button>
 
                     {/* Left Panel: Hero Image (Hidden on small screens) */}
-                    <div className="relative w-full lg:w-5/12 hidden lg:block overflow-hidden bg-[#7a1542]">
+                    <div className="relative w-full lg:w-5/12 hidden lg:block overflow-hidden bg-[#1e0c42]">
                         <div
                             className="absolute inset-0 bg-cover bg-center transition-transform duration-[10s] hover:scale-110"
                             style={{
@@ -84,7 +84,7 @@ const LoginModal = () => {
                                     : (settings?.loginPageSettings?.login_bg_url === '' ? 'none' : "url('/hero-clothes-bg.png')")
                             }}
                         ></div>
-                        <div className="absolute inset-0 bg-gradient-to-t from-[#30136a] via-[#7a1542]/40 to-transparent"></div>
+                        <div className="absolute inset-0 bg-gradient-to-t from-[#30136a] via-[#1e0c42]/40 to-transparent"></div>
                         <div className="absolute inset-0 bg-black/20"></div>
 
                         <div className="absolute bottom-0 left-0 p-12 text-white z-10 w-full">
@@ -113,13 +113,13 @@ const LoginModal = () => {
                             <div className="flex justify-center mb-10">
                                 <div className="bg-white/5 p-1 rounded-full flex w-full border border-white/5 relative">
                                     <button
-                                        className={`flex-1 py-3 px-6 rounded-full text-[10px] uppercase tracking-[0.2em] font-black transition-all ${isLogin ? 'bg-[#b82063] text-white shadow-lg' : 'text-white/40 hover:text-white'}`}
+                                        className={`flex-1 py-3 px-6 rounded-full text-[10px] uppercase tracking-[0.2em] font-black transition-all ${isLogin ? 'bg-[#30136a] text-white shadow-lg' : 'text-white/40 hover:text-white'}`}
                                         onClick={() => setIsLogin(true)}
                                     >
                                         Sign In
                                     </button>
                                     <button
-                                        className={`flex-1 py-3 px-6 rounded-full text-[10px] uppercase tracking-[0.2em] font-black transition-all ${!isLogin ? 'bg-[#b82063] text-white shadow-lg' : 'text-white/40 hover:text-white'}`}
+                                        className={`flex-1 py-3 px-6 rounded-full text-[10px] uppercase tracking-[0.2em] font-black transition-all ${!isLogin ? 'bg-[#30136a] text-white shadow-lg' : 'text-white/40 hover:text-white'}`}
                                         onClick={() => setIsLogin(false)}
                                     >
                                         Register
@@ -130,7 +130,7 @@ const LoginModal = () => {
                             <div className="text-center mb-8">
                                 <h3 className="text-2xl font-black text-white tracking-widest uppercase italic">{isLogin ? 'Welcome Back' : 'Create Account'}</h3>
                                 {error && (
-                                    <div className={`mt-4 p-4 rounded-2xl text-[10px] font-black uppercase tracking-widest ${error.includes('successful') ? 'bg-green-500/10 text-green-400 border border-green-500/20' : 'bg-[#b82063]/10 text-[#b82063] border border-[#b82063]/20'}`}>
+                                    <div className={`mt-4 p-4 rounded-2xl text-[10px] font-black uppercase tracking-widest ${error.includes('successful') ? 'bg-green-500/10 text-green-400 border border-green-500/20' : 'bg-[#30136a]/10 text-[#30136a] border border-[#30136a]/20'}`}>
                                         {error}
                                     </div>
                                 )}
@@ -140,7 +140,7 @@ const LoginModal = () => {
                                 {!isLogin && (
                                     <div className="group">
                                         <input
-                                            className="w-full h-14 px-6 bg-white/[0.03] border border-white/[0.08] rounded-full text-sm font-medium text-white placeholder:text-white/20 focus:outline-none focus:border-[#b82063] transition-colors"
+                                            className="w-full h-14 px-6 bg-white/[0.03] border border-white/[0.08] rounded-full text-sm font-medium text-white placeholder:text-white/20 focus:outline-none focus:border-[#30136a] transition-colors"
                                             placeholder="FULL NAME"
                                             type="text"
                                             value={fullName}
@@ -151,7 +151,7 @@ const LoginModal = () => {
                                 )}
                                 <div className="group">
                                     <input
-                                        className="w-full h-14 px-6 bg-white/[0.03] border border-white/[0.08] rounded-full text-sm font-medium text-white placeholder:text-white/20 focus:outline-none focus:border-[#b82063] transition-colors"
+                                        className="w-full h-14 px-6 bg-white/[0.03] border border-white/[0.08] rounded-full text-sm font-medium text-white placeholder:text-white/20 focus:outline-none focus:border-[#30136a] transition-colors"
                                         placeholder="EMAIL ADDRESS"
                                         type="email"
                                         value={email}
@@ -161,7 +161,7 @@ const LoginModal = () => {
                                 </div>
                                 <div className="group">
                                     <input
-                                        className="w-full h-14 px-6 bg-white/[0.03] border border-white/[0.08] rounded-full text-sm font-medium text-white placeholder:text-white/20 focus:outline-none focus:border-[#b82063] transition-colors"
+                                        className="w-full h-14 px-6 bg-white/[0.03] border border-white/[0.08] rounded-full text-sm font-medium text-white placeholder:text-white/20 focus:outline-none focus:border-[#30136a] transition-colors"
                                         placeholder="PASSWORD"
                                         type="password"
                                         value={password}
@@ -172,12 +172,12 @@ const LoginModal = () => {
 
                                 {isLogin && (
                                     <div className="flex items-center justify-end px-2">
-                                        <button type="button" className="text-[10px] font-black uppercase tracking-widest text-[#b82063] hover:text-[#ff334b] transition-colors">Forgot Password?</button>
+                                        <button type="button" className="text-[10px] font-black uppercase tracking-widest text-[#30136a] hover:text-[#ff334b] transition-colors">Forgot Password?</button>
                                     </div>
                                 )}
 
                                 <button
-                                    className={`mt-4 w-full h-14 bg-white text-black hover:bg-[#b82063] hover:text-white rounded-full font-black text-[11px] uppercase tracking-[0.2em] transition-all duration-500 shadow-xl active:scale-95 flex items-center justify-center gap-3 ${loading ? 'opacity-70 cursor-not-allowed' : ''}`}
+                                    className={`mt-4 w-full h-14 bg-white text-black hover:bg-[#30136a] hover:text-white rounded-full font-black text-[11px] uppercase tracking-[0.2em] transition-all duration-500 shadow-xl active:scale-95 flex items-center justify-center gap-3 ${loading ? 'opacity-70 cursor-not-allowed' : ''}`}
                                     type="submit"
                                     disabled={loading}
                                 >

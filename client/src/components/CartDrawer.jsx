@@ -48,7 +48,7 @@ const CartDrawer = () => {
                             <p className="text-white/40 font-medium uppercase tracking-widest text-xs">Your bag is empty</p>
                             <button
                                 onClick={() => setIsCartOpen(false)}
-                                className="text-[#b82063] text-[10px] font-black uppercase tracking-[0.2em] hover:underline"
+                                className="text-[#30136a] text-[10px] font-black uppercase tracking-[0.2em] hover:underline"
                             >
                                 Start Shopping
                             </button>
@@ -66,7 +66,7 @@ const CartDrawer = () => {
                                 <div className="flex-grow flex flex-col justify-between py-1">
                                     <div className="space-y-1">
                                         <div className="flex justify-between items-start">
-                                            <h4 className="text-sm font-black uppercase tracking-tight text-white group-hover:text-[#b82063] transition-colors line-clamp-1">{item.name}</h4>
+                                            <h4 className="text-sm font-black uppercase tracking-tight text-white group-hover:text-[#30136a] transition-colors line-clamp-1">{item.name}</h4>
                                             <div className="flex flex-col items-end">
                                                 <span className="text-sm font-black italic">
                                                     {formatPrice((item.is_sale && item.sale_price ? item.sale_price : item.price) * item.quantity)}
@@ -120,14 +120,14 @@ const CartDrawer = () => {
                 <div className="p-8 space-y-6 border-t border-white/5 bg-white/[0.01]">
                     <div className="flex justify-between items-end">
                         <span className="text-[10px] font-black uppercase tracking-[0.3em] text-white/40">Subtotal</span>
-                        <span className="text-2xl font-black italic text-[#b82063]">{formatPrice(subtotal)}</span>
+                        <span className="text-2xl font-black italic text-[#30136a]">{formatPrice(subtotal)}</span>
                     </div>
 
                     <div className="space-y-3">
                         <Link
                             to="/checkout"
                             onClick={() => setIsCartOpen(false)}
-                            className="w-full h-14 bg-white text-black rounded-full flex items-center justify-center font-black text-xs uppercase tracking-[0.2em] hover:bg-[#b82063] hover:text-white transition-all transform active:scale-[0.98] shadow-xl"
+                            className="w-full h-14 bg-white text-black rounded-full flex items-center justify-center font-black text-xs uppercase tracking-[0.2em] hover:bg-[#30136a] hover:text-white transition-all transform active:scale-[0.98] shadow-xl"
                         >
                             Checkout
                             <span className="material-symbols-outlined ml-3 text-lg">east</span>

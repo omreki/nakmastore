@@ -19,8 +19,8 @@ const AdminLayout = ({ children }) => {
             <div className="fixed top-0 left-0 w-full h-full overflow-hidden -z-10 pointer-events-none">
                 <div className="absolute inset-0 bg-gradient-to-b from-[#30136a] via-[#1e0c42] to-[#000000]"></div>
                 <div className="absolute top-[-10%] right-[-10%] w-[800px] h-[800px] bg-gradient-to-br from-primary/20 to-transparent rounded-full blur-[120px] mix-blend-screen"></div>
-                <div className="absolute bottom-[-10%] left-[-10%] w-[600px] h-[600px] bg-gradient-to-tr from-[#b82063]/10 to-transparent rounded-full blur-[100px] mix-blend-screen"></div>
-                <div className="absolute top-[40%] left-[30%] w-[400px] h-[400px] bg-[#7a1542]/10 rounded-full blur-[90px] mix-blend-screen"></div>
+                <div className="absolute bottom-[-10%] left-[-10%] w-[600px] h-[600px] bg-gradient-to-tr from-[#30136a]/10 to-transparent rounded-full blur-[100px] mix-blend-screen"></div>
+                <div className="absolute top-[40%] left-[30%] w-[400px] h-[400px] bg-[#1e0c42]/10 rounded-full blur-[90px] mix-blend-screen"></div>
             </div>
 
             <AdminSidebar />

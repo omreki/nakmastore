@@ -126,7 +126,7 @@ const HomePage = () => {
                                 className="font-black leading-none opacity-30 select-none tracking-tighter whitespace-nowrap"
                                 style={{
                                     fontSize: "20vw",
-                                    WebkitTextStroke: "2px #b82063",
+                                    WebkitTextStroke: "2px #30136a",
                                     color: "transparent",
                                     transform: "translateY(-5%)"
                                 }}
@@ -297,7 +297,7 @@ const HomePage = () => {
                                     <div className="absolute bottom-4 sm:bottom-6 left-4 sm:left-6 right-4 sm:right-6 opacity-0 translate-y-4 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300 pointer-events-none md:pointer-events-auto">
                                         <button
                                             onClick={(e) => handleQuickAdd(e, product)}
-                                            className="w-full h-10 md:h-12 bg-black text-white rounded-xl md:rounded-2xl font-black text-[9px] md:text-[10px] uppercase tracking-widest hover:bg-[#b82063] transition-colors shadow-xl pointer-events-auto"
+                                            className="w-full h-10 md:h-12 bg-black text-white rounded-xl md:rounded-2xl font-black text-[9px] md:text-[10px] uppercase tracking-widest hover:bg-primary transition-colors shadow-xl pointer-events-auto"
                                         >
                                             Add to Bag
                                         </button>
@@ -305,7 +305,7 @@ const HomePage = () => {
                                 </div>
                                 <div className="px-2">
                                     <div className="flex flex-col gap-1 mb-1">
-                                        <h3 className="text-white font-bold text-lg group-hover:text-[#b82063] transition-colors line-clamp-1 uppercase tracking-tight">{product.name}</h3>
+                                        <h3 className="text-white font-bold text-lg group-hover:text-primary transition-colors line-clamp-1 uppercase tracking-tight">{product.name}</h3>
                                         <div className="flex items-center gap-2">
                                             {product.is_sale && product.sale_price ? (
                                                 <>
@@ -340,7 +340,7 @@ const HomePage = () => {
             <div className="w-full px-4 md:px-8 max-w-[1600px] mx-auto pb-24">
                 {loading ? (
                     <div className="flex justify-center py-20">
-                        <div className="size-12 border-4 border-white/5 border-t-[#b82063] rounded-full animate-spin"></div>
+                        <div className="size-12 border-4 border-white/5 border-t-primary rounded-full animate-spin"></div>
                     </div>
                 ) : menProducts.length > 0 ? (
                     <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
@@ -357,7 +357,7 @@ const HomePage = () => {
                                     <div className="absolute bottom-4 sm:bottom-6 left-4 sm:left-6 right-4 sm:right-6 opacity-0 translate-y-4 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300 pointer-events-none md:pointer-events-auto">
                                         <button
                                             onClick={(e) => handleQuickAdd(e, product)}
-                                            className="w-full h-10 md:h-12 bg-black text-white rounded-xl md:rounded-2xl font-black text-[9px] md:text-[10px] uppercase tracking-widest hover:bg-[#b82063] transition-colors shadow-xl pointer-events-auto"
+                                            className="w-full h-10 md:h-12 bg-black text-white rounded-xl md:rounded-2xl font-black text-[9px] md:text-[10px] uppercase tracking-widest hover:bg-[#30136a] transition-colors shadow-xl pointer-events-auto"
                                         >
                                             Add to Bag
                                         </button>
@@ -365,7 +365,7 @@ const HomePage = () => {
                                 </div>
                                 <div className="px-2">
                                     <div className="flex flex-col gap-1 mb-1">
-                                        <h3 className="text-white font-bold text-lg group-hover:text-[#b82063] transition-colors line-clamp-1 uppercase tracking-tight">{product.name}</h3>
+                                        <h3 className="text-white font-bold text-lg group-hover:text-primary transition-colors line-clamp-1 uppercase tracking-tight">{product.name}</h3>
                                         <div className="flex items-center gap-2">
                                             {product.is_sale && product.sale_price ? (
                                                 <>
@@ -404,7 +404,7 @@ const HomePage = () => {
             <div className="w-full px-4 md:px-8 max-w-[1600px] mx-auto pb-24">
                 {loading ? (
                     <div className="flex justify-center py-20">
-                        <div className="size-12 border-4 border-white/5 border-t-[#b82063] rounded-full animate-spin"></div>
+                        <div className="size-12 border-4 border-white/5 border-t-primary rounded-full animate-spin"></div>
                     </div>
                 ) : womenProducts.length > 0 ? (
                     <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
@@ -421,7 +421,7 @@ const HomePage = () => {
                                     <div className="absolute bottom-4 sm:bottom-6 left-4 sm:left-6 right-4 sm:right-6 opacity-0 translate-y-4 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300 pointer-events-none md:pointer-events-auto">
                                         <button
                                             onClick={(e) => handleQuickAdd(e, product)}
-                                            className="w-full h-10 md:h-12 bg-black text-white rounded-xl md:rounded-2xl font-black text-[9px] md:text-[10px] uppercase tracking-widest hover:bg-[#b82063] transition-colors shadow-xl pointer-events-auto"
+                                            className="w-full h-10 md:h-12 bg-black text-white rounded-xl md:rounded-2xl font-black text-[9px] md:text-[10px] uppercase tracking-widest hover:bg-[#30136a] transition-colors shadow-xl pointer-events-auto"
                                         >
                                             Add to Bag
                                         </button>
@@ -429,7 +429,7 @@ const HomePage = () => {
                                 </div>
                                 <div className="px-2">
                                     <div className="flex flex-col gap-1 mb-1">
-                                        <h3 className="text-white font-bold text-lg group-hover:text-[#b82063] transition-colors line-clamp-1 uppercase tracking-tight">{product.name}</h3>
+                                        <h3 className="text-white font-bold text-lg group-hover:text-primary transition-colors line-clamp-1 uppercase tracking-tight">{product.name}</h3>
                                         <div className="flex items-center gap-2">
                                             {product.is_sale && product.sale_price ? (
                                                 <>

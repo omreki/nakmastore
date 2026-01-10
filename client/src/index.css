@@ -6,17 +6,17 @@
 @plugin "@tailwindcss/postcss";
 
 @theme {
-    --color-primary: #b82063;
-    --color-primary-hover: #a01b56;
-    --color-primary-light: #d44a86;
-    --color-primary-dark: #7a1542;
-    --color-primary-bright: #b82063;
+    --color-primary: #30136a;
+    --color-primary-hover: #1e0c42;
+    --color-primary-light: #4a2da0;
+    --color-primary-dark: #0f0621;
+    --color-primary-bright: #5d34a4;
     --color-primary-accent: #d86928;
     --color-accent: #d86928;
     --color-secondary: #30136a;
     --color-background-light: #4a2da0;
     --color-background-dark: #1e0c42;
-    --color-card-dark: rgba(48, 19, 106, 0.6);
+    --color-card-dark: rgba(30, 12, 66, 0.6);
     --color-text-main: #ffffff;
     --color-text-muted: #a1a1aa;
 }
@@ -86,12 +86,12 @@ body {
 }
 
 .shop-page ::-webkit-scrollbar-thumb {
-    background: #7a1542;
+    background: #1e0c42;
     border-radius: 4px;
 }
 
 .shop-page ::-webkit-scrollbar-thumb:hover {
-    background: #b82063;
+    background: #30136a;
 }
 
 /* Glass & Background Utilities */
@@ -197,7 +197,7 @@ body {
 .orb-1 {
     width: 600px;
     height: 600px;
-    background: radial-gradient(circle, #b82063 0%, transparent 70%);
+    background: radial-gradient(circle, #30136a 0%, transparent 70%);
     top: -150px;
     left: -150px;
 }
@@ -220,8 +220,8 @@ body {
 
 .input-gloss:focus {
     background: rgba(30, 12, 66, 0.6);
-    border-color: #b82063;
-    box-shadow: 0 0 0 1px #b82063, 0 0 0 4px rgba(184, 32, 99, 0.15);
+    border-color: #30136a;
+    box-shadow: 0 0 0 1px #30136a, 0 0 0 4px rgba(48, 19, 106, 0.15);
     transform: translateY(-1px);
 }
 
@@ -250,8 +250,8 @@ input[type="checkbox"] {
 }
 
 input[type="checkbox"]:checked {
-    background-color: #b82063;
-    border-color: #b82063;
+    background-color: #30136a;
+    border-color: #30136a;
     background-image: url("data:image/svg+xml,%3csvg viewBox='0 0 16 16' fill='white' xmlns='http://www.w3.org/2000/svg'%3e%3cpath d='M12.207 4.793a1 1 0 010 1.414l-5 5a1 1 0 01-1.414 0l-2-2a1 1 0 011.414-1.414L6.5 9.086l4.293-4.293a1 1 0 011.414 0z'/%3e%3c/svg%3e");
 }
 
@@ -266,7 +266,7 @@ input[type="checkbox"]:checked {
 .cart-page-bg {
     background-color: #30136a;
     background-image:
-        radial-gradient(circle at 50% -20%, #7a1542 0%, transparent 60%),
+        radial-gradient(circle at 50% -20%, #1e0c42 0%, transparent 60%),
         linear-gradient(180deg, #1e0c42 0%, #000000 100%);
     background-attachment: fixed;
 }
@@ -276,7 +276,7 @@ input[type="checkbox"]:checked {
 }
 
 .confirmation-page-bg {
-    background: radial-gradient(circle at 50% -20%, #b82063 0%, #30136a 40%, #1e0c42 100%);
+    background: radial-gradient(circle at 50% -20%, #30136a 0%, #1e0c42 40%, #000000 100%);
     background-attachment: fixed;
     color: white;
 }
@@ -309,7 +309,7 @@ input[type="checkbox"]:checked {
 }
 
 ::selection {
-    background-color: #b82063;
+    background-color: #30136a;
     color: white;
 }
 

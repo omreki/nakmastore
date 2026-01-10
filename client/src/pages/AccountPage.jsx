@@ -88,8 +88,8 @@ const AccountPage = () => {
         <div className="min-h-screen bg-[#30136a] text-white pt-20 md:pt-24 pb-20 font-['Manrope']">
             {/* Ambient Lighting */}
             <div className="fixed top-0 left-0 w-full h-full overflow-hidden pointer-events-none -z-10">
-                <div className="absolute top-[-10%] right-[-10%] w-[800px] h-[800px] bg-[#b82063]/10 rounded-full blur-[120px]"></div>
-                <div className="absolute bottom-[-10%] left-[-10%] w-[600px] h-[600px] bg-[#b82063]/10 rounded-full blur-[100px]"></div>
+                <div className="absolute top-[-10%] right-[-10%] w-[800px] h-[800px] bg-[#30136a]/10 rounded-full blur-[120px]"></div>
+                <div className="absolute bottom-[-10%] left-[-10%] w-[600px] h-[600px] bg-[#30136a]/10 rounded-full blur-[100px]"></div>
             </div>
 
             <main className="max-w-[1200px] mx-auto px-6 md:px-10">
@@ -224,50 +224,52 @@ const AccountPage = () => {
                                                     <span className="material-symbols-outlined text-[16px]">local_shipping</span>
                                                     <span>Standard Shipping</span>
                                                 </div>
-                                                <button
+                                                <button className="text-primary hover:text-white transition-colors flex items-center gap-2 group">
                                                     Track Order <span className="material-symbols-outlined text-[16px] group-hover:translate-x-1 transition-transform">arrow_forward</span>
-                                            </button>
+                                                </button>
+                                            </div>
                                         </div>
-                                        </div>
-                        ))
+                                    ))
                                 )}
-                    </div>
-                    ) : (
-                    <div className="glass-panel rounded-[1.5rem] md:rounded-[2.5rem] p-6 md:p-10 border border-white/5 bg-black/20">
-                        <h3 className="text-xl font-black mb-8 italic tracking-tight">Profile <span className="text-primary-light">Details</span></h3>
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                            <div className="space-y-2">
-                                <p className="text-[10px] text-gray-500 font-black uppercase tracking-widest ml-1">Email Address</p>
-                                <div className="h-14 flex items-center px-6 rounded-2xl bg-white/[0.03] border border-white/5 text-sm font-bold opacity-60">
-                                    {user?.email}
+                            </div>
+                        ) : (
+                            <div className="glass-panel rounded-[1.5rem] md:rounded-[2.5rem] p-6 md:p-10 border border-white/5 bg-black/20">
+                                <h3 className="text-xl font-black mb-8 italic tracking-tight">Profile <span className="text-primary-light">Details</span></h3>
+                                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                                    <div className="space-y-2">
+                                        <p className="text-[10px] text-gray-500 font-black uppercase tracking-widest ml-1">Email Address</p>
+                                        <div className="h-14 flex items-center px-6 rounded-2xl bg-white/[0.03] border border-white/5 text-sm font-bold opacity-60">
+                                            {user?.email}
+                                        </div>
+                                    </div>
+                                    <div className="space-y-2">
+                                        <p className="text-[10px] text-gray-500 font-black uppercase tracking-widest ml-1">Account Status</p>
+                                        <div className="h-14 flex items-center px-6 rounded-2xl bg-green-500/5 border border-green-500/10 text-green-400 text-sm font-black italic uppercase tracking-widest shadow-inner">
+                                            Verified Member
+                                        </div>
+                                    </div>
+                                    <div className="space-y-2">
+                                        <p className="text-[10px] text-gray-500 font-black uppercase tracking-widest ml-1">Account Security</p>
+                                        <button className="h-14 w-full flex items-center justify-between px-6 rounded-2xl bg-white/5 border border-white/5 text-sm font-bold group hover:border-primary transition-all">
+                                            <span>Update Password</span>
+                                            <span className="material-symbols-outlined text-gray-600 group-hover:text-primary transition-colors">key</span>
+                                        </button>
+                                    </div>
+                                    <div className="space-y-2">
+                                        <p className="text-[10px] text-gray-500 font-black uppercase tracking-widest ml-1">Communication Channel</p>
+                                        <div className="h-14 flex items-center justify-between px-6 rounded-2xl bg-white/5 border border-white/5 text-sm font-bold">
+                                            <span>Email Notifications</span>
+                                            <div className="size-2 bg-green-500 rounded-full shadow-[0_0_10px_rgba(34,197,94,0.5)]"></div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
-                            <div className="space-y-2">
-                                <p className="text-[10px] text-gray-500 font-black uppercase tracking-widest ml-1">Account Status</p>
-                                <div className="h-14 flex items-center px-6 rounded-2xl bg-green-500/5 border border-green-500/10 text-green-400 text-sm font-black italic uppercase tracking-widest shadow-inner">
-                                    Verified Member
-                                </div>
-                            </div>
-                            <div className="space-y-2">
-                                <span>Update Password</span>
-                                <span className="material-symbols-outlined text-gray-600 group-hover:text-primary transition-colors">key</span>
-                            </button>
-                        </div>
-                        <div className="space-y-2">
-                            <p className="text-[10px] text-gray-500 font-black uppercase tracking-widest ml-1">Communication Channel</p>
-                            <div className="h-14 flex items-center justify-between px-6 rounded-2xl bg-white/5 border border-white/5 text-sm font-bold">
-                                <span>Email Notifications</span>
-                                <div className="size-2 bg-green-500 rounded-full shadow-[0_0_10px_rgba(34,197,94,0.5)]"></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
                         )}
-        </div>
+                    </div>
                 </div >
             </main >
 
-    <style>{`
+            <style>{`
                 @keyframes pulse-subtle {
                     0%, 100% { opacity: 1; transform: scale(1); }
                     50% { opacity: 0.8; transform: scale(0.98); }
