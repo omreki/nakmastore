@@ -1413,7 +1413,7 @@ const StoreSettingsPage = () => {
                                                         type="checkbox"
                                                         checked={navItemForm.visible}
                                                         onChange={(e) => setNavItemForm({ ...navItemForm, visible: e.target.checked })}
-                                                        className="mr-3"
+                                                        className="admin-checkbox mr-3"
                                                     />
                                                     <span className="text-sm text-gray-300">Visible</span>
                                                 </div>
@@ -3663,7 +3663,7 @@ const StoreSettingsPage = () => {
                                                     id="is_system_protected"
                                                     checked={pageForm.is_system}
                                                     onChange={(e) => setPageForm({ ...pageForm, is_system: e.target.checked })}
-                                                    className="accent-primary w-5 h-5 rounded cursor-pointer"
+                                                    className="admin-checkbox w-5 h-5"
                                                 />
                                                 <div>
                                                     <label htmlFor="is_system_protected" className="text-white text-xs font-black uppercase tracking-widest cursor-pointer select-none">

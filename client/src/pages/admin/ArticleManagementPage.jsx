@@ -599,7 +599,7 @@ const ArticleManagementPage = () => {
                                     id="is_published"
                                     checked={articleForm.is_published}
                                     onChange={(e) => setArticleForm({ ...articleForm, is_published: e.target.checked })}
-                                    className="accent-primary w-4 h-4 rounded"
+                                    className="admin-checkbox w-4 h-4"
                                 />
                                 <label htmlFor="is_published" className="text-gray-400 text-xs font-bold cursor-pointer">
                                     Publish Article (Make visible to public)

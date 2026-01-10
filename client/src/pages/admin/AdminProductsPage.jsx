@@ -196,7 +196,7 @@ const AdminProductsPage = () => {
                                 <tr className="border-b border-white/10 bg-white/[0.02] backdrop-blur-sm">
                                     <th className="p-5 pl-8 text-[10px] font-black uppercase tracking-widest text-gray-500">
                                         <div className="flex items-center gap-3">
-                                            <input className="rounded border-gray-600 bg-white/5 text-primary focus:ring-primary focus:ring-offset-0" type="checkbox" />
+                                            <input className="admin-checkbox" type="checkbox" />
                                             <span>Product</span>
                                         </div>
                                     </th>
@@ -232,7 +232,7 @@ const AdminProductsPage = () => {
                                         <tr key={product.id} className="group hover:bg-white/[0.03] transition-colors relative">
                                             <td className="p-5 pl-8">
                                                 <div className="flex items-center gap-4">
-                                                    <input className="rounded border-gray-600 bg-white/5 text-primary focus:ring-primary focus:ring-offset-0" type="checkbox" />
+                                                    <input className="admin-checkbox" type="checkbox" />
                                                     <div className="size-14 rounded-xl bg-gradient-to-br from-gray-800 to-gray-900 border border-white/10 overflow-hidden flex items-center justify-center shrink-0 shadow-inner group-hover:scale-105 transition-transform duration-300">
                                                         {product.images && product.images.length > 0 ? (
                                                             <img src={product.images[0]} alt={product.name} className="w-full h-full object-cover" />
