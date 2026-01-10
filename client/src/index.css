@@ -9,11 +9,11 @@
 
 :root {
     color-scheme: dark;
-    --color-primary: #30136a;
-    --color-primary-hover: #1e0c42;
-    --color-primary-light: #4a2da0;
-    --color-primary-dark: #0f0621;
-    --color-primary-bright: #5d34a4;
+    --color-primary: #b82063;
+    --color-primary-hover: #8a1849;
+    --color-primary-light: #d4347a;
+    --color-primary-dark: #6b1239;
+    --color-primary-bright: #e04d8f;
     --color-primary-accent: #d86928;
     --color-accent: #d86928;
     --color-secondary: #000000;
@@ -185,6 +185,28 @@ body {
     background-size: 100% 100%, 100% 100%, 40px 40px, 40px 40px;
     background-attachment: fixed;
 }
+
+/* Navbar with gradient for separation */
+.navbar-gradient-bg {
+    background: linear-gradient(135deg,
+            var(--color-background-dark) 0%,
+            color-mix(in srgb, var(--color-background-dark) 90%, var(--color-primary) 10%) 50%,
+            var(--color-background-dark) 100%);
+    position: relative;
+}
+
+.navbar-gradient-bg::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background: linear-gradient(to bottom,
+            rgba(255, 255, 255, 0.1) 0%,
+            transparent 50%,
+            rgba(0, 0, 0, 0.1) 100%);
+    pointer-events: none;
+}
+
 
 .orb {
     position: fixed;

@@ -145,7 +145,7 @@ export const StoreSettingsProvider = ({ children }) => {
             giftMessage: "Exclusive print included with <br /> <span class=\"text-[#30136a]\">your first Nakma</span> purchase."
         },
         brandSettings: {
-            primaryColor: "#30136a",
+            primaryColor: "#b82063",
             secondaryColor: "#000000",
             accentColor: "#d86928",
             backgroundColor: "#000000",
@@ -498,7 +498,7 @@ export const StoreSettingsProvider = ({ children }) => {
                         giftMessage: "Exclusive print included with <br /> <span class=\"text-[#30136a]\">your first Nakma</span> purchase."
                     },
                     brandSettings: data.brand_settings ? {
-                        primaryColor: "#30136a",
+                        primaryColor: "#b82063",
                         secondaryColor: "#000000",
                         accentColor: "#d86928",
                         backgroundColor: "#000000",
@@ -508,7 +508,7 @@ export const StoreSettingsProvider = ({ children }) => {
                         textMuted: "#a1a1aa",
                         ...data.brand_settings
                     } : {
-                        primaryColor: "#30136a",
+                        primaryColor: "#b82063",
                         secondaryColor: "#000000",
                         accentColor: "#d86928",
                         backgroundColor: "#000000",
@@ -683,17 +683,16 @@ export const StoreSettingsProvider = ({ children }) => {
             // Simple lightening/darkening could be done with a small helper library or simple manipulation
 
             // Secondary / Black
+            root.style.setProperty('--color-primary', settings.brandSettings.primaryColor);
             root.style.setProperty('--color-secondary', settings.brandSettings.secondaryColor);
-
-            // Accent
             root.style.setProperty('--color-accent', settings.brandSettings.accentColor);
 
             // Backgrounds
             root.style.setProperty('--color-background-dark', settings.brandSettings.backgroundColor);
-            root.style.setProperty('--color-navbar-bg', settings.brandSettings.navbarBg || 'rgba(0, 0, 0, 0.4)');
-            root.style.setProperty('--color-navbar-text', settings.brandSettings.navbarText || '#ffffff');
-            root.style.setProperty('--color-text-main', settings.brandSettings.textMain || '#ffffff');
-            root.style.setProperty('--color-text-muted', settings.brandSettings.textMuted || '#a1a1aa');
+            root.style.setProperty('--color-navbar-bg', settings.brandSettings.navbarBg);
+            root.style.setProperty('--color-navbar-text', settings.brandSettings.navbarText);
+            root.style.setProperty('--color-text-main', settings.brandSettings.textMain);
+            root.style.setProperty('--color-text-muted', settings.brandSettings.textMuted);
         }
     }, [settings.brandSettings]);
 

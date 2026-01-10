@@ -94,7 +94,7 @@ const StoreSettingsPage = () => {
             googleSiteVerification: ""
         },
         brandSettings: {
-            primaryColor: "#30136a",
+            primaryColor: "#b82063",
             secondaryColor: "#000000",
             accentColor: "#d86928",
             backgroundColor: "#000000"
@@ -342,7 +342,7 @@ const StoreSettingsPage = () => {
                     googleSiteVerification: ""
                 },
                 brandSettings: contextSettings.brandSettings || {
-                    primaryColor: "#30136a",
+                    primaryColor: "#b82063",
                     secondaryColor: "#000000",
                     accentColor: "#d86928",
                     backgroundColor: "#000000"
@@ -431,7 +431,7 @@ const StoreSettingsPage = () => {
         return () => {
             if (contextSettings.brandSettings) {
                 const root = document.documentElement;
-                root.style.setProperty('--color-primary', contextSettings.brandSettings.primaryColor || '#30136a');
+                root.style.setProperty('--color-primary', contextSettings.brandSettings.primaryColor || '#b82063');
                 root.style.setProperty('--color-secondary', contextSettings.brandSettings.secondaryColor || '#000000');
                 root.style.setProperty('--color-accent', contextSettings.brandSettings.accentColor || '#d86928');
                 root.style.setProperty('--color-background-dark', contextSettings.brandSettings.backgroundColor || '#000000');
@@ -1598,13 +1598,13 @@ const StoreSettingsPage = () => {
                                         <div className="flex items-center gap-4">
                                             <input
                                                 type="color"
-                                                value={settings.brandSettings?.primaryColor || '#30136a'}
+                                                value={settings.brandSettings?.primaryColor || '#b82063'}
                                                 onChange={(e) => setSettings({ ...settings, brandSettings: { ...settings.brandSettings, primaryColor: e.target.value } })}
                                                 className="size-12 rounded-xl border border-white/10 bg-transparent cursor-pointer p-1"
                                             />
                                             <input
                                                 type="text"
-                                                value={settings.brandSettings?.primaryColor || '#30136a'}
+                                                value={settings.brandSettings?.primaryColor || '#b82063'}
                                                 onChange={(e) => setSettings({ ...settings, brandSettings: { ...settings.brandSettings, primaryColor: e.target.value } })}
                                                 className="glossy-input flex-1 rounded-2xl bg-black/40 border-white/5 text-white font-bold h-12 px-6 text-sm outline-none focus:ring-1 focus:ring-primary/40 uppercase"
                                             />

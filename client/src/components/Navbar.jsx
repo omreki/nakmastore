@@ -106,7 +106,7 @@ const Navbar = () => {
 
     if (isHomePage) {
         return (
-            <nav className="fixed top-6 left-1/2 -translate-x-1/2 z-50 w-[95%] max-w-[1400px] mx-auto rounded-full bg-navbar-bg backdrop-blur-md border border-white/5 shadow-2xl transition-all duration-300">
+            <nav className="fixed top-6 left-1/2 -translate-x-1/2 z-50 w-[95%] max-w-[1400px] mx-auto rounded-full backdrop-blur-md border border-white/10 shadow-2xl transition-all duration-300 navbar-gradient-bg">
                 <div className="px-6 sm:px-10">
                     <div className="flex items-center justify-between h-14 md:h-16">
                         {/* Logo */}
