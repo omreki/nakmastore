@@ -65,7 +65,7 @@ export const NotificationProvider = ({ children }) => {
                             key={n.id}
                             className={`animate-slide-in-right pointer-events-auto relative overflow-hidden group border backdrop-blur-3xl shadow-[0_20px_50px_rgba(0,0,0,0.5)] rounded-2xl p-5 flex items-start gap-4 transition-all hover:scale-[1.02] cursor-default
                                 ${n.type === 'success'
-                                    ? 'border-emerald-500/20 bg-emerald-500/5'
+                                    ? 'border-primary/20 bg-primary/5'
                                     : n.type === 'error'
                                         ? 'border-red-500/30 bg-red-500/5'
                                         : 'border-white/10 bg-white/5'
@@ -73,26 +73,26 @@ export const NotificationProvider = ({ children }) => {
                         >
                             {/* Accent Glow */}
                             <div className={`absolute -left-12 -top-12 size-24 blur-[40px] opacity-30 group-hover:opacity-50 transition-opacity
-                                ${n.type === 'success' ? 'bg-emerald-500' : n.type === 'error' ? 'bg-red-500' : 'bg-primary'}`}
+                                ${n.type === 'success' ? 'bg-primary' : n.type === 'error' ? 'bg-red-500' : 'bg-primary'}`}
                             />
 
                             {/* Icon Section */}
                             <div className={`size-12 rounded-xl flex items-center justify-center shrink-0 border relative z-10
                                 ${n.type === 'success'
-                                    ? 'bg-emerald-500/20 border-emerald-500/30 text-emerald-400'
+                                    ? 'bg-primary/20 border-primary/30 text-primary-light'
                                     : n.type === 'error'
                                         ? 'bg-red-500/20 border-red-500/30 text-red-500'
                                         : 'bg-white/10 border-white/10 text-white'
                                 }`}>
                                 <span className="material-symbols-outlined text-[24px]">
-                                    {n.type === 'success' ? 'verified' : n.type === 'error' ? 'error' : 'notifications'}
+                                    {n.type === 'success' ? 'verified' : n.type === 'error' ? 'report' : 'notifications'}
                                 </span>
                             </div>
 
                             {/* Content Section */}
                             <div className="flex-1 pt-1 relative z-10">
                                 <h4 className={`text-[10px] font-black uppercase tracking-[0.3em] mb-1
-                                    ${n.type === 'success' ? 'text-emerald-400' : n.type === 'error' ? 'text-red-500' : 'text-gray-400'}`}>
+                                    ${n.type === 'success' ? 'text-primary' : n.type === 'error' ? 'text-red-500' : 'text-gray-400'}`}>
                                     {n.type === 'success' ? 'Protocol Success' : n.type === 'error' ? 'System Warning' : 'Update Alert'}
                                 </h4>
                                 <p className="text-white text-sm font-bold leading-relaxed pr-6">{n.message}</p>
@@ -108,7 +108,7 @@ export const NotificationProvider = ({ children }) => {
 
                             {/* Progress bar */}
                             <div className={`absolute bottom-0 left-0 h-[2px] w-full animate-toast-progress origin-left
-                                ${n.type === 'success' ? 'bg-emerald-500/40' : n.type === 'error' ? 'bg-red-500/40' : 'bg-white/20'}`}
+                                ${n.type === 'success' ? 'bg-primary/40' : n.type === 'error' ? 'bg-red-500/40' : 'bg-white/20'}`}
                             />
                         </div>
                     ))}

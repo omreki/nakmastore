@@ -474,9 +474,9 @@ const CategoryManagementPage = () => {
                                                 value={formData.parent_id}
                                                 onChange={handleInputChange}
                                             >
-                                                <option className="bg-[#050505]" value="0">Root Level (Master)</option>
+                                                <option className="bg-[#1e0c42]" value="0">Root Level (Master)</option>
                                                 {categories.filter(c => !c.parent_id && c.id !== selectedCategory?.id).map(parent => (
-                                                    <option key={parent.id} className="bg-[#050505]" value={parent.id}>{parent.name} Department</option>
+                                                    <option key={parent.id} className="bg-[#1e0c42]" value={parent.id}>{parent.name} Department</option>
                                                 ))}
                                             </select>
                                             <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-5 text-gray-600 group-hover:text-white transition-colors">

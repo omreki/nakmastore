@@ -28,7 +28,7 @@ export const StoreSettingsProvider = ({ children }) => {
             { id: 'express', name: 'Express Shipping', description: 'Priority Delivery', deliveryTime: '1-2 Days', cost: 15, enabled: true },
             { id: 'free', name: 'Free Shipping', description: 'Over KSh 10,000', deliveryTime: '5-7 Days', cost: 0, enabled: true }
         ],
-        siteUrl: 'https://nakma.co',
+        siteUrl: 'https://nakmaltd.com',
         alertEmails: [],
         resendConfig: { apiKey: '', fromEmail: '', verifiedDomain: '' },
         taxesEnabled: true,
@@ -142,7 +142,7 @@ export const StoreSettingsProvider = ({ children }) => {
             googleSiteVerification: ""
         },
         checkoutPageSettings: {
-            giftMessage: "Exclusive print included with <br /> <span class=\"text-[#059669]\">your first Nakma</span> purchase."
+            giftMessage: "Exclusive print included with <br /> <span class=\"text-[#b82063]\">your first Nakma</span> purchase."
         }
     });
     const [loading, setLoading] = useState(true);
@@ -304,7 +304,7 @@ export const StoreSettingsProvider = ({ children }) => {
                                 googleSiteVerification: ""
                             },
                             checkoutPageSettings: data.checkout_page_settings || {
-                                giftMessage: "Exclusive print included with <br /> <span class=\"text-[#059669]\">your first Nakma</span> purchase."
+                                giftMessage: "Exclusive print included with <br /> <span class=\"text-[#b82063]\">your first Nakma</span> purchase."
                             }
                         });
                     }
@@ -485,7 +485,7 @@ export const StoreSettingsProvider = ({ children }) => {
                         googleSiteVerification: ""
                     },
                     checkoutPageSettings: data.checkout_page_settings || {
-                        giftMessage: "Exclusive print included with <br /> <span class=\"text-[#059669]\">your first Nakma</span> purchase."
+                        giftMessage: "Exclusive print included with <br /> <span class=\"text-[#b82063]\">your first Nakma</span> purchase."
                     }
                 });
             }

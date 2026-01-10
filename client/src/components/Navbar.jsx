@@ -189,7 +189,7 @@ const Navbar = () => {
                                 {user ? (
                                     <div className="flex items-center gap-2">
                                         {isAdmin && (
-                                            <Link to="/admin" className="p-2 text-[#059669] hover:text-[#10b981] transition-colors">
+                                            <Link to="/admin" className="p-2 text-primary hover:text-primary-light transition-colors">
                                                 <span className="material-symbols-outlined text-[20px]">dashboard_customize</span>
                                             </Link>
                                         )}
@@ -272,7 +272,7 @@ const Navbar = () => {
                                                     onClick={() => setIsMenuOpen(false)}
                                                     className="bg-white/5 border border-white/10 p-4 rounded-2xl flex flex-col items-center gap-2 hover:bg-white/10 transition-colors"
                                                 >
-                                                    <span className="material-symbols-outlined text-[#059669]">dashboard_customize</span>
+                                                    <span className="material-symbols-outlined text-primary">dashboard_customize</span>
                                                     <span className="text-[10px] font-black tracking-widest uppercase text-white/60">Admin</span>
                                                 </Link>
                                             ) : (
@@ -404,7 +404,7 @@ const Navbar = () => {
                                     {user ? (
                                         <>
                                             {isAdmin && (
-                                                <Link to="/admin" className="p-2 text-[#059669] hover:text-[#10b981] transition-colors">
+                                                <Link to="/admin" className="p-2 text-primary hover:text-primary-light transition-colors">
                                                     <span className="material-symbols-outlined">dashboard_customize</span>
                                                 </Link>
                                             )}
@@ -488,7 +488,7 @@ const Navbar = () => {
                                                     onClick={() => setIsMenuOpen(false)}
                                                     className="bg-white/5 border border-white/10 p-4 rounded-2xl flex flex-col items-center gap-2"
                                                 >
-                                                    <span className="material-symbols-outlined text-[#059669]">dashboard_customize</span>
+                                                    <span className="material-symbols-outlined text-primary">dashboard_customize</span>
                                                     <span className="text-[10px] font-black tracking-widest text-white/60">ADMIN</span>
                                                 </Link>
                                             ) : (

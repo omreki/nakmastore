@@ -58,7 +58,7 @@ const CategoriesDropdown = () => {
             </button>
 
             {/* Main Dropdown */}
-            <div className={`absolute top-full left-0 w-64 bg-[#0a0a0a]/95 backdrop-blur-xl border border-white/10 rounded-xl shadow-2xl py-2 transition-all duration-300 origin-top ${isOpen ? 'opacity-100 scale-100 translate-y-0 visible' : 'opacity-0 scale-95 -translate-y-2 invisible'}`}>
+            <div className={`absolute top-full left-0 w-64 bg-[#30136a]/95 backdrop-blur-xl border border-white/10 rounded-xl shadow-2xl py-2 transition-all duration-300 origin-top ${isOpen ? 'opacity-100 scale-100 translate-y-0 visible' : 'opacity-0 scale-95 -translate-y-2 invisible'}`}>
                 {loading ? (
                     <div className="p-4 text-center text-gray-500 text-xs">Loading...</div>
                 ) : categories.length === 0 ? (
@@ -97,7 +97,7 @@ const CategoryItem = ({ category }) => {
 
             {/* Sub Menu */}
             {hasChildren && (
-                <div className={`absolute top-0 left-full w-56 bg-[#0a0a0a]/95 backdrop-blur-xl border border-white/10 rounded-xl shadow-2xl py-2 ml-1 transition-all duration-200 origin-left ${isHovered ? 'opacity-100 scale-100 translate-x-0 visible' : 'opacity-0 scale-95 -translate-x-2 invisible'}`}>
+                <div className={`absolute top-0 left-full w-56 bg-[#30136a]/95 backdrop-blur-xl border border-white/10 rounded-xl shadow-2xl py-2 ml-1 transition-all duration-200 origin-left ${isHovered ? 'opacity-100 scale-100 translate-x-0 visible' : 'opacity-0 scale-95 -translate-x-2 invisible'}`}>
                     <ul className="flex flex-col">
                         {category.children.map((child) => (
                             <li key={child.id}>

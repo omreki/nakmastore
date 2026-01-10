@@ -36,7 +36,7 @@ const ContactPage = () => {
     };
 
     return (
-        <div className="bg-[#050505] min-h-screen text-white font-['Manrope'] pt-24 md:pt-32 pb-20">
+        <div className="bg-[#30136a] min-h-screen text-white font-['Manrope'] pt-24 md:pt-32 pb-20">
             <SEO
                 title={`Contact Us | ${settings.storeName}`}
                 description={`Get in touch with ${settings.storeName} for support, inquiries, or feedback.`}

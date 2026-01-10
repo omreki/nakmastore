@@ -34,21 +34,21 @@ const CartPage = () => {
 
     if (cart.length === 0) {
         return (
-            <div className="min-h-screen bg-[#050505] flex flex-col items-center justify-center text-white p-10 text-center">
+            <div className="bg-[#30136a] min-h-screen text-white font-['Manrope'] pt-24 md:pt-32 pb-20">
                 <span className="material-symbols-outlined text-6xl md:text-8xl text-white/10 mb-8">shopping_bag</span>
                 <h1 className="text-3xl md:text-6xl font-bold mb-6 italic px-4">Your Collection is Empty</h1>
                 <p className="text-white/40 text-base md:text-lg mb-10 max-w-sm md:max-w-md px-6">Embrace your cultural expression with our unique collection. Explore the store to find your perfect fit.</p>
-                <Link to="/shop" className="px-12 py-5 bg-white text-black rounded-full font-bold uppercase tracking-widest hover:bg-[#059669] hover:text-white transition-all shadow-2xl">Start Exploring</Link>
+                <Link to="/shop" className="px-12 py-5 bg-white text-black rounded-full font-bold uppercase tracking-widest hover:bg-[#b82063] hover:text-white transition-all shadow-2xl">Start Exploring</Link>
             </div>
         );
     }
 
     return (
-        <div className="bg-[#050505] min-h-screen text-white font-['Manrope'] pt-24 md:pt-32 pb-20">
+        <div className="bg-[#30136a] min-h-screen text-white font-['Manrope'] pt-24 md:pt-32 pb-20">
             {/* Ambient Lighting */}
             <div className="fixed top-0 left-0 w-full h-full overflow-hidden pointer-events-none -z-10">
-                <div className="absolute top-[-10%] right-[-10%] w-[800px] h-[800px] bg-[#059669]/10 rounded-full blur-[120px]"></div>
-                <div className="absolute bottom-[-10%] left-[-10%] w-[600px] h-[600px] bg-[#064e3b]/10 rounded-full blur-[100px]"></div>
+                <div className="absolute top-[-10%] right-[-10%] w-[800px] h-[800px] bg-[#b82063]/10 rounded-full blur-[120px]"></div>
+                <div className="absolute bottom-[-10%] left-[-10%] w-[600px] h-[600px] bg-[#7a1542]/10 rounded-full blur-[100px]"></div>
             </div>
 
             <main className="max-w-[1440px] mx-auto px-6 md:px-10">
@@ -74,7 +74,7 @@ const CartPage = () => {
                                         <div className="flex justify-between items-start">
                                             <div className="space-y-2">
                                                 <Link to={`/product/${item.slug}`}>
-                                                    <h3 className="text-2xl font-bold group-hover:text-[#059669] transition-colors cursor-pointer">{item.name}</h3>
+                                                    <h3 className="text-2xl font-bold group-hover:text-[#b82063] transition-colors cursor-pointer">{item.name}</h3>
                                                 </Link>
                                                 <div className="flex flex-col gap-1">
                                                     <div className="flex gap-4 text-xs font-bold uppercase tracking-widest text-white/40">
@@ -108,7 +108,7 @@ const CartPage = () => {
                                             </div>
                                             <button
                                                 onClick={() => removeFromCart(item.id, item.selectedSize, item.selectedColor, item.variation_id)}
-                                                className="text-white/20 hover:text-[#059669] transition-colors flex items-center gap-2 font-bold uppercase tracking-widest text-[10px]"
+                                                className="text-white/20 hover:text-[#b82063] transition-colors flex items-center gap-2 font-bold uppercase tracking-widest text-[10px]"
                                             >
                                                 <span className="material-symbols-outlined text-lg">delete</span>
                                                 Remove
@@ -144,13 +144,13 @@ const CartPage = () => {
                                     <div className="h-px bg-white/10 pt-4"></div>
                                     <div className="flex justify-between items-center text-2xl font-black italic">
                                         <span>Total</span>
-                                        <span className="text-[#059669]">{formatPrice(total)}</span>
+                                        <span className="text-[#b82063]">{formatPrice(total)}</span>
                                     </div>
                                 </div>
 
                                 <Link
                                     to="/checkout"
-                                    className="w-full h-20 bg-[#064e3b] text-white rounded-full flex items-center justify-center gap-4 font-black uppercase tracking-[0.2em] hover:bg-[#065f46] transition-all transform active:scale-[0.98] shadow-2xl"
+                                    className="w-full h-20 bg-[#7a1542] text-white rounded-full flex items-center justify-center gap-4 font-black uppercase tracking-[0.2em] hover:bg-[#b82063] transition-all transform active:scale-[0.98] shadow-2xl"
                                 >
                                     Proceed to Checkout
                                     <span className="material-symbols-outlined">east</span>
@@ -180,7 +180,7 @@ const CartPage = () => {
                                                     <img src={p.images?.[0] || 'https://via.placeholder.com/80'} className="w-full h-full object-contain mix-blend-multiply" alt="" />
                                                 </div>
                                                 <div className="flex flex-col justify-center">
-                                                    <span className="font-bold text-sm group-hover:text-[#059669] transition-colors">{p.name}</span>
+                                                    <span className="font-bold text-sm group-hover:text-[#b82063] transition-colors">{p.name}</span>
                                                     <span className="text-white/40 text-xs font-bold">{formatPrice(p.price)}</span>
                                                 </div>
                                             </Link>

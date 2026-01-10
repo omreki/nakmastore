@@ -83,7 +83,7 @@ const CategoryPage = () => {
 
     if (loading) {
         return (
-            <div className="min-h-screen bg-black text-white flex items-center justify-center">
+            <div className="min-h-screen bg-[#30136a] text-white flex items-center justify-center">
                 <div className="size-12 rounded-full border-4 border-primary/20 border-t-primary animate-spin"></div>
             </div>
         );
@@ -91,7 +91,7 @@ const CategoryPage = () => {
 
     if (!category) {
         return (
-            <div className="min-h-screen bg-black text-white flex flex-col items-center justify-center gap-4">
+            <div className="min-h-screen bg-[#30136a] text-white flex flex-col items-center justify-center gap-4">
                 <h1 className="text-2xl font-bold">Category Not Found</h1>
                 <Link to="/" className="text-primary hover:underline">Return Home</Link>
             </div>
@@ -99,7 +99,7 @@ const CategoryPage = () => {
     }
 
     return (
-        <div className="min-h-screen bg-black font-display selection:bg-primary selection:text-white pb-20">
+        <div className="min-h-screen bg-[#30136a] font-display selection:bg-primary selection:text-white pb-20">
             <SEO
                 title={category.name}
                 description={category.description || `Browse our ${category.name} collection. Unique African-inspired shirts blended with modern design.`}
@@ -170,7 +170,7 @@ const ProductCard = ({ product, formatPrice, index }) => {
             className="group block relative animate-fade-in-up"
             style={{ animationDelay: `${0.1 + (index * 0.05)}s` }}
         >
-            <div className="aspect-[3/4] w-full overflow-hidden rounded-xl bg-gray-900 border border-white/5 relative">
+            <div className="aspect-[3/4] w-full overflow-hidden rounded-xl bg-[#1e0c42] border border-white/5 relative">
                 {product.images && product.images[0] && (
                     <img
                         src={product.images[0]}
@@ -187,7 +187,7 @@ const ProductCard = ({ product, formatPrice, index }) => {
                         </span>
                     )}
                     {product.is_sale && (
-                        <span className="bg-[#059669] text-white text-[9px] font-black px-2 py-1 uppercase tracking-widest rounded-sm">
+                        <span className="bg-[#b82063] text-white text-[9px] font-black px-2 py-1 uppercase tracking-widest rounded-sm">
                             Sale
                         </span>
                     )}
@@ -204,7 +204,7 @@ const ProductCard = ({ product, formatPrice, index }) => {
                 <div className="text-right">
                     {product.is_sale ? (
                         <div className="flex flex-col items-end">
-                            <span className="text-xs text-[#059669] font-bold">{formatPrice(product.sale_price)}</span>
+                            <span className="text-xs text-[#b82063] font-bold">{formatPrice(product.sale_price)}</span>
                             <span className="text-[10px] text-gray-600 line-through">{formatPrice(product.price)}</span>
                         </div>
                     ) : (

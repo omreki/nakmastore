@@ -173,16 +173,16 @@ const AdminProductsPage = () => {
                         </button>
                         <div className="h-11 w-px bg-white/10 mx-1"></div>
                         <select className="h-11 bg-transparent text-sm font-bold text-gray-300 outline-none cursor-pointer hover:text-white px-2">
-                            <option className="bg-[#1a1a1a]">Category: All</option>
-                            <option className="bg-[#1a1a1a]">Men</option>
-                            <option className="bg-[#1a1a1a]">Women</option>
-                            <option className="bg-[#1a1a1a]">Accessories</option>
+                            <option className="bg-[#1e0c42]">Category: All</option>
+                            <option className="bg-[#1e0c42]">Men</option>
+                            <option className="bg-[#1e0c42]">Women</option>
+                            <option className="bg-[#1e0c42]">Accessories</option>
                         </select>
                         <select className="h-11 bg-transparent text-sm font-bold text-gray-300 outline-none cursor-pointer hover:text-white px-2">
-                            <option className="bg-[#1a1a1a]">Status: All</option>
-                            <option className="bg-[#1a1a1a]">Active</option>
-                            <option className="bg-[#1a1a1a]">Draft</option>
-                            <option className="bg-[#1a1a1a]">Archived</option>
+                            <option className="bg-[#1e0c42]">Status: All</option>
+                            <option className="bg-[#1e0c42]">Active</option>
+                            <option className="bg-[#1e0c42]">Draft</option>
+                            <option className="bg-[#1e0c42]">Archived</option>
                         </select>
                     </div>
                 </div>

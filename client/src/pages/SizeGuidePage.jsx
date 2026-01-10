@@ -7,7 +7,7 @@ const SizeGuidePage = () => {
 
     if (loading) {
         return (
-            <div className="min-h-screen flex flex-col items-center justify-center bg-[#0a0a0a]">
+            <div className="min-h-screen flex flex-col items-center justify-center bg-[#30136a]">
                 <div className="size-12 rounded-full border-4 border-primary/20 border-t-primary animate-spin mb-4"></div>
                 <p className="text-gray-500 font-black uppercase tracking-widest text-xs">Loading Guide...</p>
             </div>
@@ -15,7 +15,7 @@ const SizeGuidePage = () => {
     }
 
     return (
-        <div className="min-h-screen bg-[#0a0a0a] pt-24 md:pt-32 pb-24">
+        <div className="min-h-screen bg-[#30136a] pt-24 md:pt-32 pb-24">
             <SEO
                 title={`Size Guide | ${settings.storeName}`}
                 description={`Find your perfect fit with our Size Guide for ${settings.storeName} apparel.`}

@@ -100,7 +100,7 @@ const HomePage = () => {
         addToCart(product, 1, 'M', color);
     };
     return (
-        <div className="bg-[#050505] min-h-screen text-white font-['Manrope']">
+        <div className="bg-secondary min-h-screen text-white font-['Manrope']">
             <SEO
                 title={settings?.homepageSettings?.seo?.metaTitle || "Home"}
                 description={settings?.homepageSettings?.seo?.metaDescription || "Nakma Store: Unique African-inspired men's fashion. Blend heritage with modern design for the contemporary man."}
@@ -108,10 +108,10 @@ const HomePage = () => {
             {/* Hero Section */}
             <div className="w-full px-4 md:px-8 pt-24 pb-8 max-w-[1700px] mx-auto relative group">
                 {/* Background Ambient Glows */}
-                <div className="absolute top-1/4 right-1/4 w-[500px] h-[500px] bg-[#059669]/20 rounded-full blur-[120px] pointer-events-none animate-pulse duration-[4s]"></div>
-                <div className="absolute bottom-1/4 left-1/4 w-[400px] h-[400px] bg-[#064e3b]/15 rounded-full blur-[100px] pointer-events-none animate-pulse duration-[6s]"></div>
+                <div className="absolute top-1/4 right-1/4 w-[500px] h-[500px] bg-primary/20 rounded-full blur-[120px] pointer-events-none animate-pulse duration-[4s]"></div>
+                <div className="absolute bottom-1/4 left-1/4 w-[400px] h-[400px] bg-primary-dark/15 rounded-full blur-[100px] pointer-events-none animate-pulse duration-[6s]"></div>
 
-                <div className="relative w-full h-[500px] md:h-[800px] rounded-[32px] md:rounded-[56px] overflow-hidden shadow-[0_50px_100px_-20px_rgba(0,0,0,0.9)] border border-white/[0.03] bg-[#050505]">
+                <div className="relative w-full h-[500px] md:h-[800px] rounded-[32px] md:rounded-[56px] overflow-hidden shadow-[0_50px_100px_-20px_rgba(0,0,0,0.9)] border border-white/[0.03] bg-secondary">
                     {/* Main Image with optimized blend */}
                     <div
                         className="absolute inset-0 w-full h-full bg-cover bg-center transition-transform duration-[4s] ease-out group-hover:scale-105"
@@ -126,7 +126,7 @@ const HomePage = () => {
                                 className="font-black leading-none opacity-30 select-none tracking-tighter whitespace-nowrap"
                                 style={{
                                     fontSize: "20vw",
-                                    WebkitTextStroke: "2px #059669",
+                                    WebkitTextStroke: "2px #b82063",
                                     color: "transparent",
                                     transform: "translateY(-5%)"
                                 }}
@@ -141,15 +141,15 @@ const HomePage = () => {
                     <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-black/30"></div>
 
                     {/* Radial Highlight for sleekness */}
-                    <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_50%,rgba(5,150,105,0.2),transparent_60%)]"></div>
+                    <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_50%,rgba(184,32,99,0.2),transparent_60%)]"></div>
 
                     {/* Content Section */}
                     <div className="absolute inset-0 flex flex-col justify-center px-12 md:px-28 z-10">
                         <div className="max-w-2xl space-y-10">
                             <div className="space-y-4">
                                 <div className="flex items-center gap-3">
-                                    <div className="h-[1px] w-8 bg-[#059669]"></div>
-                                    <span className="text-[#059669] text-[10px] md:text-xs font-black uppercase tracking-[0.8em] animate-fade-in">{heroSub}</span>
+                                    <div className="h-[1px] w-8 bg-primary"></div>
+                                    <span className="text-primary text-[10px] md:text-xs font-black uppercase tracking-[0.8em] animate-fade-in">{heroSub}</span>
                                 </div>
                                 <h1 className="text-white text-4xl sm:text-6xl md:text-8xl font-black tracking-tighter leading-[0.85] md:leading-[0.8] drop-shadow-[0_15px_15px_rgba(0,0,0,0.6)]">
                                     {heroH1} <br />
@@ -163,7 +163,7 @@ const HomePage = () => {
                             </p>
 
                             <div className="flex flex-wrap gap-4 md:gap-5 pt-6">
-                                <Link to="/shop" className="inline-flex items-center gap-3 md:gap-4 bg-white text-black hover:bg-[#059669] hover:text-white px-8 md:px-10 py-4 md:py-5 rounded-full font-black text-[10px] md:text-[11px] uppercase tracking-[0.2em] transition-all duration-700 transform hover:scale-[1.02] active:scale-95 shadow-2xl group/btn">
+                                <Link to="/shop" className="inline-flex items-center gap-3 md:gap-4 bg-white text-black hover:bg-primary hover:text-white px-8 md:px-10 py-4 md:py-5 rounded-full font-black text-[10px] md:text-[11px] uppercase tracking-[0.2em] transition-all duration-700 transform hover:scale-[1.02] active:scale-95 shadow-2xl group/btn">
                                     Explore Collection
                                     <span className="material-symbols-outlined text-[18px] md:text-[20px] transition-transform group-hover/btn:translate-x-2">east</span>
                                 </Link>
@@ -195,12 +195,12 @@ const HomePage = () => {
                     {/* Overlays & Gradients */}
                     <div className="absolute inset-0 bg-black/40 backdrop-blur-[1px]"></div>
                     <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-black/40"></div>
-                    <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(5,150,105,0.1),transparent_70%)]"></div>
+                    <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(184,32,99,0.1),transparent_70%)]"></div>
 
                     {/* Content */}
                     <div className="absolute inset-0 flex flex-col items-center justify-center text-center p-8 md:p-12 z-10">
                         <div className="max-w-4xl space-y-8">
-                            <span className="text-[#059669] text-[10px] md:text-xs font-black uppercase tracking-[0.6em] animate-fade-in opacity-90">{philSub}</span>
+                            <span className="text-primary text-[10px] md:text-xs font-black uppercase tracking-[0.6em] animate-fade-in opacity-90">{philSub}</span>
 
                             <h2 className="text-3xl md:text-5xl font-black text-white leading-[1.15] tracking-tight italic drop-shadow-2xl">
                                 "{philQuote}"
@@ -212,7 +212,7 @@ const HomePage = () => {
                             </p>
 
                             <div className="pt-6">
-                                <Link to="/about" className="inline-flex items-center gap-3 bg-white text-black hover:bg-[#059669] hover:text-white px-8 py-4 rounded-full font-black text-[11px] uppercase tracking-[0.2em] transition-all duration-500 shadow-xl group/btn_w">
+                                <Link to="/about" className="inline-flex items-center gap-3 bg-white text-black hover:bg-primary hover:text-white px-8 py-4 rounded-full font-black text-[11px] uppercase tracking-[0.2em] transition-all duration-500 shadow-xl group/btn_w">
                                     Read Our Story
                                     <span className="material-symbols-outlined text-[18px] transition-transform group-hover/btn_w:translate-x-1">east</span>
                                 </Link>
@@ -238,7 +238,7 @@ const HomePage = () => {
                                 <h3 className="text-white text-2xl md:text-4xl font-bold mb-1 md:mb-2">{printsTitle}</h3>
                                 <p className="text-white/60 text-sm md:text-lg font-medium">{printsSub}</p>
                             </div>
-                            <div className="size-12 md:size-16 rounded-full bg-white/10 backdrop-blur-md border border-white/20 flex items-center justify-center text-white group-hover:bg-[#059669] group-hover:border-[#059669] transition-all duration-300 transform group-hover:translate-x-2">
+                            <div className="size-12 md:size-16 rounded-full bg-white/10 backdrop-blur-md border border-white/20 flex items-center justify-center text-white group-hover:bg-primary group-hover:border-primary transition-all duration-300 transform group-hover:translate-x-2">
                                 <span className="material-symbols-outlined text-[24px] md:text-[32px]">arrow_forward</span>
                             </div>
                         </div>
@@ -257,7 +257,7 @@ const HomePage = () => {
                                 <h3 className="text-white text-2xl md:text-4xl font-bold mb-1 md:mb-2">{plainsTitle}</h3>
                                 <p className="text-white/60 text-sm md:text-lg font-medium">{plainsSub}</p>
                             </div>
-                            <div className="size-12 md:size-16 rounded-full bg-white/10 backdrop-blur-md border border-white/20 flex items-center justify-center text-white group-hover:bg-[#059669] group-hover:border-[#059669] transition-all duration-300 transform group-hover:translate-x-2">
+                            <div className="size-12 md:size-16 rounded-full bg-white/10 backdrop-blur-md border border-white/20 flex items-center justify-center text-white group-hover:bg-primary group-hover:border-primary transition-all duration-300 transform group-hover:translate-x-2">
                                 <span className="material-symbols-outlined text-[24px] md:text-[32px]">arrow_forward</span>
                             </div>
                         </div>
@@ -280,7 +280,7 @@ const HomePage = () => {
             <div className="w-full px-4 md:px-8 max-w-[1600px] mx-auto pb-24">
                 {loading ? (
                     <div className="flex justify-center py-20">
-                        <div className="size-12 border-4 border-white/5 border-t-[#059669] rounded-full animate-spin"></div>
+                        <div className="size-12 border-4 border-white/5 border-t-primary rounded-full animate-spin"></div>
                     </div>
                 ) : (
                     <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
@@ -297,7 +297,7 @@ const HomePage = () => {
                                     <div className="absolute bottom-4 sm:bottom-6 left-4 sm:left-6 right-4 sm:right-6 opacity-0 translate-y-4 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300 pointer-events-none md:pointer-events-auto">
                                         <button
                                             onClick={(e) => handleQuickAdd(e, product)}
-                                            className="w-full h-10 md:h-12 bg-black text-white rounded-xl md:rounded-2xl font-black text-[9px] md:text-[10px] uppercase tracking-widest hover:bg-[#059669] transition-colors shadow-xl pointer-events-auto"
+                                            className="w-full h-10 md:h-12 bg-black text-white rounded-xl md:rounded-2xl font-black text-[9px] md:text-[10px] uppercase tracking-widest hover:bg-[#b82063] transition-colors shadow-xl pointer-events-auto"
                                         >
                                             Add to Bag
                                         </button>
@@ -305,11 +305,11 @@ const HomePage = () => {
                                 </div>
                                 <div className="px-2">
                                     <div className="flex flex-col gap-1 mb-1">
-                                        <h3 className="text-white font-bold text-lg group-hover:text-[#059669] transition-colors line-clamp-1 uppercase tracking-tight">{product.name}</h3>
+                                        <h3 className="text-white font-bold text-lg group-hover:text-[#b82063] transition-colors line-clamp-1 uppercase tracking-tight">{product.name}</h3>
                                         <div className="flex items-center gap-2">
                                             {product.is_sale && product.sale_price ? (
                                                 <>
-                                                    <span className="text-[#059669] font-black italic text-lg whitespace-nowrap leading-none">{formatPrice(product.sale_price)}</span>
+                                                    <span className="text-primary font-black italic text-lg whitespace-nowrap leading-none">{formatPrice(product.sale_price)}</span>
                                                     <span className="text-white/30 font-bold text-[10px] line-through decoration-1">{formatPrice(product.price)}</span>
                                                 </>
                                             ) : (
@@ -340,7 +340,7 @@ const HomePage = () => {
             <div className="w-full px-4 md:px-8 max-w-[1600px] mx-auto pb-24">
                 {loading ? (
                     <div className="flex justify-center py-20">
-                        <div className="size-12 border-4 border-white/5 border-t-[#059669] rounded-full animate-spin"></div>
+                        <div className="size-12 border-4 border-white/5 border-t-[#b82063] rounded-full animate-spin"></div>
                     </div>
                 ) : menProducts.length > 0 ? (
                     <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
@@ -357,7 +357,7 @@ const HomePage = () => {
                                     <div className="absolute bottom-4 sm:bottom-6 left-4 sm:left-6 right-4 sm:right-6 opacity-0 translate-y-4 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300 pointer-events-none md:pointer-events-auto">
                                         <button
                                             onClick={(e) => handleQuickAdd(e, product)}
-                                            className="w-full h-10 md:h-12 bg-black text-white rounded-xl md:rounded-2xl font-black text-[9px] md:text-[10px] uppercase tracking-widest hover:bg-[#059669] transition-colors shadow-xl pointer-events-auto"
+                                            className="w-full h-10 md:h-12 bg-black text-white rounded-xl md:rounded-2xl font-black text-[9px] md:text-[10px] uppercase tracking-widest hover:bg-[#b82063] transition-colors shadow-xl pointer-events-auto"
                                         >
                                             Add to Bag
                                         </button>
@@ -365,11 +365,11 @@ const HomePage = () => {
                                 </div>
                                 <div className="px-2">
                                     <div className="flex flex-col gap-1 mb-1">
-                                        <h3 className="text-white font-bold text-lg group-hover:text-[#059669] transition-colors line-clamp-1 uppercase tracking-tight">{product.name}</h3>
+                                        <h3 className="text-white font-bold text-lg group-hover:text-[#b82063] transition-colors line-clamp-1 uppercase tracking-tight">{product.name}</h3>
                                         <div className="flex items-center gap-2">
                                             {product.is_sale && product.sale_price ? (
                                                 <>
-                                                    <span className="text-[#059669] font-black italic text-lg whitespace-nowrap leading-none">{formatPrice(product.sale_price)}</span>
+                                                    <span className="text-primary font-black italic text-lg whitespace-nowrap leading-none">{formatPrice(product.sale_price)}</span>
                                                     <span className="text-white/30 font-bold text-[10px] line-through decoration-1">{formatPrice(product.price)}</span>
                                                 </>
                                             ) : (
@@ -404,7 +404,7 @@ const HomePage = () => {
             <div className="w-full px-4 md:px-8 max-w-[1600px] mx-auto pb-24">
                 {loading ? (
                     <div className="flex justify-center py-20">
-                        <div className="size-12 border-4 border-white/5 border-t-[#059669] rounded-full animate-spin"></div>
+                        <div className="size-12 border-4 border-white/5 border-t-[#b82063] rounded-full animate-spin"></div>
                     </div>
                 ) : womenProducts.length > 0 ? (
                     <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
@@ -421,7 +421,7 @@ const HomePage = () => {
                                     <div className="absolute bottom-4 sm:bottom-6 left-4 sm:left-6 right-4 sm:right-6 opacity-0 translate-y-4 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300 pointer-events-none md:pointer-events-auto">
                                         <button
                                             onClick={(e) => handleQuickAdd(e, product)}
-                                            className="w-full h-10 md:h-12 bg-black text-white rounded-xl md:rounded-2xl font-black text-[9px] md:text-[10px] uppercase tracking-widest hover:bg-[#059669] transition-colors shadow-xl pointer-events-auto"
+                                            className="w-full h-10 md:h-12 bg-black text-white rounded-xl md:rounded-2xl font-black text-[9px] md:text-[10px] uppercase tracking-widest hover:bg-[#b82063] transition-colors shadow-xl pointer-events-auto"
                                         >
                                             Add to Bag
                                         </button>
@@ -429,11 +429,11 @@ const HomePage = () => {
                                 </div>
                                 <div className="px-2">
                                     <div className="flex flex-col gap-1 mb-1">
-                                        <h3 className="text-white font-bold text-lg group-hover:text-[#059669] transition-colors line-clamp-1 uppercase tracking-tight">{product.name}</h3>
+                                        <h3 className="text-white font-bold text-lg group-hover:text-[#b82063] transition-colors line-clamp-1 uppercase tracking-tight">{product.name}</h3>
                                         <div className="flex items-center gap-2">
                                             {product.is_sale && product.sale_price ? (
                                                 <>
-                                                    <span className="text-[#059669] font-black italic text-lg whitespace-nowrap leading-none">{formatPrice(product.sale_price)}</span>
+                                                    <span className="text-primary font-black italic text-lg whitespace-nowrap leading-none">{formatPrice(product.sale_price)}</span>
                                                     <span className="text-white/30 font-bold text-[10px] line-through decoration-1">{formatPrice(product.price)}</span>
                                                 </>
                                             ) : (

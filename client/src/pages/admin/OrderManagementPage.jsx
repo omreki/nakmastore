@@ -344,11 +344,11 @@ const OrderManagementPage = () => {
                                 value={statusFilter}
                                 onChange={(e) => setStatusFilter(e.target.value)}
                             >
-                                <option className="bg-[#1a1a1a]" value="all">Status: All</option>
-                                <option className="bg-[#1a1a1a]" value="processing">Processing</option>
-                                <option className="bg-[#1a1a1a]" value="shipped">Shipped</option>
-                                <option className="bg-[#1a1a1a]" value="delivered">Delivered</option>
-                                <option className="bg-[#1a1a1a]" value="returned">Returned</option>
+                                <option className="bg-[#1e0c42]" value="all">Status: All</option>
+                                <option className="bg-[#1e0c42]" value="processing">Processing</option>
+                                <option className="bg-[#1e0c42]" value="shipped">Shipped</option>
+                                <option className="bg-[#1e0c42]" value="delivered">Delivered</option>
+                                <option className="bg-[#1e0c42]" value="returned">Returned</option>
                             </select>
                             <span className="material-symbols-outlined absolute right-4 top-1/2 -translate-y-1/2 text-gray-600 pointer-events-none text-xl group-hover:text-white transition-colors">expand_more</span>
                         </div>
@@ -358,9 +358,9 @@ const OrderManagementPage = () => {
                                 value={dateFilter}
                                 onChange={(e) => setDateFilter(e.target.value)}
                             >
-                                <option className="bg-[#1a1a1a]" value="last7">Filter: Last 7D</option>
-                                <option className="bg-[#1a1a1a]" value="last30">Filter: Last 30D</option>
-                                <option className="bg-[#1a1a1a]" value="month">This Month</option>
+                                <option className="bg-[#1e0c42]" value="last7">Filter: Last 7D</option>
+                                <option className="bg-[#1e0c42]" value="last30">Filter: Last 30D</option>
+                                <option className="bg-[#1e0c42]" value="month">This Month</option>
                             </select>
                             <span className="material-symbols-outlined absolute right-4 top-1/2 -translate-y-1/2 text-gray-600 pointer-events-none text-xl group-hover:text-white transition-colors">calendar_today</span>
                         </div>

@@ -351,10 +351,10 @@ const CustomerManagementPage = () => {
                                             value={statusFilter}
                                             onChange={(e) => setStatusFilter(e.target.value)}
                                         >
-                                            <option className="bg-[#1a1a1a]" value="all">Status: All</option>
-                                            <option className="bg-[#1a1a1a]" value="active">Active</option>
-                                            <option className="bg-[#1a1a1a]" value="inactive">Inactive</option>
-                                            <option className="bg-[#1a1a1a]" value="blocked">Blocked</option>
+                                            <option className="bg-[#1e0c42]" value="all">Status: All</option>
+                                            <option className="bg-[#1e0c42]" value="active">Active</option>
+                                            <option className="bg-[#1e0c42]" value="inactive">Inactive</option>
+                                            <option className="bg-[#1e0c42]" value="blocked">Blocked</option>
                                         </select>
                                         <span className="material-symbols-outlined absolute right-4 top-1/2 -translate-y-1/2 text-gray-600 pointer-events-none text-xl group-hover:text-white transition-colors">expand_more</span>
                                     </div>
@@ -402,7 +402,7 @@ const CustomerManagementPage = () => {
                                                                         {customer.initials}
                                                                     </div>
                                                                 )}
-                                                                <div className="absolute -bottom-1 -right-1 size-3.5 bg-green-500 rounded-full border-2 border-[#0a0a0a] shadow-lg"></div>
+                                                                <div className="absolute -bottom-1 -right-1 size-3.5 bg-green-500 rounded-full border-2 border-[#30136a] shadow-lg"></div>
                                                             </div>
                                                             <div className="flex flex-col min-w-0">
                                                                 <span className="font-bold text-white text-base group-hover:text-primary-light transition-colors truncate">{customer.name}</span>
@@ -483,7 +483,7 @@ const CustomerManagementPage = () => {
                                                 {featuredCustomer.initials}
                                             </div>
                                         )}
-                                        <span className="absolute -bottom-2 -right-2 bg-white text-black text-[9px] font-black px-2.5 py-1 rounded-full shadow-2xl z-20 border-4 border-[#0a0a0a] uppercase tracking-widest">VIP</span>
+                                        <span className="absolute -bottom-2 -right-2 bg-white text-black text-[9px] font-black px-2.5 py-1 rounded-full shadow-2xl z-20 border-4 border-[#30136a] uppercase tracking-widest">VIP</span>
                                     </div>
                                     <h4 className="text-2xl font-black text-white mb-2 tracking-tighter">{featuredCustomer.name}</h4>
                                     <p className="text-[10px] text-gray-500 font-bold uppercase tracking-[0.2em] mb-8">Member Since {new Date(featuredCustomer.joinedAt).getFullYear()}</p>
@@ -670,7 +670,7 @@ const CustomerManagementPage = () => {
                                             {selectedCustomer.initials}
                                         </div>
                                     )}
-                                    <div className="absolute -bottom-2 -right-2 bg-green-500 text-black text-[9px] font-black px-2 py-0.5 rounded-full z-20 border-2 border-[#0a0a0a] uppercase tracking-wider">Active</div>
+                                    <div className="absolute -bottom-2 -right-2 bg-green-500 text-black text-[9px] font-black px-2 py-0.5 rounded-full z-20 border-2 border-[#30136a] uppercase tracking-wider">Active</div>
                                 </div>
 
                                 <div className="flex-1">

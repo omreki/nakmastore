@@ -82,7 +82,7 @@ const ArticleDetailPage = () => {
 
     if (error) {
         return (
-            <div className="min-h-screen bg-[#050505] flex items-center justify-center text-white">
+            <div className="min-h-screen bg-[#30136a] flex items-center justify-center text-white">
                 <div className="text-center">
                     <h1 className="text-4xl font-bold mb-4">404</h1>
                     <p className="text-gray-400 mb-6">{error}</p>
@@ -96,14 +96,14 @@ const ArticleDetailPage = () => {
 
     if (isLoading || !article) {
         return (
-            <div className="min-h-screen bg-[#050505] flex items-center justify-center">
+            <div className="min-h-screen bg-[#30136a] flex items-center justify-center">
                 <div className="size-12 border-4 border-primary/20 border-t-primary rounded-full animate-spin"></div>
             </div>
         );
     }
 
     return (
-        <div className="bg-[#050505] min-h-screen text-white font-['Manrope'] pt-20 md:pt-24 pb-20">
+        <div className="bg-[#30136a] min-h-screen text-white font-['Manrope'] pt-20 md:pt-24 pb-20">
             <SEO
                 title={article.title}
                 description={article.excerpt || article.title}
