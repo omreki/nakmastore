@@ -60,7 +60,7 @@ const AboutPage = () => {
             </section>
 
             {/* Our Philosophy */}
-            <section className="max-w-[1440px] mx-auto px-6 md:px-10 py-16 md:py-32 grid grid-cols-1 lg:grid-cols-2 gap-12 md:gap-20 items-center">
+            <section className="layout-container py-16 md:py-32 grid grid-cols-1 lg:grid-cols-2 gap-12 md:gap-20 items-center">
                 <div className="space-y-10 order-2 lg:order-1">
                     <span className="text-[#b82063] text-sm font-bold uppercase tracking-[0.4em]">{aboutSettings.philosophy.label}</span>
                     <h2 className="text-3xl md:text-6xl font-bold tracking-tight leading-tight whitespace-pre-line">
@@ -92,7 +92,7 @@ const AboutPage = () => {
 
             {/* Core Values */}
             <section className="bg-white/[0.02] border-y border-white/5 py-16 md:py-32">
-                <div className="max-w-[1440px] mx-auto px-6 md:px-10">
+                <div className="layout-container">
                     <div className="text-center space-y-4 mb-12 md:mb-20">
                         <span className="text-[#b82063] text-sm font-bold uppercase tracking-[0.4em]">{aboutSettings.coreValues.label}</span>
                         <h2 className="text-3xl md:text-6xl font-bold tracking-tight italic">{aboutSettings.coreValues.title}</h2>
@@ -113,7 +113,7 @@ const AboutPage = () => {
             </section>
 
             {/* Founders Quote */}
-            <section className="max-w-[1440px] mx-auto px-6 md:px-10 py-40 text-center">
+            <section className="layout-container py-40 text-center">
                 <div className="relative inline-block">
                     <span className="material-symbols-outlined text-6xl text-white/10 absolute -top-12 -left-12">format_quote</span>
                     <blockquote className="text-xl md:text-5xl font-bold tracking-tight leading-tight max-w-4xl mx-auto italic transition-all">
@@ -127,7 +127,7 @@ const AboutPage = () => {
             </section>
 
             {/* Join the Movement */}
-            <section className="max-w-[1440px] mx-auto px-4 md:px-10 py-10">
+            <section className="layout-container py-10">
                 <div className="relative w-full rounded-[32px] md:rounded-[40px] overflow-hidden bg-black p-8 md:p-24 text-center space-y-8 shadow-2xl group">
                     <div
                         className="absolute inset-0 bg-cover bg-center transition-transform duration-1000"

@@ -42,7 +42,7 @@ const ContactPage = () => {
                 description={`Get in touch with ${settings.storeName} for support, inquiries, or feedback.`}
             />
 
-            <div className="max-w-6xl mx-auto px-6">
+            <div className="layout-container">
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-start">
                     {/* Compact Info Section */}
                     <div className="space-y-12">
