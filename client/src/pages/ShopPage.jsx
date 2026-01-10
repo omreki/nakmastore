@@ -114,12 +114,12 @@ const ShopPage = () => {
                 description={pageSettings?.meta_description || "Browse our complete range of unique African-inspired shirts. Crafted for comfort, designed for cultural expression."}
             />
             {/* Hero / Header Section */}
-            {!searchQuery && pageSettings?.hero_image_url && (
+            {!searchQuery && (
                 <div className="w-full px-4 md:px-6 max-w-[1600px] mx-auto mb-12 md:mb-16">
-                    <div className="relative w-full h-[300px] md:h-[450px] rounded-[32px] md:rounded-[40px] overflow-hidden group shadow-2xl">
+                    <div className="relative w-full h-[300px] md:h-[450px] rounded-[32px] md:rounded-[40px] overflow-hidden group shadow-2xl bg-white/[0.03]">
                         <div
                             className="absolute inset-0 bg-cover bg-center transition-transform duration-[2s] group-hover:scale-105"
-                            style={{ backgroundImage: `url(${pageSettings.hero_image_url})` }}
+                            style={{ backgroundImage: pageSettings?.hero_image_url ? `url(${pageSettings.hero_image_url})` : 'none' }}
                         >
                         </div>
                         <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/30 to-transparent"></div>

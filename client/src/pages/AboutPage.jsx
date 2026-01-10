@@ -33,33 +33,31 @@ const AboutPage = () => {
             </div>
 
             {/* Hero Section */}
-            {aboutSettings.hero.bgImage && (
-                <section className="relative w-full h-[500px] md:h-[800px] flex items-center justify-center text-center px-6 overflow-hidden">
-                    <div
-                        className="absolute inset-0 bg-cover bg-center opacity-50"
-                        style={{ backgroundImage: `url(${aboutSettings.hero.bgImage})` }}
-                    ></div>
-                    {/* Sleek Gradient Overlay */}
-                    <div className="absolute inset-0 bg-gradient-to-b from-black via-transparent to-black"></div>
-                    <div className="absolute inset-0 bg-gradient-to-r from-black via-transparent to-black opacity-80"></div>
-                    <div className="absolute inset-0 bg-black/20"></div>
+            <section className="relative w-full h-[500px] md:h-[800px] flex items-center justify-center text-center px-6 overflow-hidden bg-black">
+                <div
+                    className="absolute inset-0 bg-cover bg-center opacity-50"
+                    style={{ backgroundImage: aboutSettings.hero.bgImage ? `url(${aboutSettings.hero.bgImage})` : 'none' }}
+                ></div>
+                {/* Sleek Gradient Overlay */}
+                <div className="absolute inset-0 bg-gradient-to-b from-black via-transparent to-black"></div>
+                <div className="absolute inset-0 bg-gradient-to-r from-black via-transparent to-black opacity-80"></div>
+                <div className="absolute inset-0 bg-black/20"></div>
 
-                    <div className="relative z-10 max-w-4xl space-y-6 md:space-y-8">
-                        <span className="text-[#b82063] text-xs md:text-sm font-bold uppercase tracking-[0.4em] md:tracking-[0.6em]">{aboutSettings.hero.estText}</span>
-                        <h1 className="text-5xl md:text-9xl font-bold tracking-tight leading-[0.9] whitespace-pre-line">
-                            {aboutSettings.hero.title.split('\\n').map((line, i) => (
-                                <React.Fragment key={i}>
-                                    {i > 0 && <br />}
-                                    {i % 2 === 1 ? <span className="text-white/20">{line}</span> : line}
-                                </React.Fragment>
-                            )) || aboutSettings.hero.title}
-                        </h1>
-                        <p className="text-white/60 text-base md:text-2xl font-medium max-w-2xl mx-auto leading-relaxed">
-                            {aboutSettings.hero.subtitle}
-                        </p>
-                    </div>
-                </section>
-            )}
+                <div className="relative z-10 max-w-4xl space-y-6 md:space-y-8">
+                    <span className="text-[#b82063] text-xs md:text-sm font-bold uppercase tracking-[0.4em] md:tracking-[0.6em]">{aboutSettings.hero.estText}</span>
+                    <h1 className="text-5xl md:text-9xl font-bold tracking-tight leading-[0.9] whitespace-pre-line">
+                        {aboutSettings.hero.title.split('\\n').map((line, i) => (
+                            <React.Fragment key={i}>
+                                {i > 0 && <br />}
+                                {i % 2 === 1 ? <span className="text-white/20">{line}</span> : line}
+                            </React.Fragment>
+                        )) || aboutSettings.hero.title}
+                    </h1>
+                    <p className="text-white/60 text-base md:text-2xl font-medium max-w-2xl mx-auto leading-relaxed">
+                        {aboutSettings.hero.subtitle}
+                    </p>
+                </div>
+            </section>
 
             {/* Our Philosophy */}
             <section className="max-w-[1440px] mx-auto px-6 md:px-10 py-16 md:py-32 grid grid-cols-1 lg:grid-cols-2 gap-12 md:gap-20 items-center">
@@ -129,31 +127,29 @@ const AboutPage = () => {
             </section>
 
             {/* Join the Movement */}
-            {aboutSettings.join.bgImage && (
-                <section className="max-w-[1440px] mx-auto px-4 md:px-10 py-10">
-                    <div className="relative w-full rounded-[32px] md:rounded-[40px] overflow-hidden bg-black p-8 md:p-24 text-center space-y-8 shadow-2xl group">
-                        <div
-                            className="absolute inset-0 bg-cover bg-center transition-transform duration-1000"
-                            style={{ backgroundImage: `url(${aboutSettings.join.bgImage})` }}
-                        >
-                            {/* Elegant Gradient Overlay */}
-                            <div className="absolute inset-0 bg-gradient-to-tr from-black/80 via-black/40 to-transparent"></div>
-                            <div className="absolute inset-0 bg-gradient-to-bl from-black/80 via-transparent to-black/80"></div>
-                        </div>
-                        <div className="relative z-10 space-y-6">
-                            <h2 className="text-4xl md:text-8xl font-bold tracking-tight italic">{aboutSettings.join.title}</h2>
-                            <p className="text-white/80 text-lg md:text-xl font-medium max-w-xl mx-auto">
-                                {aboutSettings.join.subtitle}
-                            </p>
-                            <div className="pt-6">
-                                <Link to={aboutSettings.join.buttonLink} className="px-12 py-5 bg-white text-black rounded-full font-bold uppercase tracking-widest hover:bg-black hover:text-white transition-all inline-block shadow-xl">
-                                    {aboutSettings.join.buttonText}
-                                </Link>
-                            </div>
+            <section className="max-w-[1440px] mx-auto px-4 md:px-10 py-10">
+                <div className="relative w-full rounded-[32px] md:rounded-[40px] overflow-hidden bg-black p-8 md:p-24 text-center space-y-8 shadow-2xl group">
+                    <div
+                        className="absolute inset-0 bg-cover bg-center transition-transform duration-1000"
+                        style={{ backgroundImage: aboutSettings.join.bgImage ? `url(${aboutSettings.join.bgImage})` : 'none' }}
+                    >
+                        {/* Elegant Gradient Overlay */}
+                        <div className="absolute inset-0 bg-gradient-to-tr from-black/80 via-black/40 to-transparent"></div>
+                        <div className="absolute inset-0 bg-gradient-to-bl from-black/80 via-transparent to-black/80"></div>
+                    </div>
+                    <div className="relative z-10 space-y-6">
+                        <h2 className="text-4xl md:text-8xl font-bold tracking-tight italic">{aboutSettings.join.title}</h2>
+                        <p className="text-white/80 text-lg md:text-xl font-medium max-w-xl mx-auto">
+                            {aboutSettings.join.subtitle}
+                        </p>
+                        <div className="pt-6">
+                            <Link to={aboutSettings.join.buttonLink} className="px-12 py-5 bg-white text-black rounded-full font-bold uppercase tracking-widest hover:bg-black hover:text-white transition-all inline-block shadow-xl">
+                                {aboutSettings.join.buttonText}
+                            </Link>
                         </div>
                     </div>
-                </section>
-            )}
+                </div>
+            </section>
         </div>
     );
 };
