@@ -67,8 +67,8 @@ const StoreSettingsPage = () => {
                 imageUrl: ""
             },
             categories: {
-                men: { title: "Men", subtitle: "Heritage Cuts", imageUrl: "" },
-                women: { title: "Women", subtitle: "Modern Silhouettes", imageUrl: "" }
+                prints: { title: "Vibrant Prints", subtitle: "Bold African Motifs", imageUrl: "" },
+                plains: { title: "Classic Plains", subtitle: "Minimalist Elegance", imageUrl: "" }
             }
         },
         navigationSettings: [],
@@ -121,11 +121,11 @@ const StoreSettingsPage = () => {
     const [homepagePhilosophyFile, setHomepagePhilosophyFile] = useState(null);
     const [homepagePhilosophyPreview, setHomepagePhilosophyPreview] = useState(null);
 
-    const [homepageMenFile, setHomepageMenFile] = useState(null);
-    const [homepageMenPreview, setHomepageMenPreview] = useState(null);
+    const [homepagePrintsFile, setHomepagePrintsFile] = useState(null);
+    const [homepagePrintsPreview, setHomepagePrintsPreview] = useState(null);
 
-    const [homepageWomenFile, setHomepageWomenFile] = useState(null);
-    const [homepageWomenPreview, setHomepageWomenPreview] = useState(null);
+    const [homepagePlainsFile, setHomepagePlainsFile] = useState(null);
+    const [homepagePlainsPreview, setHomepagePlainsPreview] = useState(null);
 
     const [loginFile, setLoginFile] = useState(null);
     const [loginPreview, setLoginPreview] = useState(null);
@@ -315,8 +315,8 @@ const StoreSettingsPage = () => {
                         imageUrl: ""
                     },
                     categories: {
-                        men: { title: "Men", subtitle: "Heritage Cuts", imageUrl: "" },
-                        women: { title: "Women", subtitle: "Modern Silhouettes", imageUrl: "" }
+                        prints: { title: "Vibrant Prints", subtitle: "Bold African Motifs", imageUrl: "" },
+                        plains: { title: "Classic Plains", subtitle: "Minimalist Elegance", imageUrl: "" }
                     }
                 },
                 navigationSettings: contextSettings.navigationSettings || [],
@@ -364,11 +364,11 @@ const StoreSettingsPage = () => {
                 if (contextSettings.homepageSettings.philosophy?.imageUrl) {
                     setHomepagePhilosophyPreview(contextSettings.homepageSettings.philosophy.imageUrl);
                 }
-                if (contextSettings.homepageSettings.categories?.men?.imageUrl) {
-                    setHomepageMenPreview(contextSettings.homepageSettings.categories.men.imageUrl);
+                if (contextSettings.homepageSettings.categories?.prints?.imageUrl) {
+                    setHomepagePrintsPreview(contextSettings.homepageSettings.categories.prints.imageUrl);
                 }
-                if (contextSettings.homepageSettings.categories?.women?.imageUrl) {
-                    setHomepageWomenPreview(contextSettings.homepageSettings.categories.women.imageUrl);
+                if (contextSettings.homepageSettings.categories?.plains?.imageUrl) {
+                    setHomepagePlainsPreview(contextSettings.homepageSettings.categories.plains.imageUrl);
                 }
             }
 
@@ -797,12 +797,12 @@ const StoreSettingsPage = () => {
             } else if (section === 'philosophy') {
                 setHomepagePhilosophyFile(file);
                 setHomepagePhilosophyPreview(previewUrl);
-            } else if (section === 'men') {
-                setHomepageMenFile(file);
-                setHomepageMenPreview(previewUrl);
-            } else if (section === 'women') {
-                setHomepageWomenFile(file);
-                setHomepageWomenPreview(previewUrl);
+            } else if (section === 'prints') {
+                setHomepagePrintsFile(file);
+                setHomepagePrintsPreview(previewUrl);
+            } else if (section === 'plains') {
+                setHomepagePlainsFile(file);
+                setHomepagePlainsPreview(previewUrl);
             }
         }
     };
@@ -994,21 +994,21 @@ const StoreSettingsPage = () => {
             }
         }
 
-        if (homepageMenFile) {
-            const fileName = `hp-men-${Date.now()}-${homepageMenFile.name.replace(/\s/g, '-')}`;
-            const { error } = await supabase.storage.from('product-images').upload(fileName, homepageMenFile);
+        if (homepagePrintsFile) {
+            const fileName = `hp-prints-${Date.now()}-${homepagePrintsFile.name.replace(/\s/g, '-')}`;
+            const { error } = await supabase.storage.from('product-images').upload(fileName, homepagePrintsFile);
             if (!error) {
                 const { data } = supabase.storage.from('product-images').getPublicUrl(fileName);
-                newSettings.homepageSettings.categories.men.imageUrl = data.publicUrl;
+                newSettings.homepageSettings.categories.prints.imageUrl = data.publicUrl;
             }
         }
 
-        if (homepageWomenFile) {
-            const fileName = `hp-women-${Date.now()}-${homepageWomenFile.name.replace(/\s/g, '-')}`;
-            const { error } = await supabase.storage.from('product-images').upload(fileName, homepageWomenFile);
+        if (homepagePlainsFile) {
+            const fileName = `hp-plains-${Date.now()}-${homepagePlainsFile.name.replace(/\s/g, '-')}`;
+            const { error } = await supabase.storage.from('product-images').upload(fileName, homepagePlainsFile);
             if (!error) {
                 const { data } = supabase.storage.from('product-images').getPublicUrl(fileName);
-                newSettings.homepageSettings.categories.women.imageUrl = data.publicUrl;
+                newSettings.homepageSettings.categories.plains.imageUrl = data.publicUrl;
             }
         }
 
@@ -1767,8 +1767,8 @@ const StoreSettingsPage = () => {
                                                 <label className="text-gray-500 text-[10px] font-black tracking-[0.2em] uppercase ml-1">Sub-Headline</label>
                                                 <input
                                                     type="text"
-                                                    value={settings.homepageSettings.hero.subHeadline}
-                                                    onChange={(e) => setSettings({ ...settings, homepageSettings: { ...settings.homepageSettings, hero: { ...settings.homepageSettings.hero, subHeadline: e.target.value } } })}
+                                                    value={settings.homepageSettings?.hero?.subHeadline || ''}
+                                                    onChange={(e) => setSettings({ ...settings, homepageSettings: { ...settings.homepageSettings, hero: { ...settings.homepageSettings?.hero, subHeadline: e.target.value } } })}
                                                     className="w-full h-12 bg-black/40 border border-white/5 rounded-xl px-4 text-white text-sm font-bold focus:outline-none focus:border-primary/50 transition-colors shadow-inner placeholder-white/20"
                                                 />
                                             </div>
@@ -1776,8 +1776,8 @@ const StoreSettingsPage = () => {
                                                 <label className="text-gray-500 text-[10px] font-black tracking-[0.2em] uppercase ml-1">Background Hollow Text</label>
                                                 <input
                                                     type="text"
-                                                    value={settings.homepageSettings.hero.hollowText || ''}
-                                                    onChange={(e) => setSettings({ ...settings, homepageSettings: { ...settings.homepageSettings, hero: { ...settings.homepageSettings.hero, hollowText: e.target.value } } })}
+                                                    value={settings.homepageSettings?.hero?.hollowText || ''}
+                                                    onChange={(e) => setSettings({ ...settings, homepageSettings: { ...settings.homepageSettings, hero: { ...settings.homepageSettings?.hero, hollowText: e.target.value } } })}
                                                     className="w-full h-12 bg-black/40 border border-white/5 rounded-xl px-4 text-white text-sm font-bold focus:outline-none focus:border-primary/50 transition-colors shadow-inner placeholder-white/20"
                                                     placeholder="Leave empty to hide"
                                                 />
@@ -1824,8 +1824,8 @@ const StoreSettingsPage = () => {
                                                 <label className="text-gray-500 text-[10px] font-black tracking-[0.2em] uppercase ml-1">Headline Line 1</label>
                                                 <input
                                                     type="text"
-                                                    value={settings.homepageSettings.hero.headlineLine1}
-                                                    onChange={(e) => setSettings({ ...settings, homepageSettings: { ...settings.homepageSettings, hero: { ...settings.homepageSettings.hero, headlineLine1: e.target.value } } })}
+                                                    value={settings.homepageSettings?.hero?.headlineLine1 || ''}
+                                                    onChange={(e) => setSettings({ ...settings, homepageSettings: { ...settings.homepageSettings, hero: { ...settings.homepageSettings?.hero, headlineLine1: e.target.value } } })}
                                                     className="w-full h-12 bg-black/40 border border-white/5 rounded-xl px-4 text-white text-sm font-bold focus:outline-none focus:border-primary/50 transition-colors shadow-inner placeholder-white/20"
                                                 />
                                             </div>
@@ -1833,8 +1833,8 @@ const StoreSettingsPage = () => {
                                                 <label className="text-gray-500 text-[10px] font-black tracking-[0.2em] uppercase ml-1">Headline Line 2</label>
                                                 <input
                                                     type="text"
-                                                    value={settings.homepageSettings.hero.headlineLine2}
-                                                    onChange={(e) => setSettings({ ...settings, homepageSettings: { ...settings.homepageSettings, hero: { ...settings.homepageSettings.hero, headlineLine2: e.target.value } } })}
+                                                    value={settings.homepageSettings?.hero?.headlineLine2 || ''}
+                                                    onChange={(e) => setSettings({ ...settings, homepageSettings: { ...settings.homepageSettings, hero: { ...settings.homepageSettings?.hero, headlineLine2: e.target.value } } })}
                                                     className="w-full h-12 bg-black/40 border border-white/5 rounded-xl px-4 text-white text-sm font-bold focus:outline-none focus:border-primary/50 transition-colors shadow-inner placeholder-white/20"
                                                 />
                                             </div>
@@ -1842,14 +1842,14 @@ const StoreSettingsPage = () => {
                                                 <label className="text-gray-500 text-[10px] font-black tracking-[0.2em] uppercase ml-1">Description</label>
                                                 <input
                                                     type="text"
-                                                    value={settings.homepageSettings.hero.descriptionLine1}
+                                                    value={settings.homepageSettings?.hero?.descriptionLine1 || ''}
                                                     onChange={(e) => setSettings({ ...settings, homepageSettings: { ...settings.homepageSettings, hero: { ...settings.homepageSettings.hero, descriptionLine1: e.target.value } } })}
                                                     className="w-full h-12 bg-black/40 border border-white/5 rounded-xl px-4 text-white text-sm font-bold focus:outline-none focus:border-primary/50 transition-colors shadow-inner placeholder-white/20 mb-2"
                                                     placeholder="Line 1"
                                                 />
                                                 <input
                                                     type="text"
-                                                    value={settings.homepageSettings.hero.descriptionLine2}
+                                                    value={settings.homepageSettings?.hero?.descriptionLine2 || ''}
                                                     onChange={(e) => setSettings({ ...settings, homepageSettings: { ...settings.homepageSettings, hero: { ...settings.homepageSettings.hero, descriptionLine2: e.target.value } } })}
                                                     className="w-full h-12 bg-black/40 border border-white/5 rounded-xl px-4 text-white text-sm font-bold focus:outline-none focus:border-primary/50 transition-colors shadow-inner placeholder-white/20"
                                                     placeholder="Line 2"
@@ -1866,8 +1866,8 @@ const StoreSettingsPage = () => {
                                                 <label className="text-gray-500 text-[10px] font-black tracking-[0.2em] uppercase ml-1">Sub-Headline</label>
                                                 <input
                                                     type="text"
-                                                    value={settings.homepageSettings.philosophy.subHeadline}
-                                                    onChange={(e) => setSettings({ ...settings, homepageSettings: { ...settings.homepageSettings, philosophy: { ...settings.homepageSettings.philosophy, subHeadline: e.target.value } } })}
+                                                    value={settings.homepageSettings?.philosophy?.subHeadline || ''}
+                                                    onChange={(e) => setSettings({ ...settings, homepageSettings: { ...settings.homepageSettings, philosophy: { ...settings.homepageSettings?.philosophy, subHeadline: e.target.value } } })}
                                                     className="w-full h-12 bg-black/40 border border-white/5 rounded-xl px-4 text-white text-sm font-bold focus:outline-none focus:border-primary/50 transition-colors shadow-inner placeholder-white/20"
                                                 />
                                             </div>
@@ -1912,8 +1912,8 @@ const StoreSettingsPage = () => {
                                             <div className="md:col-span-2 flex flex-col gap-2.5">
                                                 <label className="text-gray-500 text-[10px] font-black tracking-[0.2em] uppercase ml-1">Main Quote</label>
                                                 <textarea
-                                                    value={settings.homepageSettings.philosophy.quote}
-                                                    onChange={(e) => setSettings({ ...settings, homepageSettings: { ...settings.homepageSettings, philosophy: { ...settings.homepageSettings.philosophy, quote: e.target.value } } })}
+                                                    value={settings.homepageSettings?.philosophy?.quote || ''}
+                                                    onChange={(e) => setSettings({ ...settings, homepageSettings: { ...settings.homepageSettings, philosophy: { ...settings.homepageSettings?.philosophy, quote: e.target.value } } })}
                                                     className="w-full h-24 pt-3 bg-black/40 border border-white/5 rounded-xl px-4 text-white text-sm font-bold focus:outline-none focus:border-primary/50 transition-colors shadow-inner placeholder-white/20"
                                                 />
                                             </div>
@@ -1921,15 +1921,15 @@ const StoreSettingsPage = () => {
                                                 <label className="text-gray-500 text-[10px] font-black tracking-[0.2em] uppercase ml-1">Description</label>
                                                 <input
                                                     type="text"
-                                                    value={settings.homepageSettings.philosophy.descriptionLine1}
-                                                    onChange={(e) => setSettings({ ...settings, homepageSettings: { ...settings.homepageSettings, philosophy: { ...settings.homepageSettings.philosophy, descriptionLine1: e.target.value } } })}
+                                                    value={settings.homepageSettings?.philosophy?.descriptionLine1 || ''}
+                                                    onChange={(e) => setSettings({ ...settings, homepageSettings: { ...settings.homepageSettings, philosophy: { ...settings.homepageSettings?.philosophy, descriptionLine1: e.target.value } } })}
                                                     className="w-full h-12 bg-black/40 border border-white/5 rounded-xl px-4 text-white text-sm font-bold focus:outline-none focus:border-primary/50 transition-colors shadow-inner placeholder-white/20 mb-2"
                                                     placeholder="Line 1"
                                                 />
                                                 <input
                                                     type="text"
-                                                    value={settings.homepageSettings.philosophy.descriptionLine2}
-                                                    onChange={(e) => setSettings({ ...settings, homepageSettings: { ...settings.homepageSettings, philosophy: { ...settings.homepageSettings.philosophy, descriptionLine2: e.target.value } } })}
+                                                    value={settings.homepageSettings?.philosophy?.descriptionLine2 || ''}
+                                                    onChange={(e) => setSettings({ ...settings, homepageSettings: { ...settings.homepageSettings, philosophy: { ...settings.homepageSettings?.philosophy, descriptionLine2: e.target.value } } })}
                                                     className="w-full h-12 bg-black/40 border border-white/5 rounded-xl px-4 text-white text-sm font-bold focus:outline-none focus:border-primary/50 transition-colors shadow-inner placeholder-white/20"
                                                     placeholder="Line 2"
                                                 />
@@ -1941,15 +1941,15 @@ const StoreSettingsPage = () => {
                                     <div className="space-y-6">
                                         <h4 className="text-white text-sm font-bold border-b border-white/10 pb-2">Category Display Metrics</h4>
                                         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                                            {/* Men */}
+                                            {/* Prints */}
                                             <div className="space-y-4 p-4 rounded-2xl bg-white/5 border border-white/5">
-                                                <h5 className="text-white text-xs font-bold uppercase tracking-widest text-[#a14550]">Men's Card</h5>
+                                                <h5 className="text-white text-xs font-bold uppercase tracking-widest text-[#a14550]">Prints Card</h5>
                                                 <div className="flex flex-col gap-2.5">
                                                     <label className="text-gray-500 text-[10px] font-black tracking-[0.2em] uppercase ml-1">Title</label>
                                                     <input
                                                         type="text"
-                                                        value={settings.homepageSettings.categories.men.title}
-                                                        onChange={(e) => setSettings({ ...settings, homepageSettings: { ...settings.homepageSettings, categories: { ...settings.homepageSettings.categories, men: { ...settings.homepageSettings.categories.men, title: e.target.value } } } })}
+                                                        value={settings.homepageSettings?.categories?.prints?.title || ''}
+                                                        onChange={(e) => setSettings({ ...settings, homepageSettings: { ...settings.homepageSettings, categories: { ...settings.homepageSettings.categories, prints: { ...settings.homepageSettings.categories.prints, title: e.target.value } } } })}
                                                         className="w-full h-10 bg-black/40 border border-white/5 rounded-xl px-4 text-white text-xs font-bold focus:outline-none focus:border-primary/50 transition-colors shadow-inner"
                                                     />
                                                 </div>
@@ -1957,8 +1957,8 @@ const StoreSettingsPage = () => {
                                                     <label className="text-gray-500 text-[10px] font-black tracking-[0.2em] uppercase ml-1">Subtitle</label>
                                                     <input
                                                         type="text"
-                                                        value={settings.homepageSettings.categories.men.subtitle}
-                                                        onChange={(e) => setSettings({ ...settings, homepageSettings: { ...settings.homepageSettings, categories: { ...settings.homepageSettings.categories, men: { ...settings.homepageSettings.categories.men, subtitle: e.target.value } } } })}
+                                                        value={settings.homepageSettings?.categories?.prints?.subtitle || ''}
+                                                        onChange={(e) => setSettings({ ...settings, homepageSettings: { ...settings.homepageSettings, categories: { ...settings.homepageSettings.categories, prints: { ...settings.homepageSettings.categories.prints, subtitle: e.target.value } } } })}
                                                         className="w-full h-10 bg-black/40 border border-white/5 rounded-xl px-4 text-white text-xs font-bold focus:outline-none focus:border-primary/50 transition-colors shadow-inner"
                                                     />
                                                 </div>
@@ -1967,8 +1967,8 @@ const StoreSettingsPage = () => {
                                                     <div className="flex items-center gap-4">
                                                         <div className="relative group size-20 flex-shrink-0">
                                                             <div className="w-full h-full rounded-2xl bg-black/40 border-2 border-dashed border-white/10 flex items-center justify-center overflow-hidden transition-all group-hover:border-primary/50 group-hover:bg-black/60">
-                                                                {homepageMenPreview ? (
-                                                                    <img src={homepageMenPreview} alt="Preview" className="w-full h-full object-cover" />
+                                                                {homepagePrintsPreview ? (
+                                                                    <img src={homepagePrintsPreview} alt="Preview" className="w-full h-full object-cover" />
                                                                 ) : (
                                                                     <span className="material-symbols-outlined text-white/20 text-3xl group-hover:text-primary transition-colors">image</span>
                                                                 )}
@@ -1976,7 +1976,7 @@ const StoreSettingsPage = () => {
                                                             <input
                                                                 type="file"
                                                                 accept="image/*"
-                                                                onChange={(e) => handleHomepageImageChange('men', e)}
+                                                                onChange={(e) => handleHomepageImageChange('prints', e)}
                                                                 className="absolute inset-0 opacity-0 cursor-pointer"
                                                             />
                                                         </div>
@@ -1985,13 +1985,13 @@ const StoreSettingsPage = () => {
                                                             <div className="flex gap-2">
                                                                 <label className="cursor-pointer px-3 py-1.5 rounded-lg bg-white/5 hover:bg-white/10 border border-white/5 text-[9px] font-black uppercase tracking-widest text-white transition-all flex items-center gap-1 w-fit">
                                                                     Upload
-                                                                    <input type="file" accept="image/*" onChange={(e) => handleHomepageImageChange('men', e)} className="hidden" />
+                                                                    <input type="file" accept="image/*" onChange={(e) => handleHomepageImageChange('prints', e)} className="hidden" />
                                                                 </label>
-                                                                {homepageMenPreview && (
+                                                                {homepagePrintsPreview && (
                                                                     <button onClick={() => {
-                                                                        setHomepageMenFile(null);
-                                                                        setHomepageMenPreview(null);
-                                                                        setSettings(prev => ({ ...prev, homepageSettings: { ...prev.homepageSettings, categories: { ...prev.homepageSettings.categories, men: { ...prev.homepageSettings.categories.men, imageUrl: '' } } } }));
+                                                                        setHomepagePrintsFile(null);
+                                                                        setHomepagePrintsPreview(null);
+                                                                        setSettings(prev => ({ ...prev, homepageSettings: { ...prev.homepageSettings, categories: { ...prev.homepageSettings.categories, prints: { ...prev.homepageSettings.categories.prints, imageUrl: '' } } } }));
                                                                     }} className="px-3 py-1.5 rounded-lg bg-red-500/10 hover:bg-red-500/20 border border-red-500/10 text-[9px] font-black uppercase tracking-widest text-red-500 transition-all">
                                                                         Clear
                                                                     </button>
@@ -2001,15 +2001,15 @@ const StoreSettingsPage = () => {
                                                     </div>
                                                 </div>
                                             </div>
-                                            {/* Women */}
+                                            {/* Plains */}
                                             <div className="space-y-4 p-4 rounded-2xl bg-white/5 border border-white/5">
-                                                <h5 className="text-white text-xs font-bold uppercase tracking-widest text-[#a14550]">Women's Card</h5>
+                                                <h5 className="text-white text-xs font-bold uppercase tracking-widest text-[#a14550]">Plains Card</h5>
                                                 <div className="flex flex-col gap-2.5">
                                                     <label className="text-gray-500 text-[10px] font-black tracking-[0.2em] uppercase ml-1">Title</label>
                                                     <input
                                                         type="text"
-                                                        value={settings.homepageSettings.categories.women.title}
-                                                        onChange={(e) => setSettings({ ...settings, homepageSettings: { ...settings.homepageSettings, categories: { ...settings.homepageSettings.categories, women: { ...settings.homepageSettings.categories.women, title: e.target.value } } } })}
+                                                        value={settings.homepageSettings?.categories?.plains?.title || ''}
+                                                        onChange={(e) => setSettings({ ...settings, homepageSettings: { ...settings.homepageSettings, categories: { ...settings.homepageSettings.categories, plains: { ...settings.homepageSettings.categories.plains, title: e.target.value } } } })}
                                                         className="w-full h-10 bg-black/40 border border-white/5 rounded-xl px-4 text-white text-xs font-bold focus:outline-none focus:border-primary/50 transition-colors shadow-inner"
                                                     />
                                                 </div>
@@ -2017,8 +2017,8 @@ const StoreSettingsPage = () => {
                                                     <label className="text-gray-500 text-[10px] font-black tracking-[0.2em] uppercase ml-1">Subtitle</label>
                                                     <input
                                                         type="text"
-                                                        value={settings.homepageSettings.categories.women.subtitle}
-                                                        onChange={(e) => setSettings({ ...settings, homepageSettings: { ...settings.homepageSettings, categories: { ...settings.homepageSettings.categories, women: { ...settings.homepageSettings.categories.women, subtitle: e.target.value } } } })}
+                                                        value={settings.homepageSettings?.categories?.plains?.subtitle || ''}
+                                                        onChange={(e) => setSettings({ ...settings, homepageSettings: { ...settings.homepageSettings, categories: { ...settings.homepageSettings.categories, plains: { ...settings.homepageSettings.categories.plains, subtitle: e.target.value } } } })}
                                                         className="w-full h-10 bg-black/40 border border-white/5 rounded-xl px-4 text-white text-xs font-bold focus:outline-none focus:border-primary/50 transition-colors shadow-inner"
                                                     />
                                                 </div>
@@ -2027,8 +2027,8 @@ const StoreSettingsPage = () => {
                                                     <div className="flex items-center gap-4">
                                                         <div className="relative group size-20 flex-shrink-0">
                                                             <div className="w-full h-full rounded-2xl bg-black/40 border-2 border-dashed border-white/10 flex items-center justify-center overflow-hidden transition-all group-hover:border-primary/50 group-hover:bg-black/60">
-                                                                {homepageWomenPreview ? (
-                                                                    <img src={homepageWomenPreview} alt="Preview" className="w-full h-full object-cover" />
+                                                                {homepagePlainsPreview ? (
+                                                                    <img src={homepagePlainsPreview} alt="Preview" className="w-full h-full object-cover" />
                                                                 ) : (
                                                                     <span className="material-symbols-outlined text-white/20 text-3xl group-hover:text-primary transition-colors">image</span>
                                                                 )}
@@ -2036,7 +2036,7 @@ const StoreSettingsPage = () => {
                                                             <input
                                                                 type="file"
                                                                 accept="image/*"
-                                                                onChange={(e) => handleHomepageImageChange('women', e)}
+                                                                onChange={(e) => handleHomepageImageChange('plains', e)}
                                                                 className="absolute inset-0 opacity-0 cursor-pointer"
                                                             />
                                                         </div>
@@ -2045,13 +2045,13 @@ const StoreSettingsPage = () => {
                                                             <div className="flex gap-2">
                                                                 <label className="cursor-pointer px-3 py-1.5 rounded-lg bg-white/5 hover:bg-white/10 border border-white/5 text-[9px] font-black uppercase tracking-widest text-white transition-all flex items-center gap-1 w-fit">
                                                                     Upload
-                                                                    <input type="file" accept="image/*" onChange={(e) => handleHomepageImageChange('women', e)} className="hidden" />
+                                                                    <input type="file" accept="image/*" onChange={(e) => handleHomepageImageChange('plains', e)} className="hidden" />
                                                                 </label>
-                                                                {homepageWomenPreview && (
+                                                                {homepagePlainsPreview && (
                                                                     <button onClick={() => {
-                                                                        setHomepageWomenFile(null);
-                                                                        setHomepageWomenPreview(null);
-                                                                        setSettings(prev => ({ ...prev, homepageSettings: { ...prev.homepageSettings, categories: { ...prev.homepageSettings.categories, women: { ...prev.homepageSettings.categories.women, imageUrl: '' } } } }));
+                                                                        setHomepagePlainsFile(null);
+                                                                        setHomepagePlainsPreview(null);
+                                                                        setSettings(prev => ({ ...prev, homepageSettings: { ...prev.homepageSettings, categories: { ...prev.homepageSettings.categories, plains: { ...prev.homepageSettings.categories.plains, imageUrl: '' } } } }));
                                                                     }} className="px-3 py-1.5 rounded-lg bg-red-500/10 hover:bg-red-500/20 border border-red-500/10 text-[9px] font-black uppercase tracking-widest text-red-500 transition-all">
                                                                         Clear
                                                                     </button>

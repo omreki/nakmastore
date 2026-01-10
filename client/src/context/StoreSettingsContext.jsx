@@ -66,6 +66,8 @@ export const StoreSettingsProvider = ({ children }) => {
                 imageUrl: ""
             },
             categories: {
+                prints: { title: "Vibrant Prints", subtitle: "Bold African Motifs", imageUrl: "" },
+                plains: { title: "Classic Plains", subtitle: "Minimalist Elegance", imageUrl: "" }
             },
             seo: {
                 metaTitle: "",
@@ -203,6 +205,7 @@ export const StoreSettingsProvider = ({ children }) => {
                             facebookUrl: data.facebook_url || '',
                             paymentConfigs: data.payment_configs || {},
                             homepageSettings: data.homepage_settings ? {
+                                ...data.homepage_settings,
                                 hero: {
                                     ...data.homepage_settings.hero,
                                     imageUrl: data.homepage_settings.hero?.imageUrl ? `${data.homepage_settings.hero.imageUrl}?t=${timestamp}` : "",
@@ -212,7 +215,9 @@ export const StoreSettingsProvider = ({ children }) => {
                                     ...data.homepage_settings.philosophy,
                                     imageUrl: data.homepage_settings.philosophy?.imageUrl ? `${data.homepage_settings.philosophy.imageUrl}?t=${timestamp}` : ""
                                 },
-                                categories: {
+                                categories: data.homepage_settings.categories || {
+                                    prints: { title: "Vibrant Prints", subtitle: "Bold African Motifs", imageUrl: "" },
+                                    plains: { title: "Classic Plains", subtitle: "Minimalist Elegance", imageUrl: "" }
                                 },
                                 seo: {
                                     metaTitle: data.homepage_settings.seo?.metaTitle || "",
@@ -236,6 +241,8 @@ export const StoreSettingsProvider = ({ children }) => {
                                     imageUrl: "/philosophy-bg.png"
                                 },
                                 categories: {
+                                    prints: { title: "Vibrant Prints", subtitle: "Bold African Motifs", imageUrl: "" },
+                                    plains: { title: "Classic Plains", subtitle: "Minimalist Elegance", imageUrl: "" }
                                 },
                                 seo: {
                                     metaTitle: "",
@@ -365,6 +372,7 @@ export const StoreSettingsProvider = ({ children }) => {
                     facebookUrl: data.facebook_url || '',
                     paymentConfigs: data.payment_configs || {},
                     homepageSettings: data.homepage_settings ? {
+                        ...data.homepage_settings,
                         hero: {
                             ...data.homepage_settings.hero,
                             imageUrl: data.homepage_settings.hero?.imageUrl ? `${data.homepage_settings.hero.imageUrl}?t=${timestamp}` : "",
@@ -374,7 +382,9 @@ export const StoreSettingsProvider = ({ children }) => {
                             ...data.homepage_settings.philosophy,
                             imageUrl: data.homepage_settings.philosophy?.imageUrl ? `${data.homepage_settings.philosophy.imageUrl}?t=${timestamp}` : ""
                         },
-                        categories: {
+                        categories: data.homepage_settings.categories || {
+                            prints: { title: "Vibrant Prints", subtitle: "Bold African Motifs", imageUrl: "" },
+                            plains: { title: "Classic Plains", subtitle: "Minimalist Elegance", imageUrl: "" }
                         },
                         seo: {
                             metaTitle: data.homepage_settings.seo?.metaTitle || "",
@@ -398,6 +408,8 @@ export const StoreSettingsProvider = ({ children }) => {
                             imageUrl: "/philosophy-bg.png"
                         },
                         categories: {
+                            prints: { title: "Vibrant Prints", subtitle: "Bold African Motifs", imageUrl: "" },
+                            plains: { title: "Classic Plains", subtitle: "Minimalist Elegance", imageUrl: "" }
                         },
                         seo: {
                             metaTitle: "",
