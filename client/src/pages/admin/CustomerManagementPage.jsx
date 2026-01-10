@@ -259,7 +259,7 @@ const CustomerManagementPage = () => {
                         </button>
                         <button
                             onClick={() => setShowAddModal(true)}
-                            className="bg-white hover:bg-primary-hover text-black hover:text-white h-12 px-6 rounded-xl flex items-center gap-2 text-[10px] font-black uppercase tracking-widest shadow-2xl hover:-translate-y-0.5 transition-all border border-white/10"
+                            className="bg-primary hover:bg-primary-hover text-white h-12 px-6 rounded-xl flex items-center gap-2 text-[10px] font-black uppercase tracking-widest shadow-2xl hover:-translate-y-0.5 transition-all border border-white/10"
                         >
                             <span className="material-symbols-outlined">add</span>
                             Add Customer
@@ -402,7 +402,7 @@ const CustomerManagementPage = () => {
                                                                         {customer.initials}
                                                                     </div>
                                                                 )}
-                                                                <div className="absolute -bottom-1 -right-1 size-3.5 bg-green-500 rounded-full border-2 border-[#b82063] shadow-lg"></div>
+                                                                <div className="absolute -bottom-1 -right-1 size-3.5 bg-green-500 rounded-full border-2 border-primary shadow-lg"></div>
                                                             </div>
                                                             <div className="flex flex-col min-w-0">
                                                                 <span className="font-bold text-white text-base group-hover:text-primary-light transition-colors truncate">{customer.name}</span>
@@ -467,7 +467,7 @@ const CustomerManagementPage = () => {
                                 <div className="absolute -bottom-8 -right-8 size-48 bg-primary/10 rounded-full blur-3xl pointer-events-none"></div>
                                 <div className="flex justify-between items-center mb-8">
                                     <h3 className="text-white text-xs font-black uppercase tracking-[0.25em]">Top Shopper</h3>
-                                    <div className="size-2 rounded-full bg-primary shadow-[0_0_10px_rgba(89,0,10,1)]"></div>
+                                    <div className="size-2 rounded-full bg-primary shadow-[0_0_10px_rgba(255,0,127,1)]"></div>
                                 </div>
                                 <div className="flex flex-col items-center text-center">
                                     <div className="relative mb-6">
@@ -483,7 +483,7 @@ const CustomerManagementPage = () => {
                                                 {featuredCustomer.initials}
                                             </div>
                                         )}
-                                        <span className="absolute -bottom-2 -right-2 bg-white text-black text-[9px] font-black px-2.5 py-1 rounded-full shadow-2xl z-20 border-4 border-[#b82063] uppercase tracking-widest">VIP</span>
+                                        <span className="absolute -bottom-2 -right-2 bg-white text-black text-[9px] font-black px-2.5 py-1 rounded-full shadow-2xl z-20 border-4 border-primary uppercase tracking-widest">VIP</span>
                                     </div>
                                     <h4 className="text-2xl font-black text-white mb-2 tracking-tighter">{featuredCustomer.name}</h4>
                                     <p className="text-[10px] text-gray-500 font-bold uppercase tracking-[0.2em] mb-8">Member Since {new Date(featuredCustomer.joinedAt).getFullYear()}</p>
@@ -502,7 +502,7 @@ const CustomerManagementPage = () => {
                                             setSelectedCustomer(featuredCustomer);
                                             setShowProfileModal(true);
                                         }}
-                                        className="w-full py-4 rounded-2xl bg-white hover:bg-primary-light text-black hover:text-white text-[10px] font-black uppercase tracking-[0.2em] transition-all shadow-xl group flex items-center justify-center gap-2"
+                                        className="w-full py-4 rounded-2xl admin-button-primary text-[10px] font-black uppercase tracking-[0.2em] transition-all shadow-xl group flex items-center justify-center gap-2"
                                     >
                                         Member Profile
                                         <span className="material-symbols-outlined text-[16px] group-hover:translate-x-1 transition-transform">arrow_forward</span>
@@ -639,7 +639,7 @@ const CustomerManagementPage = () => {
                                     <button
                                         type="submit"
                                         disabled={isAdding}
-                                        className="h-14 rounded-2xl bg-white hover:bg-primary-light text-black hover:text-white font-black text-[10px] uppercase tracking-widest transition-all shadow-xl active:scale-95 flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
+                                        className="h-14 rounded-2xl admin-button-primary text-white font-black text-[10px] uppercase tracking-widest transition-all shadow-xl active:scale-95 flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
                                     >
                                         {isAdding ? 'Creating...' : 'Register User'}
                                     </button>
@@ -670,7 +670,7 @@ const CustomerManagementPage = () => {
                                             {selectedCustomer.initials}
                                         </div>
                                     )}
-                                    <div className="absolute -bottom-2 -right-2 bg-green-500 text-black text-[9px] font-black px-2 py-0.5 rounded-full z-20 border-2 border-[#b82063] uppercase tracking-wider">Active</div>
+                                    <div className="absolute -bottom-2 -right-2 bg-green-500 text-black text-[9px] font-black px-2 py-0.5 rounded-full z-20 border-2 border-primary uppercase tracking-wider">Active</div>
                                 </div>
 
                                 <div className="flex-1">

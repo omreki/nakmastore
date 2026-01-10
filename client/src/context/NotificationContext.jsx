@@ -156,7 +156,7 @@ export const NotificationProvider = ({ children }) => {
                                         className={`h-14 rounded-2xl flex items-center justify-center gap-2 font-black text-[10px] uppercase tracking-[0.2em] transition-all shadow-xl active:scale-95
                                             ${confirmState.type === 'danger'
                                                 ? 'bg-red-600 hover:bg-red-500 text-white'
-                                                : 'bg-white hover:bg-primary-light text-black hover:text-white'}`}
+                                                : 'admin-button-primary text-white'}`}
                                     >
                                         {confirmState.confirmLabel}
                                     </button>

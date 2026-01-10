@@ -72,7 +72,7 @@ const ShippingMethodForm = ({ initialData = {}, onSubmit, onCancel }) => {
                 <button type="button" onClick={onCancel} className="flex-1 h-12 rounded-2xl bg-white/5 hover:bg-white/10 text-white font-black text-sm uppercase tracking-widest transition-all">
                     Cancel
                 </button>
-                <button type="submit" className="flex-1 h-12 rounded-2xl bg-primary hover:bg-primary-light text-white font-black text-sm uppercase tracking-widest transition-all shadow-[0_0_20px_rgba(89,0,10,0.3)]">
+                <button type="submit" className="flex-1 h-12 rounded-2xl admin-button-primary font-black text-sm uppercase tracking-widest transition-all shadow-[0_0_20px_rgba(255,0,127,0.3)]">
                     Save Method
                 </button>
             </div>

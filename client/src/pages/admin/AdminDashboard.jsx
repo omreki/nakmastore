@@ -205,7 +205,7 @@ const AdminDashboard = () => {
                         </div>
                         <button className="flex items-center justify-center rounded-xl size-12 bg-white/5 hover:bg-white/10 text-white transition-all border border-white/10 group">
                             <span className="material-symbols-outlined group-hover:rotate-12 transition-transform">notifications</span>
-                            <span className="absolute top-3 right-3 size-2 bg-primary rounded-full ring-2 ring-black"></span>
+                            <span className="absolute top-3 right-3 size-2 bg-primary rounded-full ring-2 ring-black shadow-[0_0_10px_rgba(255,0,127,0.5)]"></span>
                         </button>
                     </div>
                 </div>
@@ -297,7 +297,7 @@ const AdminDashboard = () => {
                                 return (
                                     <div
                                         key={i}
-                                        className={`w-full ${isToday ? 'bg-gradient-to-t from-primary via-primary-light to-primary-hover shadow-[0_0_20px_rgba(89,0,10,0.4)]' : 'bg-primary/20 hover:bg-primary/40'} rounded-t-lg transition-all relative group cursor-pointer`}
+                                        className={`w-full ${isToday ? 'bg-gradient-to-t from-primary via-primary-light to-primary-hover shadow-[0_0_20px_rgba(255,0,127,0.4)]' : 'bg-primary/20 hover:bg-primary/40'} rounded-t-lg transition-all relative group cursor-pointer`}
                                         style={{ height: `${Math.max(height, 5)}%` }}
                                     >
                                         <div className={`absolute -top-8 left-1/2 -translate-x-1/2 ${isToday ? 'bg-primary/90 font-bold' : 'bg-black/90'} px-2 py-1 rounded text-xs opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap border border-white/10 shadow-xl`}>

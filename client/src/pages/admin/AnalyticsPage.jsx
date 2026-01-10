@@ -466,7 +466,7 @@ const AnalyticsPage = () => {
                                 </div>
                                 <div className="flex items-center gap-4">
                                     <div className="flex items-center gap-2">
-                                        <div className="size-3 rounded-full bg-primary shadow-[0_0_10px_rgba(89,0,10,0.5)]"></div>
+                                        <div className="size-3 rounded-full bg-primary shadow-[0_0_10px_rgba(255,0,127,0.5)]"></div>
                                         <span className="text-[10px] font-black text-gray-400 uppercase tracking-widest">Page Views</span>
                                     </div>
                                     <div className="flex items-center gap-2">
@@ -480,8 +480,8 @@ const AnalyticsPage = () => {
                                     <AreaChart data={visitData}>
                                         <defs>
                                             <linearGradient id="colorVisits" x1="0" y1="0" x2="0" y2="1">
-                                                <stop offset="5%" stopColor="#59000a" stopOpacity={0.3} />
-                                                <stop offset="95%" stopColor="#59000a" stopOpacity={0} />
+                                                <stop offset="5%" stopColor="#ff007f" stopOpacity={0.3} />
+                                                <stop offset="95%" stopColor="#ff007f" stopOpacity={0} />
                                             </linearGradient>
                                             <linearGradient id="colorInteractions" x1="0" y1="0" x2="0" y2="1">
                                                 <stop offset="5%" stopColor="#3b82f6" stopOpacity={0.3} />
@@ -502,10 +502,10 @@ const AnalyticsPage = () => {
                                             tick={{ fill: '#6b7280', fontSize: 10, fontWeight: 700 }}
                                         />
                                         <Tooltip
-                                            contentStyle={{ backgroundColor: '#b82063', borderColor: '#ffffff10', borderRadius: '12px', fontSize: '12px' }}
+                                            contentStyle={{ backgroundColor: '#ff007f', borderColor: '#ffffff20', borderRadius: '12px', fontSize: '12px', fontWeight: '900' }}
                                             itemStyle={{ color: '#fff' }}
                                         />
-                                        <Area type="monotone" dataKey="visits" stroke="#59000a" strokeWidth={3} fillOpacity={1} fill="url(#colorVisits)" />
+                                        <Area type="monotone" dataKey="visits" stroke="#ff007f" strokeWidth={3} fillOpacity={1} fill="url(#colorVisits)" />
                                         <Area type="monotone" dataKey="interactions" stroke="#3b82f6" strokeWidth={3} fillOpacity={1} fill="url(#colorInteractions)" />
                                     </AreaChart>
                                 </ResponsiveContainer>

@@ -9,11 +9,11 @@
 
 :root {
     color-scheme: dark;
-    --color-primary: #b82063;
-    --color-primary-hover: #8a1849;
-    --color-primary-light: #d4347a;
-    --color-primary-dark: #6b1239;
-    --color-primary-bright: #e04d8f;
+    --color-primary: #ff007f;
+    --color-primary-hover: #e60072;
+    --color-primary-light: #ff3399;
+    --color-primary-dark: #cc0066;
+    --color-primary-bright: #ff66b2;
     --color-primary-accent: #d86928;
     --color-accent: #d86928;
     --color-secondary: #000000;
@@ -380,4 +380,55 @@ input[type="checkbox"]:checked {
 
 .animate-fade-in {
     animation: fadeIn 0.3s ease-out forwards;
+}
+
+/* Admin Area Contrast & Branding Overrides */
+.admin-button-primary {
+    background-color: var(--color-primary);
+    color: white;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 14px 0 rgba(255, 0, 127, 0.39);
+}
+
+.admin-button-primary:hover {
+    background-color: var(--color-primary-hover);
+    box-shadow: 0 6px 20px rgba(255, 0, 127, 0.23);
+    transform: translateY(-1px);
+}
+
+.admin-button-primary:active {
+    transform: translateY(0);
+}
+
+/* Ensure contrast in admin forms */
+.admin-card {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.admin-label {
+    color: rgba(255, 255, 255, 0.5);
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+}
+
+.admin-input-focus {
+    border-color: var(--color-primary) !important;
+    box-shadow: 0 0 0 1px var(--color-primary) !important;
+}
+
+/* Bright pink scrollbar for admin */
+.admin-scrollbar::-webkit-scrollbar-thumb {
+    background-color: var(--color-primary);
+    opacity: 0.8;
+}
+
+.admin-scrollbar::-webkit-scrollbar-thumb:hover {
+    background-color: var(--color-primary-bright);
 }

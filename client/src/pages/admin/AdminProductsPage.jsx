@@ -110,7 +110,7 @@ const AdminProductsPage = () => {
                             <span className="material-symbols-outlined text-[18px] group-hover:scale-110 transition-transform">file_download</span>
                             Export Data
                         </button>
-                        <Link to="/admin/products/new" className="group flex items-center justify-center overflow-hidden rounded-xl h-12 bg-white text-black hover:bg-primary-hover hover:text-white gap-2 text-[10px] font-black uppercase tracking-widest px-6 transition-all shadow-2xl hover:-translate-y-0.5 transform active:scale-95 border border-white/10">
+                        <Link to="/admin/products/new" className="admin-button-primary group flex items-center justify-center overflow-hidden rounded-xl h-12 gap-2 text-[10px] font-black uppercase tracking-widest px-6 shadow-2xl hover:-translate-y-0.5 transform active:scale-95 border border-white/10">
                             <span className="material-symbols-outlined text-[20px] group-hover:rotate-90 transition-transform">add</span>
                             <span>Add Product</span>
                         </Link>

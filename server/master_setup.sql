@@ -74,7 +74,7 @@ BEGIN
     ALTER TABLE public.store_settings ADD COLUMN IF NOT EXISTS alert_emails text[];
     ALTER TABLE public.store_settings ADD COLUMN IF NOT EXISTS seo_settings jsonb;
     ALTER TABLE public.store_settings ADD COLUMN IF NOT EXISTS brand_settings jsonb DEFAULT '{
-        "primaryColor": "#b82063",
+        "primaryColor": "#ff007f",
         "secondaryColor": "#000000",
         "accentColor": "#d86928",
         "backgroundColor": "#000000"

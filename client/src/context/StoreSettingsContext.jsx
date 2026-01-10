@@ -142,7 +142,7 @@ export const StoreSettingsProvider = ({ children }) => {
             giftMessage: "Exclusive print included with <br /> <span class=\"text-[#b82063]\">your first Nakma</span> purchase."
         },
         brandSettings: {
-            primaryColor: "#b82063",
+            primaryColor: "#ff007f",
             secondaryColor: "#000000",
             accentColor: "#d86928",
             backgroundColor: "#000000",
@@ -474,7 +474,7 @@ export const StoreSettingsProvider = ({ children }) => {
                         giftMessage: "Exclusive print included with <br /> <span class=\"text-[#b82063]\">your first Nakma</span> purchase."
                     },
                     brandSettings: data.brand_settings ? {
-                        primaryColor: "#b82063",
+                        primaryColor: "#ff007f",
                         secondaryColor: "#000000",
                         accentColor: "#d86928",
                         backgroundColor: "#000000",
@@ -484,13 +484,12 @@ export const StoreSettingsProvider = ({ children }) => {
                         textMuted: "#a1a1aa",
                         ...data.brand_settings
                     } : {
-                        primaryColor: "#b82063",
+                        primaryColor: "#ff007f",
                         secondaryColor: "#000000",
                         accentColor: "#d86928",
                         backgroundColor: "#000000",
                         navbarBg: "rgba(0, 0, 0, 0.4)",
                         navbarText: "#ffffff",
-                        textMain: "#ffffff",
                         textMuted: "#a1a1aa"
                     }
                 });

@@ -347,7 +347,7 @@ const ArticleManagementPage = () => {
                         </button>
                         <button
                             onClick={handleAddArticle}
-                            className="bg-white hover:bg-primary-light h-12 px-8 rounded-xl flex items-center justify-center text-xs font-black uppercase tracking-[0.2em] text-black hover:text-white shadow-2xl transition-all border border-white/10 active:scale-95"
+                            className="admin-button-primary h-12 px-8 rounded-xl flex items-center justify-center text-xs font-black uppercase tracking-[0.2em] shadow-2xl transition-all border border-white/10 active:scale-95"
                         >
                             <span className="material-symbols-outlined text-[16px] mr-2">add_circle</span>
                             New Article
@@ -442,8 +442,8 @@ const ArticleManagementPage = () => {
                                         <button
                                             onClick={() => handleTogglePublish(article)}
                                             className={`p-2 rounded-xl transition-colors ${article.is_published
-                                                    ? 'text-green-400 hover:bg-green-500/20'
-                                                    : 'text-gray-500 hover:bg-white/10'
+                                                ? 'text-green-400 hover:bg-green-500/20'
+                                                : 'text-gray-500 hover:bg-white/10'
                                                 }`}
                                             title={article.is_published ? 'Unpublish' : 'Publish'}
                                         >
@@ -617,7 +617,7 @@ const ArticleManagementPage = () => {
                                 <button
                                     type="submit"
                                     disabled={isSaving}
-                                    className="h-12 bg-primary hover:bg-primary-light text-white rounded-xl font-black text-xs uppercase tracking-[0.2em] transition-all shadow-xl px-8 flex items-center gap-2"
+                                    className="h-12 admin-button-primary text-white rounded-xl font-black text-xs uppercase tracking-[0.2em] transition-all shadow-xl px-8 flex items-center gap-2"
                                 >
                                     {isSaving && <span className="size-4 border-2 border-white/30 border-t-white rounded-full animate-spin"></span>}
                                     {editingArticle ? 'Update Article' : 'Create Article'}
@@ -692,7 +692,7 @@ const ArticleManagementPage = () => {
                                 <button
                                     type="submit"
                                     disabled={isSaving}
-                                    className="h-12 bg-primary hover:bg-primary-light text-white rounded-xl font-black text-xs uppercase tracking-[0.2em] transition-all shadow-xl px-8 flex items-center gap-2"
+                                    className="h-12 admin-button-primary text-white rounded-xl font-black text-xs uppercase tracking-[0.2em] transition-all shadow-xl px-8 flex items-center gap-2"
                                 >
                                     {isSaving && <span className="size-4 border-2 border-white/30 border-t-white rounded-full animate-spin"></span>}
                                     {editingCategory ? 'Update Category' : 'Create Category'}

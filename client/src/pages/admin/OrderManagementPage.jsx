@@ -261,7 +261,7 @@ const OrderManagementPage = () => {
                         </button>
                         <button
                             onClick={() => setShowCreateModal(true)}
-                            className="bg-gradient-to-r from-[#59000a] to-[#7a000e] hover:to-[#8a0010] text-white px-6 h-12 rounded-xl text-sm font-black uppercase tracking-widest flex items-center gap-2 transition-all shadow-[0_0_20px_rgba(89,0,10,0.4)] border border-white/10 hover:-translate-y-0.5"
+                            className="admin-button-primary text-white px-6 h-12 rounded-xl text-sm font-black uppercase tracking-widest flex items-center gap-2 transition-all shadow-[0_0_20px_rgba(255,0,127,0.4)] border border-white/10 hover:-translate-y-0.5"
                         >
                             <span className="material-symbols-outlined">add</span> Create Order
                         </button>
@@ -413,7 +413,7 @@ const OrderManagementPage = () => {
                                                 >
                                                     <span className="text-gray-600 text-sm font-medium">#</span>{order.id}
                                                     {!order.isViewed && (
-                                                        <span className="ml-2 px-1.5 py-0.5 rounded-md bg-primary text-[8px] font-black text-white uppercase tracking-tighter animate-pulse shadow-[0_0_8px_rgba(89,0,10,0.4)]">
+                                                        <span className="ml-2 px-1.5 py-0.5 rounded-md bg-primary text-[8px] font-black text-white uppercase tracking-tighter animate-pulse shadow-[0_0_8px_rgba(255,0,127,0.4)]">
                                                             NEW
                                                         </span>
                                                     )}
@@ -457,7 +457,7 @@ const OrderManagementPage = () => {
                                             <td className="p-7 text-right">
                                                 <div className="flex items-center justify-end gap-3 opacity-100 transition-all duration-300">
                                                     {order.hasAction ? (
-                                                        <button className="bg-primary/95 hover:bg-white text-white hover:text-black text-[10px] font-black uppercase tracking-widest px-4 py-2 rounded-xl transition-all shadow-xl shadow-primary/20 scale-110">
+                                                        <button className="bg-primary hover:bg-white text-white hover:text-black text-[10px] font-black uppercase tracking-widest px-4 py-2 rounded-xl transition-all shadow-xl shadow-primary/40 scale-110">
                                                             Resolve
                                                         </button>
                                                     ) : (

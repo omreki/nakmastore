@@ -740,7 +740,7 @@ const AddProductPage = () => {
                                     form="add-product-form"
                                     type="submit"
                                     disabled={loading}
-                                    className={`w-full group h-16 rounded-2xl flex items-center justify-center gap-3 font-black text-[10px] uppercase tracking-[0.3em] bg-white hover:bg-primary text-black hover:text-white shadow-2xl transition-all duration-500 hover:-translate-y-1 active:scale-95 disabled:opacity-20 disabled:cursor-not-allowed ${loading ? 'cursor-wait' : ''}`}
+                                    className={`w-full group h-16 rounded-2xl flex items-center justify-center gap-3 font-black text-[10px] uppercase tracking-[0.3em] admin-button-primary shadow-2xl transition-all duration-500 hover:-translate-y-1 active:scale-95 disabled:opacity-20 disabled:cursor-not-allowed ${loading ? 'cursor-wait' : ''}`}
                                 >
                                     {loading ? (
                                         <>

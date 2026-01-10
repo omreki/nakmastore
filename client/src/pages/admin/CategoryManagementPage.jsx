@@ -311,7 +311,7 @@ const CategoryManagementPage = () => {
                                 setSelectedCategory(null);
                                 setShowModal(true);
                             }}
-                            className="group flex items-center justify-center overflow-hidden rounded-xl h-12 bg-gradient-to-r from-[#59000a] to-[#7a000e] hover:to-[#8a0010] text-white gap-2 text-sm font-black uppercase tracking-widest px-6 transition-all shadow-[0_10px_20px_-5px_rgba(0,0,0,0.5)] hover:shadow-[0_15px_25px_-5px_rgba(89,0,10,0.3)] hover:-translate-y-0.5 transform active:scale-95 border border-white/10"
+                            className="admin-button-primary group flex items-center justify-center overflow-hidden rounded-xl h-12 gap-2 text-sm font-black uppercase tracking-widest px-6 shadow-[0_10px_20px_-5px_rgba(255,0,127,0.3)] hover:shadow-[0_15px_25px_-5px_rgba(255,0,127,0.4)] hover:-translate-y-0.5 transform active:scale-95 border border-white/10"
                         >
                             <span className="material-symbols-outlined text-[20px]">add</span>
                             <span>New Category</span>

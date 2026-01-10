@@ -290,7 +290,7 @@ const OrderDetailsModal = ({ orderId, onClose, onUpdate }) => {
                     </button>
                     <button
                         onClick={onClose}
-                        className="bg-primary hover:bg-white text-white hover:text-black px-12 h-14 rounded-2xl text-[10px] font-black uppercase tracking-widest transition-all shadow-xl shadow-primary/20"
+                        className="admin-button-primary px-12 h-14 rounded-2xl text-[10px] font-black uppercase tracking-widest transition-all shadow-xl"
                     >
                         CLOSE MANIFEST
                     </button>

@@ -79,7 +79,7 @@ const AdminSidebar = () => {
                         end={item.path === '/admin'}
                         className={({ isActive }) =>
                             `flex items-center gap-3 px-4 py-3 rounded-xl transition-all group ${isActive
-                                ? 'bg-primary/20 text-white font-medium shadow-[0_0_15px_rgba(89,0,10,0.2)] border border-primary/30'
+                                ? 'bg-primary/20 text-white font-medium shadow-[0_0_15px_rgba(255,0,127,0.2)] border border-primary/30'
                                 : 'text-gray-400 hover:text-white hover:bg-white/5 border border-transparent'
                             }`
                         }
@@ -89,7 +89,7 @@ const AdminSidebar = () => {
                         </span>
                         <span className="flex-1">{item.name}</span>
                         {item.badge > 0 && (
-                            <span className="flex items-center justify-center min-w-[20px] h-5 px-1.5 rounded-full bg-primary text-[10px] font-black text-white shadow-[0_0_10px_rgba(89,0,10,0.5)]">
+                            <span className="flex items-center justify-center min-w-[20px] h-5 px-1.5 rounded-full bg-primary text-[10px] font-black text-white shadow-[0_0_10px_rgba(255,0,127,0.5)]">
                                 {item.badge}
                             </span>
                         )}
@@ -104,7 +104,7 @@ const AdminSidebar = () => {
                             to={item.path}
                             className={({ isActive }) =>
                                 `flex items-center gap-3 px-4 py-3 rounded-xl transition-all group ${isActive
-                                    ? 'bg-primary/20 text-white font-medium shadow-[0_0_15px_rgba(89,0,10,0.2)] border border-primary/30'
+                                    ? 'bg-primary/20 text-white font-medium shadow-[0_0_15px_rgba(255,0,127,0.2)] border border-primary/30'
                                     : 'text-gray-400 hover:text-white hover:bg-white/5 border border-transparent'
                                 }`
                             }

@@ -378,7 +378,7 @@ const CreateOrderModal = ({ onClose, onSuccess }) => {
                             if (step < 3) setStep(step + 1);
                             else handleSubmit();
                         }}
-                        className="bg-primary hover:bg-white text-white hover:text-black px-12 h-14 rounded-2xl text-[10px] font-black uppercase tracking-widest transition-all shadow-xl shadow-primary/20 disabled:opacity-20 flex items-center gap-3"
+                        className="admin-button-primary px-12 h-14 rounded-2xl text-[10px] font-black uppercase tracking-widest transition-all shadow-xl disabled:opacity-20 flex items-center gap-3"
                     >
                         {isSubmitting ? (
                             <>

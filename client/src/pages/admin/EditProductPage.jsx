@@ -861,7 +861,7 @@ const EditProductPage = () => {
                                     form="edit-product-form"
                                     type="submit"
                                     disabled={saving}
-                                    className={`w-full h-16 rounded-2xl flex items-center justify-center gap-3 font-black text-[10px] uppercase tracking-[0.3em] bg-white hover:bg-primary text-black hover:text-white shadow-2xl transition-all duration-500 disabled:opacity-20`}
+                                    className={`w-full h-16 rounded-2xl flex items-center justify-center gap-3 font-black text-[10px] uppercase tracking-[0.3em] admin-button-primary shadow-2xl transition-all duration-500 disabled:opacity-20`}
                                 >
                                     {saving ? (
                                         <>

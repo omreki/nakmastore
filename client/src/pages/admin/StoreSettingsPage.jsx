@@ -94,7 +94,7 @@ const StoreSettingsPage = () => {
             googleSiteVerification: ""
         },
         brandSettings: {
-            primaryColor: "#b82063",
+            primaryColor: "#ff007f",
             secondaryColor: "#000000",
             accentColor: "#d86928",
             backgroundColor: "#000000"
@@ -342,7 +342,7 @@ const StoreSettingsPage = () => {
                     googleSiteVerification: ""
                 },
                 brandSettings: contextSettings.brandSettings || {
-                    primaryColor: "#b82063",
+                    primaryColor: "#ff007f",
                     secondaryColor: "#000000",
                     accentColor: "#d86928",
                     backgroundColor: "#000000"
@@ -1274,7 +1274,7 @@ const StoreSettingsPage = () => {
                         <button
                             onClick={handleSave}
                             disabled={isSaving || contextLoading}
-                            className="bg-white hover:bg-primary-light h-12 px-8 rounded-xl flex items-center justify-center text-xs font-black uppercase tracking-[0.2em] text-black hover:text-white shadow-2xl transition-all border border-white/10 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed uppercase tracking-widest">
+                            className="admin-button-primary h-12 px-8 rounded-xl flex items-center justify-center text-xs font-black uppercase tracking-[0.2em] shadow-2xl transition-all border border-white/10 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed uppercase tracking-widest">
                             {isSaving ? 'Updating...' : 'Update Registry'}
                         </button>
                     </div>
@@ -1292,8 +1292,8 @@ const StoreSettingsPage = () => {
                                         key={tab.id}
                                         onClick={() => setActiveTab(tab.id)}
                                         className={`flex items-center gap-3 px-5 py-4 rounded-2xl transition-all text-left group ${activeTab === tab.id
-                                            ? 'bg-white/10 text-white border border-white/5 shadow-inner'
-                                            : 'text-gray-500 hover:text-white hover:bg-white/5'
+                                            ? 'bg-primary/10 text-white border border-primary/30 shadow-[0_0_15px_rgba(255,0,127,0.1)]'
+                                            : 'text-gray-500 hover:text-white hover:bg-white/5 border border-transparent'
                                             }`}
                                     >
                                         <span className={`material-symbols-outlined text-[20px] transition-colors ${activeTab === tab.id ? 'text-primary' : 'group-hover:text-primary-light'}`}>{tab.icon}</span>
@@ -1505,7 +1505,7 @@ const StoreSettingsPage = () => {
                                             </button>
                                             <button
                                                 onClick={handleSaveNavItemSubmit}
-                                                className="flex-1 py-3 bg-white hover:bg-gray-200 rounded-xl text-black text-xs font-black uppercase tracking-widest transition-colors shadow-lg"
+                                                className="flex-1 py-3 admin-button-primary rounded-xl text-white text-xs font-black uppercase tracking-widest transition-colors shadow-lg"
                                             >
                                                 {editingNavItem ? 'Save Changes' : 'Add Item'}
                                             </button>
@@ -1587,7 +1587,7 @@ const StoreSettingsPage = () => {
                                         <button
                                             onClick={handleUpdateAccount}
                                             disabled={isSaving}
-                                            className="w-full h-14 bg-white text-black rounded-xl font-black text-xs uppercase tracking-[0.2em] hover:bg-primary-light hover:text-white transition-all shadow-xl disabled:opacity-50"
+                                            className="w-full h-14 admin-button-primary rounded-xl font-black text-xs uppercase tracking-[0.2em] transition-all shadow-xl disabled:opacity-50"
                                         >
                                             {isSaving ? 'Updating...' : 'Update Identity'}
                                         </button>
@@ -2972,7 +2972,7 @@ const StoreSettingsPage = () => {
                                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 relative z-10">
                                     {loadingPages ? (
                                         <div className="col-span-full py-20 flex flex-col items-center justify-center">
-                                            <div className="size-10 border-4 border-primary/20 border-t-primary rounded-full animate-spin mb-4 shadow-[0_0_20px_rgba(89,0,10,0.2)]"></div>
+                                            <div className="size-10 border-4 border-primary/20 border-t-primary rounded-full animate-spin mb-4 shadow-[0_0_20px_rgba(255,0,127,0.2)]"></div>
                                             <p className="text-gray-500 text-[10px] uppercase font-black tracking-widest">Scanning Page Directory...</p>
                                         </div>
                                     ) : pages.filter(page => {
@@ -3606,7 +3606,7 @@ const StoreSettingsPage = () => {
                                         key={tab.id}
                                         type="button"
                                         onClick={() => setActivePageModalTab(tab.id)}
-                                        className={`flex items-center gap-2 px-4 py-2 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all ${activePageModalTab === tab.id ? 'bg-primary text-white shadow-[0_0_20px_rgba(89,0,10,0.3)]' : 'text-gray-500 hover:text-white hover:bg-white/5'}`}
+                                        className={`flex items-center gap-2 px-4 py-2 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all ${activePageModalTab === tab.id ? 'bg-primary text-white shadow-[0_0_20px_rgba(255,0,127,0.3)]' : 'text-gray-500 hover:text-white hover:bg-white/5'}`}
                                     >
                                         <span className="material-symbols-outlined text-[16px]">{tab.icon}</span>
                                         {tab.label}
@@ -4021,7 +4021,7 @@ const StoreSettingsPage = () => {
                                         }
                                     }}
                                     disabled={isSaving}
-                                    className="w-full h-14 bg-primary hover:bg-primary-dark text-white font-black text-xs uppercase tracking-[0.3em] rounded-2xl shadow-[0_0_20px_rgba(89,0,10,0.3)] transition-all flex items-center justify-center gap-3 mt-4 disabled:opacity-50"
+                                    className="w-full h-14 admin-button-primary font-black text-xs uppercase tracking-[0.3em] rounded-2xl shadow-[0_0_20px_rgba(255,0,127,0.3)] transition-all flex items-center justify-center gap-3 mt-4 disabled:opacity-50"
                                 >
                                     {isSaving ? <div className="size-4 border-2 border-white/20 border-t-white rounded-full animate-spin"></div> : <span className="material-symbols-outlined">{editingMemberId ? 'save' : 'shield'}</span>}
                                     {editingMemberId ? 'Update Node' : 'Assign Node'}
