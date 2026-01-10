@@ -55,6 +55,7 @@ const HomePage = () => {
                 const { data: arrivals, error: arrivalsError } = await supabase
                     .from('products')
                     .select('*')
+                    .eq('is_draft', false)
                     .order('created_at', { ascending: false })
                     .limit(6);
 
@@ -66,6 +67,7 @@ const HomePage = () => {
                     .from('products')
                     .select('*')
                     .eq('category', 'men')
+                    .eq('is_draft', false)
                     .limit(6);
 
                 if (menError) throw menError;
@@ -76,6 +78,7 @@ const HomePage = () => {
                     .from('products')
                     .select('*')
                     .eq('category', 'women')
+                    .eq('is_draft', false)
                     .limit(6);
 
                 if (womenError) throw womenError;
