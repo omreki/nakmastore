@@ -33,6 +33,7 @@ const EditProductPage = () => {
     const [variations, setVariations] = useState([]); // Variations state
 
     const [selectedCategoryIds, setSelectedCategoryIds] = useState(new Set());
+    const [categorySearch, setCategorySearch] = useState('');
 
     const [newColor, setNewColor] = useState({ name: '', hex: '#000000' });
     const availableSizes = ['XS', 'S', 'M', 'L', 'XL', 'XXL', 'XXXL'];
@@ -546,42 +547,80 @@ const EditProductPage = () => {
 
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mt-8 relative z-10">
                                     <div className="md:col-span-2 flex flex-col gap-4">
-                                        <label className="text-gray-500 text-[10px] font-black tracking-[0.2em] uppercase ml-1">Product Category</label>
-                                        <div className="glossy-input w-full rounded-2xl bg-black/40 border-white/5 p-6 min-h-[200px] flex flex-col gap-4">
-                                            {categories.filter(c => !c.parent_id).map(parent => (
-                                                <div key={parent.id} className="flex flex-col gap-2">
-                                                    <label className="flex items-center gap-3 cursor-pointer group">
-                                                        <input
-                                                            type="checkbox"
-                                                            checked={selectedCategoryIds.has(parent.id)}
-                                                            onChange={() => toggleCategory(parent.id)}
-                                                            className="peer sr-only"
-                                                        />
-                                                        <div className="size-4 rounded border border-white/20 peer-checked:bg-primary peer-checked:border-primary transition-all flex items-center justify-center">
-                                                            <span className="material-symbols-outlined text-[12px] text-white opacity-0 peer-checked:opacity-100">check</span>
-                                                        </div>
-                                                        <span className="text-sm font-bold text-gray-400 group-hover:text-white transition-colors">{parent.name}</span>
-                                                    </label>
-
-                                                    {/* Subcategories */}
-                                                    <div className="ml-7 flex flex-col gap-2 pl-4 border-l border-white/5">
-                                                        {categories.filter(sub => sub.parent_id === parent.id).map(sub => (
-                                                            <label key={sub.id} className="flex items-center gap-3 cursor-pointer group">
-                                                                <input
-                                                                    type="checkbox"
-                                                                    checked={selectedCategoryIds.has(sub.id)}
-                                                                    onChange={() => toggleCategory(sub.id)}
-                                                                    className="peer sr-only"
-                                                                />
-                                                                <div className="size-3.5 rounded border border-white/10 peer-checked:bg-primary/80 peer-checked:border-primary/80 transition-all flex items-center justify-center">
-                                                                    <span className="material-symbols-outlined text-[10px] text-white opacity-0 peer-checked:opacity-100">check</span>
-                                                                </div>
-                                                                <span className="text-xs font-medium text-gray-500 group-hover:text-gray-300 transition-colors">{sub.name}</span>
-                                                            </label>
-                                                        ))}
-                                                    </div>
+                                        <div className="flex items-center justify-between ml-1">
+                                            <label className="text-gray-500 text-[10px] font-black tracking-[0.2em] uppercase">Product Category</label>
+                                            <div className="relative">
+                                                <input
+                                                    type="text"
+                                                    placeholder="Search categories..."
+                                                    value={categorySearch}
+                                                    onChange={(e) => setCategorySearch(e.target.value)}
+                                                    className="bg-white/5 border border-white/10 rounded-lg px-3 py-1 text-[10px] text-white outline-none focus:border-primary/50 w-40 transition-all"
+                                                />
+                                                <span className="material-symbols-outlined text-[14px] absolute right-2 top-1/2 -translate-y-1/2 text-gray-500">search</span>
+                                            </div>
+                                        </div>
+                                        <div className="glossy-input w-full rounded-2xl bg-black/40 border-white/5 p-6 min-h-[250px] max-h-[400px] overflow-y-auto custom-scrollbar flex flex-col gap-4">
+                                            {categories.length === 0 ? (
+                                                <div className="flex flex-col items-center justify-center py-10 opacity-40">
+                                                    <span className="material-symbols-outlined text-4xl mb-2">category</span>
+                                                    <p className="text-[10px] font-bold uppercase tracking-widest text-center">No categories found.<br /><Link to="/admin/categories" className="text-primary-light hover:underline mt-2 inline-block">Create one here</Link></p>
                                                 </div>
-                                            ))}
+                                            ) : categories.filter(c =>
+                                                c.name.toLowerCase().includes(categorySearch.toLowerCase()) ||
+                                                (c.parent_id && categories.find(p => p.id === c.parent_id)?.name.toLowerCase().includes(categorySearch.toLowerCase()))
+                                            ).length === 0 ? (
+                                                <div className="flex flex-col items-center justify-center py-10 opacity-40">
+                                                    <p className="text-[10px] font-bold uppercase tracking-widest text-center">No categories match your search.</p>
+                                                </div>
+                                            ) : categories.filter(c => !c.parent_id).map(parent => {
+                                                const subcategories = categories.filter(sub => sub.parent_id === parent.id);
+                                                const matchesSearch = parent.name.toLowerCase().includes(categorySearch.toLowerCase()) ||
+                                                    subcategories.some(s => s.name.toLowerCase().includes(categorySearch.toLowerCase()));
+
+                                                if (!matchesSearch && categorySearch) return null;
+
+                                                return (
+                                                    <div key={parent.id} className="flex flex-col gap-3">
+                                                        <label className="flex items-center gap-3 cursor-pointer group p-1 -ml-1 rounded-lg hover:bg-white/5 transition-all">
+                                                            <input
+                                                                type="checkbox"
+                                                                checked={selectedCategoryIds.has(parent.id)}
+                                                                onChange={() => toggleCategory(parent.id)}
+                                                                className="peer sr-only"
+                                                            />
+                                                            <div className="size-5 rounded border-2 border-white/20 peer-checked:bg-primary peer-checked:border-primary transition-all flex items-center justify-center shadow-lg">
+                                                                <span className="material-symbols-outlined text-[14px] text-white opacity-0 peer-checked:opacity-100 font-bold">check</span>
+                                                            </div>
+                                                            <span className="text-sm font-black text-gray-300 group-hover:text-white transition-colors tracking-tight">{parent.name}</span>
+                                                        </label>
+
+                                                        {/* Subcategories */}
+                                                        <div className="ml-8 flex flex-col gap-2.5 pl-4 border-l border-white/10">
+                                                            {subcategories.map(sub => {
+                                                                const subMatches = sub.name.toLowerCase().includes(categorySearch.toLowerCase()) ||
+                                                                    parent.name.toLowerCase().includes(categorySearch.toLowerCase());
+                                                                if (!subMatches && categorySearch) return null;
+
+                                                                return (
+                                                                    <label key={sub.id} className="flex items-center gap-3 cursor-pointer group py-0.5">
+                                                                        <input
+                                                                            type="checkbox"
+                                                                            checked={selectedCategoryIds.has(sub.id)}
+                                                                            onChange={() => toggleCategory(sub.id)}
+                                                                            className="peer sr-only"
+                                                                        />
+                                                                        <div className="size-4 rounded border border-white/20 peer-checked:bg-primary/80 peer-checked:border-primary/80 transition-all flex items-center justify-center">
+                                                                            <span className="material-symbols-outlined text-[11px] text-white opacity-0 peer-checked:opacity-100">check</span>
+                                                                        </div>
+                                                                        <span className="text-xs font-bold text-gray-500 group-hover:text-gray-300 transition-colors">{sub.name}</span>
+                                                                    </label>
+                                                                );
+                                                            })}
+                                                        </div>
+                                                    </div>
+                                                );
+                                            })}
                                         </div>
                                     </div>
 

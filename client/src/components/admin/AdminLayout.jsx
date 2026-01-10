@@ -25,7 +25,7 @@ const AdminLayout = ({ children }) => {
 
             <AdminSidebar />
 
-            <div id="admin-scroll-container" className="flex-1 flex flex-col min-w-0 h-screen overflow-y-auto relative scroll-smooth">
+            <div id="admin-scroll-container" className="flex-1 flex flex-col min-w-0 h-[100dvh] overflow-y-auto relative scroll-smooth CustomScrollbar">
                 {/* Mobile Header / Top Bar */}
                 <header className="sticky top-0 z-30 flex items-center justify-between px-6 h-20 bg-black/40 backdrop-blur-xl border-b border-white/5 lg:hidden">
                     <div className="flex items-center gap-3">
@@ -54,7 +54,7 @@ const AdminLayout = ({ children }) => {
 
                 {/* Main Content Area */}
                 <main className="flex-grow p-6 md:p-10">
-                    <div className="max-w-7xl mx-auto h-full">
+                    <div className="max-w-7xl mx-auto">
                         {children}
                     </div>
                 </main>

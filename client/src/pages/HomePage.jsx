@@ -56,7 +56,7 @@ const HomePage = () => {
                     .from('products')
                     .select('*')
                     .order('created_at', { ascending: false })
-                    .limit(4);
+                    .limit(6);
 
                 if (arrivalsError) throw arrivalsError;
                 setNewArrivals(arrivals || []);
@@ -66,7 +66,7 @@ const HomePage = () => {
                     .from('products')
                     .select('*')
                     .eq('category', 'men')
-                    .limit(4);
+                    .limit(6);
 
                 if (menError) throw menError;
                 setMenProducts(men || []);
@@ -76,7 +76,7 @@ const HomePage = () => {
                     .from('products')
                     .select('*')
                     .eq('category', 'women')
-                    .limit(4);
+                    .limit(6);
 
                 if (womenError) throw womenError;
                 setWomenProducts(women || []);
@@ -181,6 +181,65 @@ const HomePage = () => {
                 </div>
             </div>
 
+            {/* New Arrivals Header */}
+            <div className="w-full px-4 md:px-8 max-w-[1700px] mx-auto pt-16 md:pt-24 pb-8 flex items-end justify-between">
+                <div>
+                    <h2 className="text-white text-2xl md:text-4xl font-black tracking-tighter uppercase leading-none">New Arrivals</h2>
+                    <p className="text-white/40 mt-3 text-sm md:text-lg font-medium italic">Elevated African style for the modern man.</p>
+                </div>
+                <Link to="/shop" className="hidden sm:flex items-center gap-1 text-white font-bold hover:text-primary transition-colors bg-white/5 px-6 py-3 rounded-full border border-white/10 hover:bg-white/10 shadow-sm">
+                    Shop All <span className="material-symbols-outlined text-[20px]">chevron_right</span>
+                </Link>
+            </div>
+
+            {/* New Arrivals Grid */}
+            <div className="w-full px-4 md:px-8 max-w-[1700px] mx-auto pb-16">
+                {loading ? (
+                    <div className="flex justify-center py-20">
+                        <div className="size-12 border-4 border-white/5 border-t-primary rounded-full animate-spin"></div>
+                    </div>
+                ) : (
+                    <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-6 md:gap-8">
+                        {newArrivals.map((product) => (
+                            <Link to={`/product/${product.slug}`} key={product.id} className="group cursor-pointer">
+                                <div className="relative aspect-[4/5] rounded-[24px] overflow-hidden mb-4 bg-[#1a1a1a] transition-transform duration-500 group-hover:-translate-y-2 border border-white/5">
+                                    <img
+                                        src={product.images?.[0] || 'https://via.placeholder.com/300?text=Product'}
+                                        alt={product.name}
+                                        className="w-full h-full object-cover object-center transition-transform duration-500 group-hover:scale-110"
+                                    />
+
+                                    {/* Quick Add Button */}
+                                    <div className="absolute bottom-4 left-4 right-4 opacity-0 translate-y-4 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300 pointer-events-none md:pointer-events-auto">
+                                        <button
+                                            onClick={(e) => handleQuickAdd(e, product)}
+                                            className="w-full h-10 bg-black text-white rounded-xl font-black text-[9px] uppercase tracking-widest hover:bg-primary transition-colors shadow-xl pointer-events-auto"
+                                        >
+                                            Add to Bag
+                                        </button>
+                                    </div>
+                                </div>
+                                <div className="px-1">
+                                    <div className="flex flex-col gap-0.5">
+                                        <h3 className="text-white font-bold text-sm group-hover:text-primary transition-colors line-clamp-1 uppercase tracking-tight">{product.name}</h3>
+                                        <div className="flex items-center gap-2">
+                                            {product.is_sale && product.sale_price ? (
+                                                <>
+                                                    <span className="text-primary font-black italic text-base whitespace-nowrap leading-none">{formatPrice(product.sale_price)}</span>
+                                                    <span className="text-white/30 font-bold text-[10px] line-through decoration-1">{formatPrice(product.price)}</span>
+                                                </>
+                                            ) : (
+                                                <span className="text-white font-black italic text-base whitespace-nowrap leading-none">{formatPrice(product.price)}</span>
+                                            )}
+                                        </div>
+                                    </div>
+                                </div>
+                            </Link>
+                        ))}
+                    </div>
+                )}
+            </div>
+
             {/* Philosophy/Women's Collection Section */}
             <div className="w-full px-4 md:px-8 py-12 md:py-16 max-w-[1700px] mx-auto">
                 <div className="relative w-full h-[400px] md:h-[600px] rounded-[32px] md:rounded-[56px] overflow-hidden group shadow-2xl border border-white/[0.03]">
@@ -223,7 +282,7 @@ const HomePage = () => {
             </div>
 
             {/* Category Section */}
-            <div className="w-full px-4 md:px-6 py-12 max-w-[1600px] mx-auto">
+            <div className="w-full px-4 md:px-8 py-12 max-w-[1700px] mx-auto">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                     {/* Vibrant Prints Card */}
                     <Link to="/category/vibrant-prints" className="relative aspect-[4/5] md:aspect-[4/3] rounded-[40px] overflow-hidden group block shadow-2xl bg-[#121212]">
@@ -265,88 +324,28 @@ const HomePage = () => {
                 </div>
             </div>
 
-            {/* New Arrivals Header */}
-            <div className="w-full px-4 md:px-8 max-w-[1600px] mx-auto pt-16 md:pt-24 pb-8 flex items-end justify-between">
-                <div>
-                    <h2 className="text-white text-2xl md:text-4xl font-bold tracking-tight uppercase tracking-widest leading-none">New Arrivals</h2>
-                    <p className="text-white/40 mt-3 text-sm md:text-lg font-medium italic">Elevated African style for the modern man.</p>
-                </div>
-                <Link to="/shop" className="hidden sm:flex items-center gap-1 text-white font-bold hover:text-primary-light transition-colors bg-white/5 px-6 py-3 rounded-full border border-white/10 hover:bg-white/10 shadow-sm">
-                    Shop All <span className="material-symbols-outlined text-[20px]">chevron_right</span>
-                </Link>
-            </div>
-
-            {/* New Arrivals Grid */}
-            <div className="w-full px-4 md:px-8 max-w-[1600px] mx-auto pb-24">
-                {loading ? (
-                    <div className="flex justify-center py-20">
-                        <div className="size-12 border-4 border-white/5 border-t-primary rounded-full animate-spin"></div>
-                    </div>
-                ) : (
-                    <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
-                        {newArrivals.map((product) => (
-                            <Link to={`/product/${product.slug}`} key={product.id} className="group cursor-pointer">
-                                <div className="relative aspect-[4/5] rounded-[32px] overflow-hidden mb-6 bg-[#1a1a1a] transition-transform duration-500 group-hover:-translate-y-2">
-                                    <img
-                                        src={product.images?.[0] || 'https://via.placeholder.com/300?text=Product'}
-                                        alt={product.name}
-                                        className="w-full h-full object-cover object-center transition-transform duration-500 group-hover:scale-110"
-                                    />
-
-                                    {/* Quick Add Button */}
-                                    <div className="absolute bottom-4 sm:bottom-6 left-4 sm:left-6 right-4 sm:right-6 opacity-0 translate-y-4 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300 pointer-events-none md:pointer-events-auto">
-                                        <button
-                                            onClick={(e) => handleQuickAdd(e, product)}
-                                            className="w-full h-10 md:h-12 bg-black text-white rounded-xl md:rounded-2xl font-black text-[9px] md:text-[10px] uppercase tracking-widest hover:bg-primary transition-colors shadow-xl pointer-events-auto"
-                                        >
-                                            Add to Bag
-                                        </button>
-                                    </div>
-                                </div>
-                                <div className="px-2">
-                                    <div className="flex flex-col gap-1 mb-1">
-                                        <h3 className="text-white font-bold text-lg group-hover:text-primary transition-colors line-clamp-1 uppercase tracking-tight">{product.name}</h3>
-                                        <div className="flex items-center gap-2">
-                                            {product.is_sale && product.sale_price ? (
-                                                <>
-                                                    <span className="text-primary font-black italic text-lg whitespace-nowrap leading-none">{formatPrice(product.sale_price)}</span>
-                                                    <span className="text-white/30 font-bold text-[10px] line-through decoration-1">{formatPrice(product.price)}</span>
-                                                </>
-                                            ) : (
-                                                <span className="text-white font-black italic text-lg whitespace-nowrap leading-none">{formatPrice(product.price)}</span>
-                                            )}
-                                        </div>
-                                    </div>
-                                    <p className="text-white/40 text-[10px] font-black uppercase tracking-widest">{product.category}</p>
-                                </div>
-                            </Link>
-                        ))}
-                    </div>
-                )}
-            </div>
-
             {/* Prints Collection Header */}
-            <div className="w-full px-4 md:px-8 max-w-[1600px] mx-auto pt-16 md:pt-24 pb-8 flex items-end justify-between">
+            <div className="w-full px-4 md:px-8 max-w-[1700px] mx-auto pt-16 md:pt-24 pb-8 flex items-end justify-between">
                 <div>
-                    <h2 className="text-white text-2xl md:text-4xl font-bold tracking-tight uppercase tracking-widest leading-none">{printsTitle}</h2>
+                    <h2 className="text-white text-2xl md:text-4xl font-black tracking-tighter uppercase leading-none">{printsTitle}</h2>
                     <p className="text-white/40 mt-3 text-sm md:text-lg font-medium italic">{printsSub}.</p>
                 </div>
-                <Link to="/category/vibrant-prints" className="hidden sm:flex items-center gap-1 text-white font-bold hover:text-primary-light transition-colors bg-white/5 px-6 py-3 rounded-full border border-white/10 hover:bg-white/10 shadow-sm">
+                <Link to="/category/vibrant-prints" className="hidden sm:flex items-center gap-1 text-white font-bold hover:text-primary transition-colors bg-white/5 px-6 py-3 rounded-full border border-white/10 hover:bg-white/10 shadow-sm">
                     Shop Collection <span className="material-symbols-outlined text-[20px]">chevron_right</span>
                 </Link>
             </div>
 
             {/* Men's Collection Grid */}
-            <div className="w-full px-4 md:px-8 max-w-[1600px] mx-auto pb-24">
+            <div className="w-full px-4 md:px-8 max-w-[1700px] mx-auto pb-24">
                 {loading ? (
                     <div className="flex justify-center py-20">
                         <div className="size-12 border-4 border-white/5 border-t-primary rounded-full animate-spin"></div>
                     </div>
                 ) : menProducts.length > 0 ? (
-                    <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+                    <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-6 md:gap-8">
                         {menProducts.map((product) => (
                             <Link to={`/product/${product.slug}`} key={product.id} className="group cursor-pointer">
-                                <div className="relative aspect-[4/5] rounded-[32px] overflow-hidden mb-6 bg-[#1a1a1a] transition-transform duration-500 group-hover:-translate-y-2">
+                                <div className="relative aspect-[4/5] rounded-[24px] overflow-hidden mb-4 bg-[#1a1a1a] transition-transform duration-500 group-hover:-translate-y-2 border border-white/5">
                                     <img
                                         src={product.images?.[0] || 'https://via.placeholder.com/300?text=Product'}
                                         alt={product.name}
@@ -354,30 +353,29 @@ const HomePage = () => {
                                     />
 
                                     {/* Quick Add Button */}
-                                    <div className="absolute bottom-4 sm:bottom-6 left-4 sm:left-6 right-4 sm:right-6 opacity-0 translate-y-4 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300 pointer-events-none md:pointer-events-auto">
+                                    <div className="absolute bottom-4 left-4 right-4 opacity-0 translate-y-4 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300 pointer-events-none md:pointer-events-auto">
                                         <button
                                             onClick={(e) => handleQuickAdd(e, product)}
-                                            className="w-full h-10 md:h-12 bg-black text-white rounded-xl md:rounded-2xl font-black text-[9px] md:text-[10px] uppercase tracking-widest hover:bg-black transition-colors shadow-xl pointer-events-auto"
+                                            className="w-full h-10 bg-black text-white rounded-xl font-black text-[9px] uppercase tracking-widest hover:bg-primary transition-colors shadow-xl pointer-events-auto"
                                         >
                                             Add to Bag
                                         </button>
                                     </div>
                                 </div>
-                                <div className="px-2">
-                                    <div className="flex flex-col gap-1 mb-1">
-                                        <h3 className="text-white font-bold text-lg group-hover:text-primary transition-colors line-clamp-1 uppercase tracking-tight">{product.name}</h3>
+                                <div className="px-1">
+                                    <div className="flex flex-col gap-0.5">
+                                        <h3 className="text-white font-bold text-sm group-hover:text-primary transition-colors line-clamp-1 uppercase tracking-tight">{product.name}</h3>
                                         <div className="flex items-center gap-2">
                                             {product.is_sale && product.sale_price ? (
                                                 <>
-                                                    <span className="text-primary font-black italic text-lg whitespace-nowrap leading-none">{formatPrice(product.sale_price)}</span>
+                                                    <span className="text-primary font-black italic text-base whitespace-nowrap leading-none">{formatPrice(product.sale_price)}</span>
                                                     <span className="text-white/30 font-bold text-[10px] line-through decoration-1">{formatPrice(product.price)}</span>
                                                 </>
                                             ) : (
-                                                <span className="text-white font-black italic text-lg whitespace-nowrap leading-none">{formatPrice(product.price)}</span>
+                                                <span className="text-white font-black italic text-base whitespace-nowrap leading-none">{formatPrice(product.price)}</span>
                                             )}
                                         </div>
                                     </div>
-                                    <p className="text-white/40 text-[10px] font-black uppercase tracking-widest">{product.category}</p>
                                 </div>
                             </Link>
                         ))}
@@ -390,27 +388,27 @@ const HomePage = () => {
             </div>
 
             {/* Plains Collection Header */}
-            <div className="w-full px-4 md:px-8 max-w-[1600px] mx-auto pt-16 md:pt-24 pb-8 flex items-end justify-between">
+            <div className="w-full px-4 md:px-8 max-w-[1700px] mx-auto pt-16 md:pt-24 pb-8 flex items-end justify-between">
                 <div>
-                    <h2 className="text-white text-2xl md:text-4xl font-bold tracking-tight uppercase tracking-widest leading-none">{plainsTitle}</h2>
+                    <h2 className="text-white text-2xl md:text-4xl font-black tracking-tighter uppercase leading-none">{plainsTitle}</h2>
                     <p className="text-white/40 mt-3 text-sm md:text-lg font-medium italic">{plainsSub}.</p>
                 </div>
-                <Link to="/category/classic-plains" className="hidden sm:flex items-center gap-1 text-white font-bold hover:text-primary-light transition-colors bg-white/5 px-6 py-3 rounded-full border border-white/10 hover:bg-white/10 shadow-sm">
+                <Link to="/category/classic-plains" className="hidden sm:flex items-center gap-1 text-white font-bold hover:text-primary transition-colors bg-white/5 px-6 py-3 rounded-full border border-white/10 hover:bg-white/10 shadow-sm">
                     Shop Collection <span className="material-symbols-outlined text-[20px]">chevron_right</span>
                 </Link>
             </div>
 
             {/* Women's Collection Grid */}
-            <div className="w-full px-4 md:px-8 max-w-[1600px] mx-auto pb-24">
+            <div className="w-full px-4 md:px-8 max-w-[1700px] mx-auto pb-24">
                 {loading ? (
                     <div className="flex justify-center py-20">
                         <div className="size-12 border-4 border-white/5 border-t-primary rounded-full animate-spin"></div>
                     </div>
                 ) : womenProducts.length > 0 ? (
-                    <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+                    <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-6 md:gap-8">
                         {womenProducts.map((product) => (
                             <Link to={`/product/${product.slug}`} key={product.id} className="group cursor-pointer">
-                                <div className="relative aspect-[4/5] rounded-[32px] overflow-hidden mb-6 bg-[#1a1a1a] transition-transform duration-500 group-hover:-translate-y-2">
+                                <div className="relative aspect-[4/5] rounded-[24px] overflow-hidden mb-4 bg-[#1a1a1a] transition-transform duration-500 group-hover:-translate-y-2 border border-white/5">
                                     <img
                                         src={product.images?.[0] || 'https://via.placeholder.com/300?text=Product'}
                                         alt={product.name}
@@ -418,30 +416,29 @@ const HomePage = () => {
                                     />
 
                                     {/* Quick Add Button */}
-                                    <div className="absolute bottom-4 sm:bottom-6 left-4 sm:left-6 right-4 sm:right-6 opacity-0 translate-y-4 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300 pointer-events-none md:pointer-events-auto">
+                                    <div className="absolute bottom-4 left-4 right-4 opacity-0 translate-y-4 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300 pointer-events-none md:pointer-events-auto">
                                         <button
                                             onClick={(e) => handleQuickAdd(e, product)}
-                                            className="w-full h-10 md:h-12 bg-black text-white rounded-xl md:rounded-2xl font-black text-[9px] md:text-[10px] uppercase tracking-widest hover:bg-black transition-colors shadow-xl pointer-events-auto"
+                                            className="w-full h-10 bg-black text-white rounded-xl font-black text-[9px] uppercase tracking-widest hover:bg-primary transition-colors shadow-xl pointer-events-auto"
                                         >
                                             Add to Bag
                                         </button>
                                     </div>
                                 </div>
-                                <div className="px-2">
-                                    <div className="flex flex-col gap-1 mb-1">
-                                        <h3 className="text-white font-bold text-lg group-hover:text-primary transition-colors line-clamp-1 uppercase tracking-tight">{product.name}</h3>
+                                <div className="px-1">
+                                    <div className="flex flex-col gap-0.5">
+                                        <h3 className="text-white font-bold text-sm group-hover:text-primary transition-colors line-clamp-1 uppercase tracking-tight">{product.name}</h3>
                                         <div className="flex items-center gap-2">
                                             {product.is_sale && product.sale_price ? (
                                                 <>
-                                                    <span className="text-primary font-black italic text-lg whitespace-nowrap leading-none">{formatPrice(product.sale_price)}</span>
+                                                    <span className="text-primary font-black italic text-base whitespace-nowrap leading-none">{formatPrice(product.sale_price)}</span>
                                                     <span className="text-white/30 font-bold text-[10px] line-through decoration-1">{formatPrice(product.price)}</span>
                                                 </>
                                             ) : (
-                                                <span className="text-white font-black italic text-lg whitespace-nowrap leading-none">{formatPrice(product.price)}</span>
+                                                <span className="text-white font-black italic text-base whitespace-nowrap leading-none">{formatPrice(product.price)}</span>
                                             )}
                                         </div>
                                     </div>
-                                    <p className="text-white/40 text-[10px] font-black uppercase tracking-widest">{product.category}</p>
                                 </div>
                             </Link>
                         ))}

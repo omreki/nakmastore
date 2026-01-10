@@ -21,6 +21,9 @@ const ShopPage = () => {
             .replace(/-+$/, '');            // Trim - from end
     };
 
+    const [currentPage, setCurrentPage] = useState(1);
+    const productsPerPage = 18;
+
     const { formatPrice } = useStoreSettings();
     const [products, setProducts] = useState([]);
     const [categories, setCategories] = useState([]);
@@ -51,6 +54,7 @@ const ShopPage = () => {
     }, []);
 
     useEffect(() => {
+        setCurrentPage(1); // Reset to first page when category or search changes
         fetchProducts();
     }, [activeCategory, searchQuery]);
 
@@ -107,6 +111,17 @@ const ShopPage = () => {
     const visibleCategories = categories.slice(0, 6);
     const hiddenCategories = categories.slice(6);
 
+    // Pagination logic
+    const indexOfLastProduct = currentPage * productsPerPage;
+    const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
+    const currentProducts = products.slice(indexOfFirstProduct, indexOfLastProduct);
+    const totalPages = Math.ceil(products.length / productsPerPage);
+
+    const paginate = (pageNumber) => {
+        setCurrentPage(pageNumber);
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    };
+
     return (
         <div className="bg-black min-h-screen text-white font-['Manrope'] pt-20 md:pt-24 pb-20">
             <SEO
@@ -115,20 +130,20 @@ const ShopPage = () => {
             />
             {/* Hero / Header Section */}
             {!searchQuery && (
-                <div className="w-full px-4 md:px-6 max-w-[1600px] mx-auto mb-12 md:mb-16">
-                    <div className="relative w-full h-[300px] md:h-[450px] rounded-[32px] md:rounded-[40px] overflow-hidden group shadow-2xl bg-white/[0.03]">
+                <div className="w-full px-4 md:px-6 max-w-[1700px] mx-auto mb-12 md:mb-16">
+                    <div className="relative w-full h-[300px] md:h-[450px] rounded-[40px] md:rounded-[56px] overflow-hidden group shadow-2xl bg-white/[0.03]">
                         <div
                             className="absolute inset-0 bg-cover bg-center transition-transform duration-[2s] group-hover:scale-105"
                             style={{ backgroundImage: pageSettings?.hero_image_url ? `url(${pageSettings.hero_image_url})` : 'none' }}
                         >
                         </div>
                         <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/30 to-transparent"></div>
-                        <div className="absolute inset-0 flex flex-col justify-center px-6 md:px-16">
-                            <span className="text-primary-light text-[10px] md:text-xs font-bold uppercase tracking-[0.4em] mb-4 text-[#b82063]">THE FULL COLLECTION</span>
-                            <h1 className="text-4xl md:text-8xl font-bold text-white tracking-tight leading-[1] mb-4 md:mb-6">
+                        <div className="absolute inset-0 flex flex-col justify-center px-8 md:px-20">
+                            <span className="text-primary text-[10px] md:text-xs font-black uppercase tracking-[0.6em] mb-4">THE FULL COLLECTION</span>
+                            <h1 className="text-4xl md:text-8xl font-black text-white tracking-tighter leading-[0.9] mb-4 md:mb-6 uppercase">
                                 {pageSettings?.hero_title || <>Timeless African <br /> Elegance</>}
                             </h1>
-                            <p className="text-white/60 text-sm md:text-xl font-medium max-w-xl line-clamp-2 md:line-clamp-none">
+                            <p className="text-white/50 text-base md:text-xl font-medium max-w-xl line-clamp-2 md:line-clamp-none">
                                 {pageSettings?.hero_subtitle || "Our complete range of unique African-inspired shirts. Crafted for comfort, designed for cultural expression."}
                             </p>
                         </div>
@@ -137,7 +152,7 @@ const ShopPage = () => {
             )}
 
             {/* Breadcrumbs */}
-            <div className="w-full px-4 md:px-8 max-w-[1600px] mx-auto mb-8">
+            <div className="w-full px-4 md:px-8 max-w-[1700px] mx-auto mb-8">
                 <nav className="flex items-center gap-2 text-sm font-medium text-white/40">
                     <Link to="/" className="hover:text-white transition-colors">Home</Link>
                     <span className="material-symbols-outlined text-xs">chevron_right</span>
@@ -153,7 +168,7 @@ const ShopPage = () => {
 
             {/* Filter Bar */}
             {!searchQuery && (
-                <div className="w-full px-4 md:px-8 max-w-[1600px] mx-auto mb-12 flex flex-col md:flex-row md:items-center justify-between gap-6">
+                <div className="w-full px-4 md:px-8 max-w-[1700px] mx-auto mb-12 flex flex-col md:flex-row md:items-center justify-between gap-6">
                     <div className="flex items-center gap-3 overflow-x-visible pb-2 md:pb-0 scrollbar-hide relative">
                         <button
                             onClick={() => setActiveCategory({ name: 'All Products', slug: 'all' })}
@@ -178,7 +193,7 @@ const ShopPage = () => {
                                 </button>
 
                                 {isMoreOpen && (
-                                    <div className="absolute top-full left-0 mt-2 w-48 bg-black border border-white/10 rounded-2xl p-2 shadow-2xl z-50">
+                                    <div className="absolute top-full left-0 mt-2 w-48 bg-black border border-white/10 rounded-2xl p-2 shadow-2xl z-50 backdrop-blur-xl bg-black/80">
                                         {hiddenCategories.map((cat) => (
                                             <button
                                                 key={cat.id}
@@ -196,8 +211,8 @@ const ShopPage = () => {
                         )}
                     </div>
                     <div className="flex items-center gap-4">
-                        <span className="text-white/40 text-sm font-medium uppercase tracking-widest px-1">Sort:</span>
-                        <button className="flex items-center gap-2 text-white font-bold hover:text-[#b82063] transition-colors group">
+                        <span className="text-white/40 text-[10px] font-black uppercase tracking-[0.2em] px-1">Sort:</span>
+                        <button className="flex items-center gap-2 text-white font-black hover:text-primary transition-colors group text-sm">
                             Newest Arrivals <span className="material-symbols-outlined text-[20px] transition-transform group-hover:translate-y-0.5">expand_more</span>
                         </button>
                     </div>
@@ -206,26 +221,26 @@ const ShopPage = () => {
 
             {/* Search Results Title */}
             {searchQuery && (
-                <div className="w-full px-4 md:px-8 max-w-[1600px] mx-auto mb-12">
-                    <h2 className="text-2xl md:text-4xl font-black text-white uppercase tracking-tight">
+                <div className="w-full px-4 md:px-8 max-w-[1700px] mx-auto mb-12">
+                    <h2 className="text-2xl md:text-4xl font-black text-white uppercase tracking-tighter">
                         {products.length} Results for <span className="text-primary italic">"{searchQuery}"</span>
                     </h2>
                 </div>
             )}
 
             {/* Product Grid Area */}
-            <div className="w-full px-4 md:px-8 max-w-[1600px] mx-auto">
+            <div className="w-full px-4 md:px-8 max-w-[1700px] mx-auto">
                 {isLoading ? (
                     <div className="flex flex-col items-center justify-center py-32 gap-6">
-                        <div className="size-12 border-4 border-[#b82063]/20 border-t-[#b82063] rounded-full animate-spin"></div>
-                        <p className="text-white/40 font-bold tracking-widest uppercase text-sm">Crafting Heritage...</p>
+                        <div className="size-12 border-4 border-primary/20 border-t-primary rounded-full animate-spin"></div>
+                        <p className="text-white/40 font-black tracking-[0.4em] uppercase text-[10px]">Crafting Heritage...</p>
                     </div>
-                ) : products.length === 0 ? (
+                ) : currentProducts.length === 0 ? (
                     <div className="text-center py-32 rounded-[40px] border border-white/5 bg-white/[0.02] flex flex-col items-center justify-center">
                         <div className="size-20 bg-white/5 rounded-full flex items-center justify-center mb-6">
                             <span className="material-symbols-outlined text-4xl text-white/20">search_off</span>
                         </div>
-                        <h3 className="text-2xl md:text-3xl font-black mb-2 uppercase tracking-tight">No products found</h3>
+                        <h3 className="text-2xl md:text-3xl font-black mb-2 uppercase tracking-tighter">No products found</h3>
                         <p className="text-white/40 max-w-md mx-auto mb-8 font-medium">
                             {searchQuery
                                 ? `We couldn't find any products matching "${searchQuery}". Try using different keywords.`
@@ -234,20 +249,20 @@ const ShopPage = () => {
                         {searchQuery && (
                             <Link
                                 to="/shop"
-                                className="px-8 py-3 bg-white text-black rounded-full font-black text-xs uppercase tracking-widest hover:bg-primary hover:text-white transition-all transform active:scale-95"
+                                className="px-10 py-4 bg-white text-black rounded-full font-black text-xs uppercase tracking-widest hover:bg-primary hover:text-white transition-all transform active:scale-95"
                             >
                                 Clear Search
                             </Link>
                         )}
                     </div>
                 ) : (
-                    <div className="grid grid-cols-2 lg:grid-cols-4 gap-8 md:gap-12">
-                        {products.map((product) => {
+                    <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-6 md:gap-8">
+                        {currentProducts.map((product) => {
                             const mainImage = product.images?.[0] || 'https://via.placeholder.com/400x500?text=No+Image';
 
                             return (
                                 <div key={product.id} className="group cursor-pointer">
-                                    <div className="relative aspect-[4/5] rounded-[32px] overflow-hidden mb-6 bg-black transition-transform duration-500 group-hover:-translate-y-2">
+                                    <div className="relative aspect-[4/5] rounded-[24px] overflow-hidden mb-4 bg-[#1a1a1a] transition-transform duration-500 group-hover:-translate-y-2 border border-white/5">
                                         <Link to={`/product/${product.slug}`} className="block w-full h-full">
                                             <img
                                                 src={mainImage}
@@ -257,38 +272,37 @@ const ShopPage = () => {
                                         </Link>
 
                                         {/* Quick Add Button */}
-                                        <div className="absolute bottom-4 sm:bottom-6 left-4 sm:left-6 right-4 sm:right-6 opacity-0 translate-y-4 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300 pointer-events-none md:pointer-events-auto">
+                                        <div className="absolute bottom-4 left-4 right-4 opacity-0 translate-y-4 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300 pointer-events-none md:pointer-events-auto">
                                             <button
                                                 onClick={(e) => handleQuickAdd(e, product)}
-                                                className="w-full h-10 md:h-12 bg-black text-white rounded-xl md:rounded-2xl font-black text-[9px] md:text-[10px] uppercase tracking-widest hover:bg-black transition-colors shadow-xl pointer-events-auto"
+                                                className="w-full h-10 bg-black text-white rounded-xl font-black text-[9px] uppercase tracking-widest hover:bg-primary transition-colors shadow-xl pointer-events-auto"
                                             >
                                                 Add to Bag
                                             </button>
                                         </div>
 
                                         {(product.is_new || product.is_sale) && (
-                                            <div className="absolute top-6 left-6">
-                                                <span className={`px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-widest ${product.is_new ? 'bg-black text-white' : 'bg-black text-white'}`}>
-                                                    {product.is_new ? 'New Arrival' : 'Sale'}
+                                            <div className="absolute top-4 left-4">
+                                                <span className={`px-2 py-0.5 rounded-full text-[8px] font-black uppercase tracking-widest ${product.is_new ? 'bg-primary text-white' : 'bg-white text-black'}`}>
+                                                    {product.is_new ? 'New' : 'Sale'}
                                                 </span>
                                             </div>
                                         )}
                                     </div>
-                                    <div className="px-2">
-                                        <div className="flex flex-col gap-1 mb-1">
-                                            <h3 className="text-white font-bold text-lg group-hover:text-[#b82063] transition-colors line-clamp-1 uppercase tracking-tight">{product.name}</h3>
+                                    <div className="px-1">
+                                        <div className="flex flex-col gap-0.5">
+                                            <h3 className="text-white font-bold text-sm group-hover:text-primary transition-colors line-clamp-1 uppercase tracking-tight">{product.name}</h3>
                                             <div className="flex items-center gap-2">
                                                 {product.is_sale && product.sale_price ? (
                                                     <>
-                                                        <span className="text-[#b82063] font-black italic text-lg whitespace-nowrap leading-none">{formatPrice(product.sale_price)}</span>
+                                                        <span className="text-primary font-black italic text-base whitespace-nowrap leading-none">{formatPrice(product.sale_price)}</span>
                                                         <span className="text-white/30 font-bold text-[10px] line-through decoration-1">{formatPrice(product.price)}</span>
                                                     </>
                                                 ) : (
-                                                    <span className="text-white font-black italic text-lg whitespace-nowrap leading-none">{formatPrice(product.price)}</span>
+                                                    <span className="text-white font-black italic text-base whitespace-nowrap leading-none">{formatPrice(product.price)}</span>
                                                 )}
                                             </div>
                                         </div>
-                                        <p className="text-white/40 text-sm font-medium">{product.category}</p>
                                     </div>
                                 </div>
                             );
@@ -296,12 +310,41 @@ const ShopPage = () => {
                     </div>
                 )}
 
-                {/* Load More */}
-                {!isLoading && products.length > 0 && (
-                    <div className="mt-24 flex justify-center">
-                        <button className="px-12 py-4 bg-white/5 hover:bg-white/10 border border-white/10 rounded-full text-white font-bold transition-all transform active:scale-95 flex items-center gap-2">
-                            View More Items <span className="material-symbols-outlined text-sm">arrow_downward</span>
-                        </button>
+                {/* Pagination */}
+                {!isLoading && products.length > productsPerPage && (
+                    <div className="mt-20 flex flex-col items-center gap-6">
+                        <div className="flex items-center gap-2">
+                            <button
+                                onClick={() => paginate(currentPage - 1)}
+                                disabled={currentPage === 1}
+                                className={`size-12 rounded-full border border-white/10 flex items-center justify-center transition-all ${currentPage === 1 ? 'opacity-20 cursor-not-allowed' : 'hover:bg-white hover:text-black hover:border-white'}`}
+                            >
+                                <span className="material-symbols-outlined">chevron_left</span>
+                            </button>
+
+                            <div className="flex items-center gap-2 mx-4">
+                                {[...Array(totalPages)].map((_, i) => (
+                                    <button
+                                        key={i + 1}
+                                        onClick={() => paginate(i + 1)}
+                                        className={`size-12 rounded-full font-black text-xs transition-all ${currentPage === i + 1 ? 'bg-white text-black' : 'text-white/40 hover:text-white hover:bg-white/5'}`}
+                                    >
+                                        {i + 1}
+                                    </button>
+                                ))}
+                            </div>
+
+                            <button
+                                onClick={() => paginate(currentPage + 1)}
+                                disabled={currentPage === totalPages}
+                                className={`size-12 rounded-full border border-white/10 flex items-center justify-center transition-all ${currentPage === totalPages ? 'opacity-20 cursor-not-allowed' : 'hover:bg-white hover:text-black hover:border-white'}`}
+                            >
+                                <span className="material-symbols-outlined">chevron_right</span>
+                            </button>
+                        </div>
+                        <p className="text-white/30 text-[10px] font-black uppercase tracking-widest">
+                            Showing {indexOfFirstProduct + 1} to {Math.min(indexOfLastProduct, products.length)} of {products.length} Products
+                        </p>
                     </div>
                 )}
             </div>
