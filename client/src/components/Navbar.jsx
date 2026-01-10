@@ -108,7 +108,7 @@ const Navbar = () => {
         return (
             <nav className="fixed top-6 left-1/2 -translate-x-1/2 z-50 w-[95%] max-w-[1400px] mx-auto rounded-full backdrop-blur-md border border-white/10 shadow-2xl transition-all duration-300 navbar-gradient-bg">
                 <div className="px-6 sm:px-10">
-                    <div className="flex items-center justify-between h-14 md:h-16">
+                    <div className="flex items-center justify-between h-14 md:h-16 relative">
                         {/* Logo */}
                         <div className="flex-1 flex justify-start">
                             <Link to="/" className="flex items-center gap-2 group">
@@ -127,12 +127,12 @@ const Navbar = () => {
                                         </div>
                                         <span className="text-navbar-text text-lg md:text-xl font-bold tracking-tight">{settings.storeName}</span>
                                     </>
-                                )}
+                                ))}
                             </Link>
                         </div>
 
                         {/* Centered Menu */}
-                        <div className="hidden md:flex items-center gap-8">
+                        <div className="hidden md:flex items-center gap-8 absolute left-1/2 -translate-x-1/2">
                             {navItems.map(item => (
                                 item.type === 'dropdown' ? (
                                     <NavBarDropdown
