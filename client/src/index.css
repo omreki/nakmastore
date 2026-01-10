@@ -22,6 +22,8 @@
     --color-card-dark: rgba(0, 0, 0, 0.6);
     --color-text-main: #ffffff;
     --color-text-muted: #a1a1aa;
+    --color-navbar-bg: rgba(0, 0, 0, 0.4);
+    --color-navbar-text: #ffffff;
 }
 
 /* Lenis Smooth Scroll */
@@ -174,7 +176,7 @@ body {
 
 /* Login/Register Specifics */
 .glossy-bg {
-    background-color: #30136a;
+    background-color: var(--color-background-dark);
     background-image:
         radial-gradient(circle at 15% 50%, rgba(48, 19, 106, 0.15), transparent 40%),
         radial-gradient(circle at 85% 30%, rgba(216, 105, 40, 0.1), transparent 40%),

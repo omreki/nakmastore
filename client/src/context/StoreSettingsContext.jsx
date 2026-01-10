@@ -148,7 +148,11 @@ export const StoreSettingsProvider = ({ children }) => {
             primaryColor: "#30136a",
             secondaryColor: "#000000",
             accentColor: "#d86928",
-            backgroundColor: "#000000"
+            backgroundColor: "#000000",
+            navbarBg: "rgba(0, 0, 0, 0.4)",
+            navbarText: "#ffffff",
+            textMain: "#ffffff",
+            textMuted: "#a1a1aa"
         }
     });
     const [loading, setLoading] = useState(true);
@@ -493,11 +497,25 @@ export const StoreSettingsProvider = ({ children }) => {
                     checkoutPageSettings: data.checkout_page_settings || {
                         giftMessage: "Exclusive print included with <br /> <span class=\"text-[#30136a]\">your first Nakma</span> purchase."
                     },
-                    brandSettings: data.brand_settings || {
+                    brandSettings: data.brand_settings ? {
                         primaryColor: "#30136a",
                         secondaryColor: "#000000",
                         accentColor: "#d86928",
-                        backgroundColor: "#000000"
+                        backgroundColor: "#000000",
+                        navbarBg: "rgba(0, 0, 0, 0.4)",
+                        navbarText: "#ffffff",
+                        textMain: "#ffffff",
+                        textMuted: "#a1a1aa",
+                        ...data.brand_settings
+                    } : {
+                        primaryColor: "#30136a",
+                        secondaryColor: "#000000",
+                        accentColor: "#d86928",
+                        backgroundColor: "#000000",
+                        navbarBg: "rgba(0, 0, 0, 0.4)",
+                        navbarText: "#ffffff",
+                        textMain: "#ffffff",
+                        textMuted: "#a1a1aa"
                     }
                 });
             }
@@ -672,6 +690,10 @@ export const StoreSettingsProvider = ({ children }) => {
 
             // Backgrounds
             root.style.setProperty('--color-background-dark', settings.brandSettings.backgroundColor);
+            root.style.setProperty('--color-navbar-bg', settings.brandSettings.navbarBg || 'rgba(0, 0, 0, 0.4)');
+            root.style.setProperty('--color-navbar-text', settings.brandSettings.navbarText || '#ffffff');
+            root.style.setProperty('--color-text-main', settings.brandSettings.textMain || '#ffffff');
+            root.style.setProperty('--color-text-muted', settings.brandSettings.textMuted || '#a1a1aa');
         }
     }, [settings.brandSettings]);
 

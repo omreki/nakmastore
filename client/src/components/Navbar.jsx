@@ -106,7 +106,7 @@ const Navbar = () => {
 
     if (isHomePage) {
         return (
-            <nav className="fixed top-6 left-1/2 -translate-x-1/2 z-50 w-[95%] max-w-[1400px] mx-auto rounded-full bg-black/40 backdrop-blur-md border border-white/5 shadow-2xl transition-all duration-300">
+            <nav className="fixed top-6 left-1/2 -translate-x-1/2 z-50 w-[95%] max-w-[1400px] mx-auto rounded-full bg-navbar-bg backdrop-blur-md border border-white/5 shadow-2xl transition-all duration-300">
                 <div className="px-6 sm:px-10">
                     <div className="flex items-center justify-between h-14 md:h-16">
                         {/* Logo */}
@@ -125,7 +125,7 @@ const Navbar = () => {
                                                 <path d="M44 11.2727C44 14.0109 39.8386 16.3957 33.69 17.6364C39.8386 18.877 44 21.2618 44 24C44 26.7382 39.8386 29.123 33.69 30.3636C39.8386 31.6043 44 33.9891 44 36.7273C44 40.7439 35.0457 44 24 44C12.9543 44 4 40.7439 4 36.7273C4 33.9891 8.16144 31.6043 14.31 30.3636C8.16144 29.123 4 26.7382 4 24C4 21.2618 8.16144 18.877 14.31 17.6364C8.16144 16.3957 4 14.0109 4 11.2727C4 7.25611 12.9543 4 24 4C35.0457 4 44 7.25611 44 11.2727Z"></path>
                                             </svg>
                                         </div>
-                                        <span className="text-white text-lg md:text-xl font-bold tracking-tight">{settings.storeName}</span>
+                                        <span className="text-navbar-text text-lg md:text-xl font-bold tracking-tight">{settings.storeName}</span>
                                     </>
                                 )}
                             </Link>
@@ -138,13 +138,13 @@ const Navbar = () => {
                                     <NavBarDropdown
                                         key={item.id}
                                         item={item}
-                                        triggerClass="text-white/60 hover:text-white text-[13px] font-medium transition-colors uppercase tracking-widest"
+                                        triggerClass="text-navbar-text/60 hover:text-navbar-text text-[13px] font-medium transition-colors uppercase tracking-widest"
                                     />
                                 ) : (
                                     <Link
                                         key={item.id}
                                         to={item.path}
-                                        className="text-white/60 hover:text-white text-[13px] font-medium transition-colors uppercase tracking-widest"
+                                        className="text-navbar-text/60 hover:text-navbar-text text-[13px] font-medium transition-colors uppercase tracking-widest"
                                     >
                                         {item.label}
                                     </Link>
