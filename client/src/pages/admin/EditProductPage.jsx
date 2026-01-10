@@ -69,11 +69,12 @@ const EditProductPage = () => {
     }, [categories]);
 
     const toggleCategory = (categoryId) => {
+        const id = String(categoryId);
         const newSelected = new Set(selectedCategoryIds);
-        if (newSelected.has(categoryId)) {
-            newSelected.delete(categoryId);
+        if (newSelected.has(id)) {
+            newSelected.delete(id);
         } else {
-            newSelected.add(categoryId);
+            newSelected.add(id);
         }
         setSelectedCategoryIds(newSelected);
     };
@@ -111,7 +112,7 @@ const EditProductPage = () => {
                 .eq('product_id', id);
 
             if (!catError && catData) {
-                setSelectedCategoryIds(new Set(catData.map(c => c.category_id)));
+                setSelectedCategoryIds(new Set(catData.map(c => String(c.category_id))));
             }
 
             // Fetch Variations
@@ -293,7 +294,7 @@ const EditProductPage = () => {
             if (formData.is_sale && isNaN(sale_price)) throw new Error('Invalid sale price value.');
 
             // derive legacy category strings
-            const selectedCatsList = categories.filter(c => selectedCategoryIds.has(c.id));
+            const selectedCatsList = categories.filter(c => selectedCategoryIds.has(String(c.id)));
             const primaryCat = selectedCatsList.find(c => !c.parent_id) || selectedCatsList[0];
             const subCat = selectedCatsList.find(c => c.parent_id) || null;
 
@@ -567,7 +568,7 @@ const EditProductPage = () => {
                                                 </div>
                                             ) : categories.filter(c =>
                                                 c.name.toLowerCase().includes(categorySearch.toLowerCase()) ||
-                                                (c.parent_id && categories.find(p => p.id === c.parent_id)?.name.toLowerCase().includes(categorySearch.toLowerCase()))
+                                                (c.parent_id && categories.find(p => String(p.id) === String(c.parent_id))?.name.toLowerCase().includes(categorySearch.toLowerCase()))
                                             ).length === 0 ? (
                                                 <div className="flex flex-col items-center justify-center py-10 opacity-40">
                                                     <p className="text-[10px] font-bold uppercase tracking-widest text-center">No categories match your search.</p>
@@ -584,9 +585,9 @@ const EditProductPage = () => {
                                                         <label className="flex items-center gap-3 cursor-pointer group p-1 -ml-1 rounded-lg hover:bg-white/5 transition-all">
                                                             <input
                                                                 type="checkbox"
-                                                                checked={selectedCategoryIds.has(parent.id)}
+                                                                checked={selectedCategoryIds.has(String(parent.id))}
                                                                 onChange={() => toggleCategory(parent.id)}
-                                                                className="peer absolute opacity-0 pointer-events-none"
+                                                                className="peer absolute inset-0 opacity-0 cursor-pointer z-20"
                                                             />
                                                             <div className="size-5 rounded border-2 border-white/20 peer-checked:bg-primary peer-checked:border-primary transition-all flex items-center justify-center shadow-lg">
                                                                 <span className="material-symbols-outlined text-[14px] text-white opacity-0 peer-checked:opacity-100 font-bold">check</span>
@@ -602,12 +603,12 @@ const EditProductPage = () => {
                                                                 if (!subMatches && categorySearch) return null;
 
                                                                 return (
-                                                                    <label key={sub.id} className="flex items-center gap-3 cursor-pointer group py-0.5">
+                                                                    <label key={sub.id} className="flex items-center gap-3 cursor-pointer group py-0.5 relative">
                                                                         <input
                                                                             type="checkbox"
-                                                                            checked={selectedCategoryIds.has(sub.id)}
+                                                                            checked={selectedCategoryIds.has(String(sub.id))}
                                                                             onChange={() => toggleCategory(sub.id)}
-                                                                            className="peer absolute opacity-0 pointer-events-none"
+                                                                            className="peer absolute inset-0 opacity-0 cursor-pointer z-20"
                                                                         />
                                                                         <div className="size-4 rounded border border-white/20 peer-checked:bg-primary/80 peer-checked:border-primary/80 transition-all flex items-center justify-center">
                                                                             <span className="material-symbols-outlined text-[11px] text-white opacity-0 peer-checked:opacity-100">check</span>
