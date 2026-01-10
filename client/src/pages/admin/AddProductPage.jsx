@@ -570,11 +570,8 @@ const AddProductPage = () => {
                                                                 type="checkbox"
                                                                 checked={selectedCategoryIds.has(String(parent.id))}
                                                                 onChange={() => toggleCategory(parent.id)}
-                                                                className="peer absolute inset-0 opacity-0 cursor-pointer z-20"
+                                                                className="admin-checkbox size-5 shrink-0"
                                                             />
-                                                            <div className="size-5 rounded border-2 border-white/20 peer-checked:bg-primary peer-checked:border-primary peer-checked:shadow-[0_0_15px_rgba(255,0,127,0.5)] transition-all flex items-center justify-center shadow-lg">
-                                                                <span className="material-symbols-outlined text-[14px] text-white opacity-0 peer-checked:opacity-100 font-bold">check</span>
-                                                            </div>
                                                             <span className="text-sm font-black text-gray-300 group-hover:text-white transition-colors tracking-tight">{parent.name}</span>
                                                         </label>
 
@@ -591,11 +588,8 @@ const AddProductPage = () => {
                                                                             type="checkbox"
                                                                             checked={selectedCategoryIds.has(String(sub.id))}
                                                                             onChange={() => toggleCategory(sub.id)}
-                                                                            className="peer absolute inset-0 opacity-0 cursor-pointer z-20"
+                                                                            className="admin-checkbox size-4 shrink-0"
                                                                         />
-                                                                        <div className="size-4 rounded border border-white/20 peer-checked:bg-primary peer-checked:border-primary peer-checked:shadow-[0_0_10px_rgba(255,0,127,0.4)] transition-all flex items-center justify-center">
-                                                                            <span className="material-symbols-outlined text-[11px] text-white opacity-0 peer-checked:opacity-100">check</span>
-                                                                        </div>
                                                                         <span className="text-xs font-bold text-gray-500 group-hover:text-gray-300 transition-colors">{sub.name}</span>
                                                                     </label>
                                                                 );
