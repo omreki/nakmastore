@@ -12,7 +12,6 @@ const EditProductPage = () => {
     const [saving, setSaving] = useState(false);
     const [uploading, setUploading] = useState(false);
     const [categories, setCategories] = useState([]);
-    const [subCategories, setSubCategories] = useState([]);
     const { notify } = useNotification();
     const [isNewImageFeatured, setIsNewImageFeatured] = useState(false);
     const [originalProduct, setOriginalProduct] = useState(null);
@@ -587,7 +586,7 @@ const EditProductPage = () => {
                                                                 type="checkbox"
                                                                 checked={selectedCategoryIds.has(parent.id)}
                                                                 onChange={() => toggleCategory(parent.id)}
-                                                                className="peer sr-only"
+                                                                className="peer absolute opacity-0 pointer-events-none"
                                                             />
                                                             <div className="size-5 rounded border-2 border-white/20 peer-checked:bg-primary peer-checked:border-primary transition-all flex items-center justify-center shadow-lg">
                                                                 <span className="material-symbols-outlined text-[14px] text-white opacity-0 peer-checked:opacity-100 font-bold">check</span>
@@ -608,7 +607,7 @@ const EditProductPage = () => {
                                                                             type="checkbox"
                                                                             checked={selectedCategoryIds.has(sub.id)}
                                                                             onChange={() => toggleCategory(sub.id)}
-                                                                            className="peer sr-only"
+                                                                            className="peer absolute opacity-0 pointer-events-none"
                                                                         />
                                                                         <div className="size-4 rounded border border-white/20 peer-checked:bg-primary/80 peer-checked:border-primary/80 transition-all flex items-center justify-center">
                                                                             <span className="material-symbols-outlined text-[11px] text-white opacity-0 peer-checked:opacity-100">check</span>

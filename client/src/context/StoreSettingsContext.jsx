@@ -66,8 +66,6 @@ export const StoreSettingsProvider = ({ children }) => {
                 imageUrl: ""
             },
             categories: {
-                men: { title: "Men", subtitle: "Heritage Cuts", imageUrl: "" },
-                women: { title: "Women", subtitle: "Modern Silhouettes", imageUrl: "" }
             },
             seo: {
                 metaTitle: "",
@@ -76,8 +74,7 @@ export const StoreSettingsProvider = ({ children }) => {
         },
         navigationSettings: [
             { id: 'shop', label: 'Shop', path: '/shop', type: 'link', visible: true },
-            { id: 'men', label: 'Men', path: '/men', type: 'link', visible: true },
-            { id: 'women', label: 'Women', path: '/women', type: 'link', visible: true },
+
             { id: 'accessories', label: 'Accessories', path: '/accessories', type: 'link', visible: true },
             { id: 'about', label: 'About', path: '/about', type: 'link', visible: true },
             { id: 'community', label: 'Community', path: '/community', type: 'link', visible: true },
@@ -216,14 +213,6 @@ export const StoreSettingsProvider = ({ children }) => {
                                     imageUrl: data.homepage_settings.philosophy?.imageUrl ? `${data.homepage_settings.philosophy.imageUrl}?t=${timestamp}` : ""
                                 },
                                 categories: {
-                                    men: {
-                                        ...data.homepage_settings.categories?.men,
-                                        imageUrl: data.homepage_settings.categories?.men?.imageUrl ? `${data.homepage_settings.categories.men.imageUrl}?t=${timestamp}` : ""
-                                    },
-                                    women: {
-                                        ...data.homepage_settings.categories?.women,
-                                        imageUrl: data.homepage_settings.categories?.women?.imageUrl ? `${data.homepage_settings.categories.women.imageUrl}?t=${timestamp}` : ""
-                                    }
                                 },
                                 seo: {
                                     metaTitle: data.homepage_settings.seo?.metaTitle || "",
@@ -247,8 +236,6 @@ export const StoreSettingsProvider = ({ children }) => {
                                     imageUrl: "/philosophy-bg.png"
                                 },
                                 categories: {
-                                    men: { title: "Men", subtitle: "Heritage Cuts", imageUrl: "/men-category.png" },
-                                    women: { title: "Women", subtitle: "Modern Silhouettes", imageUrl: "/women-category.png" }
                                 },
                                 seo: {
                                     metaTitle: "",
@@ -388,14 +375,6 @@ export const StoreSettingsProvider = ({ children }) => {
                             imageUrl: data.homepage_settings.philosophy?.imageUrl ? `${data.homepage_settings.philosophy.imageUrl}?t=${timestamp}` : ""
                         },
                         categories: {
-                            men: {
-                                ...data.homepage_settings.categories?.men,
-                                imageUrl: data.homepage_settings.categories?.men?.imageUrl ? `${data.homepage_settings.categories.men.imageUrl}?t=${timestamp}` : ""
-                            },
-                            women: {
-                                ...data.homepage_settings.categories?.women,
-                                imageUrl: data.homepage_settings.categories?.women?.imageUrl ? `${data.homepage_settings.categories.women.imageUrl}?t=${timestamp}` : ""
-                            }
                         },
                         seo: {
                             metaTitle: data.homepage_settings.seo?.metaTitle || "",
@@ -419,8 +398,6 @@ export const StoreSettingsProvider = ({ children }) => {
                             imageUrl: "/philosophy-bg.png"
                         },
                         categories: {
-                            men: { title: "Men", subtitle: "Heritage Cuts", imageUrl: "/men-category.png" },
-                            women: { title: "Women", subtitle: "Modern Silhouettes", imageUrl: "/women-category.png" }
                         },
                         seo: {
                             metaTitle: "",
@@ -429,8 +406,7 @@ export const StoreSettingsProvider = ({ children }) => {
                     },
                     navigationSettings: data.navigation_settings || [
                         { id: 'shop', label: 'Shop', path: '/shop', type: 'link', visible: true, subtitle: 'Global archive' },
-                        { id: 'men', label: 'Men', path: '/men', type: 'link', visible: true, subtitle: 'Core silhouettes' },
-                        { id: 'women', label: 'Women', path: '/women', type: 'link', visible: true, subtitle: 'Avant-garde flow' },
+
                         { id: 'accessories', label: 'Accessories', path: '/accessories', type: 'link', visible: true, subtitle: 'Final details' },
                         { id: 'about', label: 'About', path: '/about', type: 'link', visible: true, subtitle: 'Manifesto' },
                         { id: 'community', label: 'Community', path: '/community', type: 'link', visible: true, subtitle: 'Joined forces' },

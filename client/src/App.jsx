@@ -14,8 +14,6 @@ import ErrorBoundary from './components/ErrorBoundary';
 
 // Lazy Load Pages
 const HomePage = lazy(() => import('./pages/HomePage'));
-const MenPage = lazy(() => import('./pages/MenPage'));
-const WomenPage = lazy(() => import('./pages/WomenPage'));
 const ProductPage = lazy(() => import('./pages/ProductPage'));
 const CartPage = lazy(() => import('./pages/CartPage'));
 const CheckoutPage = lazy(() => import('./pages/CheckoutPage'));
@@ -130,8 +128,7 @@ function App() {
                           <Route path="/checkout" element={<CheckoutPage />} />
                           <Route path="/confirmation" element={<ConfirmationPage />} />
                           <Route path="/account" element={<ProtectedRoute><AccountPage /></ProtectedRoute>} />
-                          <Route path="/men" element={<MenPage />} />
-                          <Route path="/women" element={<WomenPage />} />
+
                           <Route path="/category/:slug" element={<CategoryPage />} />
                           <Route path="/privacy-policy" element={<PrivacyPolicyPage />} />
                           <Route path="/terms-of-service" element={<TermsOfServicePage />} />

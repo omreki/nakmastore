@@ -19,8 +19,6 @@ const HomePage = () => {
 
     const { formatPrice, settings } = useStoreSettings();
     const [newArrivals, setNewArrivals] = useState([]);
-    const [menProducts, setMenProducts] = useState([]);
-    const [womenProducts, setWomenProducts] = useState([]);
     const [loading, setLoading] = useState(true);
     const { addToCart } = useCart();
 
@@ -62,27 +60,7 @@ const HomePage = () => {
                 if (arrivalsError) throw arrivalsError;
                 setNewArrivals(arrivals || []);
 
-                // Fetch Men's Products
-                const { data: men, error: menError } = await supabase
-                    .from('products')
-                    .select('*')
-                    .eq('category', 'men')
-                    .eq('is_draft', false)
-                    .limit(6);
 
-                if (menError) throw menError;
-                setMenProducts(men || []);
-
-                // Fetch Women's Products
-                const { data: women, error: womenError } = await supabase
-                    .from('products')
-                    .select('*')
-                    .eq('category', 'women')
-                    .eq('is_draft', false)
-                    .limit(6);
-
-                if (womenError) throw womenError;
-                setWomenProducts(women || []);
 
             } catch (error) {
                 console.error('Error fetching products:', error);
@@ -327,131 +305,6 @@ const HomePage = () => {
                 </div>
             </div>
 
-            {/* Prints Collection Header */}
-            <div className="w-full px-4 md:px-8 max-w-[1700px] mx-auto pt-16 md:pt-24 pb-8 flex items-end justify-between">
-                <div>
-                    <h2 className="text-white text-2xl md:text-4xl font-black tracking-tighter uppercase leading-none">{printsTitle}</h2>
-                    <p className="text-white/40 mt-3 text-sm md:text-lg font-medium italic">{printsSub}.</p>
-                </div>
-                <Link to="/category/vibrant-prints" className="hidden sm:flex items-center gap-1 text-white font-bold hover:text-primary transition-colors bg-white/5 px-6 py-3 rounded-full border border-white/10 hover:bg-white/10 shadow-sm">
-                    Shop Collection <span className="material-symbols-outlined text-[20px]">chevron_right</span>
-                </Link>
-            </div>
-
-            {/* Men's Collection Grid */}
-            <div className="w-full px-4 md:px-8 max-w-[1700px] mx-auto pb-24">
-                {loading ? (
-                    <div className="flex justify-center py-20">
-                        <div className="size-12 border-4 border-white/5 border-t-primary rounded-full animate-spin"></div>
-                    </div>
-                ) : menProducts.length > 0 ? (
-                    <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-6 md:gap-8">
-                        {menProducts.map((product) => (
-                            <Link to={`/product/${product.slug}`} key={product.id} className="group cursor-pointer">
-                                <div className="relative aspect-[4/5] rounded-[24px] overflow-hidden mb-4 bg-[#1a1a1a] transition-transform duration-500 group-hover:-translate-y-2 border border-white/5">
-                                    <img
-                                        src={product.images?.[0] || 'https://via.placeholder.com/300?text=Product'}
-                                        alt={product.name}
-                                        className="w-full h-full object-cover object-center transition-transform duration-500 group-hover:scale-110"
-                                    />
-
-                                    {/* Quick Add Button */}
-                                    <div className="absolute bottom-4 left-4 right-4 opacity-0 translate-y-4 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300 pointer-events-none md:pointer-events-auto">
-                                        <button
-                                            onClick={(e) => handleQuickAdd(e, product)}
-                                            className="w-full h-10 bg-black text-white rounded-xl font-black text-[9px] uppercase tracking-widest hover:bg-primary transition-colors shadow-xl pointer-events-auto"
-                                        >
-                                            Add to Bag
-                                        </button>
-                                    </div>
-                                </div>
-                                <div className="px-1">
-                                    <div className="flex flex-col gap-0.5">
-                                        <h3 className="text-white font-bold text-sm group-hover:text-primary transition-colors line-clamp-1 uppercase tracking-tight">{product.name}</h3>
-                                        <div className="flex items-center gap-2">
-                                            {product.is_sale && product.sale_price ? (
-                                                <>
-                                                    <span className="text-primary font-black italic text-base whitespace-nowrap leading-none">{formatPrice(product.sale_price)}</span>
-                                                    <span className="text-white/30 font-bold text-[10px] line-through decoration-1">{formatPrice(product.price)}</span>
-                                                </>
-                                            ) : (
-                                                <span className="text-white font-black italic text-base whitespace-nowrap leading-none">{formatPrice(product.price)}</span>
-                                            )}
-                                        </div>
-                                    </div>
-                                </div>
-                            </Link>
-                        ))}
-                    </div>
-                ) : (
-                    <div className="text-center py-20">
-                        <p className="text-white/40 text-lg">No men's products available yet.</p>
-                    </div>
-                )}
-            </div>
-
-            {/* Plains Collection Header */}
-            <div className="w-full px-4 md:px-8 max-w-[1700px] mx-auto pt-16 md:pt-24 pb-8 flex items-end justify-between">
-                <div>
-                    <h2 className="text-white text-2xl md:text-4xl font-black tracking-tighter uppercase leading-none">{plainsTitle}</h2>
-                    <p className="text-white/40 mt-3 text-sm md:text-lg font-medium italic">{plainsSub}.</p>
-                </div>
-                <Link to="/category/classic-plains" className="hidden sm:flex items-center gap-1 text-white font-bold hover:text-primary transition-colors bg-white/5 px-6 py-3 rounded-full border border-white/10 hover:bg-white/10 shadow-sm">
-                    Shop Collection <span className="material-symbols-outlined text-[20px]">chevron_right</span>
-                </Link>
-            </div>
-
-            {/* Women's Collection Grid */}
-            <div className="w-full px-4 md:px-8 max-w-[1700px] mx-auto pb-24">
-                {loading ? (
-                    <div className="flex justify-center py-20">
-                        <div className="size-12 border-4 border-white/5 border-t-primary rounded-full animate-spin"></div>
-                    </div>
-                ) : womenProducts.length > 0 ? (
-                    <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-6 md:gap-8">
-                        {womenProducts.map((product) => (
-                            <Link to={`/product/${product.slug}`} key={product.id} className="group cursor-pointer">
-                                <div className="relative aspect-[4/5] rounded-[24px] overflow-hidden mb-4 bg-[#1a1a1a] transition-transform duration-500 group-hover:-translate-y-2 border border-white/5">
-                                    <img
-                                        src={product.images?.[0] || 'https://via.placeholder.com/300?text=Product'}
-                                        alt={product.name}
-                                        className="w-full h-full object-cover object-center transition-transform duration-500 group-hover:scale-110"
-                                    />
-
-                                    {/* Quick Add Button */}
-                                    <div className="absolute bottom-4 left-4 right-4 opacity-0 translate-y-4 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300 pointer-events-none md:pointer-events-auto">
-                                        <button
-                                            onClick={(e) => handleQuickAdd(e, product)}
-                                            className="w-full h-10 bg-black text-white rounded-xl font-black text-[9px] uppercase tracking-widest hover:bg-primary transition-colors shadow-xl pointer-events-auto"
-                                        >
-                                            Add to Bag
-                                        </button>
-                                    </div>
-                                </div>
-                                <div className="px-1">
-                                    <div className="flex flex-col gap-0.5">
-                                        <h3 className="text-white font-bold text-sm group-hover:text-primary transition-colors line-clamp-1 uppercase tracking-tight">{product.name}</h3>
-                                        <div className="flex items-center gap-2">
-                                            {product.is_sale && product.sale_price ? (
-                                                <>
-                                                    <span className="text-primary font-black italic text-base whitespace-nowrap leading-none">{formatPrice(product.sale_price)}</span>
-                                                    <span className="text-white/30 font-bold text-[10px] line-through decoration-1">{formatPrice(product.price)}</span>
-                                                </>
-                                            ) : (
-                                                <span className="text-white font-black italic text-base whitespace-nowrap leading-none">{formatPrice(product.price)}</span>
-                                            )}
-                                        </div>
-                                    </div>
-                                </div>
-                            </Link>
-                        ))}
-                    </div>
-                ) : (
-                    <div className="text-center py-20">
-                        <p className="text-white/40 text-lg">No women's products available yet.</p>
-                    </div>
-                )}
-            </div>
         </div>
     );
 };

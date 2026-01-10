@@ -10,7 +10,6 @@ const AddProductPage = () => {
     const [loading, setLoading] = useState(false);
     const [uploading, setUploading] = useState(false);
     const [categories, setCategories] = useState([]);
-    const [subCategories, setSubCategories] = useState([]);
     const { notify } = useNotification();
 
     const [formData, setFormData] = useState({
@@ -57,6 +56,7 @@ const AddProductPage = () => {
                 const firstParent = data.find(c => !c.parent_id);
                 if (firstParent) {
                     setFormData(prev => ({ ...prev, category: firstParent.slug }));
+                    setSelectedCategoryIds(new Set([firstParent.id]));
                 }
             }
         } catch (error) {
@@ -461,7 +461,7 @@ const AddProductPage = () => {
                                                         <div className="size-5 rounded-full border border-white/10" style={{ backgroundColor: color.hex }}></div>
                                                         <span className="text-[9px] font-bold text-gray-300 uppercase tracking-widest">{color.name}</span>
                                                         <button type="button" onClick={() => removeColor(idx)} className="ml-1 text-gray-500 hover:text-red-500 transition-colors">
-                                                            <span className="material-symbols-outlined text-[14px]">close</span>
+                                                            <span className="material-symbols-outlined">close</span>
                                                         </button>
                                                     </div>
                                                 ))}
@@ -569,7 +569,7 @@ const AddProductPage = () => {
                                                                 type="checkbox"
                                                                 checked={selectedCategoryIds.has(parent.id)}
                                                                 onChange={() => toggleCategory(parent.id)}
-                                                                className="peer sr-only"
+                                                                className="peer absolute opacity-0 pointer-events-none"
                                                             />
                                                             <div className="size-5 rounded border-2 border-white/20 peer-checked:bg-primary peer-checked:border-primary transition-all flex items-center justify-center shadow-lg">
                                                                 <span className="material-symbols-outlined text-[14px] text-white opacity-0 peer-checked:opacity-100 font-bold">check</span>
@@ -590,7 +590,7 @@ const AddProductPage = () => {
                                                                             type="checkbox"
                                                                             checked={selectedCategoryIds.has(sub.id)}
                                                                             onChange={() => toggleCategory(sub.id)}
-                                                                            className="peer sr-only"
+                                                                            className="peer absolute opacity-0 pointer-events-none"
                                                                         />
                                                                         <div className="size-4 rounded border border-white/20 peer-checked:bg-primary/80 peer-checked:border-primary/80 transition-all flex items-center justify-center">
                                                                             <span className="material-symbols-outlined text-[11px] text-white opacity-0 peer-checked:opacity-100">check</span>
