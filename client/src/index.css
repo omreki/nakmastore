@@ -3,12 +3,9 @@
 @import url('https://fonts.googleapis.com/icon?family=Material+Icons+Outlined');
 
 @import "tailwindcss";
-@plugin "@tailwindcss/postcss";
+@config "../tailwind.config.js";
 
-
-
-:root {
-    color-scheme: dark;
+@theme {
     --color-primary: #ff007f;
     --color-primary-hover: #e60072;
     --color-primary-light: #ff3399;
@@ -19,12 +16,17 @@
     --color-secondary: #000000;
     --color-background-light: #0a0a0a;
     --color-background-dark: #000000;
-    --color-card-dark: rgba(0, 0, 0, 0.6);
-    --color-text-main: #ffffff;
-    --color-text-muted: #a1a1aa;
     --color-navbar-bg: rgba(0, 0, 0, 0.4);
     --color-navbar-text: #ffffff;
+    --color-text-main: #ffffff;
+    --color-text-muted: #a1a1aa;
 }
+
+:root {
+    color-scheme: dark;
+    --color-card-dark: rgba(0, 0, 0, 0.6);
+}
+
 
 /* Lenis Smooth Scroll */
 html.lenis,
