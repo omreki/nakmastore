@@ -7,6 +7,47 @@ const DEFAULT_LOGIN_SETTINGS = {
     login_subtitle: "Join the community to access exclusive prints, track your orders, and manage your profile."
 };
 
+const DEFAULT_PRODUCT_PAGE_SETTINGS = {
+    theme: 'modern',
+    typography: {
+        productTitle: { fontFamily: 'Manrope', fontSize: 36, fontWeight: 900, color: '#ffffff', letterSpacing: 0, textTransform: 'uppercase' },
+        price: { fontSize: 24, color: '#ffffff', saleColor: '#b82063', currencyPosition: 'left' },
+        description: { fontFamily: 'Manrope', fontSize: 16, color: 'rgba(255,255,255,0.6)', lineHeight: 1.6 },
+        button: { fontFamily: 'Manrope', fontSize: 14, fontWeight: 700, textTransform: 'uppercase' }
+    },
+    layout: {
+        galleryType: 'grid',
+        imagePosition: 'left',
+        contentRatio: '50/50',
+        stickyElements: { addToCart: true, images: true },
+        sectionSpacing: 'comfortable'
+    },
+    visual: {
+        primaryColor: '',
+        secondaryColor: '',
+        backgroundColor: '',
+        buttonStyle: 'solid',
+        buttonHover: 'lift',
+        borderRadius: 'rounded',
+        badges: { show: true, position: 'top-left', style: 'solid' }
+    },
+    sections: {
+        order: ['title', 'price', 'description', 'variants', 'quantity', 'addToCart', 'specs', 'reviews', 'shipping'],
+        visibility: {
+            title: true, price: true, description: true, variants: true,
+            quantity: true, addToCart: true, specs: true, reviews: true, shipping: true
+        },
+        accordionMode: true
+    },
+    advanced: {
+        enableZoom: true,
+        variantStyle: 'swatches',
+        showTrustBadges: true,
+        relatedProducts: { style: 'grid', count: 4 },
+        socialSharing: { show: true, position: 'bottom' }
+    }
+};
+
 const StoreSettingsContext = createContext();
 
 export const useStoreSettings = () => {
@@ -164,6 +205,7 @@ export const StoreSettingsProvider = ({ children }) => {
         checkoutPageSettings: {
             giftMessage: "Exclusive print included with <br /> <span class=\"text-[#b82063]\">your first Nakma</span> purchase."
         },
+        productPageSettings: DEFAULT_PRODUCT_PAGE_SETTINGS,
 
     });
     const [loading, setLoading] = useState(true);
@@ -350,7 +392,8 @@ export const StoreSettingsProvider = ({ children }) => {
                                 secondaryColor: '#000000',
                                 labelColor: '#ffffff',
                                 secondaryTextColor: '#ffffff'
-                            }
+                            },
+                            productPageSettings: data.product_page_settings ? { ...DEFAULT_PRODUCT_PAGE_SETTINGS, ...data.product_page_settings } : DEFAULT_PRODUCT_PAGE_SETTINGS
                         });
                     }
                 }
@@ -563,7 +606,8 @@ export const StoreSettingsProvider = ({ children }) => {
                         navbarText: "#ffffff",
                         textMain: "#ffffff",
                         textMuted: "#a1a1aa"
-                    }
+                    },
+                    productPageSettings: data.product_page_settings ? { ...DEFAULT_PRODUCT_PAGE_SETTINGS, ...data.product_page_settings } : DEFAULT_PRODUCT_PAGE_SETTINGS
                 });
             }
         } catch (error) {
@@ -651,7 +695,8 @@ export const StoreSettingsProvider = ({ children }) => {
                     login_bg_url: stripTimestamp(newSettings.loginPageSettings.login_bg_url)
                 } : undefined,
                 seo_settings: newSettings.seoSettings,
-                checkout_page_settings: newSettings.checkoutPageSettings
+                checkout_page_settings: newSettings.checkoutPageSettings,
+                product_page_settings: newSettings.productPageSettings
             };
 
             // Upsert the single row (id: 1)
@@ -738,7 +783,8 @@ export const StoreSettingsProvider = ({ children }) => {
                     loginPageSettings: data.login_page_settings ? { ...DEFAULT_LOGIN_SETTINGS, ...data.login_page_settings } : newSettings.loginPageSettings,
                     seoSettings: data.seo_settings || newSettings.seoSettings,
                     checkoutPageSettings: data.checkout_page_settings || newSettings.checkoutPageSettings,
-                    brandSettings: data.brand_settings || newSettings.brandSettings
+                    brandSettings: data.brand_settings || newSettings.brandSettings,
+                    productPageSettings: data.product_page_settings ? { ...DEFAULT_PRODUCT_PAGE_SETTINGS, ...data.product_page_settings } : newSettings.productPageSettings
                 });
             }
             return { success: true };

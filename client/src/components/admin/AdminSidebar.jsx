@@ -46,6 +46,7 @@ const AdminSidebar = () => {
 
     const settingsItems = [
         { name: 'General', icon: 'settings', path: '/admin/settings' },
+        { name: 'Product Page', icon: 'design_services', path: '/admin/settings/products' },
     ];
 
     const userInitials = profile?.full_name

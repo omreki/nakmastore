@@ -42,6 +42,7 @@ const CategoryManagementPage = lazy(() => import('./pages/admin/CategoryManageme
 const StoreSettingsPage = lazy(() => import('./pages/admin/StoreSettingsPage'));
 const AnalyticsPage = lazy(() => import('./pages/admin/AnalyticsPage'));
 const ArticleManagementPage = lazy(() => import('./pages/admin/ArticleManagementPage'));
+const ProductSettingsPage = lazy(() => import('./pages/admin/ProductSettingsPage'));
 
 // Loading Fallback
 const PageLoader = () => (
@@ -114,6 +115,7 @@ function App() {
                     <Route path="/admin/analytics" element={<ProtectedRoute adminOnly><AnalyticsPage /></ProtectedRoute>} />
                     <Route path="/admin/articles" element={<ProtectedRoute adminOnly><ArticleManagementPage /></ProtectedRoute>} />
                     <Route path="/admin/settings" element={<ProtectedRoute adminOnly><StoreSettingsPage /></ProtectedRoute>} />
+                    <Route path="/admin/settings/products" element={<ProtectedRoute adminOnly><ProductSettingsPage /></ProtectedRoute>} />
 
                     {/* Public Routes - With Main Layout */}
                     <Route path="/*" element={
