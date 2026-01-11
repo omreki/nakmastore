@@ -436,7 +436,11 @@ const CheckoutPage = () => {
             setIsProcessing(false);
         } catch (err) {
             console.error('Order process error:', err);
-            notify('Checkout failed. Please try again.', 'error');
+            if (err.message && err.message.includes('unique constraint')) {
+                notify('Please wait a moment and try again (Reference Collision).', 'error');
+            } else {
+                notify(`Checkout failed: ${err.message || 'Please try again'}`, 'error');
+            }
             setIsProcessing(false);
         }
     };
