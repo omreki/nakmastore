@@ -4,10 +4,29 @@
     "installCommand": "cd client && npm install --legacy-peer-deps",
     "devCommand": "cd client && npm run dev",
     "framework": null,
-    "rewrites": [
+    "headers": [
         {
-            "source": "/(.*)",
-            "destination": "/index.html"
+            "source": "/assets/(.*)",
+            "headers": [
+                {
+                    "key": "Cache-Control",
+                    "value": "public, max-age=31536000, immutable"
+                }
+            ]
+        }
+    ],
+    "routes": [
+        {
+            "src": "/assets/(.*)",
+            "dest": "/assets/$1"
+        },
+        {
+            "src": "/(.*\\.(js|css|png|jpg|jpeg|gif|svg|ico|woff|woff2|ttf|eot|webp|mp4|webm))",
+            "dest": "/$1"
+        },
+        {
+            "src": "/(.*)",
+            "dest": "/index.html"
         }
     ]
 }
