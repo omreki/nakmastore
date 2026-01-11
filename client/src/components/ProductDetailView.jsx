@@ -45,13 +45,13 @@ const ProductDetailView = ({
     // Classes & Styles
     const getContainerClasses = () => {
         const base = "w-full mx-auto transition-all duration-300";
-        if (isMobileView) return `${base} flex flex-col gap-8 px-4 py-8`;
+        if (isMobileView) return `${base} flex flex-col gap-8 px-4 pt-4 pb-8`;
 
         switch (layoutStyle) {
-            case 'narrow': return `${base} max-w-4xl flex flex-col gap-12 px-8 py-12`;
+            case 'narrow': return `${base} max-w-4xl flex flex-col gap-12 px-8 pb-12 pt-4`;
             case 'full': return `${base} max-w-none flex flex-col gap-16`;
-            case 'magazine': return `${base} max-w-[1400px] grid grid-cols-12 gap-12 px-12 items-start py-12`;
-            case 'classic': default: return `${base} max-w-[1400px] flex flex-col lg:flex-row gap-12 lg:gap-20 px-6 lg:px-16 items-start py-12`;
+            case 'magazine': return `${base} max-w-[1400px] grid grid-cols-12 gap-12 px-12 items-start pb-12 pt-4`;
+            case 'classic': default: return `${base} max-w-[1400px] flex flex-col lg:flex-row gap-12 lg:gap-20 px-6 lg:px-16 items-start pb-12 pt-4`;
         }
     };
 
@@ -88,7 +88,7 @@ const ProductDetailView = ({
     // --- Sub-Components ---
     // 0. Breadcrumbs
     const Breadcrumbs = () => (
-        <nav className="flex items-center gap-2 mb-8 text-[10px] font-bold uppercase tracking-widest text-gray-500">
+        <nav className="flex items-center gap-2 text-[10px] font-bold uppercase tracking-widest text-gray-500">
             <Link to="/" className="hover:text-white transition-colors">Home</Link>
             <span className="material-symbols-outlined text-[12px]">chevron_right</span>
             <Link to={`/shop?category=${product.category}`} className="hover:text-white transition-colors">{product.category || 'Collection'}</Link>
@@ -347,11 +347,12 @@ const ProductDetailView = ({
 
     return (
         <div className="bg-black min-h-screen">
-            <div className={getContainerClasses()}>
-                {/* Desktop Breadcrumbs outside columns if magazine */}
-                {!isMobileView && <div className="col-span-12"><Breadcrumbs /></div>}
-                {isMobileView && <Breadcrumbs />}
+            {/* Breadcrumbs Top Container */}
+            <div className="w-full max-w-[1400px] mx-auto px-6 lg:px-16 pt-8 pb-4">
+                <Breadcrumbs />
+            </div>
 
+            <div className={getContainerClasses()}>
                 {layoutStyle === 'magazine' && !isMobileView ? (
                     <>
                         <div className="col-span-7 h-full">
