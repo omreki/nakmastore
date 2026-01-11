@@ -60,7 +60,9 @@ const StoreSettingsPage = () => {
                 imageUrl: "",
                 hollowText: "",
                 hollowTextOpacity: 20,
-                hollowTextViewMode: 'fit'
+                hollowTextViewMode: 'fit',
+                hollowTextStroke: 1,
+                hollowTextPadding: 5
             },
             philosophy: {
                 subHeadline: "The Nakma Philosophy",
@@ -325,7 +327,9 @@ const StoreSettingsPage = () => {
                         imageUrl: "",
                         hollowText: "",
                         hollowTextOpacity: 20,
-                        hollowTextViewMode: 'fit'
+                        hollowTextViewMode: 'fit',
+                        hollowTextStroke: 1,
+                        hollowTextPadding: 5
                     },
                     philosophy: {
                         subHeadline: "The Nakma Philosophy",
@@ -1861,6 +1865,37 @@ const StoreSettingsPage = () => {
                                                     <option value="cover" className="bg-secondary text-white">Cover</option>
                                                     <option value="contain" className="bg-secondary text-white">Contain</option>
                                                 </select>
+                                            </div>
+                                            <div className="grid grid-cols-2 gap-4">
+                                                <div className="flex flex-col gap-2.5">
+                                                    <div className="flex justify-between items-center ml-1">
+                                                        <label className="text-gray-500 text-[10px] font-black tracking-[0.2em] uppercase">Stroke Width</label>
+                                                        <span className="text-primary text-[10px] font-black">{settings.homepageSettings?.hero?.hollowTextStroke ?? 1}px</span>
+                                                    </div>
+                                                    <input
+                                                        type="range"
+                                                        min="0.1"
+                                                        max="5"
+                                                        step="0.1"
+                                                        value={settings.homepageSettings?.hero?.hollowTextStroke ?? 1}
+                                                        onChange={(e) => setSettings({ ...settings, homepageSettings: { ...settings.homepageSettings, hero: { ...settings.homepageSettings?.hero, hollowTextStroke: parseFloat(e.target.value) } } })}
+                                                        className="w-full h-1.5 bg-black/40 rounded-lg appearance-none cursor-pointer accent-primary border border-white/5"
+                                                    />
+                                                </div>
+                                                <div className="flex flex-col gap-2.5">
+                                                    <div className="flex justify-between items-center ml-1">
+                                                        <label className="text-gray-500 text-[10px] font-black tracking-[0.2em] uppercase">Side Padding</label>
+                                                        <span className="text-primary text-[10px] font-black">{settings.homepageSettings?.hero?.hollowTextPadding ?? 5}%</span>
+                                                    </div>
+                                                    <input
+                                                        type="range"
+                                                        min="0"
+                                                        max="20"
+                                                        value={settings.homepageSettings?.hero?.hollowTextPadding ?? 5}
+                                                        onChange={(e) => setSettings({ ...settings, homepageSettings: { ...settings.homepageSettings, hero: { ...settings.homepageSettings?.hero, hollowTextPadding: parseInt(e.target.value) } } })}
+                                                        className="w-full h-1.5 bg-black/40 rounded-lg appearance-none cursor-pointer accent-primary border border-white/5"
+                                                    />
+                                                </div>
                                             </div>
                                             <div className="flex flex-col gap-2.5">
                                                 <label className="text-gray-500 text-[10px] font-black tracking-[0.2em] uppercase ml-1">Hero Image</label>

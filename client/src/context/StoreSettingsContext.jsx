@@ -69,7 +69,9 @@ export const StoreSettingsProvider = ({ children }) => {
                 imageUrl: "",
                 hollowText: "",
                 hollowTextOpacity: 20,
-                hollowTextViewMode: 'fit'
+                hollowTextViewMode: 'fit',
+                hollowTextStroke: 1,
+                hollowTextPadding: 5
             },
             philosophy: {
                 subHeadline: "The Nakma Philosophy",
@@ -414,7 +416,9 @@ export const StoreSettingsProvider = ({ children }) => {
                             imageUrl: data.homepage_settings.hero?.imageUrl ? addTimestamp(data.homepage_settings.hero.imageUrl, timestamp) : "",
                             hollowText: data.homepage_settings.hero?.hollowText || "",
                             hollowTextOpacity: data.homepage_settings.hero?.hollowTextOpacity ?? 20,
-                            hollowTextViewMode: data.homepage_settings.hero?.hollowTextViewMode || 'fit'
+                            hollowTextViewMode: data.homepage_settings.hero?.hollowTextViewMode || 'fit',
+                            hollowTextStroke: data.homepage_settings.hero?.hollowTextStroke ?? 1,
+                            hollowTextPadding: data.homepage_settings.hero?.hollowTextPadding ?? 5
                         },
                         philosophy: {
                             ...data.homepage_settings.philosophy,

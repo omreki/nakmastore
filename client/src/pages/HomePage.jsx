@@ -107,7 +107,7 @@ const HomePage = () => {
                         <div className="absolute inset-0 flex items-center justify-center pointer-events-none overflow-hidden z-15 select-none">
                             <svg
                                 className="w-full h-full"
-                                viewBox={`0 0 ${hero.hollowText.length * 55} 120`}
+                                viewBox={`${-(hero.hollowTextPadding ?? 5) * 5} 0 ${(hero.hollowText.length * 55) + (hero.hollowTextPadding ?? 5) * 10} 120`}
                                 preserveAspectRatio={
                                     hero.hollowTextViewMode === 'fill' ? 'none' :
                                         hero.hollowTextViewMode === 'cover' ? 'xMidYMid slice' :
@@ -119,12 +119,12 @@ const HomePage = () => {
                                     y="55%"
                                     textAnchor="middle"
                                     dominantBaseline="middle"
-                                    className="font-black tracking-tighter"
+                                    className="font-black tracking-tighter uppercase"
                                     style={{
                                         fontSize: "100px",
                                         fill: "none",
                                         stroke: "var(--color-primary)",
-                                        strokeWidth: "2px",
+                                        strokeWidth: `${hero.hollowTextStroke ?? 1}px`,
                                         opacity: (hero.hollowTextOpacity ?? 20) / 100,
                                     }}
                                 >
