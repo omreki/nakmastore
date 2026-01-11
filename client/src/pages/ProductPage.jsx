@@ -432,48 +432,48 @@ const ProductPage = () => {
                     </div>
                 </div>
 
-                {/* Related Products - Keeps as is but moved lower */}
         </div>
+            </div >
 
-                {
-        relatedProducts.length > 0 && (
-            <div className="mt-20 pt-16 border-t border-white/5">
-                <div className="flex justify-between items-end mb-10">
-                    <h2 className="text-2xl md:text-4xl font-black italic tracking-tight uppercase">Complete <br /> The Look</h2>
-                    <Link to="/shop" className="text-primary text-xs font-black uppercase tracking-widest hover:underline flex items-center gap-2 pb-1">
-                        Explore Collection <span className="material-symbols-outlined text-[16px]">east</span>
-                    </Link>
-                </div>
-                <div className="grid grid-cols-2 lg:grid-cols-4 gap-6">
-                    {relatedProducts.map((p) => (
-                        <Link to={`/product/${p.slug}`} key={p.id} className="group cursor-pointer">
-                            <div className="relative aspect-square rounded-[24px] overflow-hidden mb-4 bg-[#1a1a1a] transition-transform duration-500 group-hover:-translate-y-1">
-                                <OptimizedImage
-                                    src={p.images?.[0] || 'https://via.placeholder.com/300?text=Product'}
-                                    alt={p.name}
-                                    width={400}
-                                    className="w-full h-full object-cover object-center transition-transform duration-500 group-hover:scale-110"
-                                />
-                            </div>
-                            <div className="flex flex-col gap-1 px-1">
-                                <h3 className="font-bold text-xs group-hover:text-[#b82063] transition-colors uppercase tracking-tight">{p.name}</h3>
-                                <div className="flex items-center gap-2">
-                                    {p.is_sale && p.sale_price ? (
-                                        <>
-                                            <span className="font-black text-xs italic text-[#b82063]">{formatPrice(p.sale_price)}</span>
-                                            <span className="font-bold text-[10px] text-white/30 line-through decoration-1">{formatPrice(p.price)}</span>
-                                        </>
-                                    ) : (
-                                        <span className="font-black text-xs italic text-white">{formatPrice(p.price)}</span>
-                                    )}
-                                </div>
-                            </div>
-                        </Link>
-                    ))}
-                </div>
+{
+    relatedProducts.length > 0 && (
+        <div className="mt-20 pt-16 border-t border-white/5">
+            <div className="flex justify-between items-end mb-10">
+                <h2 className="text-2xl md:text-4xl font-black italic tracking-tight uppercase">Complete <br /> The Look</h2>
+                <Link to="/shop" className="text-primary text-xs font-black uppercase tracking-widest hover:underline flex items-center gap-2 pb-1">
+                    Explore Collection <span className="material-symbols-outlined text-[16px]">east</span>
+                </Link>
             </div>
-        )
-    }
+            <div className="grid grid-cols-2 lg:grid-cols-4 gap-6">
+                {relatedProducts.map((p) => (
+                    <Link to={`/product/${p.slug}`} key={p.id} className="group cursor-pointer">
+                        <div className="relative aspect-square rounded-[24px] overflow-hidden mb-4 bg-[#1a1a1a] transition-transform duration-500 group-hover:-translate-y-1">
+                            <OptimizedImage
+                                src={p.images?.[0] || 'https://via.placeholder.com/300?text=Product'}
+                                alt={p.name}
+                                width={400}
+                                className="w-full h-full object-cover object-center transition-transform duration-500 group-hover:scale-110"
+                            />
+                        </div>
+                        <div className="flex flex-col gap-1 px-1">
+                            <h3 className="font-bold text-xs group-hover:text-[#b82063] transition-colors uppercase tracking-tight">{p.name}</h3>
+                            <div className="flex items-center gap-2">
+                                {p.is_sale && p.sale_price ? (
+                                    <>
+                                        <span className="font-black text-xs italic text-[#b82063]">{formatPrice(p.sale_price)}</span>
+                                        <span className="font-bold text-[10px] text-white/30 line-through decoration-1">{formatPrice(p.price)}</span>
+                                    </>
+                                ) : (
+                                    <span className="font-black text-xs italic text-white">{formatPrice(p.price)}</span>
+                                )}
+                            </div>
+                        </div>
+                    </Link>
+                ))}
+            </div>
+        </div>
+    )
+}
             </main >
         </div >
     );

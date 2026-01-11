@@ -164,16 +164,7 @@ export const StoreSettingsProvider = ({ children }) => {
         checkoutPageSettings: {
             giftMessage: "Exclusive print included with <br /> <span class=\"text-[#b82063]\">your first Nakma</span> purchase."
         },
-        brandSettings: {
-            primaryColor: "#ff007f",
-            secondaryColor: "#000000",
-            accentColor: "#d86928",
-            backgroundColor: "#000000",
-            navbarBg: "rgba(0, 0, 0, 0.4)",
-            navbarText: "#ffffff",
-            textMain: "#ffffff",
-            textMuted: "#a1a1aa"
-        }
+
     });
     const [loading, setLoading] = useState(true);
 
@@ -572,16 +563,8 @@ export const StoreSettingsProvider = ({ children }) => {
                         textMain: "#ffffff",
                         textMuted: "#a1a1aa",
                         ...data.brand_settings
-                    } : {
-                        primaryColor: "#ff007f",
-                        secondaryColor: "#000000",
-                        accentColor: "#d86928",
-                        backgroundColor: "#000000",
-                        navbarBg: "rgba(0, 0, 0, 0.4)",
-                        navbarText: "#ffffff",
-                        textMuted: "#a1a1aa"
-                    }
-                });
+
+                    });
             }
         } catch (error) {
             console.error('Error fetching settings:', error);
@@ -668,8 +651,7 @@ export const StoreSettingsProvider = ({ children }) => {
                     login_bg_url: stripTimestamp(newSettings.loginPageSettings.login_bg_url)
                 } : undefined,
                 seo_settings: newSettings.seoSettings,
-                checkout_page_settings: newSettings.checkoutPageSettings,
-                brand_settings: newSettings.brandSettings
+                checkout_page_settings: newSettings.checkoutPageSettings
             };
 
             // Upsert the single row (id: 1)
