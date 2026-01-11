@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { supabase } from '../lib/supabase';
 import { useStoreSettings } from '../context/StoreSettingsContext';
@@ -7,7 +7,7 @@ import SEO from '../components/SEO';
 
 const CategoryPage = () => {
     const { slug } = useParams();
-    const { formatPrice } = useStoreSettings();
+    const { settings, formatPrice } = useStoreSettings();
     const { addToCart } = useCart();
 
     const [category, setCategory] = useState(null);
@@ -18,9 +18,9 @@ const CategoryPage = () => {
 
     useEffect(() => {
         fetchCategoryData();
-    }, [slug]);
+    }, [slug, fetchCategoryData]);
 
-    const fetchCategoryData = async () => {
+    const fetchCategoryData = useCallback(async () => {
         setLoading(true);
         try {
             // 1. Fetch Category Details
@@ -73,7 +73,7 @@ const CategoryPage = () => {
         } finally {
             setLoading(false);
         }
-    };
+    }, [slug]);
 
     const displayedProducts = activeSubCategory === 'all'
         ? products
@@ -150,7 +150,7 @@ const CategoryPage = () => {
                 {displayedProducts.length > 0 ? (
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-x-6 gap-y-12">
                         {displayedProducts.map((product, index) => (
-                            <ProductCard key={product.id} product={product} formatPrice={formatPrice} index={index} />
+                            <ProductCard key={product.id} product={product} formatPrice={formatPrice} index={index} settings={settings} />
                         ))}
                     </div>
                 ) : (
@@ -163,7 +163,7 @@ const CategoryPage = () => {
     );
 };
 
-const ProductCard = ({ product, formatPrice, index }) => {
+const ProductCard = ({ product, formatPrice, index, settings }) => {
     return (
         <Link
             to={`/product/${product.slug}`}

@@ -1238,8 +1238,8 @@ const StoreSettingsPage = () => {
         // Reset Homepage Files
         setHomepageHeroFile(null);
         setHomepagePhilosophyFile(null);
-        setHomepageMenFile(null);
-        setHomepageWomenFile(null);
+        setHomepagePrintsFile(null);
+        setHomepagePlainsFile(null);
 
         // Reset About Files
         setAboutHeroFile(null);
@@ -1266,13 +1266,13 @@ const StoreSettingsPage = () => {
         if (contextSettings.homepageSettings) {
             setHomepageHeroPreview(contextSettings.homepageSettings.hero?.imageUrl || null);
             setHomepagePhilosophyPreview(contextSettings.homepageSettings.philosophy?.imageUrl || null);
-            setHomepageMenPreview(contextSettings.homepageSettings.categories?.men?.imageUrl || null);
-            setHomepageWomenPreview(contextSettings.homepageSettings.categories?.women?.imageUrl || null);
+            setHomepagePrintsPreview(contextSettings.homepageSettings.categories?.prints?.imageUrl || null);
+            setHomepagePlainsPreview(contextSettings.homepageSettings.categories?.plains?.imageUrl || null);
         } else {
             setHomepageHeroPreview(null);
             setHomepagePhilosophyPreview(null);
-            setHomepageMenPreview(null);
-            setHomepageWomenPreview(null);
+            setHomepagePrintsPreview(null);
+            setHomepagePlainsPreview(null);
         }
         if (contextSettings.shippingMethods) setShippingMethods(contextSettings.shippingMethods);
         if (contextSettings.paymentGateways) setPaymentGateways(contextSettings.paymentGateways);
