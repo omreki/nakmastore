@@ -22,6 +22,7 @@ const ProductPage = () => {
     const { id } = useParams();
 
     const { formatPrice, settings } = useStoreSettings();
+    const { brandSettings } = settings || {};
     const { addToCart } = useCart();
     const [product, setProduct] = useState(null);
     const [variations, setVariations] = useState([]);
@@ -299,178 +300,180 @@ const ProductPage = () => {
                                         </div>
                                     )}
                                 </div>
+                                    )}
                             </div>
+                        </div>
 
-                            <p className="text-white/50 text-sm leading-relaxed font-medium max-w-xl line-clamp-3">
-                                {product.description || "Unique African-inspired men's shirts that seamlessly blend heritage with modern design. Crafted for the modern man who values cultural identity and sophisticated silhouettes."}
-                            </p>
+                        <p className="text-sm leading-relaxed font-medium max-w-xl line-clamp-3" style={{ color: brandSettings?.secondaryTextColor || 'rgba(255,255,255,0.5)' }}>
+                            {product.description || "Unique African-inspired men's shirts that seamlessly blend heritage with modern design. Crafted for the modern man who values cultural identity and sophisticated silhouettes."}
+                        </p>
 
-                            {/* Options - Tighter Spacing */}
-                            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                                {/* Colors */}
-                                {product.colors && product.colors.length > 0 && (
-                                    <div className="space-y-3">
-                                        <p className="text-[10px] font-black uppercase tracking-widest text-white/30">
-                                            Select Color: <span className="text-white ml-2">
-                                                {typeof product.colors.find(c => (typeof c === 'string' ? c : c.hex) === selectedColor) === 'object'
-                                                    ? product.colors.find(c => c.hex === selectedColor).name
-                                                    : selectedColor}
-                                            </span>
-                                        </p>
-                                        <div className="flex gap-3">
-                                            {product.colors.map((color, idx) => {
-                                                const bg = typeof color === 'string' ? color : color.hex;
-                                                const isActive = selectedColor === bg;
-                                                return (
-                                                    <button
-                                                        key={idx}
-                                                        onClick={() => setSelectedColor(typeof color === 'string' ? color : (color.name || color.hex))}
-                                                        className={`size-10 rounded-full border transition-all p-0.5 ${isActive ? 'border-primary ring-2 ring-primary/20 scale-110' : 'border-white/10 hover:border-white/40'}`}
-                                                    >
-                                                        <div className="w-full h-full rounded-full" style={{ backgroundColor: bg }}></div>
-                                                    </button>
-                                                );
-                                            })}
-                                        </div>
-                                    </div>
-                                )}
-
-                                {/* Sizes */}
+                        {/* Options - Tighter Spacing */}
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                            {/* Colors */}
+                            {product.colors && product.colors.length > 0 && (
                                 <div className="space-y-3">
-                                    <div className="flex justify-between items-center">
-                                        <p className="text-[10px] font-black uppercase tracking-widest text-white/30">Size: <span className="text-white ml-2">{selectedSize}</span></p>
-                                        <button className="text-primary text-[9px] font-black uppercase tracking-widest hover:underline">Size Guide</button>
-                                    </div>
-                                    <div className="flex flex-wrap gap-2">
-                                        {(product.sizes || ['S', 'M', 'L', 'XL']).map((size) => (
-                                            <button
-                                                key={size}
-                                                onClick={() => setSelectedSize(size)}
-                                                className={`size-10 rounded-xl text-[11px] font-black transition-all border ${selectedSize === size ? 'bg-white text-black border-white shadow-lg' : 'bg-white/5 text-white/40 border-white/5 hover:border-white/20'}`}
-                                            >
-                                                {size}
-                                            </button>
-                                        ))}
-                                    </div>
-                                </div>
-                            </div>
-
-                            {/* Quantity Selector */}
-                            {!((selectedVariation ? selectedVariation.stock : product.stock) === 0) && (
-                                <div className="space-y-3 !mt-8">
-                                    <p className="text-[10px] font-black uppercase tracking-widest text-white/30">Quantity</p>
-                                    <div className="flex items-center gap-4">
-                                        <div className="flex items-center bg-white/5 rounded-2xl border border-white/5 p-1">
-                                            <button
-                                                onClick={() => setQuantity(Math.max(1, quantity - 1))}
-                                                className="size-10 flex items-center justify-center rounded-xl hover:bg-white/5 transition-colors"
-                                            >
-                                                <span className="material-symbols-outlined text-[20px]">remove</span>
-                                            </button>
-                                            <div className="w-12 text-center font-black text-sm italic">
-                                                {quantity}
-                                            </div>
-                                            <button
-                                                onClick={() => {
-                                                    const maxStock = selectedVariation ? selectedVariation.stock : product.stock;
-                                                    setQuantity(Math.min(maxStock, quantity + 1));
-                                                }}
-                                                className="size-10 flex items-center justify-center rounded-xl hover:bg-white/5 transition-colors"
-                                            >
-                                                <span className="material-symbols-outlined text-[20px]">add</span>
-                                            </button>
-                                        </div>
-                                        <span className="text-[10px] text-white/20 font-bold uppercase tracking-widest italic">
-                                            Max available: {selectedVariation ? selectedVariation.stock : product.stock}
+                                    <p className="text-[10px] font-black uppercase tracking-widest" style={{ color: brandSettings?.labelColor || 'rgba(255,255,255,0.3)' }}>
+                                        Select Color: <span className="text-white ml-2">
+                                            {typeof product.colors.find(c => (typeof c === 'string' ? c : c.hex) === selectedColor) === 'object'
+                                                ? product.colors.find(c => c.hex === selectedColor).name
+                                                : selectedColor}
                                         </span>
+                                    </p>
+                                    <div className="flex gap-3">
+                                        {product.colors.map((color, idx) => {
+                                            const bg = typeof color === 'string' ? color : color.hex;
+                                            const isActive = selectedColor === bg;
+                                            return (
+                                                <button
+                                                    key={idx}
+                                                    onClick={() => setSelectedColor(typeof color === 'string' ? color : (color.name || color.hex))}
+                                                    className={`size-10 rounded-full border transition-all p-0.5 ${isActive ? 'border-primary ring-2 ring-primary/20 scale-110' : 'border-white/10 hover:border-white/40'}`}
+                                                >
+                                                    <div className="w-full h-full rounded-full" style={{ backgroundColor: bg }}></div>
+                                                </button>
+                                            );
+                                        })}
                                     </div>
                                 </div>
                             )}
 
-                            {/* Add to Cart - More Compact */}
-                            <div className="space-y-4 pt-4 border-t border-white/5">
-                                <button
-                                    onClick={handleAddToCart}
-                                    disabled={(selectedVariation ? selectedVariation.stock : product.stock) === 0}
-                                    className="w-full h-14 rounded-full store-button-primary text-sm shadow-xl flex items-center justify-center gap-3 group disabled:opacity-50 disabled:cursor-not-allowed disabled:grayscale"
-                                >
-                                    {(selectedVariation ? selectedVariation.stock : product.stock) === 0 ? 'Out of Stock' : (
-                                        <>
-                                            Add to Bag
-                                            <span className="material-symbols-outlined text-[18px] transition-transform group-hover:translate-x-1">east</span>
-                                        </>
-                                    )}
-                                </button>
-                                <div className="flex items-center justify-between px-2 md:px-4 text-white/20 text-[8px] md:text-[9px] font-black uppercase tracking-widest gap-2">
-                                    <span className="flex items-center gap-1 sm:gap-1.5 whitespace-nowrap">
-                                        <span className="material-symbols-outlined text-[12px] md:text-[14px]">local_shipping</span>
-                                        {settings?.shippingMethods?.some(m => m.enabled && m.cost === 0) ? 'Free Shipping' : 'Standard Shipping'}
-                                    </span>
-                                    <span className="flex items-center gap-1 sm:gap-1.5 whitespace-nowrap"><span className="material-symbols-outlined text-[12px] md:text-[14px]">history</span> 30-Day Returns</span>
-                                    <span className="flex items-center gap-1 sm:gap-1.5 whitespace-nowrap"><span className="material-symbols-outlined text-[12px] md:text-[14px]">policy</span> 2Yr Warranty</span>
+                            {/* Sizes */}
+                            <div className="space-y-3">
+                                <div className="flex justify-between items-center">
+                                    <p className="text-[10px] font-black uppercase tracking-widest" style={{ color: brandSettings?.labelColor || 'rgba(255,255,255,0.3)' }}>Size: <span className="text-white ml-2">{selectedSize}</span></p>
+                                    <button className="text-primary text-[9px] font-black uppercase tracking-widest hover:underline">Size Guide</button>
+                                </div>
+                                <div className="flex flex-wrap gap-2">
+                                    {(product.sizes || ['S', 'M', 'L', 'XL']).map((size) => (
+                                        <button
+                                            key={size}
+                                            onClick={() => setSelectedSize(size)}
+                                            className={`size-10 rounded-xl text-[11px] font-black transition-all border ${selectedSize === size ? 'bg-white text-black border-white shadow-lg' : 'bg-white/5 text-white/40 border-white/5 hover:border-white/20'}`}
+                                        >
+                                            {size}
+                                        </button>
+                                    ))}
                                 </div>
                             </div>
+                        </div>
 
-                            {/* Specifications - Tighter Accordions */}
-                            <div className="space-y-2 !mt-8">
-                                {[
-                                    { title: 'Heritage', content: 'Premium African fabrics with tailored heritage cuts.' },
-                                    { title: 'Care', content: 'Dry clean recommended for best maintenance of fabric integrity.' }
-                                ].map((item, idx) => (
-                                    <details key={idx} className="group border-b border-white/5 pb-2">
-                                        <summary className="flex items-center justify-between cursor-pointer list-none">
-                                            <span className="text-[10px] font-black uppercase tracking-widest text-white/40 group-hover:text-white transition-colors">{item.title}</span>
-                                            <span className="material-symbols-outlined text-[16px] transition-transform group-open:rotate-180">expand_more</span>
-                                        </summary>
-                                        <p className="pt-2 text-[11px] font-medium text-white/40 leading-relaxed italic">{item.content}</p>
-                                    </details>
-                                ))}
+                        {/* Quantity Selector */}
+                        {!((selectedVariation ? selectedVariation.stock : product.stock) === 0) && (
+                            <div className="space-y-3 !mt-8">
+                                <p className="text-[10px] font-black uppercase tracking-widest" style={{ color: brandSettings?.labelColor || 'rgba(255,255,255,0.3)' }}>Quantity</p>
+                                <div className="flex items-center gap-4">
+                                    <div className="flex items-center bg-white/5 rounded-2xl border border-white/5 p-1">
+                                        <button
+                                            onClick={() => setQuantity(Math.max(1, quantity - 1))}
+                                            className="size-10 flex items-center justify-center rounded-xl hover:bg-white/5 transition-colors"
+                                        >
+                                            <span className="material-symbols-outlined text-[20px]">remove</span>
+                                        </button>
+                                        <div className="w-12 text-center font-black text-sm italic">
+                                            {quantity}
+                                        </div>
+                                        <button
+                                            onClick={() => {
+                                                const maxStock = selectedVariation ? selectedVariation.stock : product.stock;
+                                                setQuantity(Math.min(maxStock, quantity + 1));
+                                            }}
+                                            className="size-10 flex items-center justify-center rounded-xl hover:bg-white/5 transition-colors"
+                                        >
+                                            <span className="material-symbols-outlined text-[20px]">add</span>
+                                        </button>
+                                    </div>
+                                    <span className="text-[10px] text-white/20 font-bold uppercase tracking-widest italic">
+                                        Max available: {selectedVariation ? selectedVariation.stock : product.stock}
+                                    </span>
+                                </div>
                             </div>
+                        )}
+
+                        {/* Add to Cart - More Compact */}
+                        <div className="space-y-4 pt-4 border-t border-white/5">
+                            <button
+                                onClick={handleAddToCart}
+                                disabled={(selectedVariation ? selectedVariation.stock : product.stock) === 0}
+                                className="w-full md:w-auto md:min-w-[300px] h-14 md:h-12 rounded-full store-button-primary text-sm shadow-xl flex items-center justify-center gap-3 group disabled:opacity-50 disabled:cursor-not-allowed disabled:grayscale"
+                            >
+                                {(selectedVariation ? selectedVariation.stock : product.stock) === 0 ? 'Out of Stock' : (
+                                    <>
+                                        Add to Bag
+                                        <span className="material-symbols-outlined text-[18px] transition-transform group-hover:translate-x-1">east</span>
+                                    </>
+                                )}
+                            </button>
+                            <div className="flex items-center justify-between px-2 md:px-0 text-[8px] md:text-[9px] font-black uppercase tracking-widest gap-2" style={{ color: brandSettings?.secondaryTextColor || 'rgba(255,255,255,0.2)' }}>
+                                <span className="flex items-center gap-1 sm:gap-1.5 whitespace-nowrap">
+                                    <span className="material-symbols-outlined text-[12px] md:text-[14px]">local_shipping</span>
+                                    {settings?.shippingMethods?.some(m => m.enabled && m.cost === 0) ? 'Free Shipping' : 'Standard Shipping'}
+                                </span>
+                                <span className="flex items-center gap-1 sm:gap-1.5 whitespace-nowrap"><span className="material-symbols-outlined text-[12px] md:text-[14px]">history</span> 30-Day Returns</span>
+                                <span className="flex items-center gap-1 sm:gap-1.5 whitespace-nowrap"><span className="material-symbols-outlined text-[12px] md:text-[14px]">policy</span> 2Yr Warranty</span>
+                            </div>
+                        </div>
+
+                        {/* Specifications - Tighter Accordions */}
+                        <div className="space-y-2 !mt-8">
+                            {[
+                                { title: 'Heritage', content: 'Premium African fabrics with tailored heritage cuts.' },
+                                { title: 'Care', content: 'Dry clean recommended for best maintenance of fabric integrity.' }
+                            ].map((item, idx) => (
+                                <details key={idx} className="group border-b border-white/5 pb-2">
+                                    <summary className="flex items-center justify-between cursor-pointer list-none">
+                                        <span className="text-[10px] font-black uppercase tracking-widest text-white/40 group-hover:text-white transition-colors">{item.title}</span>
+                                        <span className="material-symbols-outlined text-[16px] transition-transform group-open:rotate-180">expand_more</span>
+                                    </summary>
+                                    <p className="pt-2 text-[11px] font-medium text-white/40 leading-relaxed italic">{item.content}</p>
+                                </details>
+                            ))}
                         </div>
                     </div>
-
-                    {/* Related Products - Keeps as is but moved lower */}
                 </div>
 
+                {/* Related Products - Keeps as is but moved lower */}
+        </div>
+
                 {
-                    relatedProducts.length > 0 && (
-                        <div className="mt-20 pt-16 border-t border-white/5">
-                            <div className="flex justify-between items-end mb-10">
-                                <h2 className="text-2xl md:text-4xl font-black italic tracking-tight uppercase">Complete <br /> The Look</h2>
-                                <Link to="/shop" className="text-primary text-xs font-black uppercase tracking-widest hover:underline flex items-center gap-2 pb-1">
-                                    Explore Collection <span className="material-symbols-outlined text-[16px]">east</span>
-                                </Link>
+        relatedProducts.length > 0 && (
+            <div className="mt-20 pt-16 border-t border-white/5">
+                <div className="flex justify-between items-end mb-10">
+                    <h2 className="text-2xl md:text-4xl font-black italic tracking-tight uppercase">Complete <br /> The Look</h2>
+                    <Link to="/shop" className="text-primary text-xs font-black uppercase tracking-widest hover:underline flex items-center gap-2 pb-1">
+                        Explore Collection <span className="material-symbols-outlined text-[16px]">east</span>
+                    </Link>
+                </div>
+                <div className="grid grid-cols-2 lg:grid-cols-4 gap-6">
+                    {relatedProducts.map((p) => (
+                        <Link to={`/product/${p.slug}`} key={p.id} className="group cursor-pointer">
+                            <div className="relative aspect-square rounded-[24px] overflow-hidden mb-4 bg-[#1a1a1a] transition-transform duration-500 group-hover:-translate-y-1">
+                                <OptimizedImage
+                                    src={p.images?.[0] || 'https://via.placeholder.com/300?text=Product'}
+                                    alt={p.name}
+                                    width={400}
+                                    className="w-full h-full object-cover object-center transition-transform duration-500 group-hover:scale-110"
+                                />
                             </div>
-                            <div className="grid grid-cols-2 lg:grid-cols-4 gap-6">
-                                {relatedProducts.map((p) => (
-                                    <Link to={`/product/${p.slug}`} key={p.id} className="group cursor-pointer">
-                                        <div className="relative aspect-square rounded-[24px] overflow-hidden mb-4 bg-[#1a1a1a] transition-transform duration-500 group-hover:-translate-y-1">
-                                            <OptimizedImage
-                                                src={p.images?.[0] || 'https://via.placeholder.com/300?text=Product'}
-                                                alt={p.name}
-                                                width={400}
-                                                className="w-full h-full object-cover object-center transition-transform duration-500 group-hover:scale-110"
-                                            />
-                                        </div>
-                                        <div className="flex flex-col gap-1 px-1">
-                                            <h3 className="font-bold text-xs group-hover:text-[#b82063] transition-colors uppercase tracking-tight">{p.name}</h3>
-                                            <div className="flex items-center gap-2">
-                                                {p.is_sale && p.sale_price ? (
-                                                    <>
-                                                        <span className="font-black text-xs italic text-[#b82063]">{formatPrice(p.sale_price)}</span>
-                                                        <span className="font-bold text-[10px] text-white/30 line-through decoration-1">{formatPrice(p.price)}</span>
-                                                    </>
-                                                ) : (
-                                                    <span className="font-black text-xs italic text-white">{formatPrice(p.price)}</span>
-                                                )}
-                                            </div>
-                                        </div>
-                                    </Link>
-                                ))}
+                            <div className="flex flex-col gap-1 px-1">
+                                <h3 className="font-bold text-xs group-hover:text-[#b82063] transition-colors uppercase tracking-tight">{p.name}</h3>
+                                <div className="flex items-center gap-2">
+                                    {p.is_sale && p.sale_price ? (
+                                        <>
+                                            <span className="font-black text-xs italic text-[#b82063]">{formatPrice(p.sale_price)}</span>
+                                            <span className="font-bold text-[10px] text-white/30 line-through decoration-1">{formatPrice(p.price)}</span>
+                                        </>
+                                    ) : (
+                                        <span className="font-black text-xs italic text-white">{formatPrice(p.price)}</span>
+                                    )}
+                                </div>
                             </div>
-                        </div>
-                    )
-                }
+                        </Link>
+                    ))}
+                </div>
+            </div>
+        )
+    }
             </main >
         </div >
     );

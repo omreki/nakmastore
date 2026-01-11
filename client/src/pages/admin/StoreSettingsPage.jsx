@@ -1719,6 +1719,40 @@ const StoreSettingsPage = () => {
                                         </div>
                                     </div>
                                     <div className="flex flex-col gap-2.5">
+                                        <label className="text-gray-500 text-[10px] font-black tracking-[0.2em] uppercase ml-1">Label Text Color</label>
+                                        <div className="flex items-center gap-4">
+                                            <input
+                                                type="color"
+                                                value={settings.brandSettings?.labelColor || '#ffffff'}
+                                                onChange={(e) => setSettings({ ...settings, brandSettings: { ...settings.brandSettings, labelColor: e.target.value } })}
+                                                className="size-12 rounded-xl border border-white/10 bg-transparent cursor-pointer p-1"
+                                            />
+                                            <input
+                                                type="text"
+                                                value={settings.brandSettings?.labelColor || '#ffffff'}
+                                                onChange={(e) => setSettings({ ...settings, brandSettings: { ...settings.brandSettings, labelColor: e.target.value } })}
+                                                className="glossy-input flex-1 rounded-2xl bg-black/40 border-white/5 text-white font-bold h-12 px-6 text-sm outline-none focus:ring-1 focus:ring-primary/40 uppercase"
+                                            />
+                                        </div>
+                                    </div>
+                                    <div className="flex flex-col gap-2.5">
+                                        <label className="text-gray-500 text-[10px] font-black tracking-[0.2em] uppercase ml-1">Secondary Text Color</label>
+                                        <div className="flex items-center gap-4">
+                                            <input
+                                                type="color"
+                                                value={settings.brandSettings?.secondaryTextColor || '#ffffff'}
+                                                onChange={(e) => setSettings({ ...settings, brandSettings: { ...settings.brandSettings, secondaryTextColor: e.target.value } })}
+                                                className="size-12 rounded-xl border border-white/10 bg-transparent cursor-pointer p-1"
+                                            />
+                                            <input
+                                                type="text"
+                                                value={settings.brandSettings?.secondaryTextColor || '#ffffff'}
+                                                onChange={(e) => setSettings({ ...settings, brandSettings: { ...settings.brandSettings, secondaryTextColor: e.target.value } })}
+                                                className="glossy-input flex-1 rounded-2xl bg-black/40 border-white/5 text-white font-bold h-12 px-6 text-sm outline-none focus:ring-1 focus:ring-primary/40 uppercase"
+                                            />
+                                        </div>
+                                    </div>
+                                    <div className="flex flex-col gap-2.5">
                                         <label className="text-gray-500 text-[10px] font-black tracking-[0.2em] uppercase ml-1">Background Color (Dark)</label>
                                         <div className="flex items-center gap-4">
                                             <input

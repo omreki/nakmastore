@@ -43,6 +43,12 @@ export const StoreSettingsProvider = ({ children }) => {
         alertEmails: [],
         resendConfig: { apiKey: '', fromEmail: '', verifiedDomain: '' },
         taxesEnabled: true,
+        brandSettings: {
+            primaryColor: '#ff007f',
+            secondaryColor: '#000000',
+            labelColor: '#ffffff',
+            secondaryTextColor: '#ffffff'
+        },
         taxRates: [
             { id: 1, region: 'North America (Standard)', rate: 8.5, compound: false, active: true },
             { id: 2, region: 'European Union (VAT)', rate: 20.0, compound: false, active: true },
@@ -408,6 +414,12 @@ export const StoreSettingsProvider = ({ children }) => {
                     operatingHours: data.operating_hours || { mon_fri: '', sat: '' },
                     instagramUrl: data.instagram_url || '',
                     facebookUrl: data.facebook_url || '',
+                    brandSettings: data.brand_settings || {
+                        primaryColor: '#ff007f',
+                        secondaryColor: '#000000',
+                        labelColor: '#ffffff',
+                        secondaryTextColor: '#ffffff'
+                    },
                     paymentConfigs: data.payment_configs || {},
                     homepageSettings: data.homepage_settings ? {
                         ...data.homepage_settings,
@@ -612,6 +624,7 @@ export const StoreSettingsProvider = ({ children }) => {
                 instagram_url: newSettings.instagramUrl,
                 twitter_url: newSettings.twitterUrl,
                 facebook_url: newSettings.facebookUrl,
+                brand_settings: newSettings.brandSettings,
                 payment_configs: newSettings.paymentConfigs,
                 homepage_settings: newSettings.homepageSettings ? {
                     ...newSettings.homepageSettings,
