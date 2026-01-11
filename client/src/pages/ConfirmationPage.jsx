@@ -250,7 +250,7 @@ const ConfirmationPage = () => {
                     </div>
 
                     {/* Right Column: Calculations */}
-                    <div className="lg:col-span-4 space-y-6">
+                    <div className="lg:col-span-4 space-y-6 self-start">
                         <div className="glass-panel rounded-2xl p-6 md:p-8 sticky top-24">
                             <h3 className="text-lg font-bold text-white mb-6">Order Summary</h3>
                             <div className="space-y-4">
