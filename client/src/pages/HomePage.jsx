@@ -104,18 +104,25 @@ const HomePage = () => {
 
                     {/* Hollow Faded Background Text */}
                     {hero.hollowText && (
-                        <div className="absolute inset-0 flex items-center justify-center pointer-events-none overflow-hidden z-15">
-                            <span
-                                className="font-black leading-none opacity-50 select-none tracking-tighter whitespace-nowrap"
-                                style={{
-                                    fontSize: "20vw",
-                                    WebkitTextStroke: "2px var(--color-primary)",
-                                    color: "transparent",
-                                    transform: "translateY(-5%)"
-                                }}
-                            >
-                                {hero.hollowText}
-                            </span>
+                        <div className="absolute inset-0 flex items-center justify-center pointer-events-none overflow-hidden z-15 select-none">
+                            <svg className="w-full h-full" viewBox={`0 0 ${hero.hollowText.length * 55} 120`} preserveAspectRatio="xMidYMid meet">
+                                <text
+                                    x="50%"
+                                    y="55%"
+                                    textAnchor="middle"
+                                    dominantBaseline="middle"
+                                    className="font-black tracking-tighter"
+                                    style={{
+                                        fontSize: "100px",
+                                        fill: "none",
+                                        stroke: "var(--color-primary)",
+                                        strokeWidth: "2px",
+                                        opacity: (hero.hollowTextOpacity ?? 20) / 100,
+                                    }}
+                                >
+                                    {hero.hollowText}
+                                </text>
+                            </svg>
                         </div>
                     )}
 

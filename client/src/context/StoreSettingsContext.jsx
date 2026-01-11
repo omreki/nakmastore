@@ -67,7 +67,8 @@ export const StoreSettingsProvider = ({ children }) => {
                 descriptionLine1: "Premium African-inspired fashion.",
                 descriptionLine2: "Where tradition meets contemporary silhouette. Crafted for the modern man.",
                 imageUrl: "",
-                hollowText: ""
+                hollowText: "",
+                hollowTextOpacity: 20
             },
             philosophy: {
                 subHeadline: "The Nakma Philosophy",
@@ -410,7 +411,8 @@ export const StoreSettingsProvider = ({ children }) => {
                         hero: {
                             ...data.homepage_settings.hero,
                             imageUrl: data.homepage_settings.hero?.imageUrl ? addTimestamp(data.homepage_settings.hero.imageUrl, timestamp) : "",
-                            hollowText: data.homepage_settings.hero?.hollowText || ""
+                            hollowText: data.homepage_settings.hero?.hollowText || "",
+                            hollowTextOpacity: data.homepage_settings.hero?.hollowTextOpacity ?? 20
                         },
                         philosophy: {
                             ...data.homepage_settings.philosophy,

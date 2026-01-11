@@ -57,7 +57,9 @@ const StoreSettingsPage = () => {
                 headlineLine2: "HERITAGE.",
                 descriptionLine1: "Premium African-inspired fashion.",
                 descriptionLine2: "Where tradition meets contemporary silhouette. Crafted for the modern man.",
-                imageUrl: ""
+                imageUrl: "",
+                hollowText: "",
+                hollowTextOpacity: 20
             },
             philosophy: {
                 subHeadline: "The Nakma Philosophy",
@@ -319,7 +321,9 @@ const StoreSettingsPage = () => {
                         headlineLine2: "HERITAGE.",
                         descriptionLine1: "Premium African-inspired fashion.",
                         descriptionLine2: "Where tradition meets contemporary silhouette. Crafted for the modern man.",
-                        imageUrl: ""
+                        imageUrl: "",
+                        hollowText: "",
+                        hollowTextOpacity: 20
                     },
                     philosophy: {
                         subHeadline: "The Nakma Philosophy",
@@ -1827,6 +1831,20 @@ const StoreSettingsPage = () => {
                                                     onChange={(e) => setSettings({ ...settings, homepageSettings: { ...settings.homepageSettings, hero: { ...settings.homepageSettings?.hero, hollowText: e.target.value } } })}
                                                     className="w-full h-12 bg-black/40 border border-white/5 rounded-xl px-4 text-white text-sm font-bold focus:outline-none focus:border-primary/50 transition-colors shadow-inner placeholder-white/20"
                                                     placeholder="Leave empty to hide"
+                                                />
+                                            </div>
+                                            <div className="flex flex-col gap-2.5">
+                                                <div className="flex justify-between items-center ml-1">
+                                                    <label className="text-gray-500 text-[10px] font-black tracking-[0.2em] uppercase">Hollow Text Opacity</label>
+                                                    <span className="text-primary text-[10px] font-black">{settings.homepageSettings?.hero?.hollowTextOpacity ?? 20}%</span>
+                                                </div>
+                                                <input
+                                                    type="range"
+                                                    min="0"
+                                                    max="100"
+                                                    value={settings.homepageSettings?.hero?.hollowTextOpacity ?? 20}
+                                                    onChange={(e) => setSettings({ ...settings, homepageSettings: { ...settings.homepageSettings, hero: { ...settings.homepageSettings?.hero, hollowTextOpacity: parseInt(e.target.value) } } })}
+                                                    className="w-full h-1.5 bg-black/40 rounded-lg appearance-none cursor-pointer accent-primary border border-white/5"
                                                 />
                                             </div>
                                             <div className="flex flex-col gap-2.5">
