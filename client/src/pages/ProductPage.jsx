@@ -391,7 +391,7 @@ const ProductPage = () => {
                         )}
 
                         {/* Add to Cart - More Compact */}
-                        <div className="space-y-4 pt-4 border-t border-white/5">
+                        <div className="space-y-4 pt-4 border-t border-white/5 p-1">
                             <button
                                 onClick={handleAddToCart}
                                 disabled={(selectedVariation ? selectedVariation.stock : product.stock) === 0}
