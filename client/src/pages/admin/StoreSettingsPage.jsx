@@ -59,7 +59,8 @@ const StoreSettingsPage = () => {
                 descriptionLine2: "Where tradition meets contemporary silhouette. Crafted for the modern man.",
                 imageUrl: "",
                 hollowText: "",
-                hollowTextOpacity: 20
+                hollowTextOpacity: 20,
+                hollowTextViewMode: 'fit'
             },
             philosophy: {
                 subHeadline: "The Nakma Philosophy",
@@ -323,7 +324,8 @@ const StoreSettingsPage = () => {
                         descriptionLine2: "Where tradition meets contemporary silhouette. Crafted for the modern man.",
                         imageUrl: "",
                         hollowText: "",
-                        hollowTextOpacity: 20
+                        hollowTextOpacity: 20,
+                        hollowTextViewMode: 'fit'
                     },
                     philosophy: {
                         subHeadline: "The Nakma Philosophy",
@@ -1846,6 +1848,19 @@ const StoreSettingsPage = () => {
                                                     onChange={(e) => setSettings({ ...settings, homepageSettings: { ...settings.homepageSettings, hero: { ...settings.homepageSettings?.hero, hollowTextOpacity: parseInt(e.target.value) } } })}
                                                     className="w-full h-1.5 bg-black/40 rounded-lg appearance-none cursor-pointer accent-primary border border-white/5"
                                                 />
+                                            </div>
+                                            <div className="flex flex-col gap-2.5">
+                                                <label className="text-gray-500 text-[10px] font-black tracking-[0.2em] uppercase ml-1">Hollow Text View Mode</label>
+                                                <select
+                                                    value={settings.homepageSettings?.hero?.hollowTextViewMode || 'fit'}
+                                                    onChange={(e) => setSettings({ ...settings, homepageSettings: { ...settings.homepageSettings, hero: { ...settings.homepageSettings?.hero, hollowTextViewMode: e.target.value } } })}
+                                                    className="w-full h-12 bg-black/40 border border-white/5 rounded-xl px-4 text-white text-sm font-bold focus:outline-none focus:border-primary/50 transition-colors shadow-inner"
+                                                >
+                                                    <option value="fit" className="bg-secondary text-white">Fit</option>
+                                                    <option value="fill" className="bg-secondary text-white">Fill</option>
+                                                    <option value="cover" className="bg-secondary text-white">Cover</option>
+                                                    <option value="contain" className="bg-secondary text-white">Contain</option>
+                                                </select>
                                             </div>
                                             <div className="flex flex-col gap-2.5">
                                                 <label className="text-gray-500 text-[10px] font-black tracking-[0.2em] uppercase ml-1">Hero Image</label>

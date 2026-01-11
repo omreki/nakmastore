@@ -105,7 +105,15 @@ const HomePage = () => {
                     {/* Hollow Faded Background Text */}
                     {hero.hollowText && (
                         <div className="absolute inset-0 flex items-center justify-center pointer-events-none overflow-hidden z-15 select-none">
-                            <svg className="w-full h-full" viewBox={`0 0 ${hero.hollowText.length * 55} 120`} preserveAspectRatio="xMidYMid meet">
+                            <svg
+                                className="w-full h-full"
+                                viewBox={`0 0 ${hero.hollowText.length * 55} 120`}
+                                preserveAspectRatio={
+                                    hero.hollowTextViewMode === 'fill' ? 'none' :
+                                        hero.hollowTextViewMode === 'cover' ? 'xMidYMid slice' :
+                                            'xMidYMid meet'
+                                }
+                            >
                                 <text
                                     x="50%"
                                     y="55%"

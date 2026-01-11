@@ -68,7 +68,8 @@ export const StoreSettingsProvider = ({ children }) => {
                 descriptionLine2: "Where tradition meets contemporary silhouette. Crafted for the modern man.",
                 imageUrl: "",
                 hollowText: "",
-                hollowTextOpacity: 20
+                hollowTextOpacity: 20,
+                hollowTextViewMode: 'fit'
             },
             philosophy: {
                 subHeadline: "The Nakma Philosophy",
@@ -412,7 +413,8 @@ export const StoreSettingsProvider = ({ children }) => {
                             ...data.homepage_settings.hero,
                             imageUrl: data.homepage_settings.hero?.imageUrl ? addTimestamp(data.homepage_settings.hero.imageUrl, timestamp) : "",
                             hollowText: data.homepage_settings.hero?.hollowText || "",
-                            hollowTextOpacity: data.homepage_settings.hero?.hollowTextOpacity ?? 20
+                            hollowTextOpacity: data.homepage_settings.hero?.hollowTextOpacity ?? 20,
+                            hollowTextViewMode: data.homepage_settings.hero?.hollowTextViewMode || 'fit'
                         },
                         philosophy: {
                             ...data.homepage_settings.philosophy,
