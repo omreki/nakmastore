@@ -118,6 +118,7 @@ const ProductPage = () => {
                 product={product}
                 variations={variations}
                 relatedProducts={relatedProducts}
+                settingsOverride={settings.productPageSettings}
             />
         </div>
     );

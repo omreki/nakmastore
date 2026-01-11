@@ -4,7 +4,7 @@ import { useAuth } from '../../context/AuthContext';
 import { NavLink, Link } from 'react-router-dom';
 import { useStoreSettings } from '../../context/StoreSettingsContext';
 
-const AdminLayout = ({ children, fullWidth = false }) => {
+const AdminLayout = ({ children }) => {
     const { signOut, user, profile } = useAuth();
     const { settings } = useStoreSettings();
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -53,8 +53,8 @@ const AdminLayout = ({ children, fullWidth = false }) => {
                 </header>
 
                 {/* Main Content Area */}
-                <main className={`flex-grow ${fullWidth ? 'p-0 overflow-hidden h-full flex flex-col' : 'p-6 md:p-10'}`}>
-                    <div className={fullWidth ? 'h-full flex flex-col' : 'max-w-7xl mx-auto'}>
+                <main className="flex-grow p-6 md:p-10">
+                    <div className="max-w-7xl mx-auto">
                         {children}
                     </div>
                 </main>

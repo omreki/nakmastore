@@ -1,7 +1,15 @@
 import React, { useState } from 'react';
 
 const ProductMediaGallery = ({ images = [], productTitle, settings, isNew }) => {
-    const s = settings.productImages || {};
+    const s = {
+        ...(settings.productImages || {}),
+        fit: settings.imageFit || settings.productImages?.fit || 'cover',
+        galleryLayout: settings.galleryLayout || settings.productImages?.galleryLayout || 'grid',
+        galleryColumns: settings.thumbnailColumns || settings.productImages?.galleryColumns || 4,
+        thumbnailSize: settings.thumbnailSize || settings.productImages?.thumbnailSize || 100,
+        mainImageRadius: settings.mainImageRadius !== undefined ? settings.mainImageRadius : (settings.productImages?.mainImageRadius !== undefined ? settings.productImages.mainImageRadius : 0),
+        thumbnailRadius: settings.thumbnailRadius !== undefined ? settings.thumbnailRadius : (settings.productImages?.thumbnailRadius !== undefined ? settings.productImages.thumbnailRadius : 0)
+    };
     const [activeIndex, setActiveIndex] = useState(0);
 
     // Default helpers

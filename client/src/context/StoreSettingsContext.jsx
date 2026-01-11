@@ -1,14 +1,11 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { supabase } from '../lib/supabase';
-import { PRODUCT_PAGE_PRESETS } from '../utils/productPresets';
 
 const DEFAULT_LOGIN_SETTINGS = {
     login_bg_url: "https://images.unsplash.com/photo-1490730141103-6cac27aaab94?q=80&w=2070&auto=format&fit=crop",
     login_title: "Crafting African Heritage.",
     login_subtitle: "Join the community to access exclusive prints, track your orders, and manage your profile."
 };
-
-const DEFAULT_PRODUCT_PAGE_SETTINGS = PRODUCT_PAGE_PRESETS.noesis;
 
 const StoreSettingsContext = createContext();
 
@@ -67,6 +64,15 @@ export const StoreSettingsProvider = ({ children }) => {
         instagramUrl: '',
         twitterUrl: '',
         facebookUrl: '',
+        productPageSettings: {
+            layoutRatio: '1/2,1/2',
+            imageFit: 'cover',
+            galleryLayout: 'grid',
+            thumbnailColumns: 4,
+            thumbnailSize: 100,
+            mainImageRadius: 0,
+            thumbnailRadius: 0
+        },
         paymentConfigs: {},
         homepageSettings: {
             hero: {
@@ -167,7 +173,6 @@ export const StoreSettingsProvider = ({ children }) => {
         checkoutPageSettings: {
             giftMessage: "Exclusive print included with <br /> <span class=\"text-[#b82063]\">your first Nakma</span> purchase."
         },
-        productPageSettings: DEFAULT_PRODUCT_PAGE_SETTINGS,
 
     });
     const [loading, setLoading] = useState(true);
@@ -355,7 +360,15 @@ export const StoreSettingsProvider = ({ children }) => {
                                 labelColor: '#ffffff',
                                 secondaryTextColor: '#ffffff'
                             },
-                            productPageSettings: data.product_page_settings ? { ...DEFAULT_PRODUCT_PAGE_SETTINGS, ...data.product_page_settings } : DEFAULT_PRODUCT_PAGE_SETTINGS
+                            productPageSettings: data.homepage_settings?.productPageSettings || {
+                                layoutRatio: '1/2,1/2',
+                                imageFit: 'cover',
+                                galleryLayout: 'grid',
+                                thumbnailColumns: 4,
+                                thumbnailSize: 100,
+                                mainImageRadius: 0,
+                                thumbnailRadius: 0
+                            }
                         });
                     }
                 }
@@ -569,7 +582,15 @@ export const StoreSettingsProvider = ({ children }) => {
                         textMain: "#ffffff",
                         textMuted: "#a1a1aa"
                     },
-                    productPageSettings: data.product_page_settings ? { ...DEFAULT_PRODUCT_PAGE_SETTINGS, ...data.product_page_settings } : DEFAULT_PRODUCT_PAGE_SETTINGS
+                    productPageSettings: data.homepage_settings?.productPageSettings || {
+                        layoutRatio: '1/2,1/2',
+                        imageFit: 'cover',
+                        galleryLayout: 'grid',
+                        thumbnailColumns: 4,
+                        thumbnailSize: 100,
+                        mainImageRadius: 0,
+                        thumbnailRadius: 0
+                    }
                 });
             }
         } catch (error) {
@@ -634,7 +655,8 @@ export const StoreSettingsProvider = ({ children }) => {
                             ...newSettings.homepageSettings.categories.plains,
                             imageUrl: stripTimestamp(newSettings.homepageSettings.categories.plains?.imageUrl)
                         }
-                    } : undefined
+                    } : undefined,
+                    productPageSettings: newSettings.productPageSettings
                 } : undefined,
                 about_page_settings: newSettings.aboutPageSettings ? {
                     ...newSettings.aboutPageSettings,
@@ -657,8 +679,7 @@ export const StoreSettingsProvider = ({ children }) => {
                     login_bg_url: stripTimestamp(newSettings.loginPageSettings.login_bg_url)
                 } : undefined,
                 seo_settings: newSettings.seoSettings,
-                checkout_page_settings: newSettings.checkoutPageSettings,
-                product_page_settings: newSettings.productPageSettings
+                checkout_page_settings: newSettings.checkoutPageSettings
             };
 
             // Upsert the single row (id: 1)
@@ -746,7 +767,7 @@ export const StoreSettingsProvider = ({ children }) => {
                     seoSettings: data.seo_settings || newSettings.seoSettings,
                     checkoutPageSettings: data.checkout_page_settings || newSettings.checkoutPageSettings,
                     brandSettings: data.brand_settings || newSettings.brandSettings,
-                    productPageSettings: data.product_page_settings ? { ...DEFAULT_PRODUCT_PAGE_SETTINGS, ...data.product_page_settings } : newSettings.productPageSettings
+                    productPageSettings: data.homepage_settings?.productPageSettings || newSettings.productPageSettings
                 });
             }
             return { success: true };
