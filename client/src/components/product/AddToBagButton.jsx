@@ -77,18 +77,18 @@ const AddToBagButton = ({ settings, onClick, disabled, loading, price }) => {
             >
                 {/* Icon */}
                 {s.showIcon && s.iconPosition === 'left' && (
-                    <span className="material-symbols-outlined" style={{ fontSize: '1.2em' }}>shopping_bag</span>
+                    <span className="material-symbols-outlined" style={{ fontSize: '1.2em' }}>shopping_cart</span>
                 )}
 
                 {/* Text */}
                 <span>{s.customText || 'Add to Bag'}</span>
 
                 {/* Price if requested (optional feature) */}
-                {s.showPrice && <span className="opacity-70 ml-1">• {price}</span>}
+                {s.showPrice && <span className="opacity-70 ml-1"> - ${price}</span>}
 
                 {/* Icon Right */}
                 {s.showIcon && s.iconPosition === 'right' && (
-                    <span className="material-symbols-outlined" style={{ fontSize: '1.2em' }}>shopping_bag</span>
+                    <span className="material-symbols-outlined" style={{ fontSize: '1.2em' }}>shopping_cart</span>
                 )}
             </button>
         </div>
