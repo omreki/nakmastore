@@ -132,7 +132,9 @@ const ProductDetailView = ({
     const TrustBadges = () => (
         <div className="flex items-center gap-2 py-4 mt-2">
             <span className="material-symbols-outlined text-green-500 text-[18px]">local_shipping</span>
-            <span className="text-[10px] font-bold text-gray-400 uppercase tracking-widest leading-none">Free shipping on orders over $100</span>
+            <span className="text-[10px] font-bold text-gray-400 uppercase tracking-widest leading-none">
+                {settings.freeShippingText || 'Free shipping on orders over $100'}
+            </span>
         </div>
     );
 
@@ -154,26 +156,6 @@ const ProductDetailView = ({
                     <p className="text-sm text-gray-400 leading-relaxed font-medium">
                         {content || "No details provided for this section."}
                     </p>
-                    {id === 'features' && (
-                        <ul className="mt-4 space-y-2">
-                            <li className="text-sm text-gray-400 flex items-start gap-2">
-                                <span className="size-1 bg-primary rounded-full mt-1.5 flex-shrink-0"></span>
-                                Athletic fit designed to contour chest and shoulders.
-                            </li>
-                            <li className="text-sm text-gray-400 flex items-start gap-2">
-                                <span className="size-1 bg-primary rounded-full mt-1.5 flex-shrink-0"></span>
-                                Slightly tapered waist for a V-taper look.
-                            </li>
-                            <li className="text-sm text-gray-400 flex items-start gap-2">
-                                <span className="size-1 bg-primary rounded-full mt-1.5 flex-shrink-0"></span>
-                                Curved hem for added coverage during stretches.
-                            </li>
-                            <li className="text-sm text-gray-400 flex items-start gap-2">
-                                <span className="size-1 bg-primary rounded-full mt-1.5 flex-shrink-0"></span>
-                                Model is 6\'1" and wears size M.
-                            </li>
-                        </ul>
-                    )}
                 </div>
             </div>
         </div>
@@ -262,17 +244,19 @@ const ProductDetailView = ({
                                         <button
                                             key={s}
                                             onClick={() => setSelectedSize(s)}
-                                            className={`min-w-[56px] h-12 flex items-center justify-center text-[11px] font-black transition-all border px-4 italic tracking-widest ${selectedSize === s ? 'bg-primary/20 text-white border-primary shadow-lg shadow-primary/10' : 'bg-white/5 text-gray-500 border-white/10 hover:border-white/30 hover:text-white'}`}
+                                            className={`size-12 flex items-center justify-center text-[11px] font-black transition-all border italic tracking-widest ${selectedSize === s ? 'bg-primary/20 text-white border-primary shadow-lg shadow-primary/10' : 'bg-white/5 text-gray-500 border-white/10 hover:border-white/30 hover:text-white'}`}
                                             style={{ borderRadius: settings.roundingStyle === 'sharp' ? '0' : '999px' }}
                                         >
                                             {s}
                                         </button>
                                     ))}
                                 </div>
-                                <button className="text-[10px] font-black uppercase tracking-[0.15em] text-primary hover:text-white flex items-center gap-1.5 transition-colors pt-1">
-                                    <span className="material-symbols-outlined text-[14px]">straighten</span>
-                                    Size Guide
-                                </button>
+                                <div className="flex justify-start">
+                                    <button className="text-[10px] font-black uppercase tracking-[0.15em] text-primary hover:text-white flex items-center gap-1.5 transition-colors pt-1">
+                                        <span className="material-symbols-outlined text-[14px]">straighten</span>
+                                        Size Guide
+                                    </button>
+                                </div>
                             </div>
                         )}
                     </div>
@@ -289,6 +273,7 @@ const ProductDetailView = ({
                                 showPrice: true,
                                 customText: 'Add to Cart',
                                 borderRadius: settings.roundingStyle === 'sharp' ? 0 : 99,
+                                alignment: settings.addToCartAlignment || 'stretch',
                                 styling: {
                                     ...(settings?.addToCart?.styling || {}),
                                     background: '#8B0000',
@@ -303,14 +288,15 @@ const ProductDetailView = ({
                         onClick={handleAddToCart}
                         disabled={hasVariations && (!selectedSize || (!selectedColor && colors.length > 0))}
                     />
-                    <TrustBadges />
+                    <div className={`flex ${settings.addToCartAlignment === 'center' ? 'justify-center text-center' : settings.addToCartAlignment === 'full' ? 'justify-center text-center' : 'justify-start text-left'}`}>
+                        <TrustBadges />
+                    </div>
                 </div>
 
                 {/* Info Tabs / Accordions */}
                 <div className="pt-4 space-y-2">
-                    <AccordionItem id="features" title="Description & Fit" icon="info" content="Engineered with our proprietary NoeDri™ fabric for unmatched breathability and 4-way stretch." />
-                    <AccordionItem id="care" title="Materials & Care" icon="wash" content="Machine wash cold with like colors. Tumble dry low. 88% Polyester, 12% Spandex." />
-                    <AccordionItem id="shipping" title="Shipping & Returns" icon="local_shipping" content="Free standard shipping on orders over $100. Returns accepted within 30 days of purchase." />
+                    <AccordionItem id="features" title="Description & Fit" icon="info" content={product.description_fit || product.description || "Engineered with our proprietary NoeDri™ fabric for unmatched breathability and 4-way stretch."} />
+                    <AccordionItem id="care" title="Materials & Care" icon="wash" content={product.materials_care || product.features || "Machine wash cold with like colors. Tumble dry low. 88% Polyester, 12% Spandex."} />
                 </div>
             </div>
         </div>

@@ -1977,6 +1977,41 @@ const StoreSettingsPage = () => {
                                                 </div>
                                                 <p className="text-[10px] text-gray-500 italic">Applies to product images, buttons, and variants.</p>
                                             </div>
+
+                                            <div className="space-y-3">
+                                                <label className="text-[10px] font-bold text-gray-500 uppercase tracking-widest">Add to Cart Alignment</label>
+                                                <div className="flex bg-white/5 p-1 rounded-2xl border border-white/10">
+                                                    {['left', 'center', 'full'].map((align) => (
+                                                        <button
+                                                            key={align}
+                                                            onClick={() => setSettings(prev => ({
+                                                                ...prev,
+                                                                productPageSettings: { ...prev.productPageSettings, addToCartAlignment: align }
+                                                            }))}
+                                                            className={`flex-1 py-3 px-4 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all ${settings.productPageSettings?.addToCartAlignment === align
+                                                                ? 'bg-primary text-white shadow-lg'
+                                                                : 'text-gray-500 hover:text-white'
+                                                                }`}
+                                                        >
+                                                            {align}
+                                                        </button>
+                                                    ))}
+                                                </div>
+                                            </div>
+
+                                            <div className="space-y-3 md:col-span-2">
+                                                <label className="text-[10px] font-bold text-gray-500 uppercase tracking-widest">Free Shipping Trust Message</label>
+                                                <input
+                                                    type="text"
+                                                    value={settings.productPageSettings?.freeShippingText || ''}
+                                                    onChange={(e) => setSettings(prev => ({
+                                                        ...prev,
+                                                        productPageSettings: { ...prev.productPageSettings, freeShippingText: e.target.value }
+                                                    }))}
+                                                    className="w-full bg-white/5 border border-white/10 rounded-xl px-4 h-12 text-white text-sm font-bold focus:outline-none focus:ring-2 focus:ring-primary/50"
+                                                    placeholder="e.g. Free shipping on orders over $100"
+                                                />
+                                            </div>
                                         </div>
                                     </div>
                                 </div>

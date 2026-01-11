@@ -21,6 +21,8 @@ const EditProductPage = () => {
         price: '',
         sale_price: '',
         description: '',
+        description_fit: '',
+        materials_care: '',
         is_new: false,
         is_sale: false,
         stock: 0,
@@ -94,6 +96,8 @@ const EditProductPage = () => {
                 price: data.price || '',
                 sale_price: data.sale_price || '',
                 description: data.description || '',
+                description_fit: data.description_fit || '',
+                materials_care: data.materials_care || '',
                 is_new: data.is_new || false,
                 is_sale: data.is_sale || false,
                 stock: data.stock || 0,
@@ -310,6 +314,8 @@ const EditProductPage = () => {
                 price: price,
                 sale_price: sale_price,
                 description: formData.description,
+                description_fit: formData.description_fit,
+                materials_care: formData.materials_care,
                 category: primaryCat ? primaryCat.slug : 'uncategorized',
                 sub_category: subCat ? subCat.slug : null,
                 is_new: formData.is_new,
@@ -639,9 +645,34 @@ const EditProductPage = () => {
                                         required
                                         value={formData.description}
                                         onChange={handleInputChange}
-                                        rows="6"
+                                        rows="4"
                                         className="glossy-input w-full rounded-2xl bg-black/40 border-white/5 text-gray-300 font-medium p-6 text-sm resize-none leading-relaxed"
                                     ></textarea>
+                                </div>
+
+                                <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mt-8 relative z-10">
+                                    <div className="flex flex-col gap-2.5">
+                                        <label className="text-gray-500 text-[10px] font-black tracking-[0.2em] uppercase ml-1">Description & Fit</label>
+                                        <textarea
+                                            name="description_fit"
+                                            value={formData.description_fit}
+                                            onChange={handleInputChange}
+                                            rows="4"
+                                            className="glossy-input w-full rounded-2xl bg-black/40 border-white/5 text-gray-300 font-medium p-6 text-sm transition-all outline-none focus:ring-1 focus:ring-primary/40 focus:bg-black/60 resize-none leading-relaxed"
+                                            placeholder="Detail the product's fit..."
+                                        ></textarea>
+                                    </div>
+                                    <div className="flex flex-col gap-2.5">
+                                        <label className="text-gray-500 text-[10px] font-black tracking-[0.2em] uppercase ml-1">Materials & Care</label>
+                                        <textarea
+                                            name="materials_care"
+                                            value={formData.materials_care}
+                                            onChange={handleInputChange}
+                                            rows="4"
+                                            className="glossy-input w-full rounded-2xl bg-black/40 border-white/5 text-gray-300 font-medium p-6 text-sm transition-all outline-none focus:ring-1 focus:ring-primary/40 focus:bg-black/60 resize-none leading-relaxed"
+                                            placeholder="Care instructions..."
+                                        ></textarea>
+                                    </div>
                                 </div>
 
                                 <div className="flex flex-wrap gap-8 mt-10 relative z-10 pt-6 border-t border-white/[0.03]">

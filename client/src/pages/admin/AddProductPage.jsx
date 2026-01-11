@@ -21,6 +21,8 @@ const AddProductPage = () => {
         is_sale: false,
         stock: 0,
         features: '',
+        description_fit: '',
+        materials_care: '',
         colors: [],
         sizes: [],
         sku: '' // Added base SKU
@@ -220,6 +222,8 @@ const AddProductPage = () => {
                 price: price,
                 sale_price: sale_price,
                 description: formData.description,
+                description_fit: formData.description_fit,
+                materials_care: formData.materials_care,
                 category: primaryCat ? primaryCat.slug : 'uncategorized', // Legacy field
                 sub_category: subCat ? subCat.slug : null, // Legacy field
                 is_new: formData.is_new,
@@ -415,10 +419,35 @@ const AddProductPage = () => {
                                         required
                                         value={formData.description}
                                         onChange={handleInputChange}
-                                        rows="6"
+                                        rows="4"
                                         className="glossy-input w-full rounded-2xl bg-black/40 border-white/5 text-gray-300 font-medium p-6 text-sm transition-all outline-none focus:ring-1 focus:ring-primary/40 focus:bg-black/60 resize-none leading-relaxed"
                                         placeholder="Describe the product features, fit, and material specification..."
                                     ></textarea>
+                                </div>
+
+                                <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mt-8 relative z-10">
+                                    <div className="flex flex-col gap-2.5">
+                                        <label className="text-gray-500 text-[10px] font-black tracking-[0.2em] uppercase ml-1">Description & Fit</label>
+                                        <textarea
+                                            name="description_fit"
+                                            value={formData.description_fit}
+                                            onChange={handleInputChange}
+                                            rows="4"
+                                            className="glossy-input w-full rounded-2xl bg-black/40 border-white/5 text-gray-300 font-medium p-6 text-sm transition-all outline-none focus:ring-1 focus:ring-primary/40 focus:bg-black/60 resize-none leading-relaxed"
+                                            placeholder="Detail the product's fit (e.g. Slim fit, runs true to size)..."
+                                        ></textarea>
+                                    </div>
+                                    <div className="flex flex-col gap-2.5">
+                                        <label className="text-gray-500 text-[10px] font-black tracking-[0.2em] uppercase ml-1">Materials & Care</label>
+                                        <textarea
+                                            name="materials_care"
+                                            value={formData.materials_care}
+                                            onChange={handleInputChange}
+                                            rows="4"
+                                            className="glossy-input w-full rounded-2xl bg-black/40 border-white/5 text-gray-300 font-medium p-6 text-sm transition-all outline-none focus:ring-1 focus:ring-primary/40 focus:bg-black/60 resize-none leading-relaxed"
+                                            placeholder="Care instructions (e.g. Machine wash cold, 100% Cotton)..."
+                                        ></textarea>
+                                    </div>
                                 </div>
                             </div>
 

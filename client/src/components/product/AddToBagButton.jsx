@@ -7,7 +7,7 @@ const AddToBagButton = ({ settings, onClick, disabled, loading, price }) => {
 
     // Dynamic Styles for the button itself
     const buttonStyles = {
-        width: s.width === 'auto' ? 'auto' : s.width || '100%',
+        width: s.alignment === 'full' ? '100%' : (s.width === 'auto' ? 'auto' : s.width || 'auto'),
         height: s.height ? `${s.height}px` : '48px',
         marginTop: s.marginTop ? `${s.marginTop}px` : '0px',
         marginBottom: s.marginBottom ? `${s.marginBottom}px` : '0px',
@@ -52,7 +52,8 @@ const AddToBagButton = ({ settings, onClick, disabled, loading, price }) => {
         left: 'flex justify-start',
         center: 'flex justify-center',
         right: 'flex justify-end',
-        stretch: 'flex', // default width 100% handles this
+        full: 'flex',
+        stretch: 'flex',
     }[s.alignment] || 'flex';
 
     if (loading) {

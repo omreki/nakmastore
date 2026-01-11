@@ -71,7 +71,9 @@ export const StoreSettingsProvider = ({ children }) => {
             thumbnailColumns: 4,
             thumbnailSize: 100,
             mainImageRadius: 0,
-            thumbnailRadius: 0
+            thumbnailRadius: 0,
+            addToCartAlignment: 'left',
+            freeShippingText: 'Free shipping on orders over $100'
         },
         paymentConfigs: {},
         homepageSettings: {
@@ -367,7 +369,9 @@ export const StoreSettingsProvider = ({ children }) => {
                                 thumbnailColumns: 4,
                                 thumbnailSize: 100,
                                 mainImageRadius: 0,
-                                thumbnailRadius: 0
+                                thumbnailRadius: 0,
+                                addToCartAlignment: 'left',
+                                freeShippingText: 'Free shipping on orders over $100'
                             }
                         });
                     }
@@ -589,7 +593,9 @@ export const StoreSettingsProvider = ({ children }) => {
                         thumbnailColumns: 4,
                         thumbnailSize: 100,
                         mainImageRadius: 0,
-                        thumbnailRadius: 0
+                        thumbnailRadius: 0,
+                        addToCartAlignment: 'left',
+                        freeShippingText: 'Free shipping on orders over $100'
                     }
                 });
             }
