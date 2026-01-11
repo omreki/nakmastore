@@ -1,5 +1,6 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { supabase } from '../lib/supabase';
+import { PRODUCT_PAGE_PRESETS } from '../utils/productPresets';
 
 const DEFAULT_LOGIN_SETTINGS = {
     login_bg_url: "https://images.unsplash.com/photo-1490730141103-6cac27aaab94?q=80&w=2070&auto=format&fit=crop",
@@ -7,46 +8,7 @@ const DEFAULT_LOGIN_SETTINGS = {
     login_subtitle: "Join the community to access exclusive prints, track your orders, and manage your profile."
 };
 
-const DEFAULT_PRODUCT_PAGE_SETTINGS = {
-    theme: 'modern',
-    typography: {
-        productTitle: { fontFamily: 'Manrope', fontSize: 36, fontWeight: 900, color: '#ffffff', letterSpacing: 0, textTransform: 'uppercase' },
-        price: { fontSize: 24, color: '#ffffff', saleColor: '#b82063', currencyPosition: 'left' },
-        description: { fontFamily: 'Manrope', fontSize: 16, color: 'rgba(255,255,255,0.6)', lineHeight: 1.6 },
-        button: { fontFamily: 'Manrope', fontSize: 14, fontWeight: 700, textTransform: 'uppercase' }
-    },
-    layout: {
-        galleryType: 'grid',
-        imagePosition: 'left',
-        contentRatio: '50/50',
-        stickyElements: { addToCart: true, images: true },
-        sectionSpacing: 'comfortable'
-    },
-    visual: {
-        primaryColor: '',
-        secondaryColor: '',
-        backgroundColor: '',
-        buttonStyle: 'solid',
-        buttonHover: 'lift',
-        borderRadius: 'rounded',
-        badges: { show: true, position: 'top-left', style: 'solid' }
-    },
-    sections: {
-        order: ['title', 'price', 'description', 'variants', 'quantity', 'addToCart', 'specs', 'reviews', 'shipping'],
-        visibility: {
-            title: true, price: true, description: true, variants: true,
-            quantity: true, addToCart: true, specs: true, reviews: true, shipping: true
-        },
-        accordionMode: true
-    },
-    advanced: {
-        enableZoom: true,
-        variantStyle: 'swatches',
-        showTrustBadges: true,
-        relatedProducts: { style: 'grid', count: 4 },
-        socialSharing: { show: true, position: 'bottom' }
-    }
-};
+const DEFAULT_PRODUCT_PAGE_SETTINGS = PRODUCT_PAGE_PRESETS.modern;
 
 const StoreSettingsContext = createContext();
 

@@ -127,6 +127,7 @@ const ProductSettingsPage = () => {
                                     settingsOverride={localSettings}
                                     isPreview={true}
                                     showNavigation={false}
+                                    isMobileView={previewMode === 'mobile'}
                                 />
                             </div>
                         </div>
