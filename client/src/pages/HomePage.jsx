@@ -107,8 +107,8 @@ const HomePage = () => {
                                 className="font-black leading-none opacity-100 select-none tracking-tighter whitespace-nowrap"
                                 style={{
                                     fontSize: "20vw",
-                                    WebkitTextStroke: "2px var(--color-primary)",
-                                    color: "transparent",
+                                    WebkitTextStroke: "4px var(--color-primary)",
+                                    color: "rgba(255, 0, 127, 0.2)",
                                     transform: "translateY(-5%)"
                                 }}
                             >
