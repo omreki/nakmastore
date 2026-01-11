@@ -125,7 +125,7 @@ const ConfirmationPage = () => {
             </div>
 
             {/* Header */}
-            <header className="sticky top-0 z-50 w-full glass-panel border-b border-white/5">
+            <header className="sticky top-0 z-[100] w-full glass-panel border-b border-white/5">
                 <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-6 lg:px-8">
                     <Link to="/" className="flex items-center gap-3 group">
                         {settings.logoUrl ? (
@@ -153,7 +153,7 @@ const ConfirmationPage = () => {
                 </div>
             </header>
 
-            <main className="flex-grow w-full max-w-5xl mx-auto px-4 py-6 md:py-12">
+            <main className="flex-grow w-full max-w-5xl mx-auto px-4 py-6 md:py-12 relative z-10">
                 {/* Success Message */}
                 <div className="flex flex-col items-center justify-center text-center mb-10 md:mb-14 space-y-4 animate-fade-in-up">
                     <div className="flex items-center justify-center size-20 rounded-full bg-gradient-to-br from-green-500 to-[#003305] text-white shadow-2xl shadow-green-500/40 mb-2 border border-white/10 ring-1 ring-white/20">
