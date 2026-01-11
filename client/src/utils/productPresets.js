@@ -1,4 +1,71 @@
 export const PRODUCT_PAGE_PRESETS = {
+    noesis: {
+        theme: 'noesis',
+        name: 'Noesis Essential',
+        productImages: {
+            fit: 'cover',
+            aspectRatio: '1:1',
+            desktopWidth: 50,
+            mobileWidth: 100,
+            position: 'center',
+            height: 'auto',
+            galleryLayout: 'grid',
+            galleryColumns: 4,
+            galleryGap: 16,
+            thumbnailSize: 100,
+            thumbnailRadius: 16,
+            mainImageRadius: 32,
+            lazyLoad: true,
+            zoom: true
+        },
+        layout: {
+            style: 'classic',
+            contentRatio: '50/50',
+            sectionSpacing: 'comfortable',
+            stickyElements: { addToCart: true, images: true, info: true }
+        },
+        typography: {
+            productTitle: { fontFamily: 'Inter', fontSize: 40, fontWeight: 900, color: '#ffffff', letterSpacing: -1, textTransform: 'uppercase' },
+            price: { fontSize: 24, color: '#b02e3b', saleColor: '#b02e3b', currencyPosition: 'left' },
+            description: { fontFamily: 'Manrope', fontSize: 14, color: 'rgba(255,255,255,0.6)', lineHeight: 1.6 },
+        },
+        addToCart: {
+            position: 'inline',
+            alignment: 'stretch',
+            verticalPosition: 'after-quantity',
+            paddingVertical: 18,
+            paddingHorizontal: 0,
+            marginTop: 32,
+            marginBottom: 24,
+            width: '100%',
+            height: 60,
+            borderRadius: 50,
+            borderWidth: 0,
+            showIcon: true,
+            iconPosition: 'right',
+            styling: {
+                background: '#7f1d1d', // Dark Red 900
+                text: '#ffffff',
+                hoverBackground: '#991b1b', // Red 800
+                hoverText: '#ffffff',
+                fontSize: 14,
+                fontWeight: 800,
+                textTransform: 'uppercase',
+                letterSpacing: 2
+            }
+        },
+        mobile: {
+            separateSettings: true,
+            layout: 'scroll',
+            stickyButton: true,
+            featuredWidth: 100,
+            galleryColumns: 1
+        },
+        advanced: {
+            showTrustBadges: true,
+            accordionMode: true
+        }
+    },
     modern: {
         theme: 'modern',
         name: 'Modern Sleek',

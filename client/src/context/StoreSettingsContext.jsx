@@ -8,7 +8,7 @@ const DEFAULT_LOGIN_SETTINGS = {
     login_subtitle: "Join the community to access exclusive prints, track your orders, and manage your profile."
 };
 
-const DEFAULT_PRODUCT_PAGE_SETTINGS = PRODUCT_PAGE_PRESETS.modern;
+const DEFAULT_PRODUCT_PAGE_SETTINGS = PRODUCT_PAGE_PRESETS.noesis;
 
 const StoreSettingsContext = createContext();
 

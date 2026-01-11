@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-const ProductMediaGallery = ({ images = [], productTitle, settings }) => {
+const ProductMediaGallery = ({ images = [], productTitle, settings, isNew }) => {
     const s = settings.productImages || {};
     const [activeIndex, setActiveIndex] = useState(0);
 
@@ -12,6 +12,7 @@ const ProductMediaGallery = ({ images = [], productTitle, settings }) => {
             case '4:3': return 'aspect-[4/3]';
             case '16:9': return 'aspect-video';
             case '2:3': return 'aspect-[2/3]';
+            case '4:5': return 'aspect-[4/5]';
             default: return 'aspect-[3/4]'; // Default
         }
     };
@@ -26,28 +27,17 @@ const ProductMediaGallery = ({ images = [], productTitle, settings }) => {
         }
     };
 
-    const aspectRatioStyle = s.aspectRatio === 'free' ? {} : {}; // Tailwind handles aspect ratio classes well, usage depends on support
-
-    // In Tailwind v3, aspect-ratio is standard.
-    // However, if we need specific custom aspect ratio support not in standard classes, we might use inline style.
-
     const mainImageStyle = {
-        // If 'contain', we show background
         backgroundColor: s.fit === 'contain' ? (s.backgroundColor || '#f5f5f5') : 'transparent',
     };
 
     const handleThumbnailClick = (idx) => setActiveIndex(idx);
 
-    // Layout Logic
-    // If layout is "Narrow Vertical", the main image might be smaller width.
-    // The parent container in ProductDetailView controls the width of this whole component relative to the details.
-    // BUT, within this component, we controlled the "Featured Image" vs "Gallery" layout.
-
-    // Gallery Styles
     const renderGallery = () => {
         const layout = s.galleryLayout || 'grid';
         const gap = s.galleryGap || 8;
         const colCount = s.galleryColumns || 4;
+        const radius = s.thumbnailRadius !== undefined ? s.thumbnailRadius : 12;
 
         if (layout === 'scroll') {
             return (
@@ -56,10 +46,10 @@ const ProductMediaGallery = ({ images = [], productTitle, settings }) => {
                         <button
                             key={idx}
                             onClick={() => handleThumbnailClick(idx)}
-                            className={`flex-shrink-0 snap-start relative overflow-hidden transition-all ${activeIndex === idx ? 'ring-2 ring-primary opacity-100' : 'opacity-70 hover:opacity-100'}`}
+                            className={`flex-shrink-0 snap-start relative overflow-hidden transition-all ${activeIndex === idx ? 'ring-2 ring-primary opacity-100' : 'opacity-50 hover:opacity-100'}`}
                             style={{
                                 width: `${s.thumbnailSize || 100}px`,
-                                borderRadius: `${s.thumbnailRadius || 0}px`
+                                borderRadius: `${radius}px`
                             }}
                         >
                             <img src={img} alt={`${productTitle} view ${idx + 1}`} className="w-full h-full object-cover aspect-square" />
@@ -82,13 +72,13 @@ const ProductMediaGallery = ({ images = [], productTitle, settings }) => {
                     <button
                         key={idx}
                         onClick={() => handleThumbnailClick(idx)}
-                        className={`relative overflow-hidden transition-all w-full ${activeIndex === idx ? 'ring-2 ring-primary' : 'hover:opacity-80'}`}
-                        style={{ borderRadius: `${s.thumbnailRadius || 0}px` }}
+                        className={`relative overflow-hidden transition-all w-full aspect-square ${activeIndex === idx ? 'ring-2 ring-primary opacity-100' : 'opacity-50 hover:opacity-100'}`}
+                        style={{ borderRadius: `${radius}px` }}
                     >
                         <img
                             src={img}
                             alt={`${productTitle} - ${idx}`}
-                            className="w-full h-full object-cover aspect-square"
+                            className="w-full h-full object-cover"
                         />
                     </button>
                 ))}
@@ -101,29 +91,42 @@ const ProductMediaGallery = ({ images = [], productTitle, settings }) => {
             {/* Main Featured Image */}
             <div
                 className={`relative w-full overflow-hidden group ${getAspectRatioClass(s.aspectRatio)}`}
-                style={{ borderRadius: `${s.mainImageRadius || 0}px` }}
+                style={{ borderRadius: `${s.mainImageRadius !== undefined ? s.mainImageRadius : 24}px` }}
             >
+                {/* Badge Overlay */}
+                {isNew && (
+                    <div className="absolute top-4 left-4 z-10 px-3 py-1 bg-black text-white text-[10px] font-black uppercase tracking-widest rounded-full shadow-lg">
+                        New
+                    </div>
+                )}
+                {/* Zoom Icon (Optional) */}
+                {s.zoom && (
+                    <div className="absolute top-4 right-4 z-10 size-8 bg-black/50 text-white rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity backdrop-blur-md pointer-events-none">
+                        <span className="material-symbols-outlined text-[16px]">zoom_in</span>
+                    </div>
+                )}
+
                 <img
                     src={images[activeIndex] || 'https://via.placeholder.com/800'}
                     alt={productTitle}
-                    className={`w-full h-full transition-transform duration-500 ${getObjectFitClass(s.fit)} ${s.zoom ? 'group-hover:scale-110 cursor-zoom-in' : ''}`}
+                    className={`w-full h-full transition-transform duration-700 ${getObjectFitClass(s.fit)} ${s.zoom ? 'cursor-zoom-in group-hover:scale-105' : ''}`}
                     style={mainImageStyle}
                 />
 
-                {/* Navigation Arrows (Optional, only if multiple images) */}
+                {/* Navigation Arrows */}
                 {images.length > 1 && (
                     <>
                         <button
                             onClick={(e) => { e.stopPropagation(); setActiveIndex(prev => prev === 0 ? images.length - 1 : prev - 1); }}
-                            className="absolute left-4 top-1/2 -translate-y-1/2 p-2 rounded-full bg-black/20 text-white backdrop-blur-sm opacity-0 group-hover:opacity-100 transition-all hover:bg-black/50"
+                            className="absolute left-4 top-1/2 -translate-y-1/2 p-3 rounded-full bg-black/20 text-white backdrop-blur-sm opacity-0 group-hover:opacity-100 transition-all hover:bg-black/80 hover:scale-110"
                         >
-                            <span className="material-symbols-outlined">chevron_left</span>
+                            <span className="material-symbols-outlined text-[20px]">chevron_left</span>
                         </button>
                         <button
                             onClick={(e) => { e.stopPropagation(); setActiveIndex(prev => prev === images.length - 1 ? 0 : prev + 1); }}
-                            className="absolute right-4 top-1/2 -translate-y-1/2 p-2 rounded-full bg-black/20 text-white backdrop-blur-sm opacity-0 group-hover:opacity-100 transition-all hover:bg-black/50"
+                            className="absolute right-4 top-1/2 -translate-y-1/2 p-3 rounded-full bg-black/20 text-white backdrop-blur-sm opacity-0 group-hover:opacity-100 transition-all hover:bg-black/80 hover:scale-110"
                         >
-                            <span className="material-symbols-outlined">chevron_right</span>
+                            <span className="material-symbols-outlined text-[20px]">chevron_right</span>
                         </button>
                     </>
                 )}
