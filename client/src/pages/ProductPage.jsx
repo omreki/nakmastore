@@ -35,6 +35,7 @@ const ProductPage = () => {
 
     useEffect(() => {
         const fetchProduct = async () => {
+            window.scrollTo(0, 0);
             setLoading(true);
             try {
                 let query = supabase.from('products').select('*');
@@ -159,8 +160,8 @@ const ProductPage = () => {
 
     if (loading) {
         return (
-            <div className="bg-black min-h-screen text-white font-['Manrope'] pt-20 md:pt-24 pb-12 overflow-x-hidden">
-                <div className="size-16 border-4 border-primary/20 border-t-primary rounded-full animate-spin"></div>
+            <div className="bg-black min-h-screen flex items-center justify-center">
+                <div className="size-6 border-2 border-primary/20 border-t-primary rounded-full animate-spin"></div>
             </div>
         );
     }
