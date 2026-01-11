@@ -50,10 +50,10 @@ const ProductDetailView = ({
         if (isMobileView) return `${base} flex flex-col gap-8 px-4 pt-4 pb-8`;
 
         switch (layoutStyle) {
-            case 'narrow': return `${base} max-w-4xl flex flex-col gap-12 px-8 pb-12 pt-8`;
+            case 'narrow': return `${base} max-w-4xl flex flex-col gap-12 px-8 pb-12 pt-4`;
             case 'full': return `${base} max-w-none flex flex-col gap-16`;
-            case 'magazine': return `${base} max-w-[1400px] grid grid-cols-12 gap-12 px-12 items-start pb-12 pt-8`;
-            case 'classic': default: return `${base} max-w-[1400px] flex flex-col lg:flex-row gap-12 lg:gap-20 px-6 lg:px-16 items-start pb-12 pt-8`;
+            case 'magazine': return `${base} max-w-[1400px] grid grid-cols-12 gap-12 px-12 items-start pb-12 pt-4`;
+            case 'classic': default: return `${base} max-w-[1400px] flex flex-col lg:flex-row gap-12 lg:gap-20 px-6 lg:px-16 items-start pb-12 pt-4`;
         }
     };
 
@@ -342,7 +342,7 @@ const ProductDetailView = ({
     return (
         <div className="bg-black min-h-screen">
             {/* Breadcrumbs Top Container */}
-            <div className="w-full max-w-[1400px] mx-auto px-6 lg:px-16 pt-24 md:pt-32 pb-4">
+            <div className="w-full max-w-[1400px] mx-auto px-6 lg:px-16 pt-8 pb-4">
                 <Breadcrumbs />
             </div>
 
