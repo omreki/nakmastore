@@ -2,14 +2,30 @@ import { supabase } from '../lib/supabase';
 
 const sendEmail = async (to, subject, html) => {
     try {
+        console.log(`EmailService: Attempting to send email to ${to}...`);
+
+        // Force use of Anon Key to avoid issues with User JWTs in Edge Functions
         const { data, error } = await supabase.functions.invoke('send-email', {
             body: { to, subject, html },
+            headers: {
+                Authorization: `Bearer ${import.meta.env.VITE_SUPABASE_ANON_KEY}`
+            }
         });
 
-        if (error) throw error;
+        if (error) {
+            console.error('EmailService: Invocation Error:', error);
+            // Try to read the error body if available
+            if (error.context && typeof error.context.text === 'function') {
+                const body = await error.context.text().catch(() => 'No body');
+                console.error('EmailService: Error Body:', body);
+            }
+            throw error;
+        }
+
+        console.log('EmailService: Success:', data);
         return { success: true, data };
     } catch (error) {
-        console.error('Email service error:', error);
+        console.error('EmailService: Fatal Error:', error);
         return { success: false, error };
     }
 };

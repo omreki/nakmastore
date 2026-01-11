@@ -232,7 +232,7 @@ const CheckoutPage = () => {
         // 3. AWAIT BACKGROUND NOTIFICATIONS (Ensure they are sent before moving)
         try {
             console.log('Sending notifications...');
-            const customerData = { email: formData.email, full_name: `${formData.firstName} ${formData.lastName}` };
+            const customerData = { email: (formData.email || '').trim(), full_name: `${formData.firstName} ${formData.lastName}` };
             const emailItems = confirmationData.order.items.map(item => ({
                 product_name: item.name,
                 quantity: item.quantity,
@@ -380,7 +380,7 @@ const CheckoutPage = () => {
             // Background Notifications
             // AWAIT Notifications before navigation
             try {
-                const customerData = { email: formData.email, full_name: `${formData.firstName} ${formData.lastName}` };
+                const customerData = { email: (formData.email || '').trim(), full_name: `${formData.firstName} ${formData.lastName}` };
                 const emailItems = cart.map(item => ({
                     product_name: item.name,
                     quantity: item.quantity,
