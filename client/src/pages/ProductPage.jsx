@@ -4,6 +4,7 @@ import { supabase } from '../lib/supabase';
 import { useCart } from '../context/CartContext';
 import { useStoreSettings } from '../context/StoreSettingsContext';
 import SEO from '../components/SEO';
+import OptimizedImage from '../components/OptimizedImage';
 import { analyticsService } from '../services/analyticsService';
 
 const ProductPage = () => {
@@ -160,7 +161,6 @@ const ProductPage = () => {
         return (
             <div className="bg-black min-h-screen text-white font-['Manrope'] pt-20 md:pt-24 pb-12 overflow-x-hidden">
                 <div className="size-16 border-4 border-primary/20 border-t-primary rounded-full animate-spin"></div>
-                <p className="text-white/40 font-bold tracking-[0.3em] uppercase text-xs">Crafting Heritage...</p>
             </div>
         );
     }
@@ -212,10 +212,12 @@ const ProductPage = () => {
                     {/* Image Showcase - Compact */}
                     <div className="w-full lg:w-[45%] shrink-0 space-y-4">
                         <div className="aspect-square rounded-[24px] md:rounded-[32px] overflow-hidden bg-[#1a1a1a] shadow-2xl relative group border border-white/5">
-                            <img
+                            <OptimizedImage
                                 src={activeImage || mainImage}
                                 alt={product.name}
                                 className="w-full h-full object-cover object-center transition-transform duration-700 group-hover:scale-105"
+                                width={800}
+                                priority={true}
                             />
                             {product.is_new && (
                                 <div className="absolute top-6 left-6">
@@ -232,10 +234,14 @@ const ProductPage = () => {
                                         onClick={() => setActiveImage(img)}
                                         className={`size-20 rounded-[16px] overflow-hidden bg-[#1a1a1a] cursor-pointer group border transition-all ${activeImage === img ? 'border-primary ring-2 ring-primary/20' : 'border-white/5 hover:border-primary/50'}`}
                                     >
-                                        <div
-                                            className="w-full h-full bg-cover bg-no-repeat bg-center transition-transform duration-500 group-hover:scale-110"
-                                            style={{ backgroundImage: `url('${img}')` }}
-                                        ></div>
+                                        <div className="w-full h-full relative">
+                                            <OptimizedImage
+                                                src={img}
+                                                alt={`View ${idx + 1}`}
+                                                width={150}
+                                                className="w-full h-full object-cover object-center transition-transform duration-500 group-hover:scale-110"
+                                            />
+                                        </div>
                                     </div>
                                 ))}
                             </div>
@@ -438,9 +444,10 @@ const ProductPage = () => {
                                 {relatedProducts.map((p) => (
                                     <Link to={`/product/${p.slug}`} key={p.id} className="group cursor-pointer">
                                         <div className="relative aspect-square rounded-[24px] overflow-hidden mb-4 bg-[#1a1a1a] transition-transform duration-500 group-hover:-translate-y-1">
-                                            <img
+                                            <OptimizedImage
                                                 src={p.images?.[0] || 'https://via.placeholder.com/300?text=Product'}
                                                 alt={p.name}
+                                                width={400}
                                                 className="w-full h-full object-cover object-center transition-transform duration-500 group-hover:scale-110"
                                             />
                                         </div>
