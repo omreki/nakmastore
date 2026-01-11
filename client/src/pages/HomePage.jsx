@@ -102,7 +102,7 @@ const HomePage = () => {
 
                     {/* Hollow Faded Background Text */}
                     {hero.hollowText && (
-                        <div className="absolute inset-0 flex items-center justify-center pointer-events-none overflow-hidden">
+                        <div className="absolute inset-0 flex items-center justify-center pointer-events-none overflow-hidden z-15">
                             <span
                                 className="font-black leading-none opacity-100 select-none tracking-tighter whitespace-nowrap"
                                 style={{
@@ -118,14 +118,14 @@ const HomePage = () => {
                     )}
 
                     {/* Sophisticated Apple-Style Overlays */}
-                    <div className="absolute inset-0 bg-gradient-to-r from-black via-black/60 to-transparent"></div>
-                    <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-black/30"></div>
+                    <div className="absolute inset-0 bg-gradient-to-r from-black via-black/60 to-transparent z-[5]"></div>
+                    <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-black/30 z-[5]"></div>
 
                     {/* Radial Highlight for sleekness */}
-                    <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_50%,rgba(48, 19, 106,0.2),transparent_60%)]"></div>
+                    <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_50%,rgba(48, 19, 106,0.2),transparent_60%)] z-[5]"></div>
 
                     {/* Content Section */}
-                    <div className="absolute inset-0 flex flex-col justify-center px-12 md:px-28 z-10">
+                    <div className="absolute inset-0 flex flex-col justify-center px-12 md:px-28 z-20">
                         <div className="max-w-2xl space-y-10">
                             <div className="space-y-4">
                                 {heroSub && (
