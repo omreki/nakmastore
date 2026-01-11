@@ -25,6 +25,23 @@ const DynamicPage = () => {
     useEffect(() => {
         if (slug) {
             fetchPageData();
+
+            // Subscribe to real-time changes
+            const subscription = supabase
+                .channel(`page_changes_${slug}`)
+                .on('postgres_changes',
+                    { event: 'UPDATE', schema: 'public', table: 'pages', filter: `slug=eq.${slug}` },
+                    (payload) => {
+                        if (payload.new) {
+                            setPageData(payload.new);
+                        }
+                    }
+                )
+                .subscribe();
+
+            return () => {
+                subscription.unsubscribe();
+            };
         }
     }, [slug]);
 

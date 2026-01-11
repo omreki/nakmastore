@@ -47,6 +47,23 @@ const ShopPage = () => {
             }
         };
         fetchPageSettings();
+
+        // Subscribe to real-time changes
+        const subscription = supabase
+            .channel('shop_page_changes')
+            .on('postgres_changes',
+                { event: 'UPDATE', schema: 'public', table: 'pages', filter: 'slug=eq.shop' },
+                (payload) => {
+                    if (payload.new) {
+                        setPageSettings(payload.new);
+                    }
+                }
+            )
+            .subscribe();
+
+        return () => {
+            subscription.unsubscribe();
+        };
     }, []);
 
     useEffect(() => {

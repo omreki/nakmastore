@@ -26,7 +26,15 @@ const MenPage = () => {
     const hiddenSubCategories = subCategories.slice(6);
 
     useEffect(() => {
-        fetchInitialData();
+        let subscription;
+        const setup = async () => {
+            subscription = await fetchInitialData();
+        };
+        setup();
+
+        return () => {
+            if (subscription) subscription.unsubscribe();
+        };
     }, []);
 
     useEffect(() => {
@@ -66,9 +74,31 @@ const MenPage = () => {
                     updated_at: pageData.updated_at
                 });
             }
+
+            // Real-time subscription
+            const subscription = supabase
+                .channel('men_page_changes')
+                .on('postgres_changes',
+                    { event: 'UPDATE', schema: 'public', table: 'pages', filter: 'slug=eq.men' },
+                    (payload) => {
+                        if (payload.new) {
+                            setPageContent({
+                                title: payload.new.title || "Men's Collection",
+                                hero_title: payload.new.hero_title || "MODERN HERITAGE",
+                                hero_subtitle: payload.new.hero_subtitle || "Unique African-inspired shirts designed for the modern man. Blending cultural identity with sophisticated silhouettes.",
+                                imageUrl: payload.new.hero_image_url || null,
+                                updated_at: payload.new.updated_at
+                            });
+                        }
+                    }
+                )
+                .subscribe();
+
+            return subscription;
         } catch (error) {
             console.error('Error fetching men data:', error);
             setIsLoading(false);
+            return null;
         }
     };
 

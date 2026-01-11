@@ -11,12 +11,6 @@ const CommunityPage = () => {
     const [isLoading, setIsLoading] = useState(true);
     const [selectedCategory, setSelectedCategory] = useState('all');
 
-    useEffect(() => {
-        fetchCategories();
-        fetchArticles();
-        fetchPageSettings();
-    }, [selectedCategory]);
-
     const fetchPageSettings = async () => {
         try {
             const { data, error } = await supabase
@@ -32,6 +26,32 @@ const CommunityPage = () => {
             console.error('Error fetching community page settings:', error);
         }
     };
+
+    useEffect(() => {
+        fetchPageSettings();
+
+        // Subscribe to real-time changes
+        const subscription = supabase
+            .channel('community_page_changes')
+            .on('postgres_changes',
+                { event: 'UPDATE', schema: 'public', table: 'pages', filter: 'slug=eq.community' },
+                (payload) => {
+                    if (payload.new) {
+                        setPageSettings(payload.new);
+                    }
+                }
+            )
+            .subscribe();
+
+        return () => {
+            subscription.unsubscribe();
+        };
+    }, []);
+
+    useEffect(() => {
+        fetchCategories();
+        fetchArticles();
+    }, [selectedCategory]);
 
     const fetchCategories = async () => {
         try {

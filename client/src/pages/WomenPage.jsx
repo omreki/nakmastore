@@ -26,7 +26,15 @@ const WomenPage = () => {
     const hiddenSubCategories = subCategories.slice(6);
 
     useEffect(() => {
-        fetchInitialData();
+        let subscription;
+        const setup = async () => {
+            subscription = await fetchInitialData();
+        };
+        setup();
+
+        return () => {
+            if (subscription) subscription.unsubscribe();
+        };
     }, []);
 
     useEffect(() => {
@@ -66,9 +74,31 @@ const WomenPage = () => {
                     updated_at: pageData.updated_at
                 });
             }
+
+            // Real-time subscription
+            const subscription = supabase
+                .channel('women_page_changes')
+                .on('postgres_changes',
+                    { event: 'UPDATE', schema: 'public', table: 'pages', filter: 'slug=eq.women' },
+                    (payload) => {
+                        if (payload.new) {
+                            setPageContent({
+                                title: payload.new.title || "Women's Collection",
+                                hero_title: payload.new.hero_title || "CULTURAL ELEGANCE",
+                                hero_subtitle: payload.new.hero_subtitle || "Unique African-inspired fashion for the modern woman. Sophisticated silhouettes meeting timeless heritage.",
+                                imageUrl: payload.new.hero_image_url || null,
+                                updated_at: payload.new.updated_at
+                            });
+                        }
+                    }
+                )
+                .subscribe();
+
+            return subscription;
         } catch (error) {
             console.error('Error fetching women data:', error);
             setIsLoading(false);
+            return null;
         }
     };
 

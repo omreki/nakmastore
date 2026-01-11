@@ -13,6 +13,17 @@ export const useStoreSettings = () => {
     return useContext(StoreSettingsContext);
 };
 
+const stripTimestamp = (url) => {
+    if (!url) return '';
+    return url.split('?t=')[0];
+};
+
+const addTimestamp = (url, timestamp) => {
+    if (!url) return '';
+    const cleanUrl = stripTimestamp(url);
+    return `${cleanUrl}?t=${timestamp}`;
+};
+
 export const StoreSettingsProvider = ({ children }) => {
     const [settings, setSettings] = useState({
         storeName: 'Nakma Store',
@@ -177,8 +188,8 @@ export const StoreSettingsProvider = ({ children }) => {
                             timezone: data.timezone,
                             showDecimals: data.show_decimals !== undefined ? data.show_decimals : false,
                             paymentGateways: data.payment_gateways || { stripe: true, paypal: false, paystack: false, cod: true },
-                            logoUrl: data.logo_url ? `${data.logo_url}?t=${timestamp}` : '',
-                            heroImageUrl: data.hero_image_url ? `${data.hero_image_url}?t=${timestamp}` : '',
+                            logoUrl: data.logo_url ? addTimestamp(data.logo_url, timestamp) : '',
+                            heroImageUrl: data.hero_image_url ? addTimestamp(data.hero_image_url, timestamp) : '',
                             shippingMethods: data.shipping_methods || [], // Simplified fallbacks for brevity in update
                             siteUrl: data.site_url || 'https://wearnoesis.com',
                             alertEmails: data.alert_emails || [],
@@ -208,14 +219,23 @@ export const StoreSettingsProvider = ({ children }) => {
                                 ...data.homepage_settings,
                                 hero: {
                                     ...data.homepage_settings.hero,
-                                    imageUrl: data.homepage_settings.hero?.imageUrl ? `${data.homepage_settings.hero.imageUrl}?t=${timestamp}` : "",
+                                    imageUrl: data.homepage_settings.hero?.imageUrl ? addTimestamp(data.homepage_settings.hero.imageUrl, timestamp) : "",
                                     hollowText: data.homepage_settings.hero?.hollowText || ""
                                 },
                                 philosophy: {
                                     ...data.homepage_settings.philosophy,
-                                    imageUrl: data.homepage_settings.philosophy?.imageUrl ? `${data.homepage_settings.philosophy.imageUrl}?t=${timestamp}` : ""
+                                    imageUrl: data.homepage_settings.philosophy?.imageUrl ? addTimestamp(data.homepage_settings.philosophy.imageUrl, timestamp) : ""
                                 },
-                                categories: data.homepage_settings.categories || {
+                                categories: data.homepage_settings.categories ? {
+                                    prints: {
+                                        ...data.homepage_settings.categories.prints,
+                                        imageUrl: data.homepage_settings.categories.prints?.imageUrl ? addTimestamp(data.homepage_settings.categories.prints.imageUrl, timestamp) : ""
+                                    },
+                                    plains: {
+                                        ...data.homepage_settings.categories.plains,
+                                        imageUrl: data.homepage_settings.categories.plains?.imageUrl ? addTimestamp(data.homepage_settings.categories.plains.imageUrl, timestamp) : ""
+                                    }
+                                } : {
                                     prints: { title: "Vibrant Prints", subtitle: "Bold African Motifs", imageUrl: "" },
                                     plains: { title: "Classic Plains", subtitle: "Minimalist Elegance", imageUrl: "" }
                                 },
@@ -253,15 +273,15 @@ export const StoreSettingsProvider = ({ children }) => {
                                 ...data.about_page_settings,
                                 hero: {
                                     ...data.about_page_settings.hero,
-                                    bgImage: data.about_page_settings.hero?.bgImage ? `${data.about_page_settings.hero.bgImage}?t=${timestamp}` : ""
+                                    bgImage: data.about_page_settings.hero?.bgImage ? addTimestamp(data.about_page_settings.hero.bgImage, timestamp) : ""
                                 },
                                 philosophy: {
                                     ...data.about_page_settings.philosophy,
-                                    imageUrl: data.about_page_settings.philosophy?.imageUrl ? `${data.about_page_settings.philosophy.imageUrl}?t=${timestamp}` : ""
+                                    imageUrl: data.about_page_settings.philosophy?.imageUrl ? addTimestamp(data.about_page_settings.philosophy.imageUrl, timestamp) : ""
                                 },
                                 join: {
                                     ...data.about_page_settings.join,
-                                    bgImage: data.about_page_settings.join?.bgImage ? `${data.about_page_settings.join.bgImage}?t=${timestamp}` : ""
+                                    bgImage: data.about_page_settings.join?.bgImage ? addTimestamp(data.about_page_settings.join.bgImage, timestamp) : ""
                                 }
                             } : {
                                 hero: {
@@ -354,8 +374,8 @@ export const StoreSettingsProvider = ({ children }) => {
                     timezone: data.timezone,
                     showDecimals: data.show_decimals !== undefined ? data.show_decimals : false,
                     paymentGateways: data.payment_gateways || { stripe: true, paypal: false, paystack: false, cod: true },
-                    logoUrl: data.logo_url ? `${data.logo_url}?t=${timestamp}` : '',
-                    heroImageUrl: data.hero_image_url ? `${data.hero_image_url}?t=${timestamp}` : '',
+                    logoUrl: data.logo_url ? addTimestamp(data.logo_url, timestamp) : '',
+                    heroImageUrl: data.hero_image_url ? addTimestamp(data.hero_image_url, timestamp) : '',
                     shippingMethods: data.shipping_methods || [
                         { id: 'standard', name: 'Standard Ground', description: 'Primary Distribution', deliveryTime: '5-7 CYCLES', cost: 5, enabled: true },
                         { id: 'express', name: 'Exosphere Velocity', description: 'Priority Transit', deliveryTime: '2-3 CYCLES', cost: 15, enabled: true },
@@ -389,14 +409,23 @@ export const StoreSettingsProvider = ({ children }) => {
                         ...data.homepage_settings,
                         hero: {
                             ...data.homepage_settings.hero,
-                            imageUrl: data.homepage_settings.hero?.imageUrl ? `${data.homepage_settings.hero.imageUrl}?t=${timestamp}` : "",
+                            imageUrl: data.homepage_settings.hero?.imageUrl ? addTimestamp(data.homepage_settings.hero.imageUrl, timestamp) : "",
                             hollowText: data.homepage_settings.hero?.hollowText || ""
                         },
                         philosophy: {
                             ...data.homepage_settings.philosophy,
-                            imageUrl: data.homepage_settings.philosophy?.imageUrl ? `${data.homepage_settings.philosophy.imageUrl}?t=${timestamp}` : ""
+                            imageUrl: data.homepage_settings.philosophy?.imageUrl ? addTimestamp(data.homepage_settings.philosophy.imageUrl, timestamp) : ""
                         },
-                        categories: data.homepage_settings.categories || {
+                        categories: data.homepage_settings.categories ? {
+                            prints: {
+                                ...data.homepage_settings.categories.prints,
+                                imageUrl: data.homepage_settings.categories.prints?.imageUrl ? addTimestamp(data.homepage_settings.categories.prints.imageUrl, timestamp) : ""
+                            },
+                            plains: {
+                                ...data.homepage_settings.categories.plains,
+                                imageUrl: data.homepage_settings.categories.plains?.imageUrl ? addTimestamp(data.homepage_settings.categories.plains.imageUrl, timestamp) : ""
+                            }
+                        } : {
                             prints: { title: "Vibrant Prints", subtitle: "Bold African Motifs", imageUrl: "" },
                             plains: { title: "Classic Plains", subtitle: "Minimalist Elegance", imageUrl: "" }
                         },
@@ -557,8 +586,8 @@ export const StoreSettingsProvider = ({ children }) => {
                 site_url: newSettings.siteUrl,
                 alert_emails: newSettings.alertEmails || [],
                 resend_config: newSettings.resendConfig || { apiKey: '', fromEmail: '', verifiedDomain: '' },
-                logo_url: newSettings.logoUrl,
-                hero_image_url: newSettings.heroImageUrl,
+                logo_url: stripTimestamp(newSettings.logoUrl),
+                hero_image_url: stripTimestamp(newSettings.heroImageUrl),
                 // Pack tax settings into the tax_rates JSONB column
                 tax_rates: {
                     enabled: newSettings.taxesEnabled,
@@ -576,10 +605,47 @@ export const StoreSettingsProvider = ({ children }) => {
                 twitter_url: newSettings.twitterUrl,
                 facebook_url: newSettings.facebookUrl,
                 payment_configs: newSettings.paymentConfigs,
-                homepage_settings: newSettings.homepageSettings,
+                homepage_settings: newSettings.homepageSettings ? {
+                    ...newSettings.homepageSettings,
+                    hero: {
+                        ...newSettings.homepageSettings.hero,
+                        imageUrl: stripTimestamp(newSettings.homepageSettings.hero?.imageUrl)
+                    },
+                    philosophy: {
+                        ...newSettings.homepageSettings.philosophy,
+                        imageUrl: stripTimestamp(newSettings.homepageSettings.philosophy?.imageUrl)
+                    },
+                    categories: newSettings.homepageSettings.categories ? {
+                        prints: {
+                            ...newSettings.homepageSettings.categories.prints,
+                            imageUrl: stripTimestamp(newSettings.homepageSettings.categories.prints?.imageUrl)
+                        },
+                        plains: {
+                            ...newSettings.homepageSettings.categories.plains,
+                            imageUrl: stripTimestamp(newSettings.homepageSettings.categories.plains?.imageUrl)
+                        }
+                    } : undefined
+                } : undefined,
+                about_page_settings: newSettings.aboutPageSettings ? {
+                    ...newSettings.aboutPageSettings,
+                    hero: {
+                        ...newSettings.aboutPageSettings.hero,
+                        bgImage: stripTimestamp(newSettings.aboutPageSettings.hero?.bgImage)
+                    },
+                    philosophy: {
+                        ...newSettings.aboutPageSettings.philosophy,
+                        imageUrl: stripTimestamp(newSettings.aboutPageSettings.philosophy?.imageUrl)
+                    },
+                    join: {
+                        ...newSettings.aboutPageSettings.join,
+                        bgImage: stripTimestamp(newSettings.aboutPageSettings.join?.bgImage)
+                    }
+                } : undefined,
                 navigation_settings: newSettings.navigationSettings,
-                about_page_settings: newSettings.aboutPageSettings,
-                login_page_settings: newSettings.loginPageSettings,
+                login_page_settings: newSettings.loginPageSettings ? {
+                    ...newSettings.loginPageSettings,
+                    login_bg_url: stripTimestamp(newSettings.loginPageSettings.login_bg_url)
+                } : undefined,
                 seo_settings: newSettings.seoSettings,
                 checkout_page_settings: newSettings.checkoutPageSettings,
                 brand_settings: newSettings.brandSettings
@@ -598,6 +664,7 @@ export const StoreSettingsProvider = ({ children }) => {
             }
 
             if (data) {
+                const timestamp = new Date().getTime();
                 setSettings({
                     storeName: data.store_name,
                     supportEmail: data.support_email,
@@ -609,8 +676,8 @@ export const StoreSettingsProvider = ({ children }) => {
                     siteUrl: data.site_url,
                     alertEmails: data.alert_emails || [],
                     resendConfig: data.resend_config || { apiKey: '', fromEmail: '', verifiedDomain: '' },
-                    logoUrl: data.logo_url,
-                    heroImageUrl: data.hero_image_url,
+                    logoUrl: data.logo_url ? addTimestamp(data.logo_url, timestamp) : '',
+                    heroImageUrl: data.hero_image_url ? addTimestamp(data.hero_image_url, timestamp) : '',
                     taxesEnabled: Array.isArray(data.tax_rates) ? true : (data.tax_rates?.enabled ?? newSettings.taxesEnabled),
                     taxRates: (Array.isArray(data.tax_rates) ? data.tax_rates : data.tax_rates?.rates) || newSettings.taxRates,
                     taxConfig: data.tax_rates?.taxConfig || newSettings.taxConfig,
@@ -625,9 +692,46 @@ export const StoreSettingsProvider = ({ children }) => {
                     twitterUrl: data.twitter_url || '',
                     facebookUrl: data.facebook_url || '',
                     paymentConfigs: data.payment_configs || {},
-                    homepageSettings: data.homepage_settings || newSettings.homepageSettings,
+                    homepageSettings: data.homepage_settings ? {
+                        ...data.homepage_settings,
+                        hero: {
+                            ...data.homepage_settings.hero,
+                            imageUrl: data.homepage_settings.hero?.imageUrl ? addTimestamp(data.homepage_settings.hero.imageUrl, timestamp) : "",
+                        },
+                        philosophy: {
+                            ...data.homepage_settings.philosophy,
+                            imageUrl: data.homepage_settings.philosophy?.imageUrl ? addTimestamp(data.homepage_settings.philosophy.imageUrl, timestamp) : ""
+                        },
+                        categories: data.homepage_settings.categories ? {
+                            prints: {
+                                ...data.homepage_settings.categories.prints,
+                                imageUrl: data.homepage_settings.categories.prints?.imageUrl ? addTimestamp(data.homepage_settings.categories.prints.imageUrl, timestamp) : ""
+                            },
+                            plains: {
+                                ...data.homepage_settings.categories.plains,
+                                imageUrl: data.homepage_settings.categories.plains?.imageUrl ? addTimestamp(data.homepage_settings.categories.plains.imageUrl, timestamp) : ""
+                            }
+                        } : {
+                            prints: { title: "Vibrant Prints", subtitle: "Bold African Motifs", imageUrl: "" },
+                            plains: { title: "Classic Plains", subtitle: "Minimalist Elegance", imageUrl: "" }
+                        }
+                    } : newSettings.homepageSettings,
                     navigationSettings: data.navigation_settings || newSettings.navigationSettings,
-                    aboutPageSettings: data.about_page_settings || newSettings.aboutPageSettings,
+                    aboutPageSettings: data.about_page_settings ? {
+                        ...data.about_page_settings,
+                        hero: {
+                            ...data.about_page_settings.hero,
+                            bgImage: data.about_page_settings.hero?.bgImage ? addTimestamp(data.about_page_settings.hero.bgImage, timestamp) : ""
+                        },
+                        philosophy: {
+                            ...data.about_page_settings.philosophy,
+                            imageUrl: data.about_page_settings.philosophy?.imageUrl ? addTimestamp(data.about_page_settings.philosophy.imageUrl, timestamp) : ""
+                        },
+                        join: {
+                            ...data.about_page_settings.join,
+                            bgImage: data.about_page_settings.join?.bgImage ? addTimestamp(data.about_page_settings.join.bgImage, timestamp) : ""
+                        }
+                    } : newSettings.aboutPageSettings,
                     loginPageSettings: data.login_page_settings ? { ...DEFAULT_LOGIN_SETTINGS, ...data.login_page_settings } : newSettings.loginPageSettings,
                     seoSettings: data.seo_settings || newSettings.seoSettings,
                     checkoutPageSettings: data.checkout_page_settings || newSettings.checkoutPageSettings,
