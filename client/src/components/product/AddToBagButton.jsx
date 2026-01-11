@@ -1,6 +1,8 @@
 import React from 'react';
+import { useStoreSettings } from '../../context/StoreSettingsContext';
 
 const AddToBagButton = ({ settings, onClick, disabled, loading, price }) => {
+    const { formatPrice } = useStoreSettings();
     const s = settings.addToCart || {};
     const styles = s.styling || {};
     const isSticky = s.position === 'sticky-bottom'; // Mobile only usually, but handled by parent layout or media query
@@ -85,7 +87,7 @@ const AddToBagButton = ({ settings, onClick, disabled, loading, price }) => {
                 <span>{s.customText || 'Add to Bag'}</span>
 
                 {/* Price if requested (optional feature) */}
-                {s.showPrice && <span className="opacity-70 ml-1"> - ${price}</span>}
+                {s.showPrice && <span className="opacity-70 ml-1"> - {formatPrice(price)}</span>}
 
                 {/* Icon Right */}
                 {s.showIcon && s.iconPosition === 'right' && (

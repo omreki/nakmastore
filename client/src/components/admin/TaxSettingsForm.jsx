@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
+import { useStoreSettings } from '../../context/StoreSettingsContext';
 
 const TaxSettingsForm = ({ settings, onUpdate }) => {
+    const { formatPrice } = useStoreSettings();
     // Use settings.taxConfig directly from parent to avoid sync loops
     const taxConfig = settings?.taxConfig || {
         enabled: true,
@@ -112,7 +114,7 @@ const TaxSettingsForm = ({ settings, onUpdate }) => {
                         </div>
                         {taxConfig.type === 'percentage' && taxConfig.value > 0 && (
                             <p className="text-xs text-white/30 ml-2 mt-1">
-                                Example: ${(100 * (taxConfig.value / 100)).toFixed(2)} tax on $100.00 purchase
+                                Example: {formatPrice(100 * (taxConfig.value / 100))} tax on {formatPrice(100)} purchase
                             </p>
                         )}
                     </div>
@@ -147,26 +149,26 @@ const TaxSettingsForm = ({ settings, onUpdate }) => {
                         <div className="space-y-3 pt-4 border-t border-white/10">
                             <div className="flex justify-between text-sm">
                                 <span className="text-white/60 uppercase tracking-wider font-bold">Subtotal</span>
-                                <span className="text-white font-bold">$100.00</span>
+                                <span className="text-white font-bold">{formatPrice(100)}</span>
                             </div>
                             {taxConfig.showInCheckout && (
                                 <div className="flex justify-between text-sm">
                                     <span className="text-white/60 uppercase tracking-wider font-bold">{taxConfig.name}</span>
                                     <span className="text-white font-bold">
-                                        {taxConfig.type === 'percentage'
-                                            ? `$${(100 * (taxConfig.value / 100)).toFixed(2)}`
-                                            : `$${taxConfig.value.toFixed(2)}`
-                                        }
+                                        {formatPrice(taxConfig.type === 'percentage'
+                                            ? 100 * (taxConfig.value / 100)
+                                            : taxConfig.value
+                                        )}
                                     </span>
                                 </div>
                             )}
                             <div className="flex justify-between text-lg font-black pt-3 border-t border-white/10">
                                 <span className="text-white uppercase tracking-wider italic">Total</span>
                                 <span className="text-primary">
-                                    ${taxConfig.type === 'percentage'
-                                        ? (100 + (100 * (taxConfig.value / 100))).toFixed(2)
-                                        : (100 + taxConfig.value).toFixed(2)
-                                    }
+                                    {formatPrice(taxConfig.type === 'percentage'
+                                        ? 100 + (100 * (taxConfig.value / 100))
+                                        : 100 + taxConfig.value
+                                    )}
                                 </span>
                             </div>
                         </div>

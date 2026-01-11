@@ -274,7 +274,6 @@ const ConfirmationPage = () => {
                                 <div className="flex justify-between items-end">
                                     <span className="text-base font-bold text-white">Total</span>
                                     <div className="text-right">
-                                        <span className="text-xs text-white/40 block mb-0.5">{currencySymbol}</span>
                                         <span className="text-2xl font-black text-white drop-shadow-sm">{formatPrice(order.totals.total)}</span>
                                     </div>
                                 </div>

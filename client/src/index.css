@@ -20,6 +20,8 @@
     --color-navbar-text: #ffffff;
     --color-text-main: #ffffff;
     --color-text-muted: #a1a1aa;
+    --color-label: var(--label-color, #ffffff);
+    --color-secondary-text: var(--secondary-text-color, #a1a1aa);
 }
 
 :root {

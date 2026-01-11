@@ -73,7 +73,7 @@ export const StoreSettingsProvider = ({ children }) => {
             mainImageRadius: 0,
             thumbnailRadius: 0,
             addToCartAlignment: 'left',
-            freeShippingText: 'Free shipping on orders over $100'
+            freeShippingText: ''
         },
         paymentConfigs: {},
         homepageSettings: {
@@ -371,7 +371,7 @@ export const StoreSettingsProvider = ({ children }) => {
                                 mainImageRadius: 0,
                                 thumbnailRadius: 0,
                                 addToCartAlignment: 'left',
-                                freeShippingText: 'Free shipping on orders over $100'
+                                freeShippingText: ''
                             }
                         });
                     }
@@ -595,7 +595,7 @@ export const StoreSettingsProvider = ({ children }) => {
                         mainImageRadius: 0,
                         thumbnailRadius: 0,
                         addToCartAlignment: 'left',
-                        freeShippingText: 'Free shipping on orders over $100'
+                        freeShippingText: ''
                     }
                 });
             }
@@ -850,6 +850,8 @@ export const StoreSettingsProvider = ({ children }) => {
             root.style.setProperty('--color-navbar-text', settings.brandSettings.navbarText);
             root.style.setProperty('--color-text-main', settings.brandSettings.textMain);
             root.style.setProperty('--color-text-muted', settings.brandSettings.textMuted);
+            root.style.setProperty('--label-color', settings.brandSettings.labelColor || '#ffffff');
+            root.style.setProperty('--secondary-text-color', settings.brandSettings.secondaryTextColor || '#ffffff');
         }
     }, [settings.brandSettings]);
 

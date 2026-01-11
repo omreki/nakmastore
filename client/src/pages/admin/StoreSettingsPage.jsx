@@ -2010,7 +2010,7 @@ const StoreSettingsPage = () => {
                                                         productPageSettings: { ...prev.productPageSettings, freeShippingText: e.target.value }
                                                     }))}
                                                     className="w-full bg-white/5 border border-white/10 rounded-xl px-4 h-12 text-white text-sm font-bold focus:outline-none focus:ring-2 focus:ring-primary/50"
-                                                    placeholder="e.g. Free shipping on orders over $100"
+                                                    placeholder="e.g. Free shipping on qualifying orders"
                                                 />
                                             </div>
                                         </div>

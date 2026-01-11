@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useCart } from '../context/CartContext';
+import { useStoreSettings } from '../context/StoreSettingsContext';
 import AddToBagButton from './product/AddToBagButton';
 import ProductMediaGallery from './product/ProductMediaGallery';
 
@@ -14,6 +15,7 @@ const ProductDetailView = ({
     isMobileView = false
 }) => {
     const settings = settingsOverride || {};
+    const { formatPrice, settings: globalSettings } = useStoreSettings();
     const { addToCart } = useCart();
 
     const [selectedSize, setSelectedSize] = useState(null);
@@ -48,10 +50,10 @@ const ProductDetailView = ({
         if (isMobileView) return `${base} flex flex-col gap-8 px-4 pt-4 pb-8`;
 
         switch (layoutStyle) {
-            case 'narrow': return `${base} max-w-4xl flex flex-col gap-12 px-8 pb-12 pt-4`;
+            case 'narrow': return `${base} max-w-4xl flex flex-col gap-12 px-8 pb-12 pt-8`;
             case 'full': return `${base} max-w-none flex flex-col gap-16`;
-            case 'magazine': return `${base} max-w-[1400px] grid grid-cols-12 gap-12 px-12 items-start pb-12 pt-4`;
-            case 'classic': default: return `${base} max-w-[1400px] flex flex-col lg:flex-row gap-12 lg:gap-20 px-6 lg:px-16 items-start pb-12 pt-4`;
+            case 'magazine': return `${base} max-w-[1400px] grid grid-cols-12 gap-12 px-12 items-start pb-12 pt-8`;
+            case 'classic': default: return `${base} max-w-[1400px] flex flex-col lg:flex-row gap-12 lg:gap-20 px-6 lg:px-16 items-start pb-12 pt-8`;
         }
     };
 
@@ -89,12 +91,12 @@ const ProductDetailView = ({
     // --- Sub-Components ---
     // 0. Breadcrumbs
     const Breadcrumbs = () => (
-        <nav className="flex items-center gap-2 text-[10px] font-bold uppercase tracking-widest text-gray-500">
-            <Link to="/" className="hover:text-white transition-colors">Home</Link>
-            <span className="material-symbols-outlined text-[12px]">chevron_right</span>
-            <Link to={`/shop?category=${product.category}`} className="hover:text-white transition-colors">{product.category || 'Collection'}</Link>
-            <span className="material-symbols-outlined text-[12px]">chevron_right</span>
-            <span className="text-gray-300">{product.name}</span>
+        <nav className="flex items-center gap-2 text-[10px] font-bold uppercase tracking-widest text-secondary-text">
+            <Link to="/" className="hover:text-primary transition-colors">Home</Link>
+            <span className="material-symbols-outlined text-[10px] opacity-40">chevron_right</span>
+            <Link to={`/shop?category=${product.category}`} className="hover:text-primary transition-colors">{product.category || 'Collection'}</Link>
+            <span className="material-symbols-outlined text-[10px] opacity-40">chevron_right</span>
+            <span className="text-white">{product.name}</span>
         </nav>
     );
 
@@ -106,7 +108,7 @@ const ProductDetailView = ({
                     <span key={i} className="material-symbols-outlined text-[16px] filled">star</span>
                 ))}
             </div>
-            <span className="text-[11px] font-bold text-gray-400 uppercase tracking-widest">128 Reviews</span>
+            <span className="text-[11px] font-bold text-secondary-text uppercase tracking-widest">128 Reviews</span>
         </div>
     );
 
@@ -133,8 +135,8 @@ const ProductDetailView = ({
     const TrustBadges = () => (
         <div className="flex items-center gap-2 py-4 mt-2">
             <span className="material-symbols-outlined text-green-500 text-[18px]">local_shipping</span>
-            <span className="text-[10px] font-bold text-gray-400 uppercase tracking-widest leading-none">
-                {settings.freeShippingText || 'Free shipping on orders over $100'}
+            <span className="text-[10px] font-bold text-secondary-text uppercase tracking-widest leading-none">
+                {settings.freeShippingText || `Free shipping on orders over ${formatPrice(100)}`}
             </span>
         </div>
     );
@@ -154,7 +156,7 @@ const ProductDetailView = ({
             </button>
             <div className={`overflow-hidden transition-all duration-500 ease-in-out ${activeAccordion === id ? 'max-h-[500px] opacity-100 pb-6' : 'max-h-0 opacity-0'}`}>
                 <div className="pl-8">
-                    <p className="text-sm text-gray-400 leading-relaxed font-medium">
+                    <p className="text-sm text-secondary-text leading-relaxed font-medium">
                         {content || "No details provided for this section."}
                     </p>
                 </div>
@@ -186,12 +188,12 @@ const ProductDetailView = ({
                 <div className="text-3xl font-black text-primary" style={{
                     fontFamily: typo.productTitle?.fontFamily || 'inherit'
                 }}>
-                    ${currentPrice}
+                    {formatPrice(currentPrice)}
                 </div>
                 <Rating />
             </div>
 
-            <p className="text-sm text-gray-400 leading-relaxed max-w-lg">
+            <p className="text-sm text-secondary-text leading-relaxed max-w-lg">
                 Engineered for intensity. The {product.name} features our proprietary sweat-wicking NoeDri™ fabric with strategic ventilation zones to keep you cool when the heat is on.
             </p>
         </div>
@@ -219,7 +221,7 @@ const ProductDetailView = ({
                         {/* Colors */}
                         {colors.length > 0 && (
                             <div className="space-y-4">
-                                <label className="text-[10px] font-black uppercase tracking-[0.15em] text-gray-500">Color: <span className="text-primary-light ml-2">{selectedColor?.name || 'Select'}</span></label>
+                                <label className="text-[10px] font-black uppercase tracking-[0.15em] text-label">Color: <span className="text-primary-light ml-2">{selectedColor?.name || 'Select'}</span></label>
                                 <div className="flex flex-wrap gap-3">
                                     {colors.map(c => (
                                         <button
@@ -239,7 +241,7 @@ const ProductDetailView = ({
                         {/* Sizes */}
                         {sizes.length > 0 && (
                             <div className="space-y-4">
-                                <label className="text-[10px] font-black uppercase tracking-[0.15em] text-gray-500">Size: <span className="text-primary-light ml-2">{selectedSize || 'Select'}</span></label>
+                                <label className="text-[10px] font-black uppercase tracking-[0.15em] text-label">Size: <span className="text-primary-light ml-2">{selectedSize || 'Select'}</span></label>
                                 <div className="flex flex-wrap gap-2">
                                     {sizes.map(s => (
                                         <button
@@ -328,7 +330,7 @@ const ProductDetailView = ({
                             )}
                         </div>
                         <h4 className="text-sm font-black text-white mb-2 group-hover:text-primary transition-colors">{rp.name}</h4>
-                        <div className="text-xs font-bold text-gray-500">${rp.price}</div>
+                        <div className="text-xs font-bold text-secondary-text">{formatPrice(rp.price)}</div>
                     </Link>
                 ))}
             </div>
@@ -340,7 +342,7 @@ const ProductDetailView = ({
     return (
         <div className="bg-black min-h-screen">
             {/* Breadcrumbs Top Container */}
-            <div className="w-full max-w-[1400px] mx-auto px-6 lg:px-16 pt-8 pb-4">
+            <div className="w-full max-w-[1400px] mx-auto px-6 lg:px-16 pt-24 md:pt-32 pb-4">
                 <Breadcrumbs />
             </div>
 
