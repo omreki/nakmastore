@@ -3,7 +3,7 @@
     "outputDirectory": "client/dist",
     "installCommand": "cd client && npm install --legacy-peer-deps",
     "devCommand": "cd client && npm run dev",
-    "framework": null,
+    "framework": "vite",
     "headers": [
         {
             "source": "/assets/(.*)",
@@ -15,18 +15,10 @@
             ]
         }
     ],
-    "routes": [
+    "rewrites": [
         {
-            "src": "/assets/(.*)",
-            "dest": "/assets/$1"
-        },
-        {
-            "src": "/(.*\\.(js|css|png|jpg|jpeg|gif|svg|ico|woff|woff2|ttf|eot|webp|mp4|webm))",
-            "dest": "/$1"
-        },
-        {
-            "src": "/(.*)",
-            "dest": "/index.html"
+            "source": "/(.*)",
+            "destination": "/index.html"
         }
     ]
 }
