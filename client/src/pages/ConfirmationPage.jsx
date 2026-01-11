@@ -146,9 +146,9 @@ const ConfirmationPage = () => {
                             <Link to="/category/vibrant-prints" className="hover:text-primary transition-colors">Vibrant Prints</Link>
                             <Link to="/category/classic-plains" className="hover:text-primary transition-colors">Classic Plains</Link>
                         </nav>
-                        <Link to="/" className="flex items-center justify-center rounded-full size-8 bg-white/5 border border-white/10 text-white/50 hover:text-white hover:bg-white/10 transition-all">
+                        <button type="button" onClick={() => navigate('/')} className="flex items-center justify-center rounded-full size-8 bg-white/5 border border-white/10 text-white/50 hover:text-white hover:bg-white/10 transition-all cursor-pointer z-50">
                             <span className="material-symbols-outlined text-xl">close</span>
-                        </Link>
+                        </button>
                     </div>
                 </div>
             </header>
@@ -284,9 +284,9 @@ const ConfirmationPage = () => {
                                     <span>Track Order</span>
                                     <span className="material-symbols-outlined text-lg">arrow_forward</span>
                                 </Link>
-                                <Link to="/shop" className="flex w-full items-center justify-center gap-2 rounded-full bg-white/5 border border-white/10 px-6 py-3.5 text-sm font-bold text-white transition-colors hover:bg-white/10">
+                                <button type="button" onClick={() => navigate('/shop')} className="flex w-full items-center justify-center gap-2 rounded-full bg-white/5 border border-white/10 px-6 py-3.5 text-sm font-bold text-white transition-colors hover:bg-white/10 cursor-pointer">
                                     Continue Shopping
-                                </Link>
+                                </button>
                             </div>
                             <div className="mt-6 flex items-center justify-center gap-6 text-xs text-white/40 font-medium">
                                 <Link to="/returns-policy" className="hover:text-white transition-colors">Returns</Link>
