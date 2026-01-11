@@ -62,7 +62,8 @@ const WomenPage = () => {
                     title: pageData.title || "Women's Collection",
                     hero_title: pageData.hero_title || "CULTURAL ELEGANCE",
                     hero_subtitle: pageData.hero_subtitle || "Unique African-inspired fashion for the modern woman. Sophisticated silhouettes meeting timeless heritage.",
-                    imageUrl: pageData.hero_image_url || null
+                    imageUrl: pageData.hero_image_url || null,
+                    updated_at: pageData.updated_at
                 });
             }
         } catch (error) {
@@ -130,7 +131,7 @@ const WomenPage = () => {
                     {pageContent.imageUrl && (
                         <div className="absolute inset-0">
                             <img
-                                src={pageContent.imageUrl}
+                                src={`${pageContent.imageUrl}${pageContent.imageUrl.includes('?') ? '&' : '?'}t=${new Date(pageContent.updated_at).getTime()}`}
                                 alt={pageContent.title}
                                 className="w-full h-full object-cover object-center transition-transform duration-[2s] group-hover:scale-105"
                             />

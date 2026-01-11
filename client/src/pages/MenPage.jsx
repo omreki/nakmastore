@@ -62,7 +62,8 @@ const MenPage = () => {
                     title: pageData.title || "Men's Collection",
                     hero_title: pageData.hero_title || "MODERN HERITAGE",
                     hero_subtitle: pageData.hero_subtitle || "Unique African-inspired shirts designed for the modern man. Blending cultural identity with sophisticated silhouettes.",
-                    imageUrl: pageData.hero_image_url || null
+                    imageUrl: pageData.hero_image_url || null,
+                    updated_at: pageData.updated_at
                 });
             }
         } catch (error) {
@@ -130,7 +131,7 @@ const MenPage = () => {
                     {pageContent.imageUrl && (
                         <div className="absolute inset-0">
                             <img
-                                src={pageContent.imageUrl}
+                                src={`${pageContent.imageUrl}${pageContent.imageUrl.includes('?') ? '&' : '?'}t=${new Date(pageContent.updated_at).getTime()}`}
                                 alt={pageContent.title}
                                 className="w-full h-full object-cover object-center transition-transform duration-[2s] group-hover:scale-105"
                             />

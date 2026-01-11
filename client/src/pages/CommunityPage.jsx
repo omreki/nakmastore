@@ -95,22 +95,31 @@ const CommunityPage = () => {
 
             {/* Hero Section */}
             <div className="layout-container mb-12 md:mb-16">
-                <div className="relative w-full h-[300px] md:h-[400px] rounded-[32px] md:rounded-[40px] overflow-hidden group shadow-2xl bg-gradient-to-br from-primary/20 to-[#1a1a1a]">
-                    <div
-                        className="absolute inset-0 bg-cover bg-center transition-transform duration-[2s] group-hover:scale-105"
-                        style={{ backgroundImage: pageSettings.hero_image_url ? `url(${pageSettings.hero_image_url})` : 'none' }}
-                    ></div>
-                    <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/40 to-transparent"></div>
-                    <div className="absolute inset-0 flex flex-col justify-center px-6 md:px-16">
+                <div className="relative w-full h-[400px] md:h-[600px] rounded-[32px] md:rounded-[40px] overflow-hidden group shadow-2xl bg-white/[0.03]">
+                    {pageSettings.hero_image_url && (
+                        <div className="absolute inset-0">
+                            <img
+                                src={`${pageSettings.hero_image_url}${pageSettings.hero_image_url.includes('?') ? '&' : '?'}t=${new Date(pageSettings.updated_at).getTime()}`}
+                                alt={pageSettings.title}
+                                className="w-full h-full object-cover object-center transition-transform duration-[2s] group-hover:scale-105"
+                            />
+                        </div>
+                    )}
+
+                    {/* Sophisticated Overlays */}
+                    <div className="absolute inset-0 bg-gradient-to-r from-black via-black/40 to-transparent z-[1]"></div>
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent z-[1]"></div>
+
+                    <div className="absolute inset-0 flex flex-col justify-center px-6 md:px-16 z-10">
                         {pageSettings.hero_title && (
-                            <span className="text-primary-light text-[10px] md:text-xs font-bold uppercase tracking-[0.4em] mb-4 text-[#b82063]">
+                            <span className="text-primary text-[10px] md:text-sm font-black uppercase tracking-[0.4em] mb-4 drop-shadow-lg">
                                 {pageSettings.hero_title}
                             </span>
                         )}
-                        <h1 className="text-4xl md:text-8xl font-bold text-white tracking-tight leading-[1] mb-4 md:mb-6">
+                        <h1 className="text-4xl md:text-8xl font-black text-white tracking-tight leading-[0.9] mb-4 md:mb-6 uppercase drop-shadow-2xl">
                             {pageSettings.title}
                         </h1>
-                        <p className="text-white/60 text-sm md:text-xl font-medium max-w-xl line-clamp-2 md:line-clamp-none">
+                        <p className="text-white/70 text-sm md:text-xl font-medium max-w-xl line-clamp-3 md:line-clamp-none leading-relaxed uppercase drop-shadow-lg">
                             {pageSettings.hero_subtitle}
                         </p>
                     </div>

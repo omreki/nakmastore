@@ -133,22 +133,28 @@ const AboutPage = () => {
 
             {/* Join the Movement */}
             <section className="layout-container py-10">
-                <div className="relative w-full rounded-[32px] md:rounded-[40px] overflow-hidden bg-black p-8 md:p-24 text-center space-y-8 shadow-2xl group">
-                    <div
-                        className="absolute inset-0 bg-cover bg-center transition-transform duration-1000"
-                        style={{ backgroundImage: aboutSettings.join.bgImage ? `url(${aboutSettings.join.bgImage})` : 'none' }}
-                    >
-                        {/* Elegant Gradient Overlay */}
-                        <div className="absolute inset-0 bg-gradient-to-tr from-black/80 via-black/40 to-transparent"></div>
-                        <div className="absolute inset-0 bg-gradient-to-bl from-black/80 via-transparent to-black/80"></div>
-                    </div>
+                <div className="relative w-full h-[400px] md:h-[600px] rounded-[32px] md:rounded-[40px] overflow-hidden bg-black p-8 md:p-24 text-center flex items-center justify-center shadow-2xl group">
+                    {aboutSettings.join.bgImage && (
+                        <div className="absolute inset-0">
+                            <img
+                                src={aboutSettings.join.bgImage}
+                                alt="Join Background"
+                                className="w-full h-full object-cover object-center transition-transform duration-[2s] group-hover:scale-105 opacity-60"
+                            />
+                        </div>
+                    )}
+
+                    {/* Elegant Gradient Overlay */}
+                    <div className="absolute inset-0 bg-gradient-to-tr from-black/80 via-black/40 to-transparent z-[1]"></div>
+                    <div className="absolute inset-0 bg-gradient-to-bl from-black/80 via-transparent to-black/80 z-[1]"></div>
+
                     <div className="relative z-10 space-y-6">
-                        <h2 className="text-4xl md:text-8xl font-bold tracking-tight italic">{aboutSettings.join.title}</h2>
-                        <p className="text-white/80 text-lg md:text-xl font-medium max-w-xl mx-auto">
+                        <h2 className="text-4xl md:text-8xl font-black italic tracking-tight uppercase drop-shadow-2xl">{aboutSettings.join.title}</h2>
+                        <p className="text-white/80 text-lg md:text-xl font-medium max-w-xl mx-auto uppercase drop-shadow-lg">
                             {aboutSettings.join.subtitle}
                         </p>
                         <div className="pt-6">
-                            <Link to={aboutSettings.join.buttonLink} className="px-12 py-5 bg-white text-black rounded-full font-bold uppercase tracking-widest hover:bg-black hover:text-white transition-all inline-block shadow-xl">
+                            <Link to={aboutSettings.join.buttonLink} className="px-12 py-5 bg-white text-black rounded-full font-black uppercase tracking-widest hover:bg-primary hover:text-white transition-all inline-block shadow-xl">
                                 {aboutSettings.join.buttonText}
                             </Link>
                         </div>

@@ -175,7 +175,7 @@ const DynamicPage = () => {
                     {pageData?.hero_image_url && (
                         <div className="absolute inset-0">
                             <img
-                                src={pageData.hero_image_url}
+                                src={`${pageData.hero_image_url}${pageData.hero_image_url.includes('?') ? '&' : '?'}t=${new Date(pageData.updated_at).getTime()}`}
                                 alt={pageData.title}
                                 className="w-full h-full object-cover object-center transition-transform duration-[2s] group-hover:scale-105"
                             />

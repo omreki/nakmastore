@@ -131,19 +131,29 @@ const ShopPage = () => {
             {/* Hero / Header Section */}
             {!searchQuery && (
                 <div className="layout-container mb-12 md:mb-16">
-                    <div className="relative w-full h-[300px] md:h-[450px] rounded-[40px] md:rounded-[56px] overflow-hidden group shadow-2xl bg-white/[0.03]">
-                        <div
-                            className="absolute inset-0 bg-cover bg-center transition-transform duration-[2s] group-hover:scale-105"
-                            style={{ backgroundImage: pageSettings?.hero_image_url ? `url(${pageSettings.hero_image_url})` : 'none' }}
-                        >
-                        </div>
-                        <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/30 to-transparent"></div>
-                        <div className="absolute inset-0 flex flex-col justify-center px-8 md:px-20">
-                            <span className="text-primary text-[10px] md:text-xs font-black uppercase tracking-[0.6em] mb-4">THE FULL COLLECTION</span>
-                            <h1 className="text-4xl md:text-8xl font-black text-white tracking-tighter leading-[0.9] mb-4 md:mb-6 uppercase">
-                                {pageSettings?.hero_title || <>Timeless African <br /> Elegance</>}
+                    <div className="relative w-full h-[400px] md:h-[600px] rounded-[40px] md:rounded-[56px] overflow-hidden group shadow-2xl bg-white/[0.03]">
+                        {pageSettings?.hero_image_url && (
+                            <div className="absolute inset-0">
+                                <img
+                                    src={`${pageSettings.hero_image_url}${pageSettings.hero_image_url.includes('?') ? '&' : '?'}t=${new Date(pageSettings.updated_at).getTime()}`}
+                                    alt={pageSettings.title || "Shop"}
+                                    className="w-full h-full object-cover object-center transition-transform duration-[2s] group-hover:scale-105"
+                                />
+                            </div>
+                        )}
+
+                        {/* Sophisticated Overlays */}
+                        <div className="absolute inset-0 bg-gradient-to-r from-black via-black/40 to-transparent z-[1]"></div>
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent z-[1]"></div>
+
+                        <div className="absolute inset-0 flex flex-col justify-center px-8 md:px-20 z-10">
+                            <span className="text-primary text-[10px] md:text-xs font-black uppercase tracking-[0.6em] mb-4 drop-shadow-lg">
+                                {pageSettings?.hero_title || "THE FULL COLLECTION"}
+                            </span>
+                            <h1 className="text-4xl md:text-8xl font-black text-white tracking-tighter leading-[0.9] mb-4 md:mb-6 uppercase drop-shadow-2xl">
+                                {pageSettings?.title || "Timeless African Elegance"}
                             </h1>
-                            <p className="text-white/50 text-base md:text-xl font-medium max-w-xl line-clamp-2 md:line-clamp-none">
+                            <p className="text-white/70 text-base md:text-xl font-medium max-w-xl line-clamp-3 md:line-clamp-none leading-relaxed uppercase drop-shadow-lg">
                                 {pageSettings?.hero_subtitle || "Our complete range of unique African-inspired shirts. Crafted for comfort, designed for cultural expression."}
                             </p>
                         </div>
