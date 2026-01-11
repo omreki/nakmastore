@@ -639,6 +639,7 @@ const StoreSettingsPage = () => {
                 content_category_slug: pageForm.content_category_slug,
                 is_system: pageForm.is_system,
                 status: pageForm.status,
+                is_published: pageForm.status === 'published',
                 meta_title: pageForm.meta_title,
                 meta_description: pageForm.meta_description,
                 custom_css: pageForm.custom_css

@@ -94,10 +94,12 @@ const HomePage = () => {
 
                 <div className="relative w-full h-[500px] md:h-[800px] rounded-[32px] md:rounded-[56px] overflow-hidden shadow-[0_50px_100px_-20px_rgba(0,0,0,0.9)] border border-white/[0.03] bg-secondary bg-gradient-to-br from-primary/20 via-secondary to-secondary">
                     {/* Main Image with optimized blend */}
-                    <div
-                        className="absolute inset-0 w-full h-full bg-cover bg-center transition-transform duration-[4s] ease-out group-hover:scale-105"
-                        style={{ backgroundImage: `url('${heroImg}')` }}
-                    >
+                    <div className="absolute inset-0 w-full h-full overflow-hidden">
+                        <img
+                            src={heroImg}
+                            alt="Hero Background"
+                            className="w-full h-full object-cover object-center transition-transform duration-[4s] ease-out group-hover:scale-105"
+                        />
                     </div>
 
                     {/* Hollow Faded Background Text */}

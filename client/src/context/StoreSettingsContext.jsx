@@ -249,7 +249,21 @@ export const StoreSettingsProvider = ({ children }) => {
                                     metaDescription: ""
                                 }
                             },
-                            aboutPageSettings: data.about_page_settings || {
+                            aboutPageSettings: data.about_page_settings ? {
+                                ...data.about_page_settings,
+                                hero: {
+                                    ...data.about_page_settings.hero,
+                                    bgImage: data.about_page_settings.hero?.bgImage ? `${data.about_page_settings.hero.bgImage}?t=${timestamp}` : ""
+                                },
+                                philosophy: {
+                                    ...data.about_page_settings.philosophy,
+                                    imageUrl: data.about_page_settings.philosophy?.imageUrl ? `${data.about_page_settings.philosophy.imageUrl}?t=${timestamp}` : ""
+                                },
+                                join: {
+                                    ...data.about_page_settings.join,
+                                    bgImage: data.about_page_settings.join?.bgImage ? `${data.about_page_settings.join.bgImage}?t=${timestamp}` : ""
+                                }
+                            } : {
                                 hero: {
                                     bgImage: "https://images.unsplash.com/photo-1534438327276-14e5300c3a48?q=80&w=2070&auto=format&fit=crop",
                                     estText: "EST. 2024",
@@ -424,7 +438,21 @@ export const StoreSettingsProvider = ({ children }) => {
                         { id: 'community', label: 'Community', path: '/community', type: 'link', visible: true, subtitle: 'Joined forces' },
                         { id: 'contact', label: 'Contact', path: '/contact', type: 'link', visible: true, subtitle: 'Support core' }
                     ],
-                    aboutPageSettings: data.about_page_settings || {
+                    aboutPageSettings: data.about_page_settings ? {
+                        ...data.about_page_settings,
+                        hero: {
+                            ...data.about_page_settings.hero,
+                            bgImage: data.about_page_settings.hero?.bgImage ? `${data.about_page_settings.hero.bgImage}?t=${timestamp}` : ""
+                        },
+                        philosophy: {
+                            ...data.about_page_settings.philosophy,
+                            imageUrl: data.about_page_settings.philosophy?.imageUrl ? `${data.about_page_settings.philosophy.imageUrl}?t=${timestamp}` : ""
+                        },
+                        join: {
+                            ...data.about_page_settings.join,
+                            bgImage: data.about_page_settings.join?.bgImage ? `${data.about_page_settings.join.bgImage}?t=${timestamp}` : ""
+                        }
+                    } : {
                         hero: {
                             bgImage: "https://images.unsplash.com/photo-1534438327276-14e5300c3a48?q=80&w=2070&auto=format&fit=crop",
                             estText: "EST. 2024",

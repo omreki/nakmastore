@@ -34,26 +34,31 @@ const AboutPage = () => {
 
             {/* Hero Section */}
             <section className="relative w-full h-[500px] md:h-[800px] flex items-center justify-center text-center px-6 overflow-hidden bg-black">
-                <div
-                    className="absolute inset-0 bg-cover bg-center opacity-50"
-                    style={{ backgroundImage: aboutSettings.hero.bgImage ? `url(${aboutSettings.hero.bgImage})` : 'none' }}
-                ></div>
+                {aboutSettings.hero.bgImage && (
+                    <div className="absolute inset-0">
+                        <img
+                            src={aboutSettings.hero.bgImage}
+                            alt="About Hero"
+                            className="w-full h-full object-cover object-center opacity-60"
+                        />
+                    </div>
+                )}
                 {/* Sleek Gradient Overlay */}
-                <div className="absolute inset-0 bg-gradient-to-b from-black via-transparent to-black"></div>
-                <div className="absolute inset-0 bg-gradient-to-r from-black via-transparent to-black opacity-80"></div>
-                <div className="absolute inset-0 bg-black/20"></div>
+                <div className="absolute inset-0 bg-gradient-to-b from-black via-transparent to-black z-[1]"></div>
+                <div className="absolute inset-0 bg-gradient-to-r from-black via-transparent to-black opacity-80 z-[1]"></div>
+                <div className="absolute inset-0 bg-black/20 z-[1]"></div>
 
                 <div className="relative z-10 max-w-4xl space-y-6 md:space-y-8">
-                    <span className="text-[#b82063] text-xs md:text-sm font-bold uppercase tracking-[0.4em] md:tracking-[0.6em]">{aboutSettings.hero.estText}</span>
-                    <h1 className="text-5xl md:text-9xl font-bold tracking-tight leading-[0.9] whitespace-pre-line">
-                        {aboutSettings.hero.title.split('\\n').map((line, i) => (
+                    <span className="text-primary text-xs md:text-sm font-bold uppercase tracking-[0.4em] md:tracking-[0.6em]">{aboutSettings.hero.estText}</span>
+                    <h1 className="text-5xl md:text-9xl font-bold tracking-tight leading-[0.9] whitespace-pre-line uppercase">
+                        {aboutSettings.hero.title.split(/\r?\n|\\n/).map((line, i) => (
                             <React.Fragment key={i}>
                                 {i > 0 && <br />}
                                 {i % 2 === 1 ? <span className="text-white/20">{line}</span> : line}
                             </React.Fragment>
                         )) || aboutSettings.hero.title}
                     </h1>
-                    <p className="text-white/60 text-base md:text-2xl font-medium max-w-2xl mx-auto leading-relaxed">
+                    <p className="text-white/60 text-base md:text-2xl font-medium max-w-2xl mx-auto leading-relaxed uppercase">
                         {aboutSettings.hero.subtitle}
                     </p>
                 </div>
