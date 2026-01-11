@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import { useCart } from '../context/CartContext';
 import AddToBagButton from './product/AddToBagButton';
 import ProductMediaGallery from './product/ProductMediaGallery';
@@ -85,29 +86,39 @@ const ProductDetailView = ({
     };
 
     // --- Sub-Components ---
+    // 0. Breadcrumbs
+    const Breadcrumbs = () => (
+        <nav className="flex items-center gap-2 mb-8 text-[10px] font-bold uppercase tracking-widest text-gray-500">
+            <Link to="/" className="hover:text-white transition-colors">Home</Link>
+            <span className="material-symbols-outlined text-[12px]">chevron_right</span>
+            <Link to={`/shop?category=${product.category}`} className="hover:text-white transition-colors">{product.category || 'Collection'}</Link>
+            <span className="material-symbols-outlined text-[12px]">chevron_right</span>
+            <span className="text-gray-300">{product.name}</span>
+        </nav>
+    );
 
     // 1. Rating
     const Rating = () => (
-        <div className="flex items-center gap-2 mb-2">
-            <div className="flex text-primary">
+        <div className="flex items-center gap-3 mb-6">
+            <div className="flex text-[#FFC400]">
                 {[1, 2, 3, 4, 5].map(i => (
-                    <span key={i} className="material-symbols-outlined text-[18px] filled">star</span>
+                    <span key={i} className="material-symbols-outlined text-[16px] filled">star</span>
                 ))}
             </div>
-            <span className="text-[10px] font-bold text-gray-500 uppercase tracking-wider ml-1">128 Verified Reviews</span>
+            <span className="text-[11px] font-bold text-gray-400 uppercase tracking-widest">128 Reviews</span>
         </div>
     );
 
     // 2. Quantity Selector (Styled like image)
     const QuantitySelector = () => (
-        <div className="flex items-center bg-[#111] rounded-full border border-white/10 p-1 w-36 h-12 shadow-inner">
+        <div className="flex items-center bg-white/5 rounded-full border border-white/10 p-1 w-36 h-12 shadow-inner group hover:border-white/20 transition-all">
             <button
                 onClick={() => setQuantity(Math.max(1, quantity - 1))}
                 className="size-10 flex items-center justify-center text-white hover:bg-white/10 rounded-full transition-colors"
             >
                 <span className="material-symbols-outlined text-[18px]">remove</span>
             </button>
-            <div className="flex-1 text-center font-black text-lg italic text-white">{quantity}</div>
+            <div className="flex-1 text-center font-black text-lg text-white">{quantity}</div>
             <button
                 onClick={() => setQuantity(Math.min(maxStock, quantity + 1))}
                 className="size-10 flex items-center justify-center text-white hover:bg-white/10 rounded-full transition-colors"
@@ -119,89 +130,96 @@ const ProductDetailView = ({
 
     // 3. Trust Badges
     const TrustBadges = () => (
-        <div className="grid grid-cols-3 gap-4 pt-6 mt-6 border-t border-white/5 opacity-60">
-            <div className="flex flex-col items-center gap-2 text-center">
-                <span className="material-symbols-outlined text-[20px]">local_shipping</span>
-                <span className="text-[9px] font-bold uppercase tracking-widest">Free Shipping</span>
-            </div>
-            <div className="flex flex-col items-center gap-2 text-center">
-                <span className="material-symbols-outlined text-[20px]">history</span>
-                <span className="text-[9px] font-bold uppercase tracking-widest">30-Day Returns</span>
-            </div>
-            <div className="flex flex-col items-center gap-2 text-center">
-                <span className="material-symbols-outlined text-[20px]">verified_user</span>
-                <span className="text-[9px] font-bold uppercase tracking-widest">2yr Warranty</span>
-            </div>
+        <div className="flex items-center gap-2 py-4 mt-2">
+            <span className="material-symbols-outlined text-green-500 text-[18px]">local_shipping</span>
+            <span className="text-[10px] font-bold text-gray-400 uppercase tracking-widest leading-none">Free shipping on orders over $100</span>
         </div>
     );
 
     // 4. Accordion Item
-    const AccordionItem = ({ title, content, id }) => (
-        <div className="border-b border-white/10">
+    const AccordionItem = ({ title, content, id, icon }) => (
+        <div className="border-b border-white/5">
             <button
                 onClick={() => handleAccordion(id)}
-                className="w-full py-4 flex items-center justify-between text-left group"
+                className="w-full py-5 flex items-center justify-between text-left group"
             >
-                <span className="text-xs font-black uppercase tracking-widest text-white group-hover:text-primary transition-colors">{title}</span>
-                <span className={`material-symbols-outlined text-[18px] transition-transform duration-300 ${activeAccordion === id ? 'rotate-180' : ''}`}>expand_more</span>
+                <div className="flex items-center gap-3">
+                    <span className="material-symbols-outlined text-[20px] text-gray-400 group-hover:text-white transition-colors">{icon}</span>
+                    <span className="text-xs font-black uppercase tracking-[0.1em] text-white group-hover:text-primary transition-colors">{title}</span>
+                </div>
+                <span className={`material-symbols-outlined text-[20px] text-gray-500 transition-transform duration-300 ${activeAccordion === id ? 'rotate-180' : ''}`}>expand_more</span>
             </button>
-            <div className={`overflow-hidden transition-all duration-300 ease-in-out ${activeAccordion === id ? 'max-h-40 opacity-100 pb-4' : 'max-h-0 opacity-0'}`}>
-                <p className="text-sm text-gray-400 leading-relaxed font-medium">{content}</p>
+            <div className={`overflow-hidden transition-all duration-500 ease-in-out ${activeAccordion === id ? 'max-h-[500px] opacity-100 pb-6' : 'max-h-0 opacity-0'}`}>
+                <div className="pl-8">
+                    <p className="text-sm text-gray-400 leading-relaxed font-medium">
+                        {content || "No details provided for this section."}
+                    </p>
+                    {id === 'features' && (
+                        <ul className="mt-4 space-y-2">
+                            <li className="text-sm text-gray-400 flex items-start gap-2">
+                                <span className="size-1 bg-primary rounded-full mt-1.5 flex-shrink-0"></span>
+                                Athletic fit designed to contour chest and shoulders.
+                            </li>
+                            <li className="text-sm text-gray-400 flex items-start gap-2">
+                                <span className="size-1 bg-primary rounded-full mt-1.5 flex-shrink-0"></span>
+                                Slightly tapered waist for a V-taper look.
+                            </li>
+                            <li className="text-sm text-gray-400 flex items-start gap-2">
+                                <span className="size-1 bg-primary rounded-full mt-1.5 flex-shrink-0"></span>
+                                Curved hem for added coverage during stretches.
+                            </li>
+                            <li className="text-sm text-gray-400 flex items-start gap-2">
+                                <span className="size-1 bg-primary rounded-full mt-1.5 flex-shrink-0"></span>
+                                Model is 6\'1" and wears size M.
+                            </li>
+                        </ul>
+                    )}
+                </div>
             </div>
         </div>
     );
 
     // Header Render
     const renderHeader = () => (
-        <div className="space-y-3">
-            {/* Subtitle / Breadcrumb-ish */}
-            <div className="text-[10px] font-bold text-primary uppercase tracking-[0.2em] mb-2">
-                {product.category || 'Collection'}
+        <div className="space-y-4">
+            <div className="flex items-start justify-between gap-4">
+                <h1 style={{
+                    fontFamily: typo.productTitle?.fontFamily || 'inherit',
+                    fontSize: typo.productTitle?.fontSize ? `${typo.productTitle.fontSize}px` : '42px',
+                    fontWeight: typo.productTitle?.fontWeight || 900,
+                    color: typo.productTitle?.color || '#ffffff',
+                    letterSpacing: typo.productTitle?.letterSpacing ? `${typo.productTitle.letterSpacing}px` : '-0.02em',
+                    textTransform: typo.productTitle?.textTransform || 'none',
+                    lineHeight: 1.1
+                }}>
+                    {product.name}
+                </h1>
+                <button className="size-12 rounded-full border border-white/10 flex items-center justify-center hover:bg-white/5 transition-all group">
+                    <span className="material-symbols-outlined text-[20px] text-white group-hover:scale-110 active:scale-90 transition-transform">favorite</span>
+                </button>
             </div>
 
-            <h1 style={{
-                fontFamily: typo.productTitle?.fontFamily,
-                fontSize: `${typo.productTitle?.fontSize}px`,
-                fontWeight: typo.productTitle?.fontWeight,
-                color: typo.productTitle?.color,
-                letterSpacing: `${typo.productTitle?.letterSpacing}px`,
-                textTransform: typo.productTitle?.textTransform,
-                lineHeight: 1
-            }}>
-                {product.name}
-            </h1>
-
-            <Rating />
-
-            <div className="flex items-center gap-4 mt-2" style={{
-                fontSize: `${typo.price?.fontSize}px`,
-                fontFamily: typo.productTitle?.fontFamily
-            }}>
-                {product.is_sale && (
-                    <span className="line-through opacity-40 text-[0.8em]" style={{ color: typo.price?.color }}>
-                        ${product.price}
-                    </span>
-                )}
-                <span className="italic font-bold" style={{ color: product.is_sale ? (typo.price?.saleColor || '#ff0000') : typo.price?.color }}>
-                    Ksh {currentPrice}
-                </span>
-            </div>
-
-            {maxStock < 5 && maxStock > 0 && (
-                <div className="flex items-center gap-2 mt-2">
-                    <span className="flex size-2 rounded-full bg-red-500 animate-pulse"></span>
-                    <span className="text-[10px] font-bold text-red-500 uppercase tracking-widest">Low Stock: Only {maxStock} units left!</span>
+            <div className="flex items-center gap-6">
+                <div className="text-3xl font-black text-primary" style={{
+                    fontFamily: typo.productTitle?.fontFamily || 'inherit'
+                }}>
+                    ${currentPrice}
                 </div>
-            )}
+                <Rating />
+            </div>
+
+            <p className="text-sm text-gray-400 leading-relaxed max-w-lg">
+                Engineered for intensity. The {product.name} features our proprietary sweat-wicking NoeDri™ fabric with strategic ventilation zones to keep you cool when the heat is on.
+            </p>
         </div>
     );
 
     const MediaSection = (
-        <div className={`transition-all ${widths.image || 'w-full'} ${settings.layout?.stickyElements?.images && !isMobileView ? 'sticky top-24' : ''}`}>
+        <div className={`transition-all ${widths.image || 'w-full'} ${settings?.layout?.stickyElements?.images && !isMobileView ? 'sticky top-24' : ''}`}>
             <ProductMediaGallery
                 images={product.images || []}
                 productTitle={product.name}
-                settings={settings}
+                settings={{ ...settings, galleryLayout: settings?.galleryLayout || 'magazine' }}
                 isNew={product.is_new}
             />
         </div>
@@ -212,33 +230,23 @@ const ProductDetailView = ({
             <div className={getSpacingClass()}>
                 {renderHeader()}
 
-                <div style={{
-                    fontFamily: typo.description?.fontFamily,
-                    fontSize: `${typo.description?.fontSize}px`,
-                    color: typo.description?.color,
-                    lineHeight: typo.description?.lineHeight
-                }}>
-                    <h3 className="text-sm font-bold text-gray-500 mb-1">{product.category}</h3>
-                </div>
-
                 {/* Variants */}
                 {(colors.length > 0 || sizes.length > 0) && (
-                    <div className="space-y-6">
+                    <div className="space-y-8 p-6 rounded-3xl bg-white/[0.02] border border-white/5 ring-1 ring-inset ring-white/5 shadow-2xl">
                         {/* Colors */}
                         {colors.length > 0 && (
-                            <div className="space-y-3">
-                                <div className="flex justify-between">
-                                    <label className="text-[10px] font-black uppercase tracking-widest text-gray-500">Select Color: <span className="text-white ml-1">{selectedColor?.name}</span></label>
-                                </div>
+                            <div className="space-y-4">
+                                <label className="text-[10px] font-black uppercase tracking-[0.15em] text-gray-500">Color: <span className="text-primary-light ml-2">{selectedColor?.name || 'Select'}</span></label>
                                 <div className="flex flex-wrap gap-3">
                                     {colors.map(c => (
                                         <button
                                             key={c.name}
                                             onClick={() => setSelectedColor(c)}
-                                            className={`size-10 rounded-full border-2 transition-all ${selectedColor?.name === c.name ? 'border-primary ring-2 ring-primary/30 scale-110' : 'border-white/10 hover:border-white/50'}`}
-                                            style={{ backgroundColor: c.hex }}
+                                            className={`size-10 rounded-full border-2 transition-all p-0.5 ${selectedColor?.name === c.name ? 'border-primary ring-2 ring-primary/30 scale-110' : 'border-transparent opacity-60 hover:opacity-100 hover:scale-105'}`}
                                             title={c.name}
-                                        />
+                                        >
+                                            <div className="w-full h-full rounded-full" style={{ backgroundColor: c.hex }} />
+                                        </button>
                                     ))}
                                 </div>
                             </div>
@@ -246,17 +254,20 @@ const ProductDetailView = ({
 
                         {/* Sizes */}
                         {sizes.length > 0 && (
-                            <div className="space-y-3">
+                            <div className="space-y-4">
                                 <div className="flex justify-between items-center">
-                                    <label className="text-[10px] font-black uppercase tracking-widest text-gray-500">Size: <span className="text-white ml-1">{selectedSize}</span></label>
-                                    <button className="text-[10px] font-bold text-primary uppercase tracking-widest hover:text-white transition-colors">Size Guide</button>
+                                    <label className="text-[10px] font-black uppercase tracking-[0.15em] text-gray-500">Size</label>
+                                    <button className="text-[10px] font-black uppercase tracking-[0.15em] text-primary hover:text-primary-light flex items-center gap-1.5 transition-colors">
+                                        <span className="material-symbols-outlined text-[14px]">straighten</span>
+                                        Size Guide
+                                    </button>
                                 </div>
-                                <div className="flex flex-wrap gap-3">
+                                <div className="flex flex-wrap gap-2">
                                     {sizes.map(s => (
                                         <button
                                             key={s}
                                             onClick={() => setSelectedSize(s)}
-                                            className={`size-12 rounded-xl flex items-center justify-center text-xs font-black transition-all border ${selectedSize === s ? 'bg-white text-black border-white scale-105 shadow-lg' : 'bg-[#111] text-gray-400 border-white/10 hover:border-white/40 hover:text-white'}`}
+                                            className={`min-w-[56px] h-12 rounded-full flex items-center justify-center text-[11px] font-black transition-all border px-4 italic tracking-widest ${selectedSize === s ? 'bg-primary/20 text-white border-primary shadow-lg shadow-primary/10' : 'bg-white/5 text-gray-500 border-white/10 hover:border-white/30 hover:text-white'}`}
                                         >
                                             {s}
                                         </button>
@@ -267,66 +278,100 @@ const ProductDetailView = ({
                     </div>
                 )}
 
-                {/* Quantity */}
-                <div className="space-y-3">
-                    <label className="text-[10px] font-black uppercase tracking-widest text-gray-500">Quantity</label>
-                    <QuantitySelector />
-                    {maxStock > 0 && maxStock < 10 && <span className="text-[10px] font-bold text-gray-600 italic">Max Available: {maxStock}</span>}
+                <div className="space-y-6">
+                    <AddToBagButton
+                        settings={{
+                            ...settings,
+                            addToCart: {
+                                ...settings?.addToCart,
+                                showIcon: true,
+                                iconPosition: 'left',
+                                showPrice: true,
+                                customText: 'Add to Cart',
+                                styling: {
+                                    ...(settings?.addToCart?.styling || {}),
+                                    background: '#8B0000',
+                                    text: '#ffffff',
+                                    borderRadius: 99,
+                                    fontWeight: 900,
+                                    textTransform: 'uppercase',
+                                    height: 60,
+                                }
+                            }
+                        }}
+                        price={currentPrice}
+                        onClick={handleAddToCart}
+                        disabled={hasVariations && (!selectedSize || (!selectedColor && colors.length > 0))}
+                    />
+                    <TrustBadges />
                 </div>
 
-                {/* Add to Cart Button */}
-                <AddToBagButton
-                    settings={settings}
-                    price={`$${currentPrice}`}
-                    onClick={handleAddToCart}
-                    disabled={hasVariations && (!selectedSize || (!selectedColor && colors.length > 0))}
-                />
-
-                {settings.advanced?.showTrustBadges && <TrustBadges />}
-
-                {/* Accordions */}
-                <div className="pt-8 mt-8 border-t border-white/5 space-y-2">
-                    <AccordionItem id="features" title="Features" content="Engineered with our proprietary Noesis fabric for unmatched breathability and 4-way stretch. Moisture-wicking technology keeps you dry while the ergonomic seams prevent chafing." />
-                    <AccordionItem id="care" title="Care" content="Machine wash cold with like colors. Tumble dry low. Do not bleach. Do not iron. Do not dry clean." />
+                {/* Info Tabs / Accordions */}
+                <div className="pt-4 space-y-2">
+                    <AccordionItem id="features" title="Description & Fit" icon="info" content="Engineered with our proprietary NoeDri™ fabric for unmatched breathability and 4-way stretch." />
+                    <AccordionItem id="care" title="Materials & Care" icon="wash" content="Machine wash cold with like colors. Tumble dry low. 88% Polyester, 12% Spandex." />
+                    <AccordionItem id="shipping" title="Shipping & Returns" icon="local_shipping" content="Free standard shipping on orders over $100. Returns accepted within 30 days of purchase." />
                 </div>
             </div>
         </div>
     );
 
+    // --- Related Products Section ---
+    const RelatedProducts = () => (
+        <section className="w-full max-w-[1400px] mx-auto px-6 lg:px-16 pt-24 pb-32 border-t border-white/5">
+            <div className="flex items-center justify-between mb-12">
+                <h2 className="text-3xl font-black text-white italic tracking-tight">Complete the Look</h2>
+                <Link to="/shop" className="text-[10px] font-black uppercase tracking-[0.2em] text-primary hover:text-white transition-colors flex items-center gap-2 group">
+                    View all <span className="material-symbols-outlined text-[14px] group-hover:translate-x-1 transition-transform">arrow_forward</span>
+                </Link>
+            </div>
+
+            <div className="grid grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-10">
+                {relatedProducts.slice(0, 4).map((rp) => (
+                    <Link key={rp.id} to={`/product/${rp.slug || rp.id}`} className="group block">
+                        <div className="aspect-[4/5] rounded-[2rem] overflow-hidden bg-white/5 border border-white/5 mb-6 relative transition-transform duration-500 group-hover:-translate-y-2">
+                            <img src={rp.images?.[0]} alt={rp.name} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
+                            {rp.is_sale && (
+                                <div className="absolute top-4 left-4 z-10 px-3 py-1 bg-primary text-white text-[9px] font-black uppercase tracking-widest rounded-full">Sale</div>
+                            )}
+                        </div>
+                        <h4 className="text-sm font-black text-white mb-2 group-hover:text-primary transition-colors">{rp.name}</h4>
+                        <div className="text-xs font-bold text-gray-500">${rp.price}</div>
+                    </Link>
+                ))}
+            </div>
+        </section>
+    );
+
     // --- Main Layout ---
 
-    if (layoutStyle === 'full') {
-        return (
-            <div className={getContainerClasses()}>
-                <div className="w-full">
-                    <ProductMediaGallery settings={{ ...settings, productImages: { ...settings.productImages, aspectRatio: '21:9', fit: 'cover' } }} images={product.images} productTitle={product.name} isNew={product.is_new} />
-                </div>
-                <div className="max-w-4xl mx-auto w-full">
-                    {InfoSection}
-                </div>
-            </div>
-        );
-    }
-
-    // Magazine or Classic/Narrow
-    if (layoutStyle === 'magazine' && !isMobileView) {
-        return (
-            <div className={getContainerClasses()}>
-                <div className="col-span-7 h-full sticky top-24">
-                    <ProductMediaGallery settings={settings} images={product.images} productTitle={product.name} isNew={product.is_new} />
-                </div>
-                <div className="col-span-1 border-l border-white/10 h-full mx-auto"></div>
-                <div className="col-span-4 pt-12">
-                    {InfoSection}
-                </div>
-            </div>
-        );
-    }
-
     return (
-        <div className={getContainerClasses()}>
-            {MediaSection}
-            {InfoSection}
+        <div className="bg-black min-h-screen">
+            <div className={getContainerClasses()}>
+                {/* Desktop Breadcrumbs outside columns if magazine */}
+                {!isMobileView && <div className="col-span-12"><Breadcrumbs /></div>}
+                {isMobileView && <Breadcrumbs />}
+
+                {layoutStyle === 'magazine' && !isMobileView ? (
+                    <>
+                        <div className="col-span-7 h-full">
+                            {MediaSection}
+                        </div>
+                        <div className="col-span-1 h-full mx-auto"></div>
+                        <div className="col-span-4 pt-12">
+                            {InfoSection}
+                        </div>
+                    </>
+                ) : (
+                    <>
+                        {MediaSection}
+                        {InfoSection}
+                    </>
+                )}
+            </div>
+
+            {/* Always show related products at bottom */}
+            <RelatedProducts />
         </div>
     );
 };
