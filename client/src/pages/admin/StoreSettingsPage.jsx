@@ -1951,6 +1951,34 @@ const StoreSettingsPage = () => {
                                             />
                                         </div>
                                     )}
+
+                                    {/* Design Aesthetics */}
+                                    <div className="space-y-4 md:col-span-2 border-t border-white/5 pt-8 mt-4">
+                                        <label className="text-[10px] font-black text-white/40 uppercase tracking-[0.2em] block">Design Aesthetics</label>
+                                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                            <div className="space-y-3">
+                                                <label className="text-[10px] font-bold text-gray-500 uppercase tracking-widest">Global Rounding Style</label>
+                                                <div className="flex bg-white/5 p-1 rounded-2xl border border-white/10">
+                                                    {['rounded', 'sharp'].map((style) => (
+                                                        <button
+                                                            key={style}
+                                                            onClick={() => setSettings(prev => ({
+                                                                ...prev,
+                                                                productPageSettings: { ...prev.productPageSettings, roundingStyle: style }
+                                                            }))}
+                                                            className={`flex-1 py-3 px-4 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all ${settings.productPageSettings?.roundingStyle === style
+                                                                ? 'bg-primary text-white shadow-lg'
+                                                                : 'text-gray-500 hover:text-white'
+                                                                }`}
+                                                        >
+                                                            {style}
+                                                        </button>
+                                                    ))}
+                                                </div>
+                                                <p className="text-[10px] text-gray-500 italic">Applies to product images, buttons, and variants.</p>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         )}

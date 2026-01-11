@@ -230,9 +230,9 @@ const ProductDetailView = ({
             <div className={getSpacingClass()}>
                 {renderHeader()}
 
-                {/* Variants */}
+                {/* Variants Row */}
                 {(colors.length > 0 || sizes.length > 0) && (
-                    <div className="space-y-8 p-6 rounded-3xl bg-white/[0.02] border border-white/5 ring-1 ring-inset ring-white/5 shadow-2xl">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-8 p-8 bg-white/[0.02] border border-white/5 ring-1 ring-inset ring-white/5 shadow-2xl" style={{ borderRadius: settings.roundingStyle === 'sharp' ? '0' : '2.5rem' }}>
                         {/* Colors */}
                         {colors.length > 0 && (
                             <div className="space-y-4">
@@ -242,10 +242,11 @@ const ProductDetailView = ({
                                         <button
                                             key={c.name}
                                             onClick={() => setSelectedColor(c)}
-                                            className={`size-10 rounded-full border-2 transition-all p-0.5 ${selectedColor?.name === c.name ? 'border-primary ring-2 ring-primary/30 scale-110' : 'border-transparent opacity-60 hover:opacity-100 hover:scale-105'}`}
+                                            className={`size-10 border-2 transition-all p-0.5 ${selectedColor?.name === c.name ? 'border-primary ring-2 ring-primary/30 scale-110' : 'border-transparent opacity-60 hover:opacity-100 hover:scale-105'}`}
                                             title={c.name}
+                                            style={{ borderRadius: settings.roundingStyle === 'sharp' ? '0' : '999px' }}
                                         >
-                                            <div className="w-full h-full rounded-full" style={{ backgroundColor: c.hex }} />
+                                            <div className="w-full h-full" style={{ backgroundColor: c.hex, borderRadius: settings.roundingStyle === 'sharp' ? '0' : '999px' }} />
                                         </button>
                                     ))}
                                 </div>
@@ -255,24 +256,23 @@ const ProductDetailView = ({
                         {/* Sizes */}
                         {sizes.length > 0 && (
                             <div className="space-y-4">
-                                <div className="flex justify-between items-center">
-                                    <label className="text-[10px] font-black uppercase tracking-[0.15em] text-gray-500">Size</label>
-                                    <button className="text-[10px] font-black uppercase tracking-[0.15em] text-primary hover:text-primary-light flex items-center gap-1.5 transition-colors">
-                                        <span className="material-symbols-outlined text-[14px]">straighten</span>
-                                        Size Guide
-                                    </button>
-                                </div>
+                                <label className="text-[10px] font-black uppercase tracking-[0.15em] text-gray-500">Size: <span className="text-primary-light ml-2">{selectedSize || 'Select'}</span></label>
                                 <div className="flex flex-wrap gap-2">
                                     {sizes.map(s => (
                                         <button
                                             key={s}
                                             onClick={() => setSelectedSize(s)}
-                                            className={`min-w-[56px] h-12 rounded-full flex items-center justify-center text-[11px] font-black transition-all border px-4 italic tracking-widest ${selectedSize === s ? 'bg-primary/20 text-white border-primary shadow-lg shadow-primary/10' : 'bg-white/5 text-gray-500 border-white/10 hover:border-white/30 hover:text-white'}`}
+                                            className={`min-w-[56px] h-12 flex items-center justify-center text-[11px] font-black transition-all border px-4 italic tracking-widest ${selectedSize === s ? 'bg-primary/20 text-white border-primary shadow-lg shadow-primary/10' : 'bg-white/5 text-gray-500 border-white/10 hover:border-white/30 hover:text-white'}`}
+                                            style={{ borderRadius: settings.roundingStyle === 'sharp' ? '0' : '999px' }}
                                         >
                                             {s}
                                         </button>
                                     ))}
                                 </div>
+                                <button className="text-[10px] font-black uppercase tracking-[0.15em] text-primary hover:text-white flex items-center gap-1.5 transition-colors pt-1">
+                                    <span className="material-symbols-outlined text-[14px]">straighten</span>
+                                    Size Guide
+                                </button>
                             </div>
                         )}
                     </div>
@@ -288,11 +288,11 @@ const ProductDetailView = ({
                                 iconPosition: 'left',
                                 showPrice: true,
                                 customText: 'Add to Cart',
+                                borderRadius: settings.roundingStyle === 'sharp' ? 0 : 99,
                                 styling: {
                                     ...(settings?.addToCart?.styling || {}),
                                     background: '#8B0000',
                                     text: '#ffffff',
-                                    borderRadius: 99,
                                     fontWeight: 900,
                                     textTransform: 'uppercase',
                                     height: 60,
@@ -329,7 +329,7 @@ const ProductDetailView = ({
             <div className="grid grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-10">
                 {relatedProducts.slice(0, 4).map((rp) => (
                     <Link key={rp.id} to={`/product/${rp.slug || rp.id}`} className="group block">
-                        <div className="aspect-[4/5] rounded-[2rem] overflow-hidden bg-white/5 border border-white/5 mb-6 relative transition-transform duration-500 group-hover:-translate-y-2">
+                        <div className="aspect-[4/5] overflow-hidden bg-white/5 border border-white/5 mb-6 relative transition-transform duration-500 group-hover:-translate-y-2" style={{ borderRadius: settings.roundingStyle === 'sharp' ? '0' : '2rem' }}>
                             <img src={rp.images?.[0]} alt={rp.name} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
                             {rp.is_sale && (
                                 <div className="absolute top-4 left-4 z-10 px-3 py-1 bg-primary text-white text-[9px] font-black uppercase tracking-widest rounded-full">Sale</div>
