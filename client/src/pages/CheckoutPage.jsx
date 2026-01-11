@@ -468,14 +468,14 @@ const CheckoutPage = () => {
                         <div className="space-y-4">
                             <button
                                 onClick={handleLoginClick}
-                                className="w-full h-14 bg-black hover:bg-[#4a2da0] text-white rounded-full font-black uppercase tracking-[0.2em] text-[10px] transition-all shadow-lg flex items-center justify-center gap-3"
+                                className="w-full h-14 store-button-primary rounded-full text-[10px]"
                             >
                                 <span>Sign In / Create Account</span>
                                 <span className="material-symbols-outlined text-sm">login</span>
                             </button>
                             <button
                                 onClick={handleGuestCheckout}
-                                className="w-full h-14 bg-white/[0.05] hover:bg-white/[0.1] border border-white/10 text-white rounded-full font-bold uppercase tracking-[0.2em] text-[10px] transition-all flex items-center justify-center gap-3"
+                                className="w-full h-14 store-button-secondary rounded-full text-[10px]"
                             >
                                 <span>Continue as Guest</span>
                                 <span className="material-symbols-outlined text-sm">arrow_forward</span>
@@ -650,9 +650,7 @@ const CheckoutPage = () => {
                                 <button
                                     type="submit"
                                     disabled={isProcessing}
-                                    data-track={step === 3 ? 'Place Order' : (step === 2 ? 'Continue to Payment' : 'Continue')}
-                                    data-track-meta={JSON.stringify({ step, paymentMethod: selectedPayment })}
-                                    className={`flex-grow h-16 md:h-20 bg-black text-white rounded-full font-black uppercase tracking-[0.2em] hover:bg-black transition-all shadow-2xl flex items-center justify-center gap-4 text-sm md:text-base ${isProcessing ? 'opacity-50 cursor-not-allowed' : ''}`}
+                                    className={`flex-grow h-16 md:h-20 store-button-primary rounded-[20px] md:rounded-full text-sm md:text-base ${isProcessing ? 'opacity-50 cursor-not-allowed' : ''}`}
                                 >
                                     {isProcessing ? (
                                         <>

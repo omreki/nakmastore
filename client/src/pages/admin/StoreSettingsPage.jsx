@@ -168,48 +168,62 @@ const StoreSettingsPage = () => {
     const fetchTeamMembers = async () => {
         try {
             setLoadingTeam(true);
-            const { data, error } = await supabase
+
+            // 1. Fetch from team_members table
+            const { data: teamData, error: teamError } = await supabase
                 .from('team_members')
                 .select('*')
                 .order('created_at', { ascending: false });
 
-            if (error) throw error;
+            if (teamError) throw teamError;
 
-            // Check if current admin user's email needs to be synced
-            if (user?.email && profile?.role === 'admin') {
-                const adminMember = (data || []).find(m => m.role === 'admin');
+            // 2. Fetch from profiles table (Admins only)
+            const { data: profileAdmins, error: profileError } = await supabase
+                .from('profiles')
+                .select('*')
+                .eq('role', 'admin')
+                .order('created_at', { ascending: false });
 
-                // If there's an admin in team_members with a different email, update it
-                if (adminMember && adminMember.email !== user.email) {
-                    await supabase
-                        .from('team_members')
-                        .update({ email: user.email })
-                        .eq('id', adminMember.id);
-
-                    // Update the local data
-                    const updatedData = (data || []).map(member => {
-                        if (member.id === adminMember.id) {
-                            return { ...member, email: user.email };
-                        }
-                        return member;
-                    });
-                    setTeamMembers(updatedData);
-                    return;
-                }
+            if (profileError) {
+                console.warn('Could not fetch profiles for team management:', profileError);
             }
 
-            // Sync current user's email if they are in the list
-            const updatedData = (data || []).map(member => {
-                if (user && member.email === user.email) {
-                    return { ...member, email: user.email };
-                }
-                return member;
-            });
+            // 3. Merge them uniquely by email
+            const allMembers = [...(teamData || [])];
+            const existingEmails = new Set(allMembers.map(m => (m.email || '').toLowerCase()));
 
-            setTeamMembers(updatedData);
+            if (profileAdmins) {
+                profileAdmins.forEach(prof => {
+                    const profEmail = (prof.email || '').toLowerCase();
+                    if (profEmail && !existingEmails.has(profEmail)) {
+                        allMembers.push({
+                            id: prof.id,
+                            email: prof.email,
+                            full_name: prof.full_name,
+                            role: 'admin',
+                            status: 'active',
+                            created_at: prof.created_at,
+                            is_from_profile: true // Mark so we know where it came from
+                        });
+                        existingEmails.add(profEmail);
+                    }
+                });
+            }
+
+            // Check if current admin user's email needs to be synced in team_members
+            if (user?.email && profile?.role === 'admin') {
+                const adminInTeam = (teamData || []).find(m => (m.email || '').toLowerCase() === user.email.toLowerCase());
+
+                // If the logged in admin is not in team_members but is in profiles, 
+                // we don't necessarily need to sync to team_members table unless we want to,
+                // but the current logic tried to update a generic "admin" entry.
+                // Let's just ensure they are in the combined list correctly.
+            }
+
+            setTeamMembers(allMembers);
         } catch (error) {
             console.error('Error fetching team:', error);
-            notify('Failed to load team members', 'error');
+            notify('Failed to load personnel data', 'error');
         } finally {
             setLoadingTeam(false);
         }

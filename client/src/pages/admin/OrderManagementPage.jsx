@@ -11,7 +11,7 @@ const OrderManagementPage = () => {
     const { formatPrice } = useStoreSettings();
     const [searchQuery, setSearchQuery] = useState('');
     const [statusFilter, setStatusFilter] = useState('all');
-    const [dateFilter, setDateFilter] = useState('last7');
+    const [dateFilter, setDateFilter] = useState('all');
 
     const [orders, setOrders] = useState([]);
     const [isLoading, setIsLoading] = useState(true);

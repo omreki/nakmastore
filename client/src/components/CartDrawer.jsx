@@ -127,14 +127,14 @@ const CartDrawer = () => {
                         <Link
                             to="/checkout"
                             onClick={() => setIsCartOpen(false)}
-                            className="w-full h-14 bg-white text-black rounded-full flex items-center justify-center font-black text-xs uppercase tracking-[0.2em] hover:bg-black hover:text-white transition-all transform active:scale-[0.98] shadow-xl"
+                            className="w-full h-14 store-button-primary rounded-full text-xs"
                         >
                             Checkout
                             <span className="material-symbols-outlined ml-3 text-lg">east</span>
                         </Link>
                         <button
                             onClick={() => setIsCartOpen(false)}
-                            className="w-full h-14 bg-white/[0.03] border border-white/10 text-white rounded-full flex items-center justify-center font-black text-xs uppercase tracking-[0.2em] hover:bg-white/5 transition-all"
+                            className="w-full h-14 store-button-secondary rounded-full text-xs"
                         >
                             Continue Shopping
                         </button>

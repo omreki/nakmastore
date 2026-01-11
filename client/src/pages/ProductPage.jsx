@@ -385,7 +385,7 @@ const ProductPage = () => {
                                 <button
                                     onClick={handleAddToCart}
                                     disabled={(selectedVariation ? selectedVariation.stock : product.stock) === 0}
-                                    className="w-full h-14 rounded-full bg-primary text-white font-black text-sm uppercase tracking-[0.2em] hover:bg-primary-hover transition-all transform active:scale-[0.98] shadow-xl flex items-center justify-center gap-3 group disabled:opacity-50 disabled:cursor-not-allowed disabled:grayscale"
+                                    className="w-full h-14 rounded-full store-button-primary text-sm shadow-xl flex items-center justify-center gap-3 group disabled:opacity-50 disabled:cursor-not-allowed disabled:grayscale"
                                 >
                                     {(selectedVariation ? selectedVariation.stock : product.stock) === 0 ? 'Out of Stock' : (
                                         <>

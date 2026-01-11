@@ -25,26 +25,26 @@ const HomePage = () => {
     const heroImage = settings?.homepageSettings?.hero?.imageUrl || settings?.heroImageUrl;
     const { hero = {}, philosophy = {}, categories = {} } = settings?.homepageSettings || {};
 
-    const heroSub = hero.subHeadline || 'CRAFTING HERITAGE';
-    const heroH1 = hero.headlineLine1 || 'AFRICAN';
-    const heroH2 = hero.headlineLine2 || 'EXPRESSION.';
-    const heroD1 = hero.descriptionLine1 || 'Unique African-inspired men’s shirts.';
-    const heroD2 = hero.descriptionLine2 || 'Blending heritage with modern design for the modern man.';
-    const heroImg = hero.imageUrl || 'https://images.unsplash.com/photo-1490730141103-6cac27aaab94?q=80&w=2070&auto=format&fit=crop';
+    const heroSub = hero.subHeadline || '';
+    const heroH1 = hero.headlineLine1 || '';
+    const heroH2 = hero.headlineLine2 || '';
+    const heroD1 = hero.descriptionLine1 || '';
+    const heroD2 = hero.descriptionLine2 || '';
+    const heroImg = hero.imageUrl || '';
 
-    const philSub = philosophy.subHeadline || 'Confidence, Comfort, Culture';
-    const philQuote = philosophy.quote || 'True style lies in the perfect blend of heritage and modern elegance.';
-    const philD1 = philosophy.descriptionLine1 || 'Crafted for the man who values cultural identity.';
-    const philD2 = philosophy.descriptionLine2 || 'Experience the unique cut and silhouette of African tailoring.';
-    const philImg = philosophy.imageUrl || 'https://images.unsplash.com/photo-1489987707025-afc232f7ea0f?q=80&w=2070&auto=format&fit=crop';
+    const philSub = philosophy.subHeadline || '';
+    const philQuote = philosophy.quote || '';
+    const philD1 = philosophy.descriptionLine1 || '';
+    const philD2 = philosophy.descriptionLine2 || '';
+    const philImg = philosophy.imageUrl || '';
 
-    const printsTitle = categories.prints?.title || 'Vibrant Prints';
-    const printsSub = categories.prints?.subtitle || 'Bold African Motifs';
-    const printsImg = categories.prints?.imageUrl || 'https://images.unsplash.com/photo-1598033129183-c4f50c7176c8?q=80&w=2070&auto=format&fit=crop';
+    const printsTitle = categories.prints?.title || '';
+    const printsSub = categories.prints?.subtitle || '';
+    const printsImg = categories.prints?.imageUrl || '';
 
-    const plainsTitle = categories.plains?.title || 'Classic Plains';
-    const plainsSub = categories.plains?.subtitle || 'Minimalist Elegance';
-    const plainsImg = categories.plains?.imageUrl || 'https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?q=80&w=2070&auto=format&fit=crop';
+    const plainsTitle = categories.plains?.title || '';
+    const plainsSub = categories.plains?.subtitle || '';
+    const plainsImg = categories.plains?.imageUrl || '';
 
     useEffect(() => {
         const fetchProducts = async () => {
@@ -128,20 +128,26 @@ const HomePage = () => {
                     <div className="absolute inset-0 flex flex-col justify-center px-12 md:px-28 z-10">
                         <div className="max-w-2xl space-y-10">
                             <div className="space-y-4">
-                                <div className="flex items-center gap-3">
-                                    <div className="h-[1px] w-8 bg-primary"></div>
-                                    <span className="text-primary text-[10px] md:text-xs font-black uppercase tracking-[0.8em] animate-fade-in">{heroSub}</span>
-                                </div>
-                                <h1 className="text-white text-4xl sm:text-6xl md:text-8xl font-black tracking-tighter leading-[0.85] md:leading-[0.8] drop-shadow-[0_15px_15px_rgba(0,0,0,0.6)]">
-                                    {heroH1} <br />
-                                    <span className="text-white/40 italic font-medium">{heroH2}</span>
-                                </h1>
+                                {heroSub && (
+                                    <div className="flex items-center gap-3">
+                                        <div className="h-[1px] w-8 bg-primary"></div>
+                                        <span className="text-primary text-[10px] md:text-xs font-black uppercase tracking-[0.8em] animate-fade-in">{heroSub}</span>
+                                    </div>
+                                )}
+                                {heroH1 && (
+                                    <h1 className="text-white text-4xl sm:text-6xl md:text-8xl font-black tracking-tighter leading-[0.85] md:leading-[0.8] drop-shadow-[0_15px_15px_rgba(0,0,0,0.6)]">
+                                        {heroH1} <br />
+                                        <span className="text-white/40 italic font-medium">{heroH2}</span>
+                                    </h1>
+                                )}
                             </div>
 
-                            <p className="text-white/50 text-base md:text-xl font-medium max-w-lg leading-relaxed tracking-tight">
-                                {heroD1} <br />
-                                <span className="text-white/80">{heroD2}</span>
-                            </p>
+                            {(heroD1 || heroD2) && (
+                                <p className="text-white/50 text-base md:text-xl font-medium max-w-lg leading-relaxed tracking-tight">
+                                    {heroD1} <br />
+                                    <span className="text-white/80">{heroD2}</span>
+                                </p>
+                            )}
 
                             <div className="flex flex-wrap gap-4 md:gap-5 pt-6">
                                 <Link to="/shop" className="inline-flex items-center gap-3 md:gap-4 bg-white text-black hover:bg-primary hover:text-white px-8 md:px-10 py-4 md:py-5 rounded-full font-black text-[10px] md:text-[11px] uppercase tracking-[0.2em] transition-all duration-700 transform hover:scale-[1.02] active:scale-95 shadow-2xl group/btn">
@@ -240,16 +246,20 @@ const HomePage = () => {
                     {/* Content */}
                     <div className="absolute inset-0 flex flex-col items-center justify-center text-center p-8 md:p-12 z-10">
                         <div className="max-w-4xl space-y-8">
-                            <span className="text-primary text-[10px] md:text-xs font-black uppercase tracking-[0.6em] animate-fade-in opacity-90">{philSub}</span>
+                            {philSub && <span className="text-primary text-[10px] md:text-xs font-black uppercase tracking-[0.6em] animate-fade-in opacity-90">{philSub}</span>}
 
-                            <h2 className="text-3xl md:text-5xl font-black text-white leading-[1.15] tracking-tight italic drop-shadow-2xl">
-                                "{philQuote}"
-                            </h2>
+                            {philQuote && (
+                                <h2 className="text-3xl md:text-5xl font-black text-white leading-[1.15] tracking-tight italic drop-shadow-2xl">
+                                    "{philQuote}"
+                                </h2>
+                            )}
 
-                            <p className="text-white/50 text-base md:text-xl font-medium tracking-tight max-w-2xl mx-auto">
-                                {philD1} <br />
-                                <span className="text-white/80">{philD2}</span>
-                            </p>
+                            {(philD1 || philD2) && (
+                                <p className="text-white/50 text-base md:text-xl font-medium tracking-tight max-w-2xl mx-auto">
+                                    {philD1} <br />
+                                    <span className="text-white/80">{philD2}</span>
+                                </p>
+                            )}
 
                             <div className="pt-6">
                                 <Link to="/about" className="inline-flex items-center gap-3 bg-white text-black hover:bg-primary hover:text-white px-8 py-4 rounded-full font-black text-[11px] uppercase tracking-[0.2em] transition-all duration-500 shadow-xl group/btn_w">
@@ -266,42 +276,46 @@ const HomePage = () => {
             <div className="layout-container py-12">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                     {/* Vibrant Prints Card */}
-                    <Link to="/category/vibrant-prints" className="relative aspect-[4/5] md:aspect-[4/3] rounded-[40px] overflow-hidden group block shadow-2xl bg-[#121212]">
-                        <div
-                            className="absolute inset-0 bg-cover bg-center transition-transform duration-1000 group-hover:scale-110"
-                            style={{ backgroundImage: `url('${printsImg}')` }}
-                        >
-                        </div>
-                        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/10 to-transparent"></div>
-                        <div className="absolute bottom-6 md:bottom-10 left-6 md:left-10 right-6 md:right-10 flex items-end justify-between">
-                            <div>
-                                <h3 className="text-white text-2xl md:text-4xl font-bold mb-1 md:mb-2">{printsTitle}</h3>
-                                <p className="text-white/60 text-sm md:text-lg font-medium">{printsSub}</p>
+                    {printsTitle && (
+                        <Link to="/category/vibrant-prints" className="relative aspect-[4/5] md:aspect-[4/3] rounded-[40px] overflow-hidden group block shadow-2xl bg-[#121212]">
+                            <div
+                                className="absolute inset-0 bg-cover bg-center transition-transform duration-1000 group-hover:scale-110"
+                                style={{ backgroundImage: `url('${printsImg}')` }}
+                            >
                             </div>
-                            <div className="size-12 md:size-16 rounded-full bg-white/10 backdrop-blur-md border border-white/20 flex items-center justify-center text-white group-hover:bg-primary group-hover:border-primary transition-all duration-300 transform group-hover:translate-x-2">
-                                <span className="material-symbols-outlined text-[24px] md:text-[32px]">arrow_forward</span>
+                            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/10 to-transparent"></div>
+                            <div className="absolute bottom-6 md:bottom-10 left-6 md:left-10 right-6 md:right-10 flex items-end justify-between">
+                                <div>
+                                    <h3 className="text-white text-2xl md:text-4xl font-bold mb-1 md:mb-2">{printsTitle}</h3>
+                                    <p className="text-white/60 text-sm md:text-lg font-medium">{printsSub}</p>
+                                </div>
+                                <div className="size-12 md:size-16 rounded-full bg-white/10 backdrop-blur-md border border-white/20 flex items-center justify-center text-white group-hover:bg-primary group-hover:border-primary transition-all duration-300 transform group-hover:translate-x-2">
+                                    <span className="material-symbols-outlined text-[24px] md:text-[32px]">arrow_forward</span>
+                                </div>
                             </div>
-                        </div>
-                    </Link>
+                        </Link>
+                    )}
 
                     {/* Classic Plains Card */}
-                    <Link to="/category/classic-plains" className="relative aspect-[4/5] md:aspect-[4/3] rounded-[40px] overflow-hidden group block shadow-2xl bg-[#121212]">
-                        <div
-                            className="absolute inset-0 bg-cover bg-center transition-transform duration-1000 group-hover:scale-110"
-                            style={{ backgroundImage: `url('${plainsImg}')` }}
-                        >
-                        </div>
-                        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/10 to-transparent"></div>
-                        <div className="absolute bottom-6 md:bottom-10 left-6 md:left-10 right-6 md:right-10 flex items-end justify-between">
-                            <div>
-                                <h3 className="text-white text-2xl md:text-4xl font-bold mb-1 md:mb-2">{plainsTitle}</h3>
-                                <p className="text-white/60 text-sm md:text-lg font-medium">{plainsSub}</p>
+                    {plainsTitle && (
+                        <Link to="/category/classic-plains" className="relative aspect-[4/5] md:aspect-[4/3] rounded-[40px] overflow-hidden group block shadow-2xl bg-[#121212]">
+                            <div
+                                className="absolute inset-0 bg-cover bg-center transition-transform duration-1000 group-hover:scale-110"
+                                style={{ backgroundImage: `url('${plainsImg}')` }}
+                            >
                             </div>
-                            <div className="size-12 md:size-16 rounded-full bg-white/10 backdrop-blur-md border border-white/20 flex items-center justify-center text-white group-hover:bg-primary group-hover:border-primary transition-all duration-300 transform group-hover:translate-x-2">
-                                <span className="material-symbols-outlined text-[24px] md:text-[32px]">arrow_forward</span>
+                            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/10 to-transparent"></div>
+                            <div className="absolute bottom-6 md:bottom-10 left-6 md:left-10 right-6 md:right-10 flex items-end justify-between">
+                                <div>
+                                    <h3 className="text-white text-2xl md:text-4xl font-bold mb-1 md:mb-2">{plainsTitle}</h3>
+                                    <p className="text-white/60 text-sm md:text-lg font-medium">{plainsSub}</p>
+                                </div>
+                                <div className="size-12 md:size-16 rounded-full bg-white/10 backdrop-blur-md border border-white/20 flex items-center justify-center text-white group-hover:bg-primary group-hover:border-primary transition-all duration-300 transform group-hover:translate-x-2">
+                                    <span className="material-symbols-outlined text-[24px] md:text-[32px]">arrow_forward</span>
+                                </div>
                             </div>
-                        </div>
-                    </Link>
+                        </Link>
+                    )}
                 </div>
             </div>
 
