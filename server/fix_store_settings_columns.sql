@@ -6,5 +6,5 @@ ADD COLUMN IF NOT EXISTS tax_rates JSONB DEFAULT '{"enabled": true, "rates": [],
 
 -- Ensure the row with ID 1 exists
 INSERT INTO public.store_settings (id, store_name)
-VALUES (1, 'Noesis Fitness')
+VALUES (1, 'Nakma Fitness')
 ON CONFLICT (id) DO NOTHING;

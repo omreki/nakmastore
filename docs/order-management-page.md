@@ -1,10 +1,10 @@
 # Order Management Page - Implementation Summary
 
 ## Overview
-Created a full-featured Order Management admin page for the Noesis e-commerce platform with a premium dark theme and glassmorphism design.
+Created a full-featured Order Management admin page for the Nakma e-commerce platform with a premium dark theme and glassmorphism design.
 
 ## Location
-`/Users/morrismbaabu/Documents/NOESIS/store/client/src/pages/admin/OrderManagementPage.jsx`
+`/Users/morrismbaabu/Documents/NAKMA/store/client/src/pages/admin/OrderManagementPage.jsx`
 
 ## Features Implemented
 

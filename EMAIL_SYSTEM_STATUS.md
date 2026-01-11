@@ -1,16 +1,16 @@
 # Email System Status Report
 **Date:** 2026-01-06
-**Project:** NOESIS E-commerce Store
+**Project:** NAKMA E-commerce Store
 
 ## Current Configuration
 
 ### SMTP Settings (from database)
-- **Host:** mail.wearnoesis.com (resolves to 216.198.79.1)
+- **Host:** mail.nakmastore.com (resolves to 216.198.79.1)
 - **Port:** 465
 - **Security:** SSL/TLS (smtp_secure: true)
-- **User:** sales@wearnoesis.com
+- **User:** sales@nakmastore.com
 - **Password:** ✓ SET
-- **From Address:** sales@wearnoesis.com
+- **From Address:** sales@nakmastore.com
 - **Email Notifications:** ✓ ENABLED
 
 ### Edge Function Deployment
@@ -36,7 +36,7 @@ The SMTP connection is timing out after 30-34 seconds when attempting to connect
 - Error handling and logging
 
 ### ❌ What Doesn't Work
-- SMTP connection to mail.wearnoesis.com:465
+- SMTP connection to mail.nakmastore.com:465
 - Connection times out at the verification stage
 
 ## Recommended Solutions
@@ -68,7 +68,7 @@ These services provide:
 - Templates
 
 ### Option 3: Update SMTP Server Configuration
-If you control mail.wearnoesis.com:
+If you control mail.nakmastore.com:
 1. Ensure port 587 is open and configured for STARTTLS
 2. Verify firewall rules allow connections from Supabase IP ranges
 3. Test connectivity from a cloud environment
@@ -88,7 +88,7 @@ The system currently has these email templates configured:
 ### 1. Order Confirmation (`sendOrderConfirmation`)
 - Sent to customers after placing an order
 - Includes order ID, total amount,  shipping status
-- Professional Noesis branding
+- Professional Nakma branding
 
 ### 2. Admin Order Notification (`sendAdminOrderNotification`)
 - Sent to admin when new order is received
@@ -101,7 +101,7 @@ The system currently has these email templates configured:
 - Clear customer communication
 
 All templates are well-designed with:
-- Noesis brand colors (#59000a)
+- Nakma brand colors (#59000a)
 - Clean, professional layout
 - Mobile-friendly HTML
 - Clear call-to-actions

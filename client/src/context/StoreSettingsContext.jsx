@@ -191,7 +191,7 @@ export const StoreSettingsProvider = ({ children }) => {
                             logoUrl: data.logo_url ? addTimestamp(data.logo_url, timestamp) : '',
                             heroImageUrl: data.hero_image_url ? addTimestamp(data.hero_image_url, timestamp) : '',
                             shippingMethods: data.shipping_methods || [], // Simplified fallbacks for brevity in update
-                            siteUrl: data.site_url || 'https://wearnoesis.com',
+                            siteUrl: data.site_url || 'https://nakmastore.com',
                             alertEmails: data.alert_emails || [],
                             resendConfig: data.resend_config || { apiKey: '', fromEmail: '', verifiedDomain: '' },
                             // Handle tax_rates legacy (array) vs new (object) format
@@ -288,7 +288,7 @@ export const StoreSettingsProvider = ({ children }) => {
                                     bgImage: "https://images.unsplash.com/photo-1534438327276-14e5300c3a48?q=80&w=2070&auto=format&fit=crop",
                                     estText: "EST. 2024",
                                     title: "Beyond \n The Limits",
-                                    subtitle: "Noesis is more than apparel. It's a philosophy of constant evolution, engineered for the intellectual athlete."
+                                    subtitle: "Nakma is more than apparel. It's a philosophy of constant evolution, engineered for the modern man."
                                 },
                                 philosophy: {
                                     imageUrl: "",
@@ -381,7 +381,7 @@ export const StoreSettingsProvider = ({ children }) => {
                         { id: 'express', name: 'Exosphere Velocity', description: 'Priority Transit', deliveryTime: '2-3 CYCLES', cost: 15, enabled: true },
                         { id: 'free', name: 'Zero-Cost Yield', description: 'Volume Reward Tier', deliveryTime: '10+ CYCLES', cost: 0, enabled: true }
                     ],
-                    siteUrl: data.site_url || 'https://wearnoesis.com',
+                    siteUrl: data.site_url || 'https://nakmastore.com',
                     alertEmails: data.alert_emails || [],
                     resendConfig: data.resend_config || { apiKey: '', fromEmail: '', verifiedDomain: '' },
                     // Removed SMTP settings
@@ -492,7 +492,7 @@ export const StoreSettingsProvider = ({ children }) => {
                             imageUrl: "",
                             label: "OUR PHILOSOPHY",
                             title: "Intellect Meets \n Performance.",
-                            description: "At Noesis, we believe that true athletic excellence is achieved when the mind and body are in perfect alignment. Our gear is designed to eliminate distractions, allowing you to focus purely on your movement and strategy.",
+                            description: "At Nakma, we believe that true style lies in confidence, comfort, and cultural expression. Our collection is designed to empower men through vibrant identity and sophisticated silhouettes.",
                             stats: [
                                 { value: "100%", label: "Recycled Materials" },
                                 { value: "0", label: "Compromise" }
@@ -654,7 +654,7 @@ export const StoreSettingsProvider = ({ children }) => {
             // Upsert the single row (id: 1)
             const { data, error } = await supabase
                 .from('store_settings')
-                .upsert({ id: 1, ...dbPayload })
+                .upsert({ id: 1, ...dbPayload, updated_at: new Date().toISOString() })
                 .select()
                 .single();
 

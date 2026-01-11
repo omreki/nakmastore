@@ -112,6 +112,9 @@ const CommunityPage = () => {
                 title={pageSettings.meta_title || pageSettings.title || "Community & Articles"}
                 description={pageSettings.meta_description || pageSettings.hero_subtitle || "Explore our latest articles, guides, and community insights on African-inspired fashion and cultural heritage."}
             />
+            {pageSettings.custom_css && (
+                <style dangerouslySetInnerHTML={{ __html: pageSettings.custom_css }} />
+            )}
 
             {/* Hero Section */}
             <div className="layout-container mb-12 md:mb-16">

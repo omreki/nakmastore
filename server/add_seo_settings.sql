@@ -3,6 +3,6 @@ ALTER TABLE public.store_settings
 ADD COLUMN IF NOT EXISTS seo_settings jsonb DEFAULT '{
     "metaTitle": "",
     "metaDescription": "",
-    "keywords": "fitness, apparel, gym wear, performance gear, noesis",
+    "keywords": "fitness, apparel, gym wear, performance gear, nakma",
     "googleSiteVerification": ""
 }'::jsonb;

@@ -14,7 +14,7 @@ app.use(express.json());
 
 // Basic Route
 app.get('/', (req, res) => {
-  res.send('Noesis Server is Running');
+  res.send('Nakma Server is Running');
 });
 
 // Database Connection (Placeholder)

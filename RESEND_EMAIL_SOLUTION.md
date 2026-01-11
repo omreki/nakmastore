@@ -1,7 +1,7 @@
 # Alternative Email Solution: Resend
 
 ## The Problem
-Supabase Edge Functions (and most serverless platforms) **block or restrict outbound SMTP connections** on ports 25, 465, and 587 to prevent spam abuse. This is why our NOESIS store cannot currently send emails using direct SMTP.
+Supabase Edge Functions (and most serverless platforms) **block or restrict outbound SMTP connections** on ports 25, 465, and 587 to prevent spam abuse. This is why our NAKMA store cannot currently send emails using direct SMTP.
 
 **Errors encountered:**
 - Port 465: "Connection timeout"
@@ -30,7 +30,7 @@ Both indicate network-level blocking of SMTP connections.
 
 #### Step 2: Add Your Domain (Optional but Recommended)
 1. Go to "Domains" in Resend dashboard
-2. Add `wearnoesis.com`
+2. Add `nakmastore.com`
 3. Add the DNS records shown (SPF, DKIM, etc.)
 4. Wait for verification (usually takes a few minutes)
 
@@ -39,7 +39,7 @@ Both indicate network-level blocking of SMTP connections.
 #### Step 3: Get API Key
 1. Go to "API Keys" in Resend dashboard
 2. Create new API key
-3. Name it "NOESIS Store"
+3. Name it "NAKMA Store"
 4. Copy the key (starts with `re_`)
 
 #### Step 4: Update Edge Function
@@ -107,7 +107,7 @@ serve(async (req) => {
         "Authorization": `Bearer ${resendApiKey}`,
       },
       body: JSON.stringify({
-        from: settings.smtp_from || "NOESIS Store <sales@wearnoesis.com>",
+        from: settings.smtp_from || "NAKMA Store <sales@nakmastore.com>",
         to: [to],
         subject,
         html,
@@ -166,7 +166,7 @@ Deploy the updated function and test!
 | Postmark | 100/month | $10/month for 10k emails |
 | Direct SMTP | Free | Doesn't work 😞 |
 
-### Benefits for NOESIS Store
+### Benefits for NAKMA Store
 
 1. **Reliable delivery** - No more connection timeouts
 2. **Email analytics** - Track opens, clicks, bounces

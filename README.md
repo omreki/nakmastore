@@ -1,4 +1,4 @@
-# Noesis Ecommerce Store
+# Nakma Ecommerce Store
 
 ## Project Structure
 

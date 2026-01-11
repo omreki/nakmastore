@@ -44,8 +44,8 @@ FOR ALL USING (auth.role() = 'authenticated');
 INSERT INTO public.store_settings (id, store_name, support_email, currency, timezone, payment_gateways, shipping_methods)
 VALUES (
     1,
-    'Noesis Fitness',
-    'support@noesis.fit',
+    'Nakma Fitness',
+    'support@nakmastore.com',
     'USD',
     'EST',
     '{"stripe": true, "paypal": false}'::jsonb,

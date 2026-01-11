@@ -18,7 +18,11 @@ const WomenPage = () => {
         title: "Women's Collection",
         hero_title: "CULTURAL ELEGANCE",
         hero_subtitle: "Unique African-inspired fashion for the modern woman. Sophisticated silhouettes meeting timeless heritage.",
-        imageUrl: null
+        imageUrl: null,
+        meta_title: "",
+        meta_description: "",
+        custom_css: "",
+        updated_at: new Date().toISOString()
     });
     const { addToCart } = useCart();
 
@@ -71,6 +75,9 @@ const WomenPage = () => {
                     hero_title: pageData.hero_title || "CULTURAL ELEGANCE",
                     hero_subtitle: pageData.hero_subtitle || "Unique African-inspired fashion for the modern woman. Sophisticated silhouettes meeting timeless heritage.",
                     imageUrl: pageData.hero_image_url || null,
+                    meta_title: pageData.meta_title || "",
+                    meta_description: pageData.meta_description || "",
+                    custom_css: pageData.custom_css || "",
                     updated_at: pageData.updated_at
                 });
             }
@@ -87,6 +94,9 @@ const WomenPage = () => {
                                 hero_title: payload.new.hero_title || "CULTURAL ELEGANCE",
                                 hero_subtitle: payload.new.hero_subtitle || "Unique African-inspired fashion for the modern woman. Sophisticated silhouettes meeting timeless heritage.",
                                 imageUrl: payload.new.hero_image_url || null,
+                                meta_title: payload.new.meta_title || "",
+                                meta_description: payload.new.meta_description || "",
+                                custom_css: payload.new.custom_css || "",
                                 updated_at: payload.new.updated_at
                             });
                         }
@@ -152,9 +162,12 @@ const WomenPage = () => {
     return (
         <div className="bg-black min-h-screen text-white font-['Manrope'] pt-20 md:pt-24 pb-20">
             <SEO
-                title="Women's Collection"
-                description="Unique African-inspired fashion for the modern woman. Sophisticated silhouettes meeting timeless heritage."
+                title={pageContent.meta_title || "Women's Collection"}
+                description={pageContent.meta_description || "Unique African-inspired fashion for the modern woman. Sophisticated silhouettes meeting timeless heritage."}
             />
+            {pageContent.custom_css && (
+                <style dangerouslySetInnerHTML={{ __html: pageContent.custom_css }} />
+            )}
             {/* Header / Hero Section */}
             <div className="layout-container mb-12 md:mb-16">
                 <div className="relative w-full h-[400px] md:h-[600px] rounded-[32px] md:rounded-[40px] overflow-hidden group shadow-2xl bg-white/[0.03]">

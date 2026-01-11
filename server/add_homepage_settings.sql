@@ -9,7 +9,7 @@ ADD COLUMN homepage_settings JSONB DEFAULT '{
     "imageUrl": "/hero-clothes-bg.png"
   },
   "philosophy": {
-    "subHeadline": "The Noesis Philosophy",
+    "subHeadline": "The Nakma Philosophy",
     "quote": "The right gear is the catalyst for your next breakthrough.",
     "descriptionLine1": "Engineered for the relentless individual.",
     "descriptionLine2": "Designed to transcend the boundaries of performance and aesthetic.",

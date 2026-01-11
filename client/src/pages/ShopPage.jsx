@@ -145,6 +145,9 @@ const ShopPage = () => {
                 title={searchQuery ? `Search results for "${searchQuery}"` : (pageSettings?.meta_title || `Shop ${activeCategory.slug === 'all' ? 'Collection' : activeCategory.name}`)}
                 description={pageSettings?.meta_description || "Browse our complete range of unique African-inspired shirts. Crafted for comfort, designed for cultural expression."}
             />
+            {pageSettings?.custom_css && (
+                <style dangerouslySetInnerHTML={{ __html: pageSettings.custom_css }} />
+            )}
             {/* Hero / Header Section */}
             {!searchQuery && (
                 <div className="layout-container mb-12 md:mb-16">

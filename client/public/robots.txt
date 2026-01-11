@@ -8,4 +8,4 @@ Disallow: /checkout
 Disallow: /cart
 Disallow: /confirmation
 
-Sitemap: https://noesis.fit/sitemap.xml
+Sitemap: https://nakmastore.com/sitemap.xml

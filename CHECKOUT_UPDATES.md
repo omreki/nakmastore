@@ -10,7 +10,7 @@ Successfully redesigned the checkout process to improve conversion rates and red
 ## Changes Made
 
 ### 1. CheckoutPage.jsx
-**File**: `/Users/morrismbaabu/Documents/NOESIS/store/client/src/pages/CheckoutPage.jsx`
+**File**: `/Users/morrismbaabu/Documents/NAKMA/store/client/src/pages/CheckoutPage.jsx`
 
 **Key Updates**:
 - Added `isGuestCheckout` state to track guest checkout selection
@@ -24,7 +24,7 @@ Successfully redesigned the checkout process to improve conversion rates and red
 - All order confirmation emails still work for guest checkouts using the provided email
 
 ### 2. AuthContext.jsx
-**File**: `/Users/morrismbaabu/Documents/NOESIS/store/client/src/context/AuthContext.jsx`
+**File**: `/Users/morrismbaabu/Documents/NAKMA/store/client/src/context/AuthContext.jsx`
 
 **Key Updates**:
 - Modified `signUp` function to remove email verification requirement
@@ -32,7 +32,7 @@ Successfully redesigned the checkout process to improve conversion rates and red
 - This prevents cart abandonment caused by email verification delays
 
 ### 3. LoginModal.jsx
-**File**: `/Users/morrismbaabu/Documents/NOESIS/store/client/src/components/LoginModal.jsx`
+**File**: `/Users/morrismbaabu/Documents/NAKMA/store/client/src/components/LoginModal.jsx`
 
 **Key Updates**:
 - Updated `handleSubmit` to close modal immediately after successful registration

@@ -178,7 +178,7 @@ const DynamicPage = () => {
     return (
         <div className="bg-black min-h-screen text-white font-['Manrope'] pt-20 md:pt-24 pb-20">
             <SEO
-                title={pageData?.meta_title || pageData?.title || 'Noesis'}
+                title={pageData?.meta_title || pageData?.title || 'Nakma'}
                 description={pageData?.meta_description || pageData?.hero_subtitle || 'Elevate your performance.'}
             />
 

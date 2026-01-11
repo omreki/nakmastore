@@ -468,7 +468,6 @@ const StoreSettingsPage = () => {
             // Ensure community page is in the list
             const hasCommunity = allPages.some(p => p.slug === 'community');
             if (!hasCommunity) {
-                // Add a "virtual" entry that will be saved to DB if edited
                 allPages.push({
                     id: 'community-init',
                     title: 'Community',
@@ -485,13 +484,44 @@ const StoreSettingsPage = () => {
             // Ensure shop page is in the list
             const hasShop = allPages.some(p => p.slug === 'shop');
             if (!hasShop) {
-                // Add a "virtual" entry that will be saved to DB if edited
                 allPages.push({
                     id: 'shop-init',
                     title: 'Shop',
                     slug: 'shop',
                     hero_title: 'OUR COLLECTION',
                     hero_subtitle: 'Explore our curated selection of African-inspired designs and heritage pieces.',
+                    hero_image_url: '',
+                    status: 'published',
+                    is_system: true,
+                    created_at: new Date().toISOString()
+                });
+            }
+
+            // Ensure men page is in the list
+            const hasMen = allPages.some(p => p.slug === 'men');
+            if (!hasMen) {
+                allPages.push({
+                    id: 'men-init',
+                    title: 'Men',
+                    slug: 'men',
+                    hero_title: 'MODERN HERITAGE',
+                    hero_subtitle: 'Unique African-inspired shirts designed for the modern man. Blending cultural identity with sophisticated silhouettes.',
+                    hero_image_url: '',
+                    status: 'published',
+                    is_system: true,
+                    created_at: new Date().toISOString()
+                });
+            }
+
+            // Ensure women page is in the list
+            const hasWomen = allPages.some(p => p.slug === 'women');
+            if (!hasWomen) {
+                allPages.push({
+                    id: 'women-init',
+                    title: 'Women',
+                    slug: 'women',
+                    hero_title: 'CULTURAL ELEGANCE',
+                    hero_subtitle: 'Unique African-inspired fashion for the modern woman. Sophisticated silhouettes meeting timeless heritage.',
                     hero_image_url: '',
                     status: 'published',
                     is_system: true,
@@ -642,10 +672,12 @@ const StoreSettingsPage = () => {
                 is_published: pageForm.status === 'published',
                 meta_title: pageForm.meta_title,
                 meta_description: pageForm.meta_description,
-                custom_css: pageForm.custom_css
+                custom_css: pageForm.custom_css,
+                updated_at: new Date().toISOString()
             };
 
-            if (editingPageId && editingPageId !== 'community-init' && editingPageId !== 'shop-init') {
+            const systemInitIds = ['community-init', 'shop-init', 'men-init', 'women-init'];
+            if (editingPageId && !systemInitIds.includes(editingPageId)) {
                 const { data, error } = await supabase
                     .from('pages')
                     .update(payload)
@@ -662,7 +694,7 @@ const StoreSettingsPage = () => {
                     .select()
                     .single();
                 if (error) throw error;
-                setPages(prev => [data, ...prev.filter(p => p.id !== 'community-init' && p.id !== 'shop-init')]);
+                setPages(prev => [data, ...prev.filter(p => !systemInitIds.includes(p.id))]);
                 notify('Page created successfully', 'success');
             }
             setShowPageModal(false);
@@ -2088,7 +2120,7 @@ const StoreSettingsPage = () => {
                                                         value={settings.homepageSettings.seo?.metaTitle || ''}
                                                         onChange={(e) => setSettings({ ...settings, homepageSettings: { ...settings.homepageSettings, seo: { ...settings.homepageSettings.seo, metaTitle: e.target.value } } })}
                                                         className="w-full h-12 bg-black/40 border border-white/5 rounded-xl px-4 text-white text-sm font-bold focus:outline-none focus:border-primary/50 transition-colors shadow-inner"
-                                                        placeholder="Homepage SEO Title (e.g. Noesis | Premium Fitness Apparel)"
+                                                        placeholder="Homepage SEO Title (e.g. Nakma | Premium Fitness Apparel)"
                                                     />
                                                 </div>
                                                 <div className="flex flex-col gap-2.5">
@@ -2591,7 +2623,7 @@ const StoreSettingsPage = () => {
                                         <label className="text-gray-500 text-[10px] font-black tracking-[0.2em] uppercase ml-1">Site URL (Primary Domain)</label>
                                         <input
                                             className="glossy-input w-full rounded-2xl bg-black/40 border-white/5 text-white font-bold h-14 px-6 text-sm outline-none focus:ring-1 focus:ring-primary/40 focus:bg-black/60"
-                                            placeholder="https://wearnoesis.com"
+                                            placeholder="https://nakmastore.com"
                                             value={settings.siteUrl}
                                             onChange={(e) => handleInputChange('siteUrl', e.target.value)}
                                         />
@@ -3286,7 +3318,7 @@ const StoreSettingsPage = () => {
                                                     <label className="text-gray-500 text-[10px] font-black tracking-[0.2em] uppercase ml-1">Connect Domain</label>
                                                     <input
                                                         className="glossy-input w-full rounded-2xl bg-black/40 border-white/5 text-white font-bold h-12 px-5 text-xs outline-none focus:ring-1 focus:ring-primary/40 focus:bg-black/60"
-                                                        placeholder="wearnoesis.com"
+                                                        placeholder="nakmastore.com"
                                                         value={settings.resendConfig.verifiedDomain}
                                                         onChange={(e) => handleInputChange('resendConfig', { ...settings.resendConfig, verifiedDomain: e.target.value })}
                                                     />
@@ -3764,7 +3796,7 @@ const StoreSettingsPage = () => {
                                             </div>
                                             <div className="bg-white/[0.02] p-4 rounded-xl space-y-1">
                                                 <div className="text-[#1a0dab] text-lg font-medium hover:underline cursor-pointer">{pageForm.meta_title || pageForm.title || 'Page Title Preview'}</div>
-                                                <div className="text-[#006621] text-sm">noesis.store/{pageForm.slug || 'url'}</div>
+                                                <div className="text-[#006621] text-sm">nakma.store/{pageForm.slug || 'url'}</div>
                                                 <div className="text-[#4d5156] text-sm line-clamp-2">{pageForm.meta_description || 'Search engine snippet preview will appear here once description is provided...'}</div>
                                             </div>
                                         </div>
@@ -3955,7 +3987,7 @@ const StoreSettingsPage = () => {
                                     <label className="text-gray-500 text-[10px] font-black tracking-[0.2em] uppercase ml-1">Personnel Email</label>
                                     <input
                                         className="glossy-input w-full rounded-2xl bg-black/40 border-white/5 text-white font-bold h-14 px-6 text-sm outline-none"
-                                        placeholder="admin@wearnoesis.com"
+                                        placeholder="admin@nakmastore.com"
                                         value={inviteForm.email}
                                         onChange={(e) => setInviteForm({ ...inviteForm, email: e.target.value })}
                                     />

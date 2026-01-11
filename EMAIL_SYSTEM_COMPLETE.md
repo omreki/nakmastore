@@ -1,4 +1,4 @@
-# NOESIS Store - Email System Complete Setup
+# NAKMA Store - Email System Complete Setup
 
 **Date:** 2026-01-06  
 **Status:** ✅ FULLY OPERATIONAL
@@ -7,7 +7,7 @@
 
 ## 🎉 System Overview
 
-Your NOESIS e-commerce store now has a **complete,professional email system** powered by Resend, with beautiful branded templates that automatically send emails to customers and admins.
+Your NAKMA e-commerce store now has a **complete,professional email system** powered by Resend, with beautiful branded templates that automatically send emails to customers and admins.
 
 ---
 
@@ -15,15 +15,15 @@ Your NOESIS e-commerce store now has a **complete,professional email system** po
 
 ### 1. Email Provider: **Resend**
 - **API Integration:** Active and connected
-- **Domain:** shop.wearnoesis.com (Verified ✓)
-- **Sender Email:** info@shop.wearnoesis.com
+- **Domain:** shop.nakmastore.com (Verified ✓)
+- **Sender Email:** info@shop.nakmastore.com
 - **API Key:** Securely stored in Supabase Edge Functions
 - **Free Tier:** 3,000 emails/month, 100 emails/day
 
 ### 2. Email Templates (3 Total)
 
 All templates feature:
-- ✅ NOESIS brand colors (#59000a, #8b0000, #a14550)
+- ✅ NAKMA brand colors (#59000a, #8b0000, #a14550)
 - ✅ Professional HTML layouts
 - ✅ Mobile-responsive design
 - ✅ Beautiful gradients and modern styling
@@ -50,7 +50,7 @@ All templates feature:
 - Gradient header with #59000a → #8b0000
 - Product items table with formatted pricing
 - Status badges (paid/pending) with color coding
-- Premium footer with NOESIS branding
+- Premium footer with NAKMA branding
 
 #### Template 2: **Admin Order Notification Email**
 **Trigger:** Automatically sent when a new order is placed
@@ -111,7 +111,7 @@ All templates feature:
 ```
 1. Customer completes checkout
    └─> Order Confirmation email sent to customer@email.com
-   └─> Admin Notification email sent to admin@shop.wearnoesis.com
+   └─> Admin Notification email sent to admin@shop.nakmastore.com
 
 2. Admin marks order as "Processing"
    └─> Status Update email sent to customer@email.com
@@ -220,7 +220,7 @@ Access at: https://resend.com/emails
 ### Test Email Sent Successfully
 **Date:** 2026-01-06  
 **To:** gitsmor@gmail.com  
-**Subject:** 🎉 NOESIS Store - Email System Fully Operational!  
+**Subject:** 🎉 NAKMA Store - Email System Fully Operational!  
 **Result:** ✅ Delivered  
 **Message ID:** 04dfe3df-8866-44e0-8fc1-a4f17762a695
 
@@ -286,11 +286,11 @@ Check logs in Supabase:
 
 ## ✨ Summary
 
-Your NOESIS store email system is **production-ready** with:
+Your NAKMA store email system is **production-ready** with:
 
 ✅ **3 beautiful, branded email templates**  
 ✅ **Automatic sending at key customer journey points**  
-✅ **Professional HTML design with NOESIS branding**  
+✅ **Professional HTML design with NAKMA branding**  
 ✅ **Complete order information in all emails**  
 ✅ **Status-specific messaging and styling**  
 ✅ **Mobile-responsive layouts**  
