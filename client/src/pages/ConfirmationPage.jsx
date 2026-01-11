@@ -127,7 +127,7 @@ const ConfirmationPage = () => {
             {/* Header */}
             <header className="sticky top-0 z-[100] w-full glass-panel border-b border-white/5">
                 <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-6 lg:px-8">
-                    <Link to="/" className="flex items-center gap-3 group">
+                    <div onClick={() => window.location.href = '/'} className="flex items-center gap-3 group cursor-pointer relative z-50">
                         {settings.logoUrl ? (
                             <div className="h-8 flex items-center">
                                 <img src={settings.logoUrl} alt={settings.storeName} className="h-full w-auto object-contain" />
@@ -140,13 +140,13 @@ const ConfirmationPage = () => {
                                 <h1 className="text-xl font-bold tracking-tight text-white">{settings.storeName}</h1>
                             </>
                         )}
-                    </Link>
-                    <div className="flex items-center gap-4">
+                    </div>
+                    <div className="flex items-center gap-4 relative z-50">
                         <nav className="hidden md:flex gap-6 text-sm font-medium text-white/70 mr-4">
                             <Link to="/category/vibrant-prints" className="hover:text-primary transition-colors">Vibrant Prints</Link>
                             <Link to="/category/classic-plains" className="hover:text-primary transition-colors">Classic Plains</Link>
                         </nav>
-                        <button type="button" onClick={() => navigate('/')} className="flex items-center justify-center rounded-full size-8 bg-white/5 border border-white/10 text-white/50 hover:text-white hover:bg-white/10 transition-all cursor-pointer z-50">
+                        <button type="button" onClick={() => window.location.href = '/'} className="flex items-center justify-center rounded-full size-8 bg-white/5 border border-white/10 text-white/50 hover:text-white hover:bg-white/10 transition-all cursor-pointer z-50">
                             <span className="material-symbols-outlined text-xl">close</span>
                         </button>
                     </div>
@@ -284,7 +284,7 @@ const ConfirmationPage = () => {
                                     <span>Track Order</span>
                                     <span className="material-symbols-outlined text-lg">arrow_forward</span>
                                 </Link>
-                                <button type="button" onClick={() => navigate('/shop')} className="flex w-full items-center justify-center gap-2 rounded-full bg-white/5 border border-white/10 px-6 py-3.5 text-sm font-bold text-white transition-colors hover:bg-white/10 cursor-pointer">
+                                <button type="button" onClick={() => window.location.href = '/shop'} className="flex w-full items-center justify-center gap-2 rounded-full bg-white/5 border border-white/10 px-6 py-3.5 text-sm font-bold text-white transition-colors hover:bg-white/10 cursor-pointer">
                                     Continue Shopping
                                 </button>
                             </div>
