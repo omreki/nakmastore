@@ -104,7 +104,7 @@ const HomePage = () => {
                     {hero.hollowText && (
                         <div className="absolute inset-0 flex items-center justify-center pointer-events-none overflow-hidden">
                             <span
-                                className="font-black leading-none opacity-60 select-none tracking-tighter whitespace-nowrap"
+                                className="font-black leading-none opacity-100 select-none tracking-tighter whitespace-nowrap"
                                 style={{
                                     fontSize: "20vw",
                                     WebkitTextStroke: "2px var(--color-primary)",
