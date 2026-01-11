@@ -27,7 +27,7 @@ const addTimestamp = (url, timestamp) => {
 export const StoreSettingsProvider = ({ children }) => {
     const [settings, setSettings] = useState({
         storeName: 'Nakma Store',
-        supportEmail: 'info@nakma.co',
+        supportEmail: 'info@nakmastore.com',
         currency: 'KES',
         timezone: 'EAT',
         showDecimals: false,
@@ -39,7 +39,7 @@ export const StoreSettingsProvider = ({ children }) => {
             { id: 'express', name: 'Express Shipping', description: 'Priority Delivery', deliveryTime: '1-2 Days', cost: 15, enabled: true },
             { id: 'free', name: 'Free Shipping', description: 'Over KSh 10,000', deliveryTime: '5-7 Days', cost: 0, enabled: true }
         ],
-        siteUrl: 'https://nakmaltd.com',
+        siteUrl: 'https://nakmastore.com',
         alertEmails: [],
         resendConfig: { apiKey: '', fromEmail: '', verifiedDomain: '' },
         taxesEnabled: true,

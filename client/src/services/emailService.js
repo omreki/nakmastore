@@ -141,13 +141,13 @@ export const emailService = {
                         ` : ''}
                         
                         <div style="text-align: center; margin: 40px 0 30px 0;">
-                            <a href="${typeof window !== 'undefined' ? window.location.origin : 'https://nakmaltd.com'}/account?orderId=${order.id}" style="background: #b82063; color: #ffffff; padding: 14px 32px; text-decoration: none; border-radius: 8px; font-weight: 600; font-size: 15px; display: inline-block;">
+                            <a href="${typeof window !== 'undefined' ? window.location.origin : 'https://nakmastore.com'}/account?orderId=${order.id}" style="background: #b82063; color: #ffffff; padding: 14px 32px; text-decoration: none; border-radius: 8px; font-weight: 600; font-size: 15px; display: inline-block;">
                                 Track Your Order
                             </a>
                         </div>
                         
                         <p style="color: #9ca3af; font-size: 13px; line-height: 1.6; margin: 30px 0 0 0; text-align: center;">
-                            If you have any questions, contact us at <a href="mailto:info@nakmaltd.com" style="color: #b82063; text-decoration: none;">info@nakmaltd.com</a>
+                            If you have any questions, contact us at <a href="mailto:info@nakmastore.com" style="color: #b82063; text-decoration: none;">info@nakmastore.com</a>
                         </p>
                     </div>
                     
@@ -342,13 +342,13 @@ export const emailService = {
                         ` : ''}
                         
                         <div style="text-align: center; margin: 40px 0 30px 0;">
-                            <a href="${typeof window !== 'undefined' ? window.location.origin : 'https://nakmaltd.com'}/account?orderId=${order.id}" style="background: #b82063; color: #ffffff; padding: 14px 32px; text-decoration: none; border-radius: 8px; font-weight: 600; font-size: 15px; display: inline-block;">
+                            <a href="${typeof window !== 'undefined' ? window.location.origin : 'https://nakmastore.com'}/account?orderId=${order.id}" style="background: #b82063; color: #ffffff; padding: 14px 32px; text-decoration: none; border-radius: 8px; font-weight: 600; font-size: 15px; display: inline-block;">
                                 View Order Details
                             </a>
                         </div>
                         
                         <p style="color: #9ca3af; font-size: 13px; line-height: 1.6; margin: 30px 0 0 0; text-align: center;">
-                            Questions? Contact us at <a href="mailto:info@nakmaltd.com" style="color: #b82063; text-decoration: none;">info@nakmaltd.com</a>
+                            Questions? Contact us at <a href="mailto:info@nakmastore.com" style="color: #b82063; text-decoration: none;">info@nakmastore.com</a>
                         </p>
                     </div>
                     
@@ -507,7 +507,7 @@ export const emailService = {
                         </p>
                         
                         <div style="text-align: center;">
-                            <a href="${typeof window !== 'undefined' ? window.location.origin : 'https://nakmaltd.com'}/account" style="background: #b82063; color: #ffffff; padding: 14px 32px; text-decoration: none; border-radius: 8px; font-weight: 600; font-size: 15px; display: inline-block;">
+                            <a href="${typeof window !== 'undefined' ? window.location.origin : 'https://nakmastore.com'}/account" style="background: #b82063; color: #ffffff; padding: 14px 32px; text-decoration: none; border-radius: 8px; font-weight: 600; font-size: 15px; display: inline-block;">
                                 Go to My Account
                             </a>
                         </div>

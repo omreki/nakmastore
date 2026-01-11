@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# NOESIS Store - Add Resend API Key to Supabase
+# NAKMA Store - Add Resend API Key to Supabase
 # This script helps you add the RESEND_API_KEY to your Supabase project
 
 echo "================================================"
