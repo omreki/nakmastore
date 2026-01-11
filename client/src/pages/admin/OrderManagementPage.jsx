@@ -51,7 +51,7 @@ const OrderManagementPage = () => {
                 .from('orders')
                 .select(`
                     *,
-                    customer:profiles(id, full_name, email, first_name, last_name),
+                    customer:profiles(id, full_name, email),
                     items:order_items(*)
                 `)
                 .order('created_at', { ascending: false });
@@ -72,7 +72,6 @@ const OrderManagementPage = () => {
                 rawId: order.id,
                 customer: {
                     name: order.customer?.full_name ||
-                        `${order.customer?.first_name || ''} ${order.customer?.last_name || ''}`.trim() ||
                         `${order.shipping_address?.firstName || ''} ${order.shipping_address?.lastName || ''}`.trim() ||
                         'Guest',
                     email: order.customer?.email || order.shipping_address?.email || 'N/A',
