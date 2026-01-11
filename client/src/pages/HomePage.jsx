@@ -92,7 +92,7 @@ const HomePage = () => {
                 <div className="absolute top-1/4 right-1/4 w-[500px] h-[500px] bg-primary/20 rounded-full blur-[120px] pointer-events-none animate-pulse duration-[4s]"></div>
                 <div className="absolute bottom-1/4 left-1/4 w-[400px] h-[400px] bg-primary-dark/15 rounded-full blur-[100px] pointer-events-none animate-pulse duration-[6s]"></div>
 
-                <div className="relative w-full h-[500px] md:h-[800px] rounded-[32px] md:rounded-[56px] overflow-hidden shadow-[0_50px_100px_-20px_rgba(0,0,0,0.9)] border border-white/[0.03] bg-secondary">
+                <div className="relative w-full h-[500px] md:h-[800px] rounded-[32px] md:rounded-[56px] overflow-hidden shadow-[0_50px_100px_-20px_rgba(0,0,0,0.9)] border border-white/[0.03] bg-secondary bg-gradient-to-br from-primary/20 via-secondary to-secondary">
                     {/* Main Image with optimized blend */}
                     <div
                         className="absolute inset-0 w-full h-full bg-cover bg-center transition-transform duration-[4s] ease-out group-hover:scale-105"
@@ -229,7 +229,7 @@ const HomePage = () => {
 
             {/* Philosophy/Women's Collection Section */}
             <div className="layout-container py-12 md:py-16">
-                <div className="relative w-full h-[400px] md:h-[600px] rounded-[32px] md:rounded-[56px] overflow-hidden group shadow-2xl border border-white/[0.03]">
+                <div className="relative w-full h-[400px] md:h-[600px] rounded-[32px] md:rounded-[56px] overflow-hidden group shadow-2xl border border-white/[0.03] bg-gradient-to-br from-primary/10 via-secondary to-secondary">
                     {/* Background Image - Women's Gym Outfit */}
                     {philImg && (
                         <div
@@ -277,7 +277,7 @@ const HomePage = () => {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                     {/* Vibrant Prints Card */}
                     {printsTitle && (
-                        <Link to="/category/vibrant-prints" className="relative aspect-[4/5] md:aspect-[4/3] rounded-[40px] overflow-hidden group block shadow-2xl bg-[#121212]">
+                        <Link to="/category/vibrant-prints" className="relative aspect-[4/5] md:aspect-[4/3] rounded-[40px] overflow-hidden group block shadow-2xl bg-[#121212] bg-gradient-to-t from-primary/20 to-secondary">
                             <div
                                 className="absolute inset-0 bg-cover bg-center transition-transform duration-1000 group-hover:scale-110"
                                 style={{ backgroundImage: `url('${printsImg}')` }}
@@ -298,7 +298,7 @@ const HomePage = () => {
 
                     {/* Classic Plains Card */}
                     {plainsTitle && (
-                        <Link to="/category/classic-plains" className="relative aspect-[4/5] md:aspect-[4/3] rounded-[40px] overflow-hidden group block shadow-2xl bg-[#121212]">
+                        <Link to="/category/classic-plains" className="relative aspect-[4/5] md:aspect-[4/3] rounded-[40px] overflow-hidden group block shadow-2xl bg-[#121212] bg-gradient-to-t from-primary/20 to-secondary">
                             <div
                                 className="absolute inset-0 bg-cover bg-center transition-transform duration-1000 group-hover:scale-110"
                                 style={{ backgroundImage: `url('${plainsImg}')` }}

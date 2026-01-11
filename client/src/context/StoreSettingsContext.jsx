@@ -392,28 +392,28 @@ export const StoreSettingsProvider = ({ children }) => {
                         }
                     } : {
                         hero: {
-                            subHeadline: "Collection 01",
-                            headlineLine1: "PRECISION",
-                            headlineLine2: "APPAREL.",
-                            descriptionLine1: "High-performance engineered wear.",
-                            descriptionLine2: "Designed for the relentless mind. Built for the elite body.",
-                            imageUrl: "/hero-clothes-bg.png",
-                            hollowText: ""
+                            subHeadline: "Collection 2024",
+                            headlineLine1: "AFRICAN",
+                            headlineLine2: "HERITAGE.",
+                            descriptionLine1: "Premium African-inspired fashion.",
+                            descriptionLine2: "Where tradition meets contemporary silhouette. Crafted for the modern man.",
+                            imageUrl: "",
+                            hollowText: "NAKMA"
                         },
                         philosophy: {
-                            subHeadline: "The Noesis Philosophy",
-                            quote: "The right gear is the catalyst for your next breakthrough.",
-                            descriptionLine1: "Engineered for the relentless individual.",
-                            descriptionLine2: "Designed to transcend the boundaries of performance and aesthetic.",
-                            imageUrl: "/philosophy-bg.png"
+                            subHeadline: "The Nakma Philosophy",
+                            quote: "Your style is the reflection of your heritage and confidence.",
+                            descriptionLine1: "Crafted for the modern African man.",
+                            descriptionLine2: "Where tradition meets contemporary silhouette.",
+                            imageUrl: ""
                         },
                         categories: {
                             prints: { title: "Vibrant Prints", subtitle: "Bold African Motifs", imageUrl: "" },
                             plains: { title: "Classic Plains", subtitle: "Minimalist Elegance", imageUrl: "" }
                         },
                         seo: {
-                            metaTitle: "",
-                            metaDescription: ""
+                            metaTitle: "Nakma Store | Modern African Fashion",
+                            metaDescription: "Discover unique African-inspired men's fashion at Nakma Store. Blending heritage with modern design."
                         }
                     },
                     navigationSettings: data.navigation_settings || [
