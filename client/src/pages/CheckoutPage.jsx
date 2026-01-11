@@ -180,7 +180,7 @@ const CheckoutPage = () => {
         }
     };
 
-    const finalizeOrderAfterPayment = (originalOrder, reference) => {
+    const finalizeOrderAfterPayment = async (originalOrder, reference) => {
         console.log('Finalizing order after payment...', { orderId: originalOrder?.id, reference });
 
         // 1. Prepare ALL necessary data immediately
