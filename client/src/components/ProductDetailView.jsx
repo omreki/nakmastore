@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useCart } from '../context/CartContext';
 import { useStoreSettings } from '../context/StoreSettingsContext';
+import { useNotification } from '../context/NotificationContext';
 import AddToBagButton from './product/AddToBagButton';
 import ProductMediaGallery from './product/ProductMediaGallery';
 
@@ -17,6 +18,7 @@ const ProductDetailView = ({
     const settings = settingsOverride || {};
     const { formatPrice, settings: globalSettings } = useStoreSettings();
     const { addToCart } = useCart();
+    const { notify } = useNotification();
 
     const [selectedSize, setSelectedSize] = useState(null);
     const [selectedColor, setSelectedColor] = useState(null);
@@ -32,9 +34,19 @@ const ProductDetailView = ({
     // Select first options by default if available and not selected? (Optional, but user didn't ask)
     // Actually the image shows a selection.
 
-    const selectedVariation = hasVariations && selectedSize && selectedColor
-        ? variations.find(v => v.size === selectedSize && v.color === selectedColor)
+    const selectedVariation = hasVariations && selectedSize && (!colors.length || selectedColor)
+        ? variations.find(v => (v.size === selectedSize || !v.size) && (v.color === selectedColor?.name || !v.color))
         : null;
+
+    // Auto-select if only one option exists
+    React.useEffect(() => {
+        if (colors.length === 1 && !selectedColor) {
+            setSelectedColor(colors[0]);
+        }
+        if (sizes.length === 1 && !selectedSize) {
+            setSelectedSize(sizes[0]);
+        }
+    }, [colors, sizes, selectedColor, selectedSize]);
 
     const currentPrice = selectedVariation ? selectedVariation.price : (product.is_sale ? product.sale_price : product.price);
     const maxStock = selectedVariation ? selectedVariation.stock : product.stock;
@@ -79,6 +91,16 @@ const ProductDetailView = ({
     const getSpacingClass = () => ({ compact: 'space-y-4', spacious: 'space-y-12', comfortable: 'space-y-8' }[spacing] || 'space-y-8');
 
     const handleAddToCart = () => {
+        if (hasVariations) {
+            if (colors.length > 0 && !selectedColor) {
+                notify("Please select a color option to continue.", "error");
+                return;
+            }
+            if (sizes.length > 0 && !selectedSize) {
+                notify("Please select a size option to continue.", "error");
+                return;
+            }
+        }
         const item = selectedVariation ? { ...product, price: selectedVariation.price, variation_id: selectedVariation.id } : product;
         addToCart(item, quantity, selectedSize, selectedColor);
         setQuantity(1);
@@ -217,43 +239,61 @@ const ProductDetailView = ({
 
                 {/* Variants Row */}
                 {(colors.length > 0 || sizes.length > 0) && (
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-8 p-8 bg-white/[0.02] border border-white/5 ring-1 ring-inset ring-white/5 shadow-2xl" style={{ borderRadius: settings.roundingStyle === 'sharp' ? '0' : '2.5rem' }}>
+                    <div className="flex flex-col md:flex-row md:items-start gap-12 p-8 bg-white/[0.02] border border-white/5 ring-1 ring-inset ring-white/5 shadow-2xl" style={{ borderRadius: settings.roundingStyle === 'sharp' ? '0' : '2.5rem' }}>
                         {/* Colors */}
                         {colors.length > 0 && (
                             <div className="space-y-4">
-                                <label className="text-[10px] font-black uppercase tracking-[0.15em] text-label">Color: <span className="text-primary-light ml-2">{selectedColor?.name || 'Select'}</span></label>
-                                <div className="flex flex-wrap gap-3">
-                                    {colors.map(c => (
-                                        <button
-                                            key={c.name}
-                                            onClick={() => setSelectedColor(c)}
-                                            className={`size-10 border-2 transition-all p-0.5 ${selectedColor?.name === c.name ? 'border-primary ring-2 ring-primary/30 scale-110' : 'border-transparent opacity-60 hover:opacity-100 hover:scale-105'}`}
-                                            title={c.name}
-                                            style={{ borderRadius: settings.roundingStyle === 'sharp' ? '0' : '999px' }}
-                                        >
-                                            <div className="w-full h-full" style={{ backgroundColor: c.hex, borderRadius: settings.roundingStyle === 'sharp' ? '0' : '999px' }} />
-                                        </button>
-                                    ))}
-                                </div>
+                                {colors.length > 1 ? (
+                                    <>
+                                        <label className="text-[10px] font-black uppercase tracking-[0.15em] text-label">Color: <span className="text-primary-light ml-2">{selectedColor?.name || 'Select'}</span></label>
+                                        <div className="flex flex-wrap gap-3">
+                                            {colors.map(c => (
+                                                <button
+                                                    key={c.name}
+                                                    onClick={() => setSelectedColor(c)}
+                                                    className={`size-10 border-2 transition-all p-0.5 ${selectedColor?.name === c.name ? 'border-primary ring-2 ring-primary/30 scale-110' : 'border-transparent opacity-60 hover:opacity-100 hover:scale-105'}`}
+                                                    title={c.name}
+                                                    style={{ borderRadius: settings.roundingStyle === 'sharp' ? '0' : '999px' }}
+                                                >
+                                                    <div className="w-full h-full" style={{ backgroundColor: c.hex, borderRadius: settings.roundingStyle === 'sharp' ? '0' : '999px' }} />
+                                                </button>
+                                            ))}
+                                        </div>
+                                    </>
+                                ) : (
+                                    <div className="flex flex-col gap-1">
+                                        <label className="text-[10px] font-black uppercase tracking-[0.15em] text-label">Color</label>
+                                        <span className="text-sm font-black text-white italic">{colors[0].name}</span>
+                                    </div>
+                                )}
                             </div>
                         )}
 
                         {/* Sizes */}
                         {sizes.length > 0 && (
                             <div className="space-y-4">
-                                <label className="text-[10px] font-black uppercase tracking-[0.15em] text-label">Size: <span className="text-primary-light ml-2">{selectedSize || 'Select'}</span></label>
-                                <div className="flex flex-wrap gap-2">
-                                    {sizes.map(s => (
-                                        <button
-                                            key={s}
-                                            onClick={() => setSelectedSize(s)}
-                                            className={`size-12 flex items-center justify-center text-[11px] font-black transition-all border italic tracking-widest ${selectedSize === s ? 'bg-primary/20 text-white border-primary shadow-lg shadow-primary/10' : 'bg-white/5 text-gray-500 border-white/10 hover:border-white/30 hover:text-white'}`}
-                                            style={{ borderRadius: settings.roundingStyle === 'sharp' ? '0' : '999px' }}
-                                        >
-                                            {s}
-                                        </button>
-                                    ))}
-                                </div>
+                                {sizes.length > 1 ? (
+                                    <>
+                                        <label className="text-[10px] font-black uppercase tracking-[0.15em] text-label">Size: <span className="text-primary-light ml-2">{selectedSize || 'Select'}</span></label>
+                                        <div className="flex flex-wrap gap-2">
+                                            {sizes.map(s => (
+                                                <button
+                                                    key={s}
+                                                    onClick={() => setSelectedSize(s)}
+                                                    className={`size-12 flex items-center justify-center text-[11px] font-black transition-all border italic tracking-widest ${selectedSize === s ? 'bg-primary/20 text-white border-primary shadow-lg shadow-primary/10' : 'bg-white/5 text-gray-500 border-white/10 hover:border-white/30 hover:text-white'}`}
+                                                    style={{ borderRadius: settings.roundingStyle === 'sharp' ? '0' : '999px' }}
+                                                >
+                                                    {s}
+                                                </button>
+                                            ))}
+                                        </div>
+                                    </>
+                                ) : (
+                                    <div className="flex flex-col gap-1">
+                                        <label className="text-[10px] font-black uppercase tracking-[0.15em] text-label">Size</label>
+                                        <span className="text-sm font-black text-white italic">{sizes[0]}</span>
+                                    </div>
+                                )}
                             </div>
                         )}
                     </div>
@@ -283,7 +323,7 @@ const ProductDetailView = ({
                         }}
                         price={currentPrice}
                         onClick={handleAddToCart}
-                        disabled={hasVariations && (!selectedSize || (!selectedColor && colors.length > 0))}
+                        disabled={false}
                     />
                     <div className={`flex ${settings.addToCartAlignment === 'center' ? 'justify-center text-center' : settings.addToCartAlignment === 'full' ? 'justify-center text-center' : 'justify-start text-left'}`}>
                         <TrustBadges />
