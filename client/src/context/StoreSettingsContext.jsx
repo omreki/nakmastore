@@ -344,6 +344,12 @@ export const StoreSettingsProvider = ({ children }) => {
                             },
                             checkoutPageSettings: data.checkout_page_settings || {
                                 giftMessage: "Exclusive print included with <br /> <span class=\"text-[#b82063]\">your first Nakma</span> purchase."
+                            },
+                            brandSettings: data.brand_settings || {
+                                primaryColor: '#ff007f',
+                                secondaryColor: '#000000',
+                                labelColor: '#ffffff',
+                                secondaryTextColor: '#ffffff'
                             }
                         });
                     }
@@ -405,12 +411,7 @@ export const StoreSettingsProvider = ({ children }) => {
                     operatingHours: data.operating_hours || { mon_fri: '', sat: '' },
                     instagramUrl: data.instagram_url || '',
                     facebookUrl: data.facebook_url || '',
-                    brandSettings: data.brand_settings || {
-                        primaryColor: '#ff007f',
-                        secondaryColor: '#000000',
-                        labelColor: '#ffffff',
-                        secondaryTextColor: '#ffffff'
-                    },
+
                     paymentConfigs: data.payment_configs || {},
                     homepageSettings: data.homepage_settings ? {
                         ...data.homepage_settings,

@@ -300,7 +300,7 @@ const ProductPage = () => {
                                         </div>
                                     )}
                                 </div>
-                                    )}
+
                             </div>
                         </div>
 
@@ -383,7 +383,7 @@ const ProductPage = () => {
                                             <span className="material-symbols-outlined text-[20px]">add</span>
                                         </button>
                                     </div>
-                                    <span className="text-[10px] text-white/20 font-bold uppercase tracking-widest italic">
+                                    <span className="text-[10px] font-bold uppercase tracking-widest italic" style={{ color: brandSettings?.secondaryTextColor || 'rgba(255,255,255,0.4)' }}>
                                         Max available: {selectedVariation ? selectedVariation.stock : product.stock}
                                     </span>
                                 </div>
@@ -422,10 +422,10 @@ const ProductPage = () => {
                             ].map((item, idx) => (
                                 <details key={idx} className="group border-b border-white/5 pb-2">
                                     <summary className="flex items-center justify-between cursor-pointer list-none">
-                                        <span className="text-[10px] font-black uppercase tracking-widest text-white/40 group-hover:text-white transition-colors">{item.title}</span>
+                                        <span className="text-[10px] font-black uppercase tracking-widest transition-colors group-hover:text-white" style={{ color: brandSettings?.labelColor || 'rgba(255,255,255,0.4)' }}>{item.title}</span>
                                         <span className="material-symbols-outlined text-[16px] transition-transform group-open:rotate-180">expand_more</span>
                                     </summary>
-                                    <p className="pt-2 text-[11px] font-medium text-white/40 leading-relaxed italic">{item.content}</p>
+                                    <p className="pt-2 text-[11px] font-medium leading-relaxed italic" style={{ color: brandSettings?.secondaryTextColor || 'rgba(255,255,255,0.4)' }}>{item.content}</p>
                                 </details>
                             ))}
                         </div>
