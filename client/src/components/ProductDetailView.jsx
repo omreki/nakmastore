@@ -66,6 +66,7 @@ const ProductDetailView = ({
             case '3/4,1/4': return { image: 'lg:w-3/4', content: 'lg:w-1/4' };
             case '60/40': return { image: 'lg:w-[58%]', content: 'lg:w-[38%]' };
             case '40/60': return { image: 'lg:w-[38%]', content: 'lg:w-[58%]' };
+            case '1/3,1/3,1/3': return { image: 'lg:w-1/3', content: 'lg:w-1/3', side: 'lg:w-1/3' };
             case '50/50':
             case '1/2,1/2':
             default: return { image: 'lg:w-1/2', content: 'lg:w-1/2' };
@@ -251,12 +252,6 @@ const ProductDetailView = ({
                                         </button>
                                     ))}
                                 </div>
-                                <div className="flex justify-start">
-                                    <button className="text-[10px] font-black uppercase tracking-[0.15em] text-primary hover:text-white flex items-center gap-1.5 transition-colors pt-1">
-                                        <span className="material-symbols-outlined text-[14px]">straighten</span>
-                                        Size Guide
-                                    </button>
-                                </div>
                             </div>
                         )}
                     </div>
@@ -294,13 +289,24 @@ const ProductDetailView = ({
                 </div>
 
                 {/* Info Tabs / Accordions */}
-                <div className="pt-4 space-y-2">
-                    <AccordionItem id="features" title="Description & Fit" icon="info" content={product.description_fit || product.description || "Engineered with our proprietary NoeDri™ fabric for unmatched breathability and 4-way stretch."} />
-                    <AccordionItem id="care" title="Materials & Care" icon="wash" content={product.materials_care || product.features || "Machine wash cold with like colors. Tumble dry low. 88% Polyester, 12% Spandex."} />
-                </div>
+                {!widths.side && (
+                    <div className="pt-4 space-y-2">
+                        <AccordionItem id="features" title="Description & Fit" icon="info" content={product.description_fit || product.description || "Engineered with our proprietary NoeDri™ fabric for unmatched breathability and 4-way stretch."} />
+                        <AccordionItem id="care" title="Materials & Care" icon="wash" content={product.materials_care || product.features || "Machine wash cold with like colors. Tumble dry low. 88% Polyester, 12% Spandex."} />
+                    </div>
+                )}
             </div>
         </div>
     );
+
+    const SideSection = widths.side ? (
+        <div className={`flex flex-col ${widths.side} pt-12`}>
+            <div className="space-y-2">
+                <AccordionItem id="features" title="Description & Fit" icon="info" content={product.description_fit || product.description || "Engineered with our proprietary NoeDri™ fabric for unmatched breathability and 4-way stretch."} />
+                <AccordionItem id="care" title="Materials & Care" icon="wash" content={product.materials_care || product.features || "Machine wash cold with like colors. Tumble dry low. 88% Polyester, 12% Spandex."} />
+            </div>
+        </div>
+    ) : null;
 
     // --- Related Products Section ---
     const RelatedProducts = () => (
@@ -353,6 +359,7 @@ const ProductDetailView = ({
                     <>
                         {MediaSection}
                         {InfoSection}
+                        {SideSection}
                     </>
                 )}
             </div>

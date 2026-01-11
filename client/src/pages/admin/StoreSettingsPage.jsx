@@ -1875,7 +1875,8 @@ const StoreSettingsPage = () => {
                                             {[
                                                 { value: '1/3,2/3', label: '1/3 | 2/3' },
                                                 { value: '1/2,1/2', label: '1/2 | 1/2' },
-                                                { value: '1/4,3/4', label: '1/4 | 3/4' }
+                                                { value: '1/4,3/4', label: '1/4 | 3/4' },
+                                                { value: '1/3,1/3,1/3', label: '1/3 | 1/3 | 1/3' }
                                             ].map((ratio) => (
                                                 <button
                                                     key={ratio.value}
