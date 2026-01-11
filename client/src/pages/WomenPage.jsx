@@ -170,7 +170,7 @@ const WomenPage = () => {
             )}
             {/* Header / Hero Section */}
             <div className="layout-container mb-12 md:mb-16">
-                <div className="relative w-full h-[400px] md:h-[600px] rounded-[32px] md:rounded-[40px] overflow-hidden group shadow-2xl bg-white/[0.03]">
+                <div className="relative w-full h-[260px] md:h-[400px] rounded-[32px] md:rounded-[40px] overflow-hidden group shadow-2xl bg-white/[0.03]">
                     {pageContent.imageUrl && (
                         <div className="absolute inset-0">
                             <img

@@ -33,7 +33,7 @@ const AboutPage = () => {
             </div>
 
             {/* Hero Section */}
-            <section className="relative w-full h-[500px] md:h-[800px] flex items-center justify-center text-center px-6 overflow-hidden bg-black">
+            <section className="relative w-full h-[330px] md:h-[530px] flex items-center justify-center text-center px-6 overflow-hidden bg-black">
                 {aboutSettings.hero.bgImage && (
                     <div className="absolute inset-0">
                         <img
