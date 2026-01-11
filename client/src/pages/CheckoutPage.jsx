@@ -229,24 +229,32 @@ const CheckoutPage = () => {
         });
 
         // 3. SILENT BACKGROUND NOTIFICATIONS
-        (async () => {
-            try {
-                const customerData = { email: formData.email, full_name: `${formData.firstName} ${formData.lastName}` };
-                const emailItems = confirmationData.order.items.map(item => ({
-                    product_name: item.name,
-                    quantity: item.quantity,
-                    price: item.price
-                }));
+        // 3. AWAIT BACKGROUND NOTIFICATIONS (Ensure they are sent before moving)
+        try {
+            console.log('Sending notifications...');
+            const customerData = { email: formData.email, full_name: `${formData.firstName} ${formData.lastName}` };
+            const emailItems = confirmationData.order.items.map(item => ({
+                product_name: item.name,
+                quantity: item.quantity,
+                price: item.price
+            }));
 
-                emailService.sendOrderConfirmation(confirmationData.order, customerData, emailItems).catch(console.error);
+            // Fetch admin emails
+            const { data: teamMembers } = await supabase.from('team_members').select('email').in('role', ['admin', 'editor', 'shop_manager']);
+            const allRecipients = [...new Set([(teamMembers || []).map(m => m.email), settings?.alertEmails || []].flat())].filter(Boolean);
 
-                const { data: teamMembers } = await supabase.from('team_members').select('email').in('role', ['admin', 'editor', 'shop_manager']);
-                const allRecipients = [...new Set([(teamMembers || []).map(m => m.email), settings?.alertEmails || []].flat())].filter(Boolean);
-                if (allRecipients.length > 0) {
-                    emailService.sendAdminOrderNotification(confirmationData.order, allRecipients, customerData, emailItems).catch(console.error);
-                }
-            } catch (e) { console.error('Notification error:', e); }
-        })();
+            await Promise.all([
+                emailService.sendOrderConfirmation(confirmationData.order, customerData, emailItems)
+                    .catch(e => console.error('Customer email failed:', e)),
+                allRecipients.length > 0
+                    ? emailService.sendAdminOrderNotification(confirmationData.order, allRecipients, customerData, emailItems)
+                        .catch(e => console.error('Admin email failed:', e))
+                    : Promise.resolve()
+            ]);
+            console.log('Notifications sent.');
+        } catch (e) {
+            console.error('Notification error:', e);
+        }
 
         // 4. IMMEDIATE REDIRECT (Don't clear cart here, clear on confirmation page to avoid race conditions)
         console.log('Triggering navigation to /confirmation');
@@ -370,28 +378,30 @@ const CheckoutPage = () => {
             }
 
             // Background Notifications
-            (async () => {
-                try {
-                    const customerData = { email: formData.email, full_name: `${formData.firstName} ${formData.lastName}` };
-                    const emailItems = cart.map(item => ({
-                        product_name: item.name,
-                        quantity: item.quantity,
-                        price: item.price
-                    }));
+            // AWAIT Notifications before navigation
+            try {
+                const customerData = { email: formData.email, full_name: `${formData.firstName} ${formData.lastName}` };
+                const emailItems = cart.map(item => ({
+                    product_name: item.name,
+                    quantity: item.quantity,
+                    price: item.price
+                }));
 
-                    // Customer Email
-                    emailService.sendOrderConfirmation(order, customerData, emailItems).catch(console.error);
+                // Admin Email Fetch
+                const { data: teamMembers } = await supabase.from('team_members').select('email').in('role', ['admin', 'editor', 'shop_manager']);
+                const allRecipients = [...new Set([(teamMembers || []).map(m => m.email), settings?.alertEmails || []].flat())].filter(Boolean);
 
-                    // Admin Email
-                    const { data: teamMembers } = await supabase.from('team_members').select('email').in('role', ['admin', 'editor', 'shop_manager']);
-                    const allRecipients = [...new Set([(teamMembers || []).map(m => m.email), settings?.alertEmails || []].flat())].filter(Boolean);
-                    if (allRecipients.length > 0) {
-                        emailService.sendAdminOrderNotification(order, allRecipients, customerData, emailItems).catch(console.error);
-                    }
-                } catch (e) {
-                    console.error('Notification background error:', e);
-                }
-            })();
+                await Promise.all([
+                    emailService.sendOrderConfirmation(order, customerData, emailItems)
+                        .catch(e => console.error('Customer email failed:', e)),
+                    allRecipients.length > 0
+                        ? emailService.sendAdminOrderNotification(order, allRecipients, customerData, emailItems)
+                            .catch(e => console.error('Admin email failed:', e))
+                        : Promise.resolve()
+                ]);
+            } catch (e) {
+                console.error('Notification background error:', e);
+            }
 
             notify('Order placed!', 'success');
             setIsProcessing(false);
