@@ -553,7 +553,7 @@ export const StoreSettingsProvider = ({ children }) => {
                     checkoutPageSettings: data.checkout_page_settings || {
                         giftMessage: "Exclusive print included with <br /> <span class=\"text-[#b82063]\">your first Nakma</span> purchase."
                     },
-                    brandSettings: data.brand_settings ? {
+                    brandSettings: data.brand_settings || {
                         primaryColor: "#ff007f",
                         secondaryColor: "#000000",
                         accentColor: "#d86928",
@@ -561,10 +561,9 @@ export const StoreSettingsProvider = ({ children }) => {
                         navbarBg: "rgba(0, 0, 0, 0.4)",
                         navbarText: "#ffffff",
                         textMain: "#ffffff",
-                        textMuted: "#a1a1aa",
-                        ...data.brand_settings
-
-                    });
+                        textMuted: "#a1a1aa"
+                    }
+                });
             }
         } catch (error) {
             console.error('Error fetching settings:', error);
