@@ -79,7 +79,7 @@ const CartPage = () => {
                                                 <div className="flex flex-col gap-1">
                                                     <div className="flex gap-4 text-xs font-bold uppercase tracking-widest text-white/40">
                                                         <span>Size: <span className="text-white">{item.selectedSize || 'M'}</span></span>
-                                                        <span>Color: <span className="text-white">{item.selectedColor || 'Black'}</span></span>
+                                                        <span>Color: <span className="text-white">{item.selectedColor?.name || item.selectedColor || 'Black'}</span></span>
                                                     </div>
                                                     {item.variation_name && (
                                                         <span className="text-[10px] font-medium text-white/20 uppercase tracking-[0.1em]">

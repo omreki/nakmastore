@@ -79,7 +79,7 @@ const CartDrawer = () => {
                                             </div>
                                         </div>
                                         <p className="text-[10px] font-bold text-white/30 uppercase tracking-widest">
-                                            Size: {item.selectedSize} / {item.selectedColor}
+                                            Size: {item.selectedSize} / {item.selectedColor?.name || item.selectedColor || 'Default'}
                                         </p>
                                         {item.variation_name && (
                                             <p className="text-[8px] font-medium text-white/20 uppercase tracking-[0.1em]">

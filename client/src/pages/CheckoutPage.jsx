@@ -689,7 +689,7 @@ const CheckoutPage = () => {
 
                             <div className="space-y-6 max-h-[400px] overflow-y-auto pr-4 custom-scrollbar">
                                 {cart.map((item) => (
-                                    <div key={`${item.id}-${item.variation_id || 'base'}-${item.selectedSize}-${item.selectedColor}`} className="flex gap-6 items-center">
+                                    <div key={`${item.id}-${item.variation_id || 'base'}-${item.selectedSize}-${item.selectedColor?.name || item.selectedColor}`} className="flex gap-6 items-center">
                                         <div className="size-20 rounded-[16px] overflow-hidden bg-[#f5f5f5] p-2 flex-shrink-0 border border-white/5">
                                             <img src={item.images?.[0]} className="w-full h-full object-contain mix-blend-multiply" alt="" />
                                         </div>
