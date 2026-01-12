@@ -111,7 +111,8 @@ const StoreSettingsPage = () => {
             thumbnailColumns: 4,
             thumbnailSize: 100,
             mainImageRadius: 0,
-            thumbnailRadius: 0
+            thumbnailRadius: 0,
+            showStock: true
         }
     });
 
@@ -367,7 +368,8 @@ const StoreSettingsPage = () => {
                     thumbnailColumns: 4,
                     thumbnailSize: 100,
                     mainImageRadius: 0,
-                    thumbnailRadius: 0
+                    thumbnailRadius: 0,
+                    showStock: true
                 },
                 loginPageSettings: contextSettings.loginPageSettings || {
                     login_bg_url: '',
@@ -2018,6 +2020,36 @@ const StoreSettingsPage = () => {
                                                             {align}
                                                         </button>
                                                     ))}
+                                                </div>
+                                            </div>
+
+                                            <div className="space-y-3">
+                                                <label className="text-[10px] font-bold text-gray-500 uppercase tracking-widest">Stock Visibility</label>
+                                                <div className="flex bg-white/5 p-1 rounded-2xl border border-white/10">
+                                                    <button
+                                                        onClick={() => setSettings(prev => ({
+                                                            ...prev,
+                                                            productPageSettings: { ...prev.productPageSettings, showStock: true }
+                                                        }))}
+                                                        className={`flex-1 py-3 px-4 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all ${settings.productPageSettings?.showStock !== false
+                                                            ? 'bg-primary text-white shadow-lg'
+                                                            : 'text-gray-500 hover:text-white'
+                                                            }`}
+                                                    >
+                                                        Show
+                                                    </button>
+                                                    <button
+                                                        onClick={() => setSettings(prev => ({
+                                                            ...prev,
+                                                            productPageSettings: { ...prev.productPageSettings, showStock: false }
+                                                        }))}
+                                                        className={`flex-1 py-3 px-4 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all ${settings.productPageSettings?.showStock === false
+                                                            ? 'bg-primary text-white shadow-lg'
+                                                            : 'text-gray-500 hover:text-white'
+                                                            }`}
+                                                    >
+                                                        Hide
+                                                    </button>
                                                 </div>
                                             </div>
 
