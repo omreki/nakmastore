@@ -25,6 +25,8 @@ const AddProductPage = () => {
         materials_care: '',
         colors: [],
         sizes: [],
+        weights: [],
+        dimensions: [],
         sku: '' // Added base SKU
     });
 
@@ -142,6 +144,42 @@ const AddProductPage = () => {
         }
     };
 
+    // Weights logic
+    const [newWeight, setNewWeight] = useState({ value: '', unit: 'kg' });
+    const addWeight = () => {
+        if (newWeight.value) {
+            setFormData(prev => ({
+                ...prev,
+                weights: [...prev.weights, { ...newWeight }]
+            }));
+            setNewWeight({ value: '', unit: 'kg' });
+        }
+    };
+    const removeWeight = (idx) => {
+        setFormData(prev => ({
+            ...prev,
+            weights: prev.weights.filter((_, i) => i !== idx)
+        }));
+    };
+
+    // Dimensions logic
+    const [newDimension, setNewDimension] = useState({ value: '', unit: 'cm' });
+    const addDimension = () => {
+        if (newDimension.value) {
+            setFormData(prev => ({
+                ...prev,
+                dimensions: [...prev.dimensions, { ...newDimension }]
+            }));
+            setNewDimension({ value: '', unit: 'cm' });
+        }
+    };
+    const removeDimension = (idx) => {
+        setFormData(prev => ({
+            ...prev,
+            dimensions: prev.dimensions.filter((_, i) => i !== idx)
+        }));
+    };
+
     const removeColor = (index) => {
         setFormData(prev => ({
             ...prev,
@@ -231,8 +269,10 @@ const AddProductPage = () => {
                 stock: totalStock,
                 sku: formData.sku?.trim() || null,
                 images: imageUrls,
-                colors: formData.colors.length > 0 ? formData.colors : [{ name: 'Black', hex: '#000000' }],
-                sizes: formData.sizes.length > 0 ? formData.sizes : ['S', 'M', 'L', 'XL'],
+                colors: formData.colors,
+                sizes: formData.sizes,
+                weights: formData.weights,
+                dimensions: formData.dimensions,
                 rating: 0,
                 reviews_count: 0,
                 created_at: new Date().toISOString()
@@ -268,6 +308,8 @@ const AddProductPage = () => {
                     name: v.name,
                     color: v.color,
                     size: v.size,
+                    weight: v.weight,
+                    dimension: v.dimension,
                     sku: v.sku?.trim() || null,
                     price: parseFloat(v.price) || price,
                     stock: parseInt(v.stock) || 0
@@ -521,6 +563,92 @@ const AddProductPage = () => {
                                             </div>
                                         </div>
                                     </div>
+                                    {/* Weights Subsection */}
+                                    <div className="flex flex-col gap-6 mt-12 border-t border-white/5 pt-12">
+                                        <label className="text-gray-500 text-[10px] font-black tracking-[0.2em] uppercase ml-1">Weight Options</label>
+                                        <div className="flex flex-col gap-4">
+                                            <div className="flex flex-wrap gap-3">
+                                                {formData.weights.map((w, idx) => (
+                                                    <div key={idx} className="flex items-center gap-2 bg-white/5 border border-white/5 rounded-full pl-3 pr-3 py-1.5 group hover:border-red-500/30 transition-all">
+                                                        <span className="text-[10px] font-black text-white">{w.value}</span>
+                                                        <span className="text-[9px] font-bold text-gray-500 uppercase tracking-widest">{w.unit}</span>
+                                                        <button type="button" onClick={() => removeWeight(idx)} className="ml-1 text-gray-500 hover:text-red-500 transition-colors">
+                                                            <span className="material-symbols-outlined text-[16px]">close</span>
+                                                        </button>
+                                                    </div>
+                                                ))}
+                                            </div>
+
+                                            <div className="flex gap-3">
+                                                <input
+                                                    type="number"
+                                                    placeholder="Value"
+                                                    value={newWeight.value}
+                                                    onChange={(e) => setNewWeight({ ...newWeight, value: e.target.value })}
+                                                    className="glossy-input flex-1 rounded-xl bg-black/40 border-white/5 text-white font-bold h-11 px-4 text-[10px] outline-none"
+                                                />
+                                                <select
+                                                    value={newWeight.unit}
+                                                    onChange={(e) => setNewWeight({ ...newWeight, unit: e.target.value })}
+                                                    className="w-20 rounded-xl bg-black/40 border border-white/5 text-gray-400 font-bold text-[10px] px-2 outline-none appearance-none cursor-pointer"
+                                                >
+                                                    <option value="kg">KG</option>
+                                                    <option value="g">G</option>
+                                                </select>
+                                                <button
+                                                    type="button"
+                                                    onClick={addWeight}
+                                                    className="size-11 rounded-xl bg-white/5 hover:bg-primary text-white flex items-center justify-center transition-all border border-white/5"
+                                                >
+                                                    <span className="material-symbols-outlined">add</span>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    {/* Dimensions Subsection */}
+                                    <div className="flex flex-col gap-6 mt-12 border-t border-white/5 pt-12">
+                                        <label className="text-gray-500 text-[10px] font-black tracking-[0.2em] uppercase ml-1">Dimension Options</label>
+                                        <div className="flex flex-col gap-4">
+                                            <div className="flex flex-wrap gap-3">
+                                                {formData.dimensions.map((d, idx) => (
+                                                    <div key={idx} className="flex items-center gap-2 bg-white/5 border border-white/5 rounded-full pl-3 pr-3 py-1.5 group hover:border-red-500/30 transition-all">
+                                                        <span className="text-[10px] font-black text-white">{d.value}</span>
+                                                        <span className="text-[9px] font-bold text-gray-500 uppercase tracking-widest">{d.unit}</span>
+                                                        <button type="button" onClick={() => removeDimension(idx)} className="ml-1 text-gray-500 hover:text-red-500 transition-colors">
+                                                            <span className="material-symbols-outlined text-[16px]">close</span>
+                                                        </button>
+                                                    </div>
+                                                ))}
+                                            </div>
+
+                                            <div className="flex gap-3">
+                                                <input
+                                                    type="number"
+                                                    placeholder="Value"
+                                                    value={newDimension.value}
+                                                    onChange={(e) => setNewDimension({ ...newDimension, value: e.target.value })}
+                                                    className="glossy-input flex-1 rounded-xl bg-black/40 border-white/5 text-white font-bold h-11 px-4 text-[10px] outline-none"
+                                                />
+                                                <select
+                                                    value={newDimension.unit}
+                                                    onChange={(e) => setNewDimension({ ...newDimension, unit: e.target.value })}
+                                                    className="w-20 rounded-xl bg-black/40 border border-white/5 text-gray-400 font-bold text-[10px] px-2 outline-none appearance-none cursor-pointer"
+                                                >
+                                                    <option value="m">M</option>
+                                                    <option value="cm">CM</option>
+                                                    <option value="mm">MM</option>
+                                                </select>
+                                                <button
+                                                    type="button"
+                                                    onClick={addDimension}
+                                                    className="size-11 rounded-xl bg-white/5 hover:bg-primary text-white flex items-center justify-center transition-all border border-white/5"
+                                                >
+                                                    <span className="material-symbols-outlined">add</span>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
 
@@ -539,6 +667,8 @@ const AddProductPage = () => {
                                 <ProductVariationManager
                                     colors={formData.colors}
                                     sizes={formData.sizes}
+                                    weights={formData.weights}
+                                    dimensions={formData.dimensions}
                                     variations={variations}
                                     basePrice={formData.price}
                                     onChange={setVariations}

@@ -189,7 +189,12 @@ const ConfirmationPage = () => {
                                                         <p className="text-white text-lg font-bold">{formatPrice(item.price)}</p>
                                                     </div>
                                                     <p className="text-white/50 text-sm font-medium mt-1">
-                                                        {item.selectedColor?.name || item.selectedColor || ''} {(item.selectedColor?.name || item.selectedColor) && item.selectedSize ? '•' : ''} {item.selectedSize || ''}
+                                                        {[
+                                                            item.selectedColor?.name || item.selectedColor,
+                                                            item.selectedSize,
+                                                            item.selectedWeight,
+                                                            item.selectedDimension
+                                                        ].filter(Boolean).join(' • ')}
                                                     </p>
                                                 </div>
                                                 <div className="mt-3 flex items-center gap-2">

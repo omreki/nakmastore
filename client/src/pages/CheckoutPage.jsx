@@ -205,8 +205,10 @@ const CheckoutPage = () => {
                     variation_name: item.variation_name,
                     quantity: item.quantity,
                     price: item.price,
-                    selectedSize: item.selectedSize || 'M',
-                    selectedColor: item.selectedColor || ''
+                    selectedSize: item.selectedSize,
+                    selectedColor: item.selectedColor,
+                    selectedWeight: item.selectedWeight,
+                    selectedDimension: item.selectedDimension
                 })),
                 totals: {
                     subtotal: Number(subtotal),
@@ -352,7 +354,11 @@ const CheckoutPage = () => {
                 quantity: item.quantity,
                 price: item.price,
                 variation_id: item.variation_id || null,
-                variation_name: item.variation_name || null
+                variation_name: item.variation_name || null,
+                selected_size: item.selectedSize,
+                selected_color: typeof item.selectedColor === 'object' ? item.selectedColor.name : item.selectedColor,
+                selected_weight: item.selectedWeight,
+                selected_dimension: item.selectedDimension
             }));
 
             const { error: itemsError } = await supabase
@@ -426,7 +432,9 @@ const CheckoutPage = () => {
                             quantity: item.quantity,
                             price: item.price,
                             selectedSize: item.selectedSize,
-                            selectedColor: item.selectedColor
+                            selectedColor: item.selectedColor,
+                            selectedWeight: item.selectedWeight,
+                            selectedDimension: item.selectedDimension
                         })),
                         totals: { subtotal, shipping, tax, total }
                     }
@@ -689,7 +697,7 @@ const CheckoutPage = () => {
 
                             <div className="space-y-6 max-h-[400px] overflow-y-auto pr-4 custom-scrollbar">
                                 {cart.map((item) => (
-                                    <div key={`${item.id}-${item.variation_id || 'base'}-${item.selectedSize}-${item.selectedColor?.name || item.selectedColor}`} className="flex gap-6 items-center">
+                                    <div key={`${item.id}-${item.variation_id || 'base'}-${item.selectedSize}-${item.selectedColor?.name || item.selectedColor}-${item.selectedWeight}-${item.selectedDimension}`} className="flex gap-6 items-center">
                                         <div className="size-20 rounded-[16px] overflow-hidden bg-[#f5f5f5] p-2 flex-shrink-0 border border-white/5">
                                             <img src={item.images?.[0]} className="w-full h-full object-contain mix-blend-multiply" alt="" />
                                         </div>
@@ -697,7 +705,12 @@ const CheckoutPage = () => {
                                             <p className="font-bold text-sm leading-tight">{item.name}</p>
                                             <div className="flex flex-col mt-1">
                                                 <p className="text-white/40 text-[10px] uppercase font-bold tracking-widest">
-                                                    Qty {item.quantity} / {item.selectedSize || 'M'}
+                                                    Qty {item.quantity} / {[
+                                                        item.selectedColor?.name || item.selectedColor,
+                                                        item.selectedSize,
+                                                        item.selectedWeight,
+                                                        item.selectedDimension
+                                                    ].filter(Boolean).join(' / ')}
                                                 </p>
                                                 {item.variation_name && (
                                                     <p className="text-[9px] font-medium text-white/20 uppercase tracking-[0.1em]">

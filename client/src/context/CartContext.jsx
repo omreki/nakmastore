@@ -17,12 +17,14 @@ export const CartProvider = ({ children }) => {
         localStorage.setItem('nakma_cart', JSON.stringify(cart));
     }, [cart]);
 
-    const addToCart = (product, quantity = 1, selectedSize = 'M', selectedColor = null) => {
+    const addToCart = (product, quantity = 1, selectedSize = null, selectedColor = null, selectedWeight = null, selectedDimension = null) => {
         setCart(prevCart => {
             const existingItemIndex = prevCart.findIndex(
                 item => item.id === product.id &&
                     item.selectedSize === selectedSize &&
                     item.selectedColor === selectedColor &&
+                    item.selectedWeight === selectedWeight &&
+                    item.selectedDimension === selectedDimension &&
                     item.variation_id === product.variation_id
             );
 
@@ -31,27 +33,34 @@ export const CartProvider = ({ children }) => {
                 newCart[existingItemIndex].quantity += quantity;
                 return newCart;
             } else {
-                return [...prevCart, { ...product, quantity, selectedSize, selectedColor }];
+                return [...prevCart, { ...product, quantity, selectedSize, selectedColor, selectedWeight, selectedDimension }];
             }
         });
-        analyticsService.trackCartAction('Add to Cart', product, { quantity, selectedSize, selectedColor });
+        analyticsService.trackCartAction('Add to Cart', product, { quantity, selectedSize, selectedColor, selectedWeight, selectedDimension });
         setIsCartOpen(true); // Auto open cart on add
     };
 
-    const removeFromCart = (productId, selectedSize, selectedColor, variationId) => {
+    const removeFromCart = (productId, selectedSize, selectedColor, selectedWeight, selectedDimension, variationId) => {
         setCart(prevCart => prevCart.filter(item => !(
             item.id === productId &&
             item.selectedSize === selectedSize &&
             item.selectedColor === selectedColor &&
+            item.selectedWeight === selectedWeight &&
+            item.selectedDimension === selectedDimension &&
             item.variation_id === variationId
         )));
-        analyticsService.trackEvent('cart_action', 'Remove from Cart', { productId, selectedSize, selectedColor });
+        analyticsService.trackEvent('cart_action', 'Remove from Cart', { productId, selectedSize, selectedColor, selectedWeight, selectedDimension });
     };
 
-    const updateQuantity = (productId, selectedSize, selectedColor, variationId, newQuantity) => {
+    const updateQuantity = (productId, selectedSize, selectedColor, selectedWeight, selectedDimension, variationId, newQuantity) => {
         if (newQuantity < 1) return;
         setCart(prevCart => prevCart.map(item =>
-            (item.id === productId && item.selectedSize === selectedSize && item.selectedColor === selectedColor && item.variation_id === variationId)
+            (item.id === productId &&
+                item.selectedSize === selectedSize &&
+                item.selectedColor === selectedColor &&
+                item.selectedWeight === selectedWeight &&
+                item.selectedDimension === selectedDimension &&
+                item.variation_id === variationId)
                 ? { ...item, quantity: newQuantity }
                 : item
         ));

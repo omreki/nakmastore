@@ -22,6 +22,8 @@ const ProductDetailView = ({
 
     const [selectedSize, setSelectedSize] = useState(null);
     const [selectedColor, setSelectedColor] = useState(null);
+    const [selectedWeight, setSelectedWeight] = useState(null);
+    const [selectedDimension, setSelectedDimension] = useState(null);
     const [quantity, setQuantity] = useState(1);
     const [activeAccordion, setActiveAccordion] = useState(null);
 
@@ -30,26 +32,32 @@ const ProductDetailView = ({
     const hasVariations = variations.length > 0;
     const colors = product.colors || [];
     const sizes = product.sizes || [];
+    const weights = (product.weights || []).map(w => `${w.value}${w.unit}`);
+    const dimensions = (product.dimensions || []).map(d => `${d.value}${d.unit}`);
 
     // Select first options by default if available and not selected? (Optional, but user didn't ask)
     // Actually the image shows a selection.
 
-    const selectedVariation = hasVariations && (selectedSize || !sizes.length) && (selectedColor || !colors.length)
+    const selectedVariation = hasVariations &&
+        (selectedSize || !sizes.length) &&
+        (selectedColor || !colors.length) &&
+        (selectedWeight || !weights.length) &&
+        (selectedDimension || !dimensions.length)
         ? variations.find(v =>
             (sizes.length > 0 ? v.size === selectedSize : true) &&
-            (colors.length > 0 ? v.color === selectedColor?.name : true)
+            (colors.length > 0 ? v.color === selectedColor?.name : true) &&
+            (weights.length > 0 ? v.weight === selectedWeight : true) &&
+            (dimensions.length > 0 ? v.dimension === selectedDimension : true)
         )
         : null;
 
     // Auto-select if only one option exists
     React.useEffect(() => {
-        if (colors.length === 1 && !selectedColor) {
-            setSelectedColor(colors[0]);
-        }
-        if (sizes.length === 1 && !selectedSize) {
-            setSelectedSize(sizes[0]);
-        }
-    }, [colors, sizes, selectedColor, selectedSize]);
+        if (colors.length === 1 && !selectedColor) setSelectedColor(colors[0]);
+        if (sizes.length === 1 && !selectedSize) setSelectedSize(sizes[0]);
+        if (weights.length === 1 && !selectedWeight) setSelectedWeight(weights[0]);
+        if (dimensions.length === 1 && !selectedDimension) setSelectedDimension(dimensions[0]);
+    }, [colors, sizes, weights, dimensions]);
 
     const currentPrice = selectedVariation ? selectedVariation.price : (product.is_sale ? product.sale_price : product.price);
     const maxStock = selectedVariation ? selectedVariation.stock : product.stock;
@@ -103,9 +111,17 @@ const ProductDetailView = ({
                 notify("Please select a size option to continue.", "error");
                 return;
             }
+            if (weights.length > 0 && !selectedWeight) {
+                notify("Please select a weight option to continue.", "error");
+                return;
+            }
+            if (dimensions.length > 0 && !selectedDimension) {
+                notify("Please select a dimension option to continue.", "error");
+                return;
+            }
         }
         const item = selectedVariation ? { ...product, price: selectedVariation.price, variation_id: selectedVariation.id } : product;
-        addToCart(item, quantity, selectedSize, selectedColor);
+        addToCart(item, quantity, selectedSize, selectedColor, selectedWeight, selectedDimension);
         setQuantity(1);
     };
 
@@ -253,7 +269,7 @@ const ProductDetailView = ({
                                     {colors.map(c => (
                                         <button
                                             key={c.name}
-                                            onClick={() => setSelectedColor(c)}
+                                            onClick={() => setSelectedColor(selectedColor?.name === c.name ? null : c)}
                                             className={`size-12 border-2 transition-all p-0.5 ${selectedColor?.name === c.name ? 'border-primary ring-2 ring-primary/30 scale-110' : 'border-white/10 opacity-60 hover:opacity-100 hover:scale-105'}`}
                                             title={c.name}
                                             style={{ borderRadius: settings.roundingStyle === 'sharp' ? '0' : '999px' }}
@@ -265,7 +281,7 @@ const ProductDetailView = ({
                             </div>
                         )}
 
-                        {/* Sizes - Only shown if color is selected (or if product has no colors) */}
+                        {/* Sizes */}
                         {sizes.length > 0 && (!colors.length || selectedColor) && (
                             <div className="space-y-5 w-full">
                                 <label className="text-[11px] font-black uppercase tracking-[0.2em] text-primary">
@@ -275,11 +291,53 @@ const ProductDetailView = ({
                                     {sizes.map(s => (
                                         <button
                                             key={s}
-                                            onClick={() => setSelectedSize(s)}
+                                            onClick={() => setSelectedSize(selectedSize === s ? null : s)}
                                             className={`size-14 flex items-center justify-center text-[12px] font-black transition-all border italic tracking-widest ${selectedSize === s ? 'bg-primary/20 text-white border-primary shadow-lg shadow-primary/10 scale-110' : 'bg-white/5 text-gray-500 border-white/10 hover:border-white/30 hover:text-white'}`}
                                             style={{ borderRadius: settings.roundingStyle === 'sharp' ? '0' : '999px' }}
                                         >
                                             {s}
+                                        </button>
+                                    ))}
+                                </div>
+                            </div>
+                        )}
+
+                        {/* Weights */}
+                        {weights.length > 0 && (!sizes.length || selectedSize || !colors.length || selectedColor) && (
+                            <div className="space-y-5 w-full">
+                                <label className="text-[11px] font-black uppercase tracking-[0.2em] text-primary">
+                                    Weight {selectedWeight && <span className="ml-2 italic">{selectedWeight}</span>}
+                                </label>
+                                <div className="flex flex-wrap gap-3">
+                                    {weights.map(w => (
+                                        <button
+                                            key={w}
+                                            onClick={() => setSelectedWeight(selectedWeight === w ? null : w)}
+                                            className={`h-14 px-6 flex items-center justify-center text-[12px] font-black transition-all border italic tracking-widest ${selectedWeight === w ? 'bg-primary/20 text-white border-primary shadow-lg shadow-primary/10 scale-110' : 'bg-white/5 text-gray-500 border-white/10 hover:border-white/30 hover:text-white'}`}
+                                            style={{ borderRadius: settings.roundingStyle === 'sharp' ? '0' : '999px' }}
+                                        >
+                                            {w}
+                                        </button>
+                                    ))}
+                                </div>
+                            </div>
+                        )}
+
+                        {/* Dimensions */}
+                        {dimensions.length > 0 && (!weights.length || selectedWeight || !sizes.length || selectedSize || !colors.length || selectedColor) && (
+                            <div className="space-y-5 w-full">
+                                <label className="text-[11px] font-black uppercase tracking-[0.2em] text-primary">
+                                    Dimension {selectedDimension && <span className="ml-2 italic">{selectedDimension}</span>}
+                                </label>
+                                <div className="flex flex-wrap gap-3">
+                                    {dimensions.map(d => (
+                                        <button
+                                            key={d}
+                                            onClick={() => setSelectedDimension(selectedDimension === d ? null : d)}
+                                            className={`h-14 px-6 flex items-center justify-center text-[12px] font-black transition-all border italic tracking-widest ${selectedDimension === d ? 'bg-primary/20 text-white border-primary shadow-lg shadow-primary/10 scale-110' : 'bg-white/5 text-gray-500 border-white/10 hover:border-white/30 hover:text-white'}`}
+                                            style={{ borderRadius: settings.roundingStyle === 'sharp' ? '0' : '999px' }}
+                                        >
+                                            {d}
                                         </button>
                                     ))}
                                 </div>

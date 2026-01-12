@@ -55,7 +55,7 @@ const CartDrawer = () => {
                         </div>
                     ) : (
                         cart.map((item) => (
-                            <div key={`${item.id}-${item.variation_id || 'base'}-${item.selectedSize}-${item.selectedColor}`} className="flex gap-6 group">
+                            <div key={`${item.id}-${item.variation_id || 'base'}-${item.selectedSize}-${item.selectedColor?.name || item.selectedColor}-${item.selectedWeight}-${item.selectedDimension}`} className="flex gap-6 group">
                                 <div className="size-24 rounded-2xl overflow-hidden bg-[#f5f5f5] p-3 flex-shrink-0 relative border border-white/5">
                                     <img
                                         src={item.images?.[0] || 'https://via.placeholder.com/100'}
@@ -79,7 +79,12 @@ const CartDrawer = () => {
                                             </div>
                                         </div>
                                         <p className="text-[10px] font-bold text-white/30 uppercase tracking-widest">
-                                            Size: {item.selectedSize} / {item.selectedColor?.name || item.selectedColor || 'Default'}
+                                            {[
+                                                item.selectedColor?.name || item.selectedColor,
+                                                item.selectedSize,
+                                                item.selectedWeight,
+                                                item.selectedDimension
+                                            ].filter(Boolean).join(' / ')}
                                         </p>
                                         {item.variation_name && (
                                             <p className="text-[8px] font-medium text-white/20 uppercase tracking-[0.1em]">
@@ -90,21 +95,21 @@ const CartDrawer = () => {
                                     <div className="flex items-center justify-between">
                                         <div className="flex items-center border border-white/10 rounded-lg p-0.5 bg-white/[0.03]">
                                             <button
-                                                onClick={() => updateQuantity(item.id, item.selectedSize, item.selectedColor, item.variation_id, Math.max(1, item.quantity - 1))}
+                                                onClick={() => updateQuantity(item.id, item.selectedSize, item.selectedColor, item.selectedWeight, item.selectedDimension, item.variation_id, Math.max(1, item.quantity - 1))}
                                                 className="size-7 flex items-center justify-center hover:bg-white/5 rounded-md transition-colors"
                                             >
                                                 <span className="material-symbols-outlined text-sm">remove</span>
                                             </button>
                                             <span className="w-8 text-center text-[11px] font-black">{item.quantity}</span>
                                             <button
-                                                onClick={() => updateQuantity(item.id, item.selectedSize, item.selectedColor, item.variation_id, item.quantity + 1)}
+                                                onClick={() => updateQuantity(item.id, item.selectedSize, item.selectedColor, item.selectedWeight, item.selectedDimension, item.variation_id, item.quantity + 1)}
                                                 className="size-7 flex items-center justify-center hover:bg-white/5 rounded-md transition-colors"
                                             >
                                                 <span className="material-symbols-outlined text-sm">add</span>
                                             </button>
                                         </div>
                                         <button
-                                            onClick={() => removeFromCart(item.id, item.selectedSize, item.selectedColor, item.variation_id)}
+                                            onClick={() => removeFromCart(item.id, item.selectedSize, item.selectedColor, item.selectedWeight, item.selectedDimension, item.variation_id)}
                                             className="text-[10px] font-black uppercase tracking-widest text-white/20 hover:text-red-500 transition-colors"
                                         >
                                             Remove

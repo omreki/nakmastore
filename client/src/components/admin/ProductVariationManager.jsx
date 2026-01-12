@@ -1,35 +1,57 @@
 import React, { useState, useEffect } from 'react';
 
-const ProductVariationManager = ({ colors, sizes, variations, onChange, basePrice }) => {
+const ProductVariationManager = ({ colors = [], sizes = [], weights = [], dimensions = [], variations, onChange, basePrice }) => {
     const [localVariations, setLocalVariations] = useState(variations || []);
 
-    // Generate variations based on colors and sizes if none exist
+    // Generate variations based on active categories
     const generateVariations = () => {
-        const newVariations = [];
-        colors.forEach(color => {
-            sizes.forEach(size => {
-                const name = `${color.name} / ${size}`;
-                const existing = localVariations.find(v => v.color === color.name && v.size === size);
+        const activeCategories = [];
+        if (colors.length > 0) activeCategories.push({ key: 'color', items: colors.map(c => ({ name: c.name, value: c.name })) });
+        if (sizes.length > 0) activeCategories.push({ key: 'size', items: sizes.map(s => ({ name: s, value: s })) });
+        if (weights.length > 0) activeCategories.push({ key: 'weight', items: weights.map(w => ({ name: `${w.value}${w.unit}`, value: `${w.value}${w.unit}` })) });
+        if (dimensions.length > 0) activeCategories.push({ key: 'dimension', items: dimensions.map(d => ({ name: `${d.value}${d.unit}`, value: `${d.value}${d.unit}` })) });
 
-                newVariations.push(existing || {
+        if (activeCategories.length === 0) {
+            setLocalVariations([]);
+            onChange([]);
+            return;
+        }
+
+        // Cartesian product
+        const generateCombinations = (cats, index = 0, current = {}) => {
+            if (index === cats.length) {
+                const name = Object.values(current).join(' / ');
+                const existing = localVariations.find(v =>
+                    cats.every(cat => v[cat.key] === current[cat.key])
+                );
+
+                return [existing || {
                     name,
-                    color: color.name,
-                    size,
+                    ...current,
                     sku: '',
                     price: basePrice || 0,
                     stock: 0
-                });
+                }];
+            }
+
+            let results = [];
+            cats[index].items.forEach(item => {
+                results = [...results, ...generateCombinations(cats, index + 1, { ...current, [cats[index].key]: item.value })];
             });
-        });
+            return results;
+        };
+
+        const newVariations = generateCombinations(activeCategories);
         setLocalVariations(newVariations);
         onChange(newVariations);
     };
 
     useEffect(() => {
-        if (localVariations.length === 0 && (colors.length > 0 || sizes.length > 0)) {
+        // Automatic generation if empty and we have inputs
+        if (localVariations.length === 0 && (colors.length > 0 || sizes.length > 0 || weights.length > 0 || dimensions.length > 0)) {
             generateVariations();
         }
-    }, [colors, sizes]);
+    }, [colors, sizes, weights, dimensions]);
 
     const handleVariationChange = (index, field, value) => {
         const updated = [...localVariations];
