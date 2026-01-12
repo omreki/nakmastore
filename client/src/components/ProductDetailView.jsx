@@ -111,6 +111,18 @@ const ProductDetailView = ({
         return true;
     };
 
+    // Get list of missing variations for tooltip
+    const getMissingVariations = () => {
+        const missing = [];
+        if (colors.length > 0 && !selectedColor) missing.push('Color');
+        if (sizes.length > 0 && !selectedSize) missing.push('Size');
+        if (weights.length > 0 && !selectedWeight) missing.push('Weight');
+        if (dimensions.length > 0 && !selectedDimension) missing.push('Dimension');
+        return missing;
+    };
+
+    const [showTooltip, setShowTooltip] = React.useState(false);
+
     const handleAddToCart = () => {
         if (hasVariations) {
             if (colors.length > 0 && !selectedColor) {
@@ -365,61 +377,85 @@ const ProductDetailView = ({
                     </div>
 
                     {/* Mobile Wrapper - Full Width by default */}
-                    <div className="lg:hidden">
-                        <AddToBagButton
-                            settings={{
-                                ...settings,
-                                addToCart: {
-                                    ...settings?.addToCart,
-                                    showIcon: true,
-                                    iconPosition: 'left',
-                                    showPrice: true,
-                                    customText: 'Add to Cart',
-                                    borderRadius: settings.roundingStyle === 'sharp' ? 0 : 99,
-                                    alignment: settings.addToCartAlignmentMobile || 'full',
-                                    styling: {
-                                        ...(settings?.addToCart?.styling || {}),
-                                        background: '#8B0000',
-                                        text: '#ffffff',
-                                        fontWeight: 900,
-                                        textTransform: 'uppercase',
-                                        height: 60,
+                    <div className="lg:hidden relative">
+                        <div
+                            onMouseEnter={() => !areAllVariationsSelected() && setShowTooltip(true)}
+                            onMouseLeave={() => setShowTooltip(false)}
+                        >
+                            <AddToBagButton
+                                settings={{
+                                    ...settings,
+                                    addToCart: {
+                                        ...settings?.addToCart,
+                                        showIcon: true,
+                                        iconPosition: 'left',
+                                        showPrice: true,
+                                        customText: 'Add to Cart',
+                                        borderRadius: settings.roundingStyle === 'sharp' ? 0 : 99,
+                                        alignment: settings.addToCartAlignmentMobile || 'full',
+                                        styling: {
+                                            ...(settings?.addToCart?.styling || {}),
+                                            background: '#8B0000',
+                                            text: '#ffffff',
+                                            fontWeight: 900,
+                                            textTransform: 'uppercase',
+                                            height: 60,
+                                        }
                                     }
-                                }
-                            }}
-                            price={currentPrice}
-                            onClick={handleAddToCart}
-                            disabled={!areAllVariationsSelected()}
-                        />
+                                }}
+                                price={currentPrice}
+                                onClick={handleAddToCart}
+                                disabled={!areAllVariationsSelected()}
+                            />
+                        </div>
+                        {!areAllVariationsSelected() && showTooltip && (
+                            <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-4 py-2 bg-black/90 text-white text-xs rounded-lg whitespace-nowrap z-50 animate-fade-in">
+                                <div className="font-bold mb-1">Please select:</div>
+                                <div>{getMissingVariations().join(', ')}</div>
+                                <div className="absolute top-full left-1/2 transform -translate-x-1/2 w-0 h-0 border-l-4 border-r-4 border-t-4 border-transparent border-t-black/90"></div>
+                            </div>
+                        )}
                     </div>
 
                     {/* Desktop Wrapper */}
-                    <div className="hidden lg:block">
-                        <AddToBagButton
-                            settings={{
-                                ...settings,
-                                addToCart: {
-                                    ...settings?.addToCart,
-                                    showIcon: true,
-                                    iconPosition: 'left',
-                                    showPrice: true,
-                                    customText: 'Add to Cart',
-                                    borderRadius: settings.roundingStyle === 'sharp' ? 0 : 99,
-                                    alignment: settings.addToCartAlignment || 'stretch',
-                                    styling: {
-                                        ...(settings?.addToCart?.styling || {}),
-                                        background: '#8B0000',
-                                        text: '#ffffff',
-                                        fontWeight: 900,
-                                        textTransform: 'uppercase',
-                                        height: 60,
+                    <div className="hidden lg:block relative">
+                        <div
+                            onMouseEnter={() => !areAllVariationsSelected() && setShowTooltip(true)}
+                            onMouseLeave={() => setShowTooltip(false)}
+                        >
+                            <AddToBagButton
+                                settings={{
+                                    ...settings,
+                                    addToCart: {
+                                        ...settings?.addToCart,
+                                        showIcon: true,
+                                        iconPosition: 'left',
+                                        showPrice: true,
+                                        customText: 'Add to Cart',
+                                        borderRadius: settings.roundingStyle === 'sharp' ? 0 : 99,
+                                        alignment: settings.addToCartAlignment || 'stretch',
+                                        styling: {
+                                            ...(settings?.addToCart?.styling || {}),
+                                            background: '#8B0000',
+                                            text: '#ffffff',
+                                            fontWeight: 900,
+                                            textTransform: 'uppercase',
+                                            height: 60,
+                                        }
                                     }
-                                }
-                            }}
-                            price={currentPrice}
-                            onClick={handleAddToCart}
-                            disabled={!areAllVariationsSelected()}
-                        />
+                                }}
+                                price={currentPrice}
+                                onClick={handleAddToCart}
+                                disabled={!areAllVariationsSelected()}
+                            />
+                        </div>
+                        {!areAllVariationsSelected() && showTooltip && (
+                            <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-4 py-2 bg-black/90 text-white text-xs rounded-lg whitespace-nowrap z-50 animate-fade-in">
+                                <div className="font-bold mb-1">Please select:</div>
+                                <div>{getMissingVariations().join(', ')}</div>
+                                <div className="absolute top-full left-1/2 transform -translate-x-1/2 w-0 h-0 border-l-4 border-r-4 border-t-4 border-transparent border-t-black/90"></div>
+                            </div>
+                        )}
                     </div>
 
                     {/* Trust Badges - Responsive Alignment */}
