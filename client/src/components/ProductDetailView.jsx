@@ -417,16 +417,17 @@ const ProductDetailView = ({
                                         showIcon: true,
                                         iconPosition: 'left',
                                         showPrice: false,
-                                        customText: 'Add to Cart',
+                                        customText: 'Add to Bag',
                                         borderRadius: settings.roundingStyle === 'sharp' ? 0 : 99,
                                         alignment: settings.addToCartAlignmentMobile || 'full',
                                         styling: {
                                             ...(settings?.addToCart?.styling || {}),
-                                            background: '#8B0000',
+                                            background: 'var(--color-primary)',
                                             text: '#ffffff',
                                             fontWeight: 900,
                                             textTransform: 'uppercase',
-                                            height: 60,
+                                            height: 80,
+                                            fontSize: 16,
                                         }
                                     }
                                 }}
@@ -458,16 +459,17 @@ const ProductDetailView = ({
                                         showIcon: true,
                                         iconPosition: 'left',
                                         showPrice: false,
-                                        customText: 'Add to Cart',
+                                        customText: 'Add to Bag',
                                         borderRadius: settings.roundingStyle === 'sharp' ? 0 : 99,
                                         alignment: settings.addToCartAlignment || 'stretch',
                                         styling: {
                                             ...(settings?.addToCart?.styling || {}),
-                                            background: '#8B0000',
+                                            background: 'var(--color-primary)',
                                             text: '#ffffff',
                                             fontWeight: 900,
                                             textTransform: 'uppercase',
-                                            height: 60,
+                                            height: 80,
+                                            fontSize: 16,
                                         }
                                     }
                                 }}
