@@ -363,35 +363,67 @@ const ProductDetailView = ({
                             Quantity
                         </div>
                     </div>
-                    <AddToBagButton
-                        settings={{
-                            ...settings,
-                            addToCart: {
-                                ...settings?.addToCart,
-                                showIcon: true,
-                                iconPosition: 'left',
-                                showPrice: true,
-                                customText: 'Add to Cart',
-                                borderRadius: settings.roundingStyle === 'sharp' ? 0 : 99,
-                                alignment: isMobileView ? (settings.addToCartAlignmentMobile || 'full') : (settings.addToCartAlignment || 'stretch'),
-                                styling: {
-                                    ...(settings?.addToCart?.styling || {}),
-                                    background: '#8B0000',
-                                    text: '#ffffff',
-                                    fontWeight: 900,
-                                    textTransform: 'uppercase',
-                                    height: 60,
+
+                    {/* Mobile Wrapper - Full Width by default */}
+                    <div className="lg:hidden">
+                        <AddToBagButton
+                            settings={{
+                                ...settings,
+                                addToCart: {
+                                    ...settings?.addToCart,
+                                    showIcon: true,
+                                    iconPosition: 'left',
+                                    showPrice: true,
+                                    customText: 'Add to Cart',
+                                    borderRadius: settings.roundingStyle === 'sharp' ? 0 : 99,
+                                    alignment: settings.addToCartAlignmentMobile || 'full',
+                                    styling: {
+                                        ...(settings?.addToCart?.styling || {}),
+                                        background: '#8B0000',
+                                        text: '#ffffff',
+                                        fontWeight: 900,
+                                        textTransform: 'uppercase',
+                                        height: 60,
+                                    }
                                 }
-                            }
-                        }}
-                        price={currentPrice}
-                        onClick={handleAddToCart}
-                        disabled={!areAllVariationsSelected()}
-                    />
-                    <div className={`flex ${(() => {
-                        const align = isMobileView ? (settings.addToCartAlignmentMobile || 'full') : (settings.addToCartAlignment || 'left');
-                        return align === 'center' ? 'justify-center text-center' : align === 'full' ? 'justify-center text-center' : 'justify-start text-left';
-                    })()}`}>
+                            }}
+                            price={currentPrice}
+                            onClick={handleAddToCart}
+                            disabled={!areAllVariationsSelected()}
+                        />
+                    </div>
+
+                    {/* Desktop Wrapper */}
+                    <div className="hidden lg:block">
+                        <AddToBagButton
+                            settings={{
+                                ...settings,
+                                addToCart: {
+                                    ...settings?.addToCart,
+                                    showIcon: true,
+                                    iconPosition: 'left',
+                                    showPrice: true,
+                                    customText: 'Add to Cart',
+                                    borderRadius: settings.roundingStyle === 'sharp' ? 0 : 99,
+                                    alignment: settings.addToCartAlignment || 'stretch',
+                                    styling: {
+                                        ...(settings?.addToCart?.styling || {}),
+                                        background: '#8B0000',
+                                        text: '#ffffff',
+                                        fontWeight: 900,
+                                        textTransform: 'uppercase',
+                                        height: 60,
+                                    }
+                                }
+                            }}
+                            price={currentPrice}
+                            onClick={handleAddToCart}
+                            disabled={!areAllVariationsSelected()}
+                        />
+                    </div>
+
+                    {/* Trust Badges - Responsive Alignment */}
+                    <div className={`flex lg:${settings.addToCartAlignment === 'center' ? 'justify-center' : settings.addToCartAlignment === 'full' ? 'justify-center' : 'justify-start'} ${(settings.addToCartAlignmentMobile || 'full') === 'center' ? 'justify-center' : (settings.addToCartAlignmentMobile || 'full') === 'full' ? 'justify-center' : 'justify-start'} text-center lg:${settings.addToCartAlignment === 'center' ? 'text-center' : settings.addToCartAlignment === 'full' ? 'text-center' : 'text-left'}`}>
                         <TrustBadges />
                     </div>
                 </div>
