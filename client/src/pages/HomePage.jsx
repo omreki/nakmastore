@@ -289,52 +289,7 @@ const HomePage = () => {
                 </div>
             </div>
 
-            {/* Category Section */}
-            <div className="layout-container py-12">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                    {/* Vibrant Prints Card */}
-                    {printsTitle && (
-                        <Link to="/category/vibrant-prints" className="relative aspect-[4/5] md:aspect-[4/3] rounded-[40px] overflow-hidden group block shadow-2xl bg-[#121212] bg-gradient-to-t from-primary/20 to-secondary">
-                            <div
-                                className="absolute inset-0 bg-cover bg-center transition-transform duration-1000 group-hover:scale-110"
-                                style={{ backgroundImage: `url('${printsImg}')` }}
-                            >
-                            </div>
-                            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/10 to-transparent"></div>
-                            <div className="absolute bottom-6 md:bottom-10 left-6 md:left-10 right-6 md:right-10 flex items-end justify-between">
-                                <div>
-                                    <h3 className="text-white text-2xl md:text-4xl font-bold mb-1 md:mb-2">{printsTitle}</h3>
-                                    <p className="text-white/60 text-sm md:text-lg font-medium">{printsSub}</p>
-                                </div>
-                                <div className="size-12 md:size-16 rounded-full bg-white/10 backdrop-blur-md border border-white/20 flex items-center justify-center text-white group-hover:bg-primary group-hover:border-primary transition-all duration-300 transform group-hover:translate-x-2">
-                                    <span className="material-symbols-outlined text-[24px] md:text-[32px]">arrow_forward</span>
-                                </div>
-                            </div>
-                        </Link>
-                    )}
 
-                    {/* Classic Plains Card */}
-                    {plainsTitle && (
-                        <Link to="/category/classic-plains" className="relative aspect-[4/5] md:aspect-[4/3] rounded-[40px] overflow-hidden group block shadow-2xl bg-[#121212] bg-gradient-to-t from-primary/20 to-secondary">
-                            <div
-                                className="absolute inset-0 bg-cover bg-center transition-transform duration-1000 group-hover:scale-110"
-                                style={{ backgroundImage: `url('${plainsImg}')` }}
-                            >
-                            </div>
-                            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/10 to-transparent"></div>
-                            <div className="absolute bottom-6 md:bottom-10 left-6 md:left-10 right-6 md:right-10 flex items-end justify-between">
-                                <div>
-                                    <h3 className="text-white text-2xl md:text-4xl font-bold mb-1 md:mb-2">{plainsTitle}</h3>
-                                    <p className="text-white/60 text-sm md:text-lg font-medium">{plainsSub}</p>
-                                </div>
-                                <div className="size-12 md:size-16 rounded-full bg-white/10 backdrop-blur-md border border-white/20 flex items-center justify-center text-white group-hover:bg-primary group-hover:border-primary transition-all duration-300 transform group-hover:translate-x-2">
-                                    <span className="material-symbols-outlined text-[24px] md:text-[32px]">arrow_forward</span>
-                                </div>
-                            </div>
-                        </Link>
-                    )}
-                </div>
-            </div>
 
         </div>
     );
