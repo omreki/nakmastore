@@ -2,6 +2,7 @@ export const PRODUCT_PAGE_PRESETS = {
     noesis: {
         theme: 'noesis',
         name: 'Noesis Essential',
+        showStock: true,
         productImages: {
             fit: 'cover',
             aspectRatio: '1:1',
@@ -69,6 +70,7 @@ export const PRODUCT_PAGE_PRESETS = {
     modern: {
         theme: 'modern',
         name: 'Modern Sleek',
+        showStock: true,
         productImages: {
             fit: 'cover',
             aspectRatio: '3:4',
@@ -133,6 +135,7 @@ export const PRODUCT_PAGE_PRESETS = {
     minimal: {
         theme: 'minimal',
         name: 'Minimal Clean',
+        showStock: true,
         productImages: {
             fit: 'contain',
             aspectRatio: '1:1',
@@ -195,6 +198,7 @@ export const PRODUCT_PAGE_PRESETS = {
     bold: {
         theme: 'bold',
         name: 'Bold Magazine',
+        showStock: true,
         productImages: {
             fit: 'cover',
             aspectRatio: '2:3',
@@ -257,6 +261,7 @@ export const PRODUCT_PAGE_PRESETS = {
     elegant: {
         theme: 'elegant',
         name: 'Luxury Boutique',
+        showStock: true,
         productImages: {
             fit: 'contain',
             aspectRatio: '3:4',

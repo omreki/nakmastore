@@ -99,6 +99,7 @@ const ProductSettingsPanel = ({ settings, onChange, onReset, onSave, isSaving })
                             <h3 className="section-header">Behaviors</h3>
                             <ToggleSwitch label="Sticky Info Panel" checked={settings.layout?.stickyElements?.info} onChange={(v) => updateNested('layout.stickyElements.info', v)} />
                             <ToggleSwitch label="Sticky Images" checked={settings.layout?.stickyElements?.images} onChange={(v) => updateNested('layout.stickyElements.images', v)} />
+                            <ToggleSwitch label="Show Stock Info" checked={settings.showStock !== false} onChange={(v) => updateNested('showStock', v)} />
                         </div>
                     </div>
                 )}
@@ -268,7 +269,7 @@ const ProductSettingsPanel = ({ settings, onChange, onReset, onSave, isSaving })
                     <div className="space-y-4">
                         <h3 className="section-header">Features</h3>
                         <ToggleSwitch label="Enable Accordion" checked={settings.advanced?.accordionMode} onChange={(v) => updateNested('advanced.accordionMode', v)} />
-                        <ToggleSwitch label="Show Stock Info" checked={settings.showStock !== false} onChange={(v) => updateNested('showStock', v)} />
+
                         <ToggleSwitch label="Show Trust Badges" checked={settings.advanced?.showTrustBadges} onChange={(v) => updateNested('advanced.showTrustBadges', v)} />
                         <ToggleSwitch label="Enable Image Zoom" checked={settings.productImages?.zoom} onChange={(v) => updateNested('productImages.zoom', v)} />
                     </div>
