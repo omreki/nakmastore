@@ -258,11 +258,11 @@ const ProductDetailView = ({
 
                 {/* Variants Row */}
                 {(colors.length > 0 || sizes.length > 0) && (
-                    <div className="flex flex-col gap-10 p-8 bg-white/[0.02] border border-white/5 ring-1 ring-inset ring-white/5 shadow-2xl items-start" style={{ borderRadius: settings.roundingStyle === 'sharp' ? '0' : '2.5rem' }}>
+                    <div className="flex flex-col gap-8 p-8 bg-white/[0.02] border border-white/5 ring-1 ring-inset ring-white/5 shadow-2xl items-start" style={{ borderRadius: settings.roundingStyle === 'sharp' ? '0' : '2.5rem' }}>
                         {/* Colors */}
                         {colors.length > 0 && (
-                            <div className="space-y-5 w-full">
-                                <label className="text-[11px] font-black uppercase tracking-[0.2em] text-primary">
+                            <div className="w-full">
+                                <label className="block mb-4 text-[11px] font-black uppercase tracking-[0.2em] text-primary">
                                     Color {selectedColor && <span className="ml-2 italic">{selectedColor.name}</span>}
                                 </label>
                                 <div className="flex flex-wrap gap-4">
@@ -283,8 +283,8 @@ const ProductDetailView = ({
 
                         {/* Sizes */}
                         {sizes.length > 0 && (!colors.length || selectedColor) && (
-                            <div className="space-y-5 w-full">
-                                <label className="text-[11px] font-black uppercase tracking-[0.2em] text-primary">
+                            <div className="w-full">
+                                <label className="block mb-4 text-[11px] font-black uppercase tracking-[0.2em] text-primary">
                                     Size {selectedSize && <span className="ml-2 italic">{selectedSize}</span>}
                                 </label>
                                 <div className="flex flex-wrap gap-3">
@@ -304,8 +304,8 @@ const ProductDetailView = ({
 
                         {/* Weights */}
                         {weights.length > 0 && (!sizes.length || selectedSize || !colors.length || selectedColor) && (
-                            <div className="space-y-5 w-full">
-                                <label className="text-[11px] font-black uppercase tracking-[0.2em] text-primary">
+                            <div className="w-full">
+                                <label className="block mb-4 text-[11px] font-black uppercase tracking-[0.2em] text-primary">
                                     Weight {selectedWeight && <span className="ml-2 italic">{selectedWeight}</span>}
                                 </label>
                                 <div className="flex flex-wrap gap-3">
@@ -325,8 +325,8 @@ const ProductDetailView = ({
 
                         {/* Dimensions */}
                         {dimensions.length > 0 && (!weights.length || selectedWeight || !sizes.length || selectedSize || !colors.length || selectedColor) && (
-                            <div className="space-y-5 w-full">
-                                <label className="text-[11px] font-black uppercase tracking-[0.2em] text-primary">
+                            <div className="w-full">
+                                <label className="block mb-4 text-[11px] font-black uppercase tracking-[0.2em] text-primary">
                                     Dimension {selectedDimension && <span className="ml-2 italic">{selectedDimension}</span>}
                                 </label>
                                 <div className="flex flex-wrap gap-3">
