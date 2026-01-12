@@ -101,6 +101,16 @@ const ProductDetailView = ({
     const widths = getClassicWidths();
     const getSpacingClass = () => ({ compact: 'space-y-4', spacious: 'space-y-12', comfortable: 'space-y-8' }[spacing] || 'space-y-8');
 
+    // Check if all required variations are selected
+    const areAllVariationsSelected = () => {
+        if (!hasVariations) return true;
+        if (colors.length > 0 && !selectedColor) return false;
+        if (sizes.length > 0 && !selectedSize) return false;
+        if (weights.length > 0 && !selectedWeight) return false;
+        if (dimensions.length > 0 && !selectedDimension) return false;
+        return true;
+    };
+
     const handleAddToCart = () => {
         if (hasVariations) {
             if (colors.length > 0 && !selectedColor) {
@@ -376,7 +386,7 @@ const ProductDetailView = ({
                         }}
                         price={currentPrice}
                         onClick={handleAddToCart}
-                        disabled={false}
+                        disabled={!areAllVariationsSelected()}
                     />
                     <div className={`flex ${settings.addToCartAlignment === 'center' ? 'justify-center text-center' : settings.addToCartAlignment === 'full' ? 'justify-center text-center' : 'justify-start text-left'}`}>
                         <TrustBadges />
