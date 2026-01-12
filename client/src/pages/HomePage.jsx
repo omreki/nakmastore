@@ -19,10 +19,16 @@ const HomePage = () => {
 
     const { formatPrice, settings } = useStoreSettings();
     const [newArrivals, setNewArrivals] = useState([]);
-    const [loading, setLoading] = useState(true);
-    const [page, setPage] = useState(1);
-    const [hasMore, setHasMore] = useState(true);
-    const PRODUCTS_PER_PAGE = 12;
+    const [newArrivalsLoading, setNewArrivalsLoading] = useState(true);
+    const [newArrivalsPage, setNewArrivalsPage] = useState(1);
+    const [hasMoreNewArrivals, setHasMoreNewArrivals] = useState(true);
+
+    const [storeProducts, setStoreProducts] = useState([]);
+    const [storeLoading, setStoreLoading] = useState(true);
+    const [storePage, setStorePage] = useState(1);
+    const [hasMoreStore, setHasMoreStore] = useState(true);
+
+    const BATCH_SIZE = 6;
 
     const { addToCart } = useCart();
 
@@ -50,41 +56,72 @@ const HomePage = () => {
     const plainsSub = categories.plains?.subtitle || '';
     const plainsImg = categories.plains?.imageUrl || '';
 
-    const fetchProducts = async (pageNumber) => {
+    const fetchNewArrivals = async (page) => {
         try {
-            setLoading(true);
-            const from = (pageNumber - 1) * PRODUCTS_PER_PAGE;
-            const to = from + PRODUCTS_PER_PAGE - 1;
+            if (page === 1) setNewArrivalsLoading(true);
+            const from = (page - 1) * BATCH_SIZE;
+            const to = from + BATCH_SIZE - 1;
 
-            const { data: arrivals, error: arrivalsError } = await supabase
+            const { data, error } = await supabase
+                .from('products')
+                .select('*')
+                .eq('is_draft', false)
+                .eq('is_new', true)
+                .order('created_at', { ascending: false })
+                .range(from, to);
+
+            if (error) throw error;
+
+            if (data.length < BATCH_SIZE) setHasMoreNewArrivals(false);
+
+            setNewArrivals(prev => page === 1 ? data : [...prev, ...data]);
+        } catch (error) {
+            console.error('Error fetching new arrivals:', error);
+        } finally {
+            setNewArrivalsLoading(false);
+        }
+    };
+
+    const fetchStoreProducts = async (page) => {
+        try {
+            if (page === 1) setStoreLoading(true);
+            const from = (page - 1) * BATCH_SIZE;
+            const to = from + BATCH_SIZE - 1;
+
+            const { data, error } = await supabase
                 .from('products')
                 .select('*')
                 .eq('is_draft', false)
                 .order('created_at', { ascending: false })
                 .range(from, to);
 
-            if (arrivalsError) throw arrivalsError;
+            if (error) throw error;
 
-            if (arrivals.length < PRODUCTS_PER_PAGE) {
-                setHasMore(false);
-            }
+            if (data.length < BATCH_SIZE) setHasMoreStore(false);
 
-            setNewArrivals(prev => pageNumber === 1 ? arrivals : [...prev, ...arrivals]);
+            setStoreProducts(prev => page === 1 ? data : [...prev, ...data]);
         } catch (error) {
-            console.error('Error fetching products:', error);
+            console.error('Error fetching store products:', error);
         } finally {
-            setLoading(false);
+            setStoreLoading(false);
         }
     };
 
     useEffect(() => {
-        fetchProducts(1);
+        fetchNewArrivals(1);
+        fetchStoreProducts(1);
     }, []);
 
-    const handleLoadMore = () => {
-        const nextPage = page + 1;
-        setPage(nextPage);
-        fetchProducts(nextPage);
+    const handleLoadMoreNewArrivals = () => {
+        const nextPage = newArrivalsPage + 1;
+        setNewArrivalsPage(nextPage);
+        fetchNewArrivals(nextPage);
+    };
+
+    const handleLoadMoreStore = () => {
+        const nextPage = storePage + 1;
+        setStorePage(nextPage);
+        fetchStoreProducts(nextPage);
     };
 
     const handleQuickAdd = (e, product) => {
@@ -213,7 +250,7 @@ const HomePage = () => {
 
             {/* New Arrivals Grid */}
             <div className="layout-container pb-16">
-                {loading ? (
+                {newArrivalsLoading && newArrivalsPage === 1 ? (
                     <div className="flex justify-center py-20">
                         <div className="size-12 border-4 border-white/5 border-t-primary rounded-full animate-spin"></div>
                     </div>
@@ -259,10 +296,10 @@ const HomePage = () => {
                 )}
 
                 {/* Load More Button */}
-                {!loading && hasMore && newArrivals.length > 0 && (
+                {!newArrivalsLoading && hasMoreNewArrivals && newArrivals.length > 0 && (
                     <div className="flex justify-center mt-12">
                         <button
-                            onClick={handleLoadMore}
+                            onClick={handleLoadMoreNewArrivals}
                             className="group relative inline-flex items-center justify-center gap-3 px-8 py-4 bg-white/5 border border-white/10 hover:bg-white/10 hover:border-white/20 rounded-full transition-all duration-300"
                         >
                             <span className="text-white text-xs font-black uppercase tracking-[0.2em]">Load More Products</span>
@@ -316,6 +353,75 @@ const HomePage = () => {
                     </div>
                 </div>
             </div>
+
+            {/* Our Store Section */}
+            <div className="layout-container py-16">
+                <div className="flex items-end justify-between mb-8">
+                    <div>
+                        <h2 className="text-white text-2xl md:text-4xl font-black tracking-tighter uppercase leading-none">Our Store</h2>
+                        <p className="text-white/40 mt-3 text-sm md:text-lg font-medium italic">Discover our complete collection.</p>
+                    </div>
+                </div>
+
+                {storeLoading && storePage === 1 ? (
+                    <div className="flex justify-center py-20">
+                        <div className="size-12 border-4 border-white/5 border-t-primary rounded-full animate-spin"></div>
+                    </div>
+                ) : (
+                    <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-6 md:gap-8">
+                        {storeProducts.map((product) => (
+                            <Link to={`/product/${product.slug}`} key={product.id} className="group cursor-pointer">
+                                <div className="relative aspect-[4/5] rounded-[24px] overflow-hidden mb-4 bg-[#1a1a1a] transition-transform duration-500 group-hover:-translate-y-2 border border-white/5">
+                                    <img
+                                        src={product.images?.[0] || 'https://via.placeholder.com/300?text=Product'}
+                                        alt={product.name}
+                                        className="w-full h-full object-cover object-center transition-transform duration-500 group-hover:scale-110"
+                                    />
+
+                                    {/* Quick Add Button */}
+                                    <div className="absolute bottom-4 left-4 right-4 opacity-0 translate-y-4 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300 pointer-events-none md:pointer-events-auto">
+                                        <button
+                                            onClick={(e) => handleQuickAdd(e, product)}
+                                            className="w-full h-10 bg-black text-white rounded-xl font-black text-[9px] uppercase tracking-widest hover:bg-primary transition-colors shadow-xl pointer-events-auto"
+                                        >
+                                            Add to Bag
+                                        </button>
+                                    </div>
+                                </div>
+                                <div className="px-1">
+                                    <div className="flex flex-col gap-0.5">
+                                        <h3 className="text-white font-bold text-sm group-hover:text-primary transition-colors line-clamp-1 uppercase tracking-tight">{product.name}</h3>
+                                        <div className="flex items-center gap-2">
+                                            {product.is_sale && product.sale_price ? (
+                                                <>
+                                                    <span className="text-primary font-black italic text-base whitespace-nowrap leading-none">{formatPrice(product.sale_price)}</span>
+                                                    <span className="text-white/30 font-bold text-[10px] line-through decoration-1">{formatPrice(product.price)}</span>
+                                                </>
+                                            ) : (
+                                                <span className="text-white font-black italic text-base whitespace-nowrap leading-none">{formatPrice(product.price)}</span>
+                                            )}
+                                        </div>
+                                    </div>
+                                </div>
+                            </Link>
+                        ))}
+                    </div>
+                )}
+
+                {/* Load More Store Button */}
+                {!storeLoading && hasMoreStore && storeProducts.length > 0 && (
+                    <div className="flex justify-center mt-12">
+                        <button
+                            onClick={handleLoadMoreStore}
+                            className="group relative inline-flex items-center justify-center gap-3 px-8 py-4 bg-white/5 border border-white/10 hover:bg-white/10 hover:border-white/20 rounded-full transition-all duration-300"
+                        >
+                            <span className="text-white text-xs font-black uppercase tracking-[0.2em]">Load More Products</span>
+                            <span className="material-symbols-outlined text-[18px] text-white/60 group-hover:text-white group-hover:translate-y-1 transition-all duration-300">expand_more</span>
+                        </button>
+                    </div>
+                )}
+            </div>
+
 
 
 
