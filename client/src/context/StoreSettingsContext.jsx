@@ -74,7 +74,8 @@ export const StoreSettingsProvider = ({ children }) => {
             thumbnailRadius: 0,
             addToCartAlignment: 'left',
             addToCartAlignmentMobile: 'full',
-            freeShippingText: ''
+            freeShippingText: '',
+            showStock: true
         },
         paymentConfigs: {},
         homepageSettings: {
@@ -373,7 +374,8 @@ export const StoreSettingsProvider = ({ children }) => {
                                 thumbnailRadius: 0,
                                 addToCartAlignment: 'left',
                                 addToCartAlignmentMobile: 'full',
-                                freeShippingText: ''
+                                freeShippingText: '',
+                                showStock: true
                             }
                         });
                     }
@@ -598,7 +600,8 @@ export const StoreSettingsProvider = ({ children }) => {
                         thumbnailRadius: 0,
                         addToCartAlignment: 'left',
                         addToCartAlignmentMobile: 'full',
-                        freeShippingText: ''
+                        freeShippingText: '',
+                        showStock: true
                     }
                 });
             }

@@ -18,7 +18,42 @@ serve(async (req) => {
             Deno.env.get("SUPABASE_SERVICE_ROLE_KEY") ?? ""
         );
 
-        const payload = await req.json();
+        const secret = Deno.env.get("PAYSTACK_SECRET_KEY");
+        if (!secret) {
+            console.error("PAYSTACK_SECRET_KEY is not set");
+            return new Response("Configuration Error", { status: 500 });
+        }
+
+        const signature = req.headers.get("x-paystack-signature");
+        if (!signature) {
+            return new Response("No signature provided", { status: 401 });
+        }
+
+        const body = await req.text();
+
+        // Verify Signature
+        const encoder = new TextEncoder();
+        const key = await crypto.subtle.importKey(
+            "raw",
+            encoder.encode(secret),
+            { name: "HMAC", hash: "SHA-512" },
+            false,
+            ["verify"]
+        );
+
+        const verified = await crypto.subtle.verify(
+            "HMAC",
+            key,
+            convertHexToUint8Array(signature),
+            encoder.encode(body)
+        );
+
+        if (!verified) {
+            console.error("Invalid signature");
+            return new Response("Invalid signature", { status: 401 });
+        }
+
+        const payload = JSON.parse(body);
         const { event, data } = payload;
 
         console.log(`Received Paystack event: ${event}`);
@@ -97,3 +132,14 @@ serve(async (req) => {
         });
     }
 });
+
+function convertHexToUint8Array(hexString: string): Uint8Array {
+    if (hexString.length % 2 !== 0) {
+        throw new Error("Invalid hex string");
+    }
+    const arrayBuffer = new Uint8Array(hexString.length / 2);
+    for (let i = 0; i < hexString.length; i += 2) {
+        arrayBuffer[i / 2] = parseInt(hexString.substr(i, 2), 16);
+    }
+    return arrayBuffer;
+}

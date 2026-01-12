@@ -268,6 +268,7 @@ const ProductSettingsPanel = ({ settings, onChange, onReset, onSave, isSaving })
                     <div className="space-y-4">
                         <h3 className="section-header">Features</h3>
                         <ToggleSwitch label="Enable Accordion" checked={settings.advanced?.accordionMode} onChange={(v) => updateNested('advanced.accordionMode', v)} />
+                        <ToggleSwitch label="Show Stock Info" checked={settings.showStock !== false} onChange={(v) => updateNested('showStock', v)} />
                         <ToggleSwitch label="Show Trust Badges" checked={settings.advanced?.showTrustBadges} onChange={(v) => updateNested('advanced.showTrustBadges', v)} />
                         <ToggleSwitch label="Enable Image Zoom" checked={settings.productImages?.zoom} onChange={(v) => updateNested('productImages.zoom', v)} />
                     </div>

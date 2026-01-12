@@ -267,25 +267,27 @@ const ProductDetailView = ({
             </p>
 
             {/* Stock Display */}
-            <div className="flex items-center gap-3 mt-4">
-                {isInStock ? (
-                    <>
+            {settings.showStock !== false && (
+                <div className="flex items-center gap-3 mt-4">
+                    {isInStock ? (
+                        <>
+                            <div className="flex items-center gap-2">
+                                <span className="material-symbols-outlined text-green-500 text-[18px]">check_circle</span>
+                                <span className="text-[11px] font-bold text-secondary-text uppercase tracking-widest">
+                                    {maxStock} In Stock
+                                </span>
+                            </div>
+                        </>
+                    ) : (
                         <div className="flex items-center gap-2">
-                            <span className="material-symbols-outlined text-green-500 text-[18px]">check_circle</span>
-                            <span className="text-[11px] font-bold text-secondary-text uppercase tracking-widest">
-                                {maxStock} In Stock
+                            <span className="material-symbols-outlined text-red-500 text-[18px]">cancel</span>
+                            <span className="text-[11px] font-bold text-red-500 uppercase tracking-widest">
+                                Out of Stock
                             </span>
                         </div>
-                    </>
-                ) : (
-                    <div className="flex items-center gap-2">
-                        <span className="material-symbols-outlined text-red-500 text-[18px]">cancel</span>
-                        <span className="text-[11px] font-bold text-red-500 uppercase tracking-widest">
-                            Out of Stock
-                        </span>
-                    </div>
-                )}
-            </div>
+                    )}
+                </div>
+            )}
         </div>
     );
 
