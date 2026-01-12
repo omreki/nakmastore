@@ -660,15 +660,13 @@ const CheckoutPage = () => {
                             )}
 
                             <div className="flex flex-col md:flex-row gap-6">
-                                {step > 1 && (
-                                    <button
-                                        type="button"
-                                        onClick={() => setStep(step - 1)}
-                                        className="h-14 md:h-20 px-8 md:px-10 rounded-full border border-white/10 font-bold uppercase tracking-widest hover:bg-white/5 transition-all text-xs md:text-sm"
-                                    >
-                                        Back
-                                    </button>
-                                )}
+                                <button
+                                    type="button"
+                                    onClick={() => step > 1 ? setStep(step - 1) : navigate(-1)}
+                                    className="h-14 md:h-20 px-8 md:px-10 rounded-full border border-white/10 font-bold uppercase tracking-widest hover:bg-white/5 transition-all text-xs md:text-sm"
+                                >
+                                    Back
+                                </button>
                                 <button
                                     type="submit"
                                     disabled={isProcessing}

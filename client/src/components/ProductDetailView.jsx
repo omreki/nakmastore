@@ -347,6 +347,12 @@ const ProductDetailView = ({
                 )}
 
                 <div className="space-y-6">
+                    <div className="flex items-center gap-4">
+                        <QuantitySelector />
+                        <div className="text-[10px] font-bold uppercase tracking-widest text-secondary-text">
+                            Quantity
+                        </div>
+                    </div>
                     <AddToBagButton
                         settings={{
                             ...settings,
