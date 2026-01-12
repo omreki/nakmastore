@@ -270,7 +270,7 @@ const ProductDetailView = ({
                                         <button
                                             key={c.name}
                                             onClick={() => setSelectedColor(selectedColor?.name === c.name ? null : c)}
-                                            className={`size-12 border-2 transition-all p-0.5 ${selectedColor?.name === c.name ? 'border-primary ring-2 ring-primary/30 scale-110' : 'border-white/10 opacity-60 hover:opacity-100 hover:scale-105'}`}
+                                            className={`size-10 border-2 transition-all p-0.5 ${selectedColor?.name === c.name ? 'border-primary ring-2 ring-primary/30 scale-105' : 'border-white/10 opacity-60 hover:opacity-100 hover:scale-105'}`}
                                             title={c.name}
                                             style={{ borderRadius: settings.roundingStyle === 'sharp' ? '0' : '999px' }}
                                         >
@@ -292,7 +292,7 @@ const ProductDetailView = ({
                                         <button
                                             key={s}
                                             onClick={() => setSelectedSize(selectedSize === s ? null : s)}
-                                            className={`size-14 flex items-center justify-center text-[12px] font-black transition-all border italic tracking-widest ${selectedSize === s ? 'bg-primary/20 text-white border-primary shadow-lg shadow-primary/10 scale-110' : 'bg-white/5 text-gray-500 border-white/10 hover:border-white/30 hover:text-white'}`}
+                                            className={`size-11 flex items-center justify-center text-[11px] font-black transition-all border italic tracking-widest ${selectedSize === s ? 'bg-primary/20 text-white border-primary shadow-lg shadow-primary/10 scale-105' : 'bg-white/5 text-gray-500 border-white/10 hover:border-white/30 hover:text-white'}`}
                                             style={{ borderRadius: settings.roundingStyle === 'sharp' ? '0' : '999px' }}
                                         >
                                             {s}
@@ -313,7 +313,7 @@ const ProductDetailView = ({
                                         <button
                                             key={w}
                                             onClick={() => setSelectedWeight(selectedWeight === w ? null : w)}
-                                            className={`h-14 px-6 flex items-center justify-center text-[12px] font-black transition-all border italic tracking-widest ${selectedWeight === w ? 'bg-primary/20 text-white border-primary shadow-lg shadow-primary/10 scale-110' : 'bg-white/5 text-gray-500 border-white/10 hover:border-white/30 hover:text-white'}`}
+                                            className={`h-11 px-5 flex items-center justify-center text-[11px] font-black transition-all border italic tracking-widest ${selectedWeight === w ? 'bg-primary/20 text-white border-primary shadow-lg shadow-primary/10 scale-105' : 'bg-white/5 text-gray-500 border-white/10 hover:border-white/30 hover:text-white'}`}
                                             style={{ borderRadius: settings.roundingStyle === 'sharp' ? '0' : '999px' }}
                                         >
                                             {w}
@@ -334,7 +334,7 @@ const ProductDetailView = ({
                                         <button
                                             key={d}
                                             onClick={() => setSelectedDimension(selectedDimension === d ? null : d)}
-                                            className={`h-14 px-6 flex items-center justify-center text-[12px] font-black transition-all border italic tracking-widest ${selectedDimension === d ? 'bg-primary/20 text-white border-primary shadow-lg shadow-primary/10 scale-110' : 'bg-white/5 text-gray-500 border-white/10 hover:border-white/30 hover:text-white'}`}
+                                            className={`h-11 px-5 flex items-center justify-center text-[11px] font-black transition-all border italic tracking-widest ${selectedDimension === d ? 'bg-primary/20 text-white border-primary shadow-lg shadow-primary/10 scale-105' : 'bg-white/5 text-gray-500 border-white/10 hover:border-white/30 hover:text-white'}`}
                                             style={{ borderRadius: settings.roundingStyle === 'sharp' ? '0' : '999px' }}
                                         >
                                             {d}
