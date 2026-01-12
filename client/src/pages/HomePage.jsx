@@ -20,6 +20,10 @@ const HomePage = () => {
     const { formatPrice, settings } = useStoreSettings();
     const [newArrivals, setNewArrivals] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [page, setPage] = useState(1);
+    const [hasMore, setHasMore] = useState(true);
+    const PRODUCTS_PER_PAGE = 12;
+
     const { addToCart } = useCart();
 
     const heroImage = settings?.homepageSettings?.hero?.imageUrl || settings?.heroImageUrl;
@@ -46,31 +50,42 @@ const HomePage = () => {
     const plainsSub = categories.plains?.subtitle || '';
     const plainsImg = categories.plains?.imageUrl || '';
 
-    useEffect(() => {
-        const fetchProducts = async () => {
-            try {
-                // Fetch New Arrivals
-                const { data: arrivals, error: arrivalsError } = await supabase
-                    .from('products')
-                    .select('*')
-                    .eq('is_draft', false)
-                    .order('created_at', { ascending: false })
-                    .limit(6);
+    const fetchProducts = async (pageNumber) => {
+        try {
+            setLoading(true);
+            const from = (pageNumber - 1) * PRODUCTS_PER_PAGE;
+            const to = from + PRODUCTS_PER_PAGE - 1;
 
-                if (arrivalsError) throw arrivalsError;
-                setNewArrivals(arrivals || []);
+            const { data: arrivals, error: arrivalsError } = await supabase
+                .from('products')
+                .select('*')
+                .eq('is_draft', false)
+                .order('created_at', { ascending: false })
+                .range(from, to);
 
+            if (arrivalsError) throw arrivalsError;
 
-
-            } catch (error) {
-                console.error('Error fetching products:', error);
-            } finally {
-                setLoading(false);
+            if (arrivals.length < PRODUCTS_PER_PAGE) {
+                setHasMore(false);
             }
-        };
 
-        fetchProducts();
+            setNewArrivals(prev => pageNumber === 1 ? arrivals : [...prev, ...arrivals]);
+        } catch (error) {
+            console.error('Error fetching products:', error);
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    useEffect(() => {
+        fetchProducts(1);
     }, []);
+
+    const handleLoadMore = () => {
+        const nextPage = page + 1;
+        setPage(nextPage);
+        fetchProducts(nextPage);
+    };
 
     const handleQuickAdd = (e, product) => {
         e.preventDefault();
@@ -240,6 +255,19 @@ const HomePage = () => {
                                 </div>
                             </Link>
                         ))}
+                    </div>
+                )}
+
+                {/* Load More Button */}
+                {!loading && hasMore && newArrivals.length > 0 && (
+                    <div className="flex justify-center mt-12">
+                        <button
+                            onClick={handleLoadMore}
+                            className="group relative inline-flex items-center justify-center gap-3 px-8 py-4 bg-white/5 border border-white/10 hover:bg-white/10 hover:border-white/20 rounded-full transition-all duration-300"
+                        >
+                            <span className="text-white text-xs font-black uppercase tracking-[0.2em]">Load More Products</span>
+                            <span className="material-symbols-outlined text-[18px] text-white/60 group-hover:text-white group-hover:translate-y-1 transition-all duration-300">expand_more</span>
+                        </button>
                     </div>
                 )}
             </div>
