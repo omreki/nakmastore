@@ -373,7 +373,7 @@ const ProductDetailView = ({
                                 showPrice: true,
                                 customText: 'Add to Cart',
                                 borderRadius: settings.roundingStyle === 'sharp' ? 0 : 99,
-                                alignment: settings.addToCartAlignment || 'stretch',
+                                alignment: isMobileView ? (settings.addToCartAlignmentMobile || 'full') : (settings.addToCartAlignment || 'stretch'),
                                 styling: {
                                     ...(settings?.addToCart?.styling || {}),
                                     background: '#8B0000',
@@ -388,7 +388,10 @@ const ProductDetailView = ({
                         onClick={handleAddToCart}
                         disabled={!areAllVariationsSelected()}
                     />
-                    <div className={`flex ${settings.addToCartAlignment === 'center' ? 'justify-center text-center' : settings.addToCartAlignment === 'full' ? 'justify-center text-center' : 'justify-start text-left'}`}>
+                    <div className={`flex ${(() => {
+                        const align = isMobileView ? (settings.addToCartAlignmentMobile || 'full') : (settings.addToCartAlignment || 'left');
+                        return align === 'center' ? 'justify-center text-center' : align === 'full' ? 'justify-center text-center' : 'justify-start text-left';
+                    })()}`}>
                         <TrustBadges />
                     </div>
                 </div>

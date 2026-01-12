@@ -73,6 +73,7 @@ export const StoreSettingsProvider = ({ children }) => {
             mainImageRadius: 0,
             thumbnailRadius: 0,
             addToCartAlignment: 'left',
+            addToCartAlignmentMobile: 'full',
             freeShippingText: ''
         },
         paymentConfigs: {},
@@ -371,6 +372,7 @@ export const StoreSettingsProvider = ({ children }) => {
                                 mainImageRadius: 0,
                                 thumbnailRadius: 0,
                                 addToCartAlignment: 'left',
+                                addToCartAlignmentMobile: 'full',
                                 freeShippingText: ''
                             }
                         });
@@ -595,6 +597,7 @@ export const StoreSettingsProvider = ({ children }) => {
                         mainImageRadius: 0,
                         thumbnailRadius: 0,
                         addToCartAlignment: 'left',
+                        addToCartAlignmentMobile: 'full',
                         freeShippingText: ''
                     }
                 });

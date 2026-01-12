@@ -1980,7 +1980,7 @@ const StoreSettingsPage = () => {
                                             </div>
 
                                             <div className="space-y-3">
-                                                <label className="text-[10px] font-bold text-gray-500 uppercase tracking-widest">Add to Cart Alignment</label>
+                                                <label className="text-[10px] font-bold text-gray-500 uppercase tracking-widest">Add to Cart Alignment (Desktop)</label>
                                                 <div className="flex bg-white/5 p-1 rounded-2xl border border-white/10">
                                                     {['left', 'center', 'full'].map((align) => (
                                                         <button
@@ -1990,6 +1990,27 @@ const StoreSettingsPage = () => {
                                                                 productPageSettings: { ...prev.productPageSettings, addToCartAlignment: align }
                                                             }))}
                                                             className={`flex-1 py-3 px-4 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all ${settings.productPageSettings?.addToCartAlignment === align
+                                                                ? 'bg-primary text-white shadow-lg'
+                                                                : 'text-gray-500 hover:text-white'
+                                                                }`}
+                                                        >
+                                                            {align}
+                                                        </button>
+                                                    ))}
+                                                </div>
+                                            </div>
+
+                                            <div className="space-y-3">
+                                                <label className="text-[10px] font-bold text-gray-500 uppercase tracking-widest">Add to Cart Alignment (Mobile)</label>
+                                                <div className="flex bg-white/5 p-1 rounded-2xl border border-white/10">
+                                                    {['left', 'center', 'full'].map((align) => (
+                                                        <button
+                                                            key={align}
+                                                            onClick={() => setSettings(prev => ({
+                                                                ...prev,
+                                                                productPageSettings: { ...prev.productPageSettings, addToCartAlignmentMobile: align }
+                                                            }))}
+                                                            className={`flex-1 py-3 px-4 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all ${settings.productPageSettings?.addToCartAlignmentMobile === align
                                                                 ? 'bg-primary text-white shadow-lg'
                                                                 : 'text-gray-500 hover:text-white'
                                                                 }`}
