@@ -136,7 +136,7 @@ const HomePage = () => {
         <div className="bg-secondary min-h-screen text-white font-['Manrope']">
             <SEO
                 title={settings?.homepageSettings?.seo?.metaTitle || "Home"}
-                description={settings?.homepageSettings?.seo?.metaDescription || "Nakma Store: Unique African-inspired men's fashion. Blend heritage with modern design for the contemporary man."}
+                description={settings?.homepageSettings?.seo?.metaDescription || "NakmaLtd: Premium African-inspired fashion. Blend heritage with modern design for the contemporary man."}
             />
             {/* Hero Section */}
             <div className="layout-container pt-24 pb-8 relative group">

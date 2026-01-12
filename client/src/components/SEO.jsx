@@ -19,11 +19,11 @@ const SEO = ({
     const fullUrl = `${siteUrl}${pathname}`;
 
     const seoSettings = settings?.seoSettings || {};
-    const siteName = settings?.storeName || 'Nakma Store';
+    const siteName = settings?.storeName || 'NakmaLtd';
 
-    const defaultTitle = seoSettings.metaTitle || `${siteName} | Crafting Unique African Style`;
-    const defaultDescription = seoSettings.metaDescription || 'Nakma Store is a premium fashion house dedicated to unique, high-quality African-inspired men’s shirts. Blending heritage with modern design.';
-    const defaultKeywords = seoSettings.keywords || 'african fashion, men shirts, printed shirts, nakma, african tailoring';
+    const defaultTitle = seoSettings.metaTitle || `${siteName} | Premium African-Inspired Fashion`;
+    const defaultDescription = seoSettings.metaDescription || 'NakmaLtd is a premium fashion house dedicated to unique, high-quality African-inspired men’s shirts. Blending heritage with modern design for the contemporary man.';
+    const defaultKeywords = seoSettings.keywords || 'african fashion, men shirts, premium apparel, nakmaltd, african tailoring, modern african wear';
     const defaultImage = `${siteUrl}/hero-bg.png`; // Fallback to hero background
 
     const metaTitle = title ? `${title} | ${siteName}` : defaultTitle;
