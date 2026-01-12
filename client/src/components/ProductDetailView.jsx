@@ -61,6 +61,7 @@ const ProductDetailView = ({
 
     const currentPrice = selectedVariation ? selectedVariation.price : (product.is_sale ? product.sale_price : product.price);
     const maxStock = selectedVariation ? selectedVariation.stock : product.stock;
+    const isInStock = maxStock > 0;
 
     const typo = settings.typography || {};
     const layoutStyle = settings.layout?.style || 'classic';
@@ -114,6 +115,7 @@ const ProductDetailView = ({
     // Get list of missing variations for tooltip
     const getMissingVariations = () => {
         const missing = [];
+        if (!isInStock) return ['Out of Stock'];
         if (colors.length > 0 && !selectedColor) missing.push('Color');
         if (sizes.length > 0 && !selectedSize) missing.push('Size');
         if (weights.length > 0 && !selectedWeight) missing.push('Weight');
@@ -124,6 +126,10 @@ const ProductDetailView = ({
     const [showTooltip, setShowTooltip] = React.useState(false);
 
     const handleAddToCart = () => {
+        if (!isInStock) {
+            notify("This product is currently out of stock.", "error");
+            return;
+        }
         if (hasVariations) {
             if (colors.length > 0 && !selectedColor) {
                 notify("Please select a color option to continue.", "error");
@@ -259,6 +265,27 @@ const ProductDetailView = ({
             <p className="text-sm text-secondary-text leading-relaxed max-w-lg">
                 {product.description}
             </p>
+
+            {/* Stock Display */}
+            <div className="flex items-center gap-3 mt-4">
+                {isInStock ? (
+                    <>
+                        <div className="flex items-center gap-2">
+                            <span className="material-symbols-outlined text-green-500 text-[18px]">check_circle</span>
+                            <span className="text-[11px] font-bold text-secondary-text uppercase tracking-widest">
+                                {maxStock} In Stock
+                            </span>
+                        </div>
+                    </>
+                ) : (
+                    <div className="flex items-center gap-2">
+                        <span className="material-symbols-outlined text-red-500 text-[18px]">cancel</span>
+                        <span className="text-[11px] font-bold text-red-500 uppercase tracking-widest">
+                            Out of Stock
+                        </span>
+                    </div>
+                )}
+            </div>
         </div>
     );
 
@@ -379,7 +406,7 @@ const ProductDetailView = ({
                     {/* Mobile Wrapper - Full Width by default */}
                     <div className="lg:hidden relative">
                         <div
-                            onMouseEnter={() => !areAllVariationsSelected() && setShowTooltip(true)}
+                            onMouseEnter={() => (!areAllVariationsSelected() || !isInStock) && setShowTooltip(true)}
                             onMouseLeave={() => setShowTooltip(false)}
                         >
                             <AddToBagButton
@@ -405,10 +432,10 @@ const ProductDetailView = ({
                                 }}
                                 price={currentPrice}
                                 onClick={handleAddToCart}
-                                disabled={!areAllVariationsSelected()}
+                                disabled={!areAllVariationsSelected() || !isInStock}
                             />
                         </div>
-                        {!areAllVariationsSelected() && showTooltip && (
+                        {(!areAllVariationsSelected() || !isInStock) && showTooltip && (
                             <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-4 py-2 bg-black/90 text-white text-xs rounded-lg whitespace-nowrap z-50 animate-fade-in">
                                 <div className="font-bold mb-1">Please select:</div>
                                 <div>{getMissingVariations().join(', ')}</div>
@@ -420,7 +447,7 @@ const ProductDetailView = ({
                     {/* Desktop Wrapper */}
                     <div className="hidden lg:block relative">
                         <div
-                            onMouseEnter={() => !areAllVariationsSelected() && setShowTooltip(true)}
+                            onMouseEnter={() => (!areAllVariationsSelected() || !isInStock) && setShowTooltip(true)}
                             onMouseLeave={() => setShowTooltip(false)}
                         >
                             <AddToBagButton
@@ -446,10 +473,10 @@ const ProductDetailView = ({
                                 }}
                                 price={currentPrice}
                                 onClick={handleAddToCart}
-                                disabled={!areAllVariationsSelected()}
+                                disabled={!areAllVariationsSelected() || !isInStock}
                             />
                         </div>
-                        {!areAllVariationsSelected() && showTooltip && (
+                        {(!areAllVariationsSelected() || !isInStock) && showTooltip && (
                             <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-4 py-2 bg-black/90 text-white text-xs rounded-lg whitespace-nowrap z-50 animate-fade-in">
                                 <div className="font-bold mb-1">Please select:</div>
                                 <div>{getMissingVariations().join(', ')}</div>
