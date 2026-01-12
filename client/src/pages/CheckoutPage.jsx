@@ -355,10 +355,10 @@ const CheckoutPage = () => {
                 price: item.price,
                 variation_id: item.variation_id || null,
                 variation_name: item.variation_name || null,
-                selected_size: item.selectedSize,
-                selected_color: typeof item.selectedColor === 'object' ? item.selectedColor.name : item.selectedColor,
-                selected_weight: item.selectedWeight,
-                selected_dimension: item.selectedDimension
+                selected_size: item.selectedSize || null,
+                selected_color: item.selectedColor ? (typeof item.selectedColor === 'object' ? item.selectedColor.name : item.selectedColor) : null,
+                selected_weight: item.selectedWeight || null,
+                selected_dimension: item.selectedDimension || null
             }));
 
             const { error: itemsError } = await supabase
