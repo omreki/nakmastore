@@ -404,7 +404,7 @@ const ProductDetailView = ({
                     </div>
 
                     {/* Mobile Wrapper - Full Width by default */}
-                    <div className="lg:hidden relative">
+                    <div className="lg:hidden relative py-4">
                         <div
                             onMouseEnter={() => (!areAllVariationsSelected() || !isInStock) && setShowTooltip(true)}
                             onMouseLeave={() => setShowTooltip(false)}
