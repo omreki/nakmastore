@@ -1,125 +1,141 @@
-# White-Labeling & Cloning Guide (2026 Edition)
+# White-Labeling & Cloning Guide (2026 Ultimate Edition)
 
-This document outlines the step-by-step process for cloning the NAKMA store codebase for a new client. It covers white-labeling the branding, setting up a fresh Supabase database, configuring automated emails, and deploying to Vercel.
+This document is the definitive source of truth for cloning the NAKMA store codebase for a new client. It includes all recent system features (Community Articles, Stock Visibility, Dynamic Tax, Paystack Integration, etc.) and provides "Antigravity Prompts" to automate the process with your AI agent.
 
-Included in each section are **"Antigravity Prompts"**—commands you can copy and paste to me (your AI assistant) to automate these tasks.
+---
+
+## 🚀 Quick Start for AI Agents (Antigravity)
+
+**Role**: You are an expert DevOps and Full-Stack Engineer.
+**Goal**: Clone, configure, and launch a new instance of this store.
+
+### Main "Do Everything" Prompt
+> "I am cloning this project for a new client named `[CLIENT_NAME]`. Please guide me through:
+> 1. Cleaning the git history and node_modules.
+> 2. Setting up the `.env` files for client and functions.
+> 3. Running the `server/master_setup.sql` on the new Supabase project.
+> 4. Deploying the `paystack-webhook` and `send-email` edge functions.
+> 5. Updating the brand colors to `[brand_primary_hex]` and logo.
+> 6. Verifying that the 'Community' and 'Stock Visibility' features are active."
 
 ---
 
 ## Phase 1: Codebase Initialization
-Prepare the project folder for a new identity.
 
-### Steps:
-1.  **Duplicate the Folder**: Copy the current codebase to a new directory.
-2.  **Reset Git**: Delete the `.git` folder to remove old history and start a new repository.
-3.  **Wipe Dependencies**: Delete `node_modules` in both root and `client/` to ensure clean installations.
-4.  **Rename Project**: Update `name` and `description` in `package.json` and `client/package.json`.
+### Steps
+1.  **Duplicate Folder**: Copy the entire project to a new directory.
+2.  **Clean Slate**:
+    -   Delete `.git` folder.
+    -   Delete `node_modules` (root and `client/`).
+    -   Delete `dist` or `build` folders.
+3.  **Rename**: Update `package.json` names.
 
 ### 🤖 Antigravity Prompts
-> "Copy this entire project into a new folder named `[NEW_CLIENT_NAME]` and initialize a fresh git repository."
-
-> "Clean all `node_modules` and re-install dependencies using `npm install`."
+> "Wipe the `.git` folder and all `node_modules` directories to ensure a fresh start. Then initialize a new git repository."
 
 ---
 
-## Phase 2: Database Setup (Supabase)
-Create the "brain" of the store.
+## Phase 2: Database & Backend (Supabase)
 
-### Steps:
-1.  **Create Supabase Project**: Go to [Supabase.com](https://supabase.com) and create a new project.
-2.  **Run Master Script**: Execute `server/master_setup.sql` in the Supabase SQL Editor. This script is idempotent and creates all tables, functions, and initial settings.
-    - *Note: Ensure the `pages` table includes `status` and `custom_css` columns.*
-3.  **Configure Storage**: Create the following **Public** buckets:
-    - `product-images` - For inventory photos.
-    - `logo` - For official branding.
-    - `assets` - For hero images and banners.
-4.  **Auth Settings**: 
-    - Enable Email login.
-    - Disable "Confirm Email" for faster testing (re-enable for production).
+### Steps
+1.  **Create Project**: New project at [database.new](https://database.new).
+2.  **Run Migration**:
+    -   Open SQL Editor in Supabase.
+    -   Copy/Paste contents of `store/server/master_setup.sql`.
+    -   **Run**. This script is idempotent and sets up:
+        -   Tables: `products`, `orders`, `profiles`, `team_members`, `store_settings`, `articles`, `pages`, etc.
+        -   Security: RLS Policies for all tables.
+        -   Defaults: Initial store settings (including `hollowText`, `product_page_settings`).
+3.  **Storage Buckets**:
+    -   Create **Public** buckets: `product-images`, `logo`, `assets`, `article-images`.
+    -   *Tip: Ensure policies allow public read access.*
+4.  **Auth**:
+    -   Enable "Email/Password".
+    -   Disable "Confirm Email" (optional, for speed).
+    -   **Team Members**: Add admin users via the separate `team_members` table or the Admin Dashboard after launch.
 
 ### 🤖 Antigravity Prompts
-> "Read `server/master_setup.sql` and verify if it contains the latest schema for `pages` (status and custom_css) and `store_settings` (brand_settings)."
+> "Analyze `server/master_setup.sql` and explain what tables it creates. Then, help me run it on my new Supabase project."
+> "Generate a SQL script to explicitly insert my admin email `[YOUR_EMAIL]` into the `team_members` table as an 'admin'."
 
 ---
 
-## Phase 3: Configuration & Environment
-Link the code to your new Supabase project.
+## Phase 3: Edge Functions (Crucial for Payments)
 
-### Steps:
-1.  **Environment Variables**: Update `client/.env` with your new credentials.
-    ```env
-    VITE_SUPABASE_URL=[YOUR_PROJECT_URL]
-    VITE_SUPABASE_ANON_KEY=[YOUR_ANON_KEY]
-    VITE_ADMIN_EMAILS=[YOUR_EMAIL]
-    VITE_PAYSTACK_PUBLIC_KEY=[OPTIONAL_KEY]
+The store relies on Supabase Edge Functions for secure operations.
+
+### Steps
+1.  **Login**: `npx supabase login`
+2.  **Link**: `npx supabase link --project-ref [YOUR_PROJECT_ID]`
+3.  **Set Secrets**:
+    ```bash
+    npx supabase secrets set PAYSTACK_SECRET_KEY=sk_...
+    npx supabase secrets set RESEND_API_KEY=re_...
     ```
-2.  **Resend (Email) Integration**:
-    - Get an API key from [Resend.com](https://resend.com).
-    - Insert the key into the `store_settings` table via SQL or Admin Dashboard:
-      ```sql
-      UPDATE store_settings SET resend_config = '{"apiKey": "re_...", "fromEmail": "onboarding@resend.dev"}' WHERE id = 1;
-      ```
+4.  **Deploy**:
+    ```bash
+    npx supabase functions deploy paystack-webhook
+    npx supabase functions deploy send-email
+    ```
+5.  **Webhook Configuration**:
+    -   In Paystack Dashboard, set Webhook URL to: `https://[PROJECT_REF].supabase.co/functions/v1/paystack-webhook`
 
 ### 🤖 Antigravity Prompts
-> "Config the `client/.env` with my new Supabase credentials and set `VITE_ADMIN_EMAILS` to `[YOUR_EMAIL]`."
+> "Help me deploy the `paystack-webhook` function. What secrets do I need to set in Supabase first?"
 
 ---
 
-## Phase 4: White-Labeling (Visual Identity)
-Personalize the store's look and feel.
+## Phase 4: Frontend Configuration
 
-### Steps:
-1.  **Branding Palette**: 
-    - Modify `client/tailwind.config.js`. Update the `primary` color (Default: `#b82063`).
-    - Sync the brand color in `client/src/context/StoreSettingsContext.jsx` if you want it as a fallback.
-2.  **Upload Logo**: Log into the Admin Dashboard (`/login`), navigate to **Settings → General**, and upload the new logo.
-3.  **Hero Section Configuration**:
-    - Hero sections are designed to stay visible even without an image to maintain layout consistency.
-    - If no image is added, the site provides a sleek dark fallback with gradients.
-4.  **SEO Setup**:
-    - Update the site title in `client/index.html`.
-    - Set global SEO defaults (Meta Title, Description) in **Admin → Settings → SEO**.
+### Environment Variables (`client/.env`)
+```env
+VITE_SUPABASE_URL=https://[PROJECT_ID].supabase.co
+VITE_SUPABASE_ANON_KEY=[YOUR_ANON_KEY]
+VITE_ADMIN_EMAILS=[YOUR_EMAIL] (Comma separated)
+VITE_PAYSTACK_PUBLIC_KEY=[pk_...]
+```
 
 ### 🤖 Antigravity Prompts
-> "Update the primary brand color in `tailwind.config.js` to `[HEX_CODE]` and refresh the UI theme."
-
-> "Verify that the SEO component is correctly implemented in `MenPage.jsx`, `WomenPage.jsx`, and `AboutPage.jsx`."
+> "Create a new `.env` file in the client directory with these placeholders and ask me for the values."
 
 ---
 
-## Phase 5: Content & Pages
-Populate the store with products and info.
+## Phase 5: White-Labeling & Branding
 
-### Steps:
-1.  **Add Categories**: Use the Admin Dashboard to create your main categories (e.g., Men, Women, Accessories).
-2.  **Create Products**: Add items with variations (Sizes/Colors).
-3.  **Custom Pages**: Create informational pages (Privacy, Shipping, Terms) via **Admin → Pages**.
-    - These pages support **Markdown** for content and **Custom CSS** for unique styling per page.
-    - Every page automatically gets its own SEO metadata fields.
+### 1. Visual Identity
+-   **Tailwind Config**: Update `primary` color in `client/tailwind.config.js`.
+-   **Store Settings**: Update `brand_settings` in the DB (can be done via Admin Panel).
+    -   *Primary Color*
+    -   *Hollow Text* (Leave empty to disable, or set to "BRANDNAME")
+-   **Logo**: Upload to `General Settings`.
+
+### 2. Feature Toggles
+-   **Stock Visibility**: Go to **Admin > Products > Settings** and toggle "Show Stock Info".
+-   **Tax**: Configure in **Admin > Settings > Taxes**.
+-   **Community**: The blog/article system is active by default. Create categories in **Admin > Community**.
 
 ### 🤖 Antigravity Prompts
-> "Create a sample 'Privacy Policy' page in the `pages` table with some professional boilerplate text."
+> "Update the global primary color to `[HEX]` in tailwind config and `StoreSettingsContext` defaults."
+> "I want to disable the 'Hollow Text' on the homepage. How do I do that?"
 
 ---
 
-## Phase 6: Launch Checklist
-Run these tests before going live.
+## Phase 6: Launch & Verification Checklist
 
-1.  **Order Success**: Perform a full checkout (including payment if integrated).
-2.  **Admin Alerts**: Verify that a new order triggers an admin notification.
-3.  **Responsive Check**: Ensure the mobile menu and product grid look premium on all screens.
-4.  **Email Receipt**: Check your inbox for the customer order confirmation email.
-
-### 🤖 Antigravity Prompts
-> "Final scan: Check for any hardcoded 'NAKMA' references that still need to be swapped for the new client name."
+1.  **Payment Flow**: Test a purchase with Paystack (Test Mode).
+2.  **Webhooks**: Verify that a successful payment updates the order `payment_status` to `Paid` in Supabase `orders` table.
+3.  **Emails**: Ensure `send-email` logs success for order confirmations.
+4.  **Responsiveness**: Check Mobile Menu (Framer Motion animations) and Checkout flow on phone.
+5.  **SEO**: Verify `SEO.jsx` is pulling dynamic titles for Products and Articles.
 
 ---
 
-## Troubleshooting & FAQ
-- **Images don't show**: Ensure Storage buckets are set to **Public**.
-- **Admin Login fails**: Verify your email is in the `VITE_ADMIN_EMAILS` list in `.env`.
-- **Hero text is white/invisible**: Hero sections use white text by default; ensure your background color or image provides enough contrast.
-- **Paystack doesn't load**: Ensure your Public Key is correct and you are viewing the site over HTTPS (or localhost).
+## Troubleshooting
+
+-   **Paystack 400 Error**: Check if `PAYSTACK_SECRET_KEY` is set in Edge Function secrets. Check if `VITE_PAYSTACK_PUBLIC_KEY` is correct in client.
+-   **Images Broken**: Verify Storage Bucket policies are "Public".
+-   **"Duplicate Key" Error**: Common in `StoreSettingsContext`. Check for duplicate JSON keys in the file if you recently edited it.
+-   **Emails Not Sending**: Check `store_settings.resend_config` is valid JSON and the API Key is active.
 
 ---
-*Created for Advanced Agentic Coding - NAKMA Store Framework.*
+*Maintained by NAKMA Engineering.*

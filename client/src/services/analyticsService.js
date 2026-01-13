@@ -11,7 +11,22 @@ class AnalyticsService {
         this.userId = null;
         this.heartbeatInterval = null;
         this.startTime = Date.now();
+        this.ipAddress = null;
+        this.fetchClientIP();
     }
+
+    async fetchClientIP() {
+        try {
+            // Use a free IP detection service
+            const response = await fetch('https://api.ipify.org?format=json');
+            const data = await response.json();
+            this.ipAddress = data.ip;
+        } catch (error) {
+            console.warn('Could not fetch IP address:', error);
+            this.ipAddress = 'unknown';
+        }
+    }
+
 
     getOrCreateSessionId() {
         let sessionId = sessionStorage.getItem(SESSION_KEY);
@@ -41,6 +56,7 @@ class AnalyticsService {
                 {
                     session_id: this.sessionId,
                     persistent_id: this.persistentId,
+                    ip_address: this.ipAddress,
                     user_id: this.userId,
                     event_type: type,
                     event_name: name,
@@ -63,6 +79,7 @@ class AnalyticsService {
             console.error('Analytics tracking failed:', err);
         }
     }
+
 
     trackPageView(pageName) {
         this.trackEvent('page_view', pageName || window.location.pathname);

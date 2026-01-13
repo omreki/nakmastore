@@ -63,13 +63,17 @@ BEGIN
     ALTER TABLE public.store_settings ADD COLUMN IF NOT EXISTS twitter_url text;
     ALTER TABLE public.store_settings ADD COLUMN IF NOT EXISTS facebook_url text;
     ALTER TABLE public.store_settings ADD COLUMN IF NOT EXISTS homepage_settings jsonb default '{
-        "hero": { "title": "Store Name", "subtitle": "Welcome", "imageUrl": "" },
+        "hero": { "title": "Store Name", "subtitle": "Welcome", "imageUrl": "", "hollowText": "" },
         "featured": { "title": "Featured", "products": [] }
     }'::jsonb;
     ALTER TABLE public.store_settings ADD COLUMN IF NOT EXISTS navigation_settings jsonb default '[]'::jsonb;
     ALTER TABLE public.store_settings ADD COLUMN IF NOT EXISTS about_page_settings jsonb;
     ALTER TABLE public.store_settings ADD COLUMN IF NOT EXISTS login_page_settings jsonb;
     ALTER TABLE public.store_settings ADD COLUMN IF NOT EXISTS checkout_page_settings jsonb;
+    ALTER TABLE public.store_settings ADD COLUMN IF NOT EXISTS product_page_settings jsonb default '{
+        "showStock": true,
+        "layout": "standard"
+    }'::jsonb;
     ALTER TABLE public.store_settings ADD COLUMN IF NOT EXISTS site_url text;
     ALTER TABLE public.store_settings ADD COLUMN IF NOT EXISTS alert_emails text[];
     ALTER TABLE public.store_settings ADD COLUMN IF NOT EXISTS seo_settings jsonb;
@@ -381,6 +385,7 @@ CREATE TABLE IF NOT EXISTS analytics_events (
 DO $$
 BEGIN
     ALTER TABLE analytics_events ADD COLUMN IF NOT EXISTS persistent_id TEXT;
+    ALTER TABLE analytics_events ADD COLUMN IF NOT EXISTS ip_address TEXT;
     ALTER TABLE analytics_events ADD COLUMN IF NOT EXISTS event_name TEXT;
     ALTER TABLE analytics_events ADD COLUMN IF NOT EXISTS page_url TEXT;
     ALTER TABLE analytics_events ADD COLUMN IF NOT EXISTS referrer TEXT;
@@ -391,6 +396,16 @@ BEGIN
     ALTER TABLE analytics_events ADD COLUMN IF NOT EXISTS metadata JSONB;
     ALTER TABLE analytics_events ADD COLUMN IF NOT EXISTS created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW();
 END $$;
+
+-- Create analytics indexes for performance
+CREATE INDEX IF NOT EXISTS analytics_events_event_type_idx ON analytics_events(event_type);
+CREATE INDEX IF NOT EXISTS analytics_events_created_at_idx ON analytics_events(created_at);
+CREATE INDEX IF NOT EXISTS analytics_events_session_id_idx ON analytics_events(session_id);
+CREATE INDEX IF NOT EXISTS analytics_events_persistent_id_idx ON analytics_events(persistent_id);
+CREATE INDEX IF NOT EXISTS analytics_events_date_idx ON analytics_events(DATE(created_at));
+CREATE INDEX IF NOT EXISTS analytics_events_year_month_idx ON analytics_events(EXTRACT(YEAR FROM created_at), EXTRACT(MONTH FROM created_at));
+CREATE INDEX IF NOT EXISTS analytics_events_type_date_idx ON analytics_events(event_type, created_at DESC);
+
 
 ALTER TABLE analytics_events ENABLE ROW LEVEL SECURITY;
 
