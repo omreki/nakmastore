@@ -182,7 +182,6 @@ const OrderManagementPage = () => {
 
             if (itemsError) {
                 console.warn('Error deleting items (might allow cascade):', itemsError);
-                // Continue trying to delete the order anyway, in case of cascade or no items
             }
 
             // 2. Delete the order
@@ -195,16 +194,12 @@ const OrderManagementPage = () => {
             if (error) throw error;
 
             if (!data || data.length === 0) {
-                // If no data returned, it means no row was deleted (RLS or not found)
                 throw new Error('Order could not be deleted. Check permissions or if order exists.');
             }
 
             notify('Order deleted successfully.', 'success');
-            // re-fetch to ensure sync (optional since we did optimistic update)
-            // fetchOrders(); 
         } catch (error) {
             console.error('Error deleting order:', error);
-            // Revert optimistic update
             setOrders(originalOrders);
             notify(`Failed to delete order: ${error.message}`, 'error');
         }
@@ -217,7 +212,6 @@ const OrderManagementPage = () => {
 
         const matchesStatus = statusFilter === 'all' || order.fulfillment.toLowerCase() === statusFilter.toLowerCase();
 
-        // Date filter logic (simple implementation)
         const now = new Date();
         const orderDate = new Date(order.fullDate);
         let matchesDate = true;
@@ -237,7 +231,7 @@ const OrderManagementPage = () => {
 
     return (
         <AdminLayout>
-            <div className="flex flex-col gap-8 pb-10">
+            <div className="flex flex-col gap-6 md:gap-8 pb-10">
                 {/* Page Header */}
                 <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 relative z-10">
                     <div>
@@ -247,10 +241,10 @@ const OrderManagementPage = () => {
                             </span>
                             <span className="text-gray-500 text-sm font-medium">/ Orders</span>
                         </div>
-                        <h1 className="text-white text-4xl font-black leading-tight tracking-[-0.033em] drop-shadow-lg">
+                        <h1 className="text-white text-3xl md:text-5xl font-black leading-tight tracking-[-0.033em] drop-shadow-lg">
                             Order <span className="text-transparent bg-clip-text bg-gradient-to-r from-white via-gray-200 to-gray-400 font-black">Management</span>
                         </h1>
-                        <p className="text-gray-400 text-base font-medium mt-2 max-w-xl">
+                        <p className="text-gray-400 text-sm md:text-base font-medium mt-2 max-w-xl">
                             Monitor and process your collection orders and customer purchases.
                         </p>
                     </div>
@@ -260,14 +254,12 @@ const OrderManagementPage = () => {
                         </button>
                         <button
                             onClick={() => setShowCreateModal(true)}
-                            className="admin-button-primary text-white px-6 h-12 rounded-xl text-sm font-black uppercase tracking-widest flex items-center gap-2 transition-all shadow-[0_0_20px_rgba(255,0,127,0.4)] border border-white/10 hover:-translate-y-0.5"
+                            className="admin-button-primary text-white p-4 h-12 rounded-xl text-[10px] md:text-sm font-black uppercase tracking-widest flex items-center gap-2 transition-all shadow-[0_0_20px_rgba(255,0,127,0.4)] border border-white/10 hover:-translate-y-0.5 w-full md:w-auto justify-center"
                         >
                             <span className="material-symbols-outlined">add</span> Create Order
                         </button>
                     </div>
                 </div>
-
-
 
                 {/* Stats Cards */}
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
@@ -316,7 +308,7 @@ const OrderManagementPage = () => {
                         </div>
                         <span className="text-gray-500 text-[10px] font-black uppercase tracking-widest">Revenue</span>
                         <div className="flex items-end justify-between relative z-10">
-                            <span className="text-3xl font-black text-white tracking-tight">{formatPrice(stats.revenue)}</span>
+                            <span className="text-2xl font-black text-white tracking-tight">{formatPrice(stats.revenue)}</span>
                             <div className="flex items-center text-[9px] font-black uppercase tracking-widest text-green-400 bg-green-500/10 px-2 py-1 rounded-lg border border-green-500/20">
                                 <span className="material-symbols-outlined text-[12px] mr-1">trending_up</span> {stats.revenueTrend}
                             </div>
@@ -325,8 +317,8 @@ const OrderManagementPage = () => {
                 </div>
 
                 {/* Search and Filters */}
-                <div className="flex flex-col md:flex-row justify-between items-center gap-4 py-2 px-0.5">
-                    <div className="relative w-full md:w-[480px] group">
+                <div className="flex flex-col lg:flex-row justify-between items-center gap-4 py-2">
+                    <div className="relative w-full lg:max-w-md group">
                         <span className="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-gray-500 group-focus-within:text-white transition-colors duration-300">search</span>
                         <input
                             className="glossy-input w-full rounded-2xl pl-12 pr-4 py-3.5 text-sm focus:outline-none focus:ring-1 focus:ring-primary/40 placeholder:text-gray-600 bg-black/40 border-white/5 text-white"
@@ -336,10 +328,10 @@ const OrderManagementPage = () => {
                             onChange={(e) => setSearchQuery(e.target.value)}
                         />
                     </div>
-                    <div className="flex items-center gap-4 w-full md:w-auto overflow-x-auto pb-2 md:pb-0 scrollbar-hide">
-                        <div className="relative group">
+                    <div className="flex items-center gap-4 w-full lg:w-auto overflow-x-auto pb-2 lg:pb-0 scrollbar-hide">
+                        <div className="relative group shrink-0">
                             <select
-                                className="glossy-panel appearance-none pl-5 pr-12 py-3.5 rounded-2xl text-xs font-black uppercase tracking-widest text-gray-400 group-hover:text-white cursor-pointer focus:outline-none focus:ring-1 focus:ring-primary/40 bg-black/20 border border-white/10 transition-all"
+                                className="glossy-panel appearance-none pl-5 pr-12 py-3.5 rounded-2xl text-[10px] font-black uppercase tracking-widest text-gray-400 group-hover:text-white cursor-pointer focus:outline-none focus:ring-1 focus:ring-primary/40 bg-black/20 border border-white/10 transition-all min-w-[140px]"
                                 value={statusFilter}
                                 onChange={(e) => setStatusFilter(e.target.value)}
                             >
@@ -351,9 +343,9 @@ const OrderManagementPage = () => {
                             </select>
                             <span className="material-symbols-outlined absolute right-4 top-1/2 -translate-y-1/2 text-gray-600 pointer-events-none text-xl group-hover:text-white transition-colors">expand_more</span>
                         </div>
-                        <div className="relative group">
+                        <div className="relative group shrink-0">
                             <select
-                                className="glossy-panel appearance-none pl-5 pr-12 py-3.5 rounded-2xl text-xs font-black uppercase tracking-widest text-gray-400 group-hover:text-white cursor-pointer focus:outline-none focus:ring-1 focus:ring-primary/40 bg-black/20 border border-white/10 transition-all"
+                                className="glossy-panel appearance-none pl-5 pr-12 py-3.5 rounded-2xl text-[10px] font-black uppercase tracking-widest text-gray-400 group-hover:text-white cursor-pointer focus:outline-none focus:ring-1 focus:ring-primary/40 bg-black/20 border border-white/10 transition-all min-w-[140px]"
                                 value={dateFilter}
                                 onChange={(e) => setDateFilter(e.target.value)}
                             >
@@ -367,19 +359,19 @@ const OrderManagementPage = () => {
                 </div>
 
                 {/* Orders Table */}
-                <div className="glossy-panel rounded-[2.5rem] w-full overflow-hidden flex flex-col border border-white/5 bg-black/20 shadow-2xl relative">
+                <div className="glossy-panel rounded-[2rem] w-full overflow-hidden flex flex-col border border-white/5 bg-black/20 shadow-2xl relative">
                     <div className="absolute top-0 left-0 w-full h-32 bg-gradient-to-b from-white/[0.02] to-transparent pointer-events-none"></div>
-                    <div className="overflow-x-auto">
+                    <div className="overflow-x-auto scrollbar-hide">
                         <table className="w-full text-left border-collapse min-w-[900px]">
                             <thead>
                                 <tr className="bg-white/[0.03] text-gray-500 font-black text-[10px] uppercase tracking-widest border-b border-white/10">
-                                    <th className="p-7">Order</th>
-                                    <th className="p-7">Customer</th>
-                                    <th className="p-7">Date</th>
-                                    <th className="p-7">Status</th>
-                                    <th className="p-7">Payment</th>
-                                    <th className="p-7 text-right">Total</th>
-                                    <th className="p-7 text-right pr-12">Actions</th>
+                                    <th className="p-6">Order</th>
+                                    <th className="p-6">Customer</th>
+                                    <th className="p-6">Date</th>
+                                    <th className="p-6">Status</th>
+                                    <th className="p-6">Payment</th>
+                                    <th className="p-6 text-right">Total</th>
+                                    <th className="p-6 text-right pr-12">Actions</th>
                                 </tr>
                             </thead>
                             <tbody className="text-sm divide-y divide-white/5">
@@ -404,23 +396,24 @@ const OrderManagementPage = () => {
                                     </tr>
                                 ) : (
                                     filteredOrders.map((order) => (
-                                        <tr key={order.rawId} className="group hover:bg-white/[0.03] transition-all duration-300 cursor-pointer">
-                                            <td className="p-7">
-                                                <button
-                                                    onClick={() => setSelectedOrderId(order.rawId)}
-                                                    className="font-black text-white font-display hover:text-primary transition-colors text-lg flex items-center gap-1"
-                                                >
+                                        <tr
+                                            key={order.rawId}
+                                            onClick={() => setSelectedOrderId(order.rawId)}
+                                            className="group hover:bg-white/[0.03] transition-all duration-300 cursor-pointer"
+                                        >
+                                            <td className="p-6">
+                                                <div className="font-black text-white font-display group-hover:text-primary transition-colors text-lg flex items-center gap-1">
                                                     <span className="text-gray-600 text-sm font-medium">#</span>{order.id}
                                                     {!order.isViewed && (
                                                         <span className="ml-2 px-1.5 py-0.5 rounded-md bg-primary text-[8px] font-black text-white uppercase tracking-tighter animate-pulse shadow-[0_0_8px_rgba(255,0,127,0.4)]">
                                                             NEW
                                                         </span>
                                                     )}
-                                                </button>
+                                                </div>
                                             </td>
-                                            <td className="p-7">
+                                            <td className="p-6">
                                                 <div className="flex items-center gap-4">
-                                                    <div className={`size-11 rounded-2xl bg-gradient-to-br ${order.customer.avatar} flex items-center justify-center text-xs font-black text-white border border-white/10 shadow-2xl transition-transform duration-500 group-hover:rotate-12`}>
+                                                    <div className={`size-10 rounded-xl bg-gradient-to-br ${order.customer.avatar} flex items-center justify-center text-xs font-black text-white border border-white/10 shadow-2xl transition-transform duration-500 group-hover:rotate-12`}>
                                                         {order.customer.initials}
                                                     </div>
                                                     <div className="flex flex-col max-w-[180px]">
@@ -429,16 +422,16 @@ const OrderManagementPage = () => {
                                                     </div>
                                                 </div>
                                             </td>
-                                            <td className="p-7">
+                                            <td className="p-6">
                                                 <div className="flex flex-col">
                                                     <span className="text-gray-300 font-medium">{order.date}</span>
                                                     <span className="text-[10px] text-gray-600 font-bold uppercase tracking-widest mt-0.5">UTC: {new Date(order.fullDate).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span>
                                                 </div>
                                             </td>
-                                            <td className="p-7">
+                                            <td className="p-6">
                                                 {getStatusBadge(order.fulfillment, order.fulfillmentColor)}
                                             </td>
-                                            <td className="p-7">
+                                            <td className="p-6">
                                                 <div className="flex items-center gap-2">
                                                     <span className={`material-symbols-outlined text-[18px] ${order.payment === 'Paid' ? 'text-green-500' : 'text-gray-500'}`}>
                                                         {order.payment === 'Paid' ? 'verified' : 'pending'}
@@ -452,30 +445,30 @@ const OrderManagementPage = () => {
                                                     </span>
                                                 </div>
                                             </td>
-                                            <td className="p-7 font-black text-white text-lg tracking-tighter">{formatPrice(order.total)}</td>
-                                            <td className="p-7 text-right">
-                                                <div className="flex items-center justify-end gap-3 opacity-100 transition-all duration-300">
+                                            <td className="p-6 font-black text-white text-lg tracking-tighter text-right">{formatPrice(order.total)}</td>
+                                            <td className="p-6 text-right pr-12" onClick={(e) => e.stopPropagation()}>
+                                                <div className="flex items-center justify-end gap-3 transition-all duration-300">
                                                     {order.hasAction ? (
                                                         <button className="bg-primary hover:bg-white text-white hover:text-black text-[10px] font-black uppercase tracking-widest px-4 py-2 rounded-xl transition-all shadow-xl shadow-primary/40 scale-110">
                                                             Resolve
                                                         </button>
                                                     ) : (
                                                         <div className="flex gap-2">
-                                                            <button className="p-3 rounded-2xl hover:bg-white/10 text-gray-500 hover:text-white transition-all border border-transparent hover:border-white/10">
-                                                                <span className="material-symbols-outlined text-[20px]">print</span>
+                                                            <button className="p-2.5 rounded-xl hover:bg-white/10 text-gray-500 hover:text-white transition-all border border-transparent hover:border-white/10">
+                                                                <span className="material-symbols-outlined text-[18px]">print</span>
                                                             </button>
                                                             <button
                                                                 onClick={(e) => handleDeleteOrder(order.rawId, e)}
-                                                                className="p-3 rounded-2xl hover:bg-red-500/20 text-gray-500 hover:text-red-500 transition-all border border-transparent hover:border-red-500/20"
+                                                                className="p-2.5 rounded-xl hover:bg-red-500/20 text-gray-500 hover:text-red-500 transition-all border border-transparent hover:border-red-500/20"
                                                                 title="Delete Order"
                                                             >
-                                                                <span className="material-symbols-outlined text-[20px]">delete</span>
+                                                                <span className="material-symbols-outlined text-[18px]">delete</span>
                                                             </button>
                                                             <button
                                                                 onClick={() => setSelectedOrderId(order.rawId)}
-                                                                className="p-3 rounded-2xl hover:bg-white/10 text-gray-500 hover:text-white transition-all border border-transparent hover:border-white/10"
+                                                                className="p-2.5 rounded-xl hover:bg-white/10 text-gray-500 hover:text-white transition-all border border-transparent hover:border-white/10"
                                                             >
-                                                                <span className="material-symbols-outlined text-[20px]">visibility</span>
+                                                                <span className="material-symbols-outlined text-[18px]">visibility</span>
                                                             </button>
                                                         </div>
                                                     )}
@@ -489,7 +482,7 @@ const OrderManagementPage = () => {
                     </div>
 
                     {/* Pagination */}
-                    <div className="p-8 bg-black/40 border-t border-white/5 flex flex-col sm:flex-row items-center justify-between gap-6">
+                    <div className="p-6 bg-black/40 border-t border-white/5 flex flex-col sm:flex-row items-center justify-between gap-6">
                         <div className="flex items-center gap-3">
                             <div className="size-2 rounded-full bg-green-500 animate-pulse"></div>
                             <span className="text-[10px] text-gray-500 font-black uppercase tracking-[0.2em] whitespace-nowrap">
@@ -498,13 +491,13 @@ const OrderManagementPage = () => {
                         </div>
                         <div className="flex gap-3">
                             <button
-                                className="glossy-panel h-12 px-6 rounded-2xl text-[10px] font-black uppercase tracking-[0.2em] text-gray-600 border border-white/5 hover:bg-white/5 hover:text-white disabled:opacity-30 disabled:cursor-not-allowed transition-all flex items-center justify-center"
+                                className="glossy-panel h-11 px-6 rounded-xl text-[10px] font-black uppercase tracking-[0.2em] text-gray-600 border border-white/5 hover:bg-white/5 hover:text-white disabled:opacity-30 disabled:cursor-not-allowed transition-all flex items-center justify-center"
                                 disabled
                             >
                                 <span className="material-symbols-outlined text-[18px] mr-2">arrow_back</span> Prev
                             </button>
                             <button
-                                className="glossy-panel h-12 px-6 rounded-2xl text-[10px] font-black uppercase tracking-[0.2em] text-gray-600 border border-white/5 hover:bg-white/5 hover:text-white disabled:opacity-30 disabled:cursor-not-allowed transition-all flex items-center justify-center font-black"
+                                className="glossy-panel h-11 px-6 rounded-xl text-[10px] font-black uppercase tracking-[0.2em] text-gray-600 border border-white/5 hover:bg-white/5 hover:text-white disabled:opacity-30 disabled:cursor-not-allowed transition-all flex items-center justify-center font-black"
                                 disabled
                             >
                                 Next <span className="material-symbols-outlined text-[18px] ml-2 font-black">arrow_forward</span>
@@ -513,7 +506,7 @@ const OrderManagementPage = () => {
                     </div>
                 </div>
 
-                {/* Create Order Modal */}
+                {/* Modals */}
                 {showCreateModal && (
                     <CreateOrderModal
                         onClose={() => setShowCreateModal(false)}
@@ -525,7 +518,6 @@ const OrderManagementPage = () => {
                     />
                 )}
 
-                {/* Order Details Modal */}
                 {selectedOrderId && (
                     <OrderDetailsModal
                         orderId={selectedOrderId}
@@ -537,7 +529,7 @@ const OrderManagementPage = () => {
                 )}
 
                 {/* System Integrity Check */}
-                <div className="flex flex-col md:flex-row items-center justify-between px-4 pt-10 gap-4 opacity-40 grayscale group hover:grayscale-0 hover:opacity-100 transition-all duration-700">
+                <div className="flex flex-col md:flex-row items-center justify-between px-4 pt-8 gap-4 opacity-40 grayscale group hover:grayscale-0 hover:opacity-100 transition-all duration-700">
                     <div className="flex gap-8">
                         <div className="flex flex-col">
                             <span className="text-[9px] font-black uppercase tracking-tighter text-gray-600">Sync Status</span>
@@ -551,6 +543,16 @@ const OrderManagementPage = () => {
                     <p className="text-[10px] text-gray-600 font-black uppercase tracking-[0.3em]">© 2026 Nakma Store • All Rights Reserved</p>
                 </div>
             </div>
+
+            <style jsx>{`
+                .scrollbar-hide::-webkit-scrollbar {
+                    display: none;
+                }
+                .scrollbar-hide {
+                    -ms-overflow-style: none;
+                    scrollbar-width: none;
+                }
+            `}</style>
         </AdminLayout >
     );
 };

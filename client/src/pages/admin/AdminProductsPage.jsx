@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { supabase } from '../../lib/supabase';
 import AdminLayout from '../../components/admin/AdminLayout';
 import { useStoreSettings } from '../../context/StoreSettingsContext';
@@ -7,6 +7,7 @@ import { useNotification } from '../../context/NotificationContext';
 
 const AdminProductsPage = () => {
     const { formatPrice } = useStoreSettings();
+    const navigate = useNavigate();
     const [products, setProducts] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
     const [stats, setStats] = useState({
@@ -44,7 +45,9 @@ const AdminProductsPage = () => {
         }
     };
 
-    const handleDeleteProduct = async (productId, productName) => {
+    const handleDeleteProduct = async (productId, productName, e) => {
+        if (e) e.stopPropagation();
+
         const confirmed = await confirm({
             title: 'Confirm Removal',
             message: `You are about to permanently remove "${productName}" from the collection. This action cannot be reversed.`,
@@ -71,7 +74,9 @@ const AdminProductsPage = () => {
         }
     };
 
-    const toggleProductStatus = async (id, currentStatus) => {
+    const toggleProductStatus = async (id, currentStatus, e) => {
+        if (e) e.stopPropagation();
+
         try {
             const { error } = await supabase
                 .from('products')
@@ -88,7 +93,7 @@ const AdminProductsPage = () => {
 
     return (
         <AdminLayout>
-            <div className="flex flex-col gap-8 pb-10">
+            <div className="flex flex-col gap-6 md:gap-8 pb-10">
                 {/* Title Section */}
                 <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 relative z-10">
                     <div>
@@ -98,10 +103,10 @@ const AdminProductsPage = () => {
                             </span>
                             <span className="text-gray-500 text-sm font-medium">/ Product List</span>
                         </div>
-                        <h1 className="text-white text-4xl font-black leading-tight tracking-[-0.033em] drop-shadow-lg">
+                        <h1 className="text-white text-3xl md:text-5xl font-black leading-tight tracking-[-0.033em] drop-shadow-lg">
                             Product <span className="text-transparent bg-clip-text bg-gradient-to-r from-white via-gray-200 to-gray-400 font-black">Management</span>
                         </h1>
-                        <p className="text-gray-400 text-base font-medium mt-2 max-w-xl">
+                        <p className="text-gray-400 text-sm md:text-base font-medium mt-2 max-w-xl">
                             Curate and manage your collection of premium African attire.
                         </p>
                     </div>
@@ -110,7 +115,7 @@ const AdminProductsPage = () => {
                             <span className="material-symbols-outlined text-[18px] group-hover:scale-110 transition-transform">file_download</span>
                             Export Data
                         </button>
-                        <Link to="/admin/products/new" className="admin-button-primary group flex items-center justify-center overflow-hidden rounded-xl h-12 gap-2 text-[10px] font-black uppercase tracking-widest px-6 shadow-2xl hover:-translate-y-0.5 transform active:scale-95 border border-white/10">
+                        <Link to="/admin/products/new" className="admin-button-primary group flex items-center justify-center overflow-hidden rounded-xl h-12 gap-2 text-[10px] font-black uppercase tracking-widest px-6 w-full md:w-auto shadow-2xl hover:-translate-y-0.5 transform active:scale-95 border border-white/10">
                             <span className="material-symbols-outlined text-[20px] group-hover:rotate-90 transition-transform">add</span>
                             <span>Add Product</span>
                         </Link>
@@ -118,7 +123,7 @@ const AdminProductsPage = () => {
                 </div>
 
                 {/* Stats Cards */}
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
                     <div className="glossy-panel rounded-[1.5rem] p-6 flex items-start justify-between border border-white/5 hover:border-white/10 transition-colors bg-black/20">
                         <div>
                             <p className="text-gray-500 text-[10px] font-black uppercase tracking-widest mb-1">Total Inventory</p>
@@ -145,7 +150,7 @@ const AdminProductsPage = () => {
                             <span className="material-symbols-outlined">low_priority</span>
                         </div>
                     </div>
-                    <div className="glossy-panel rounded-[1.5rem] p-6 flex items-start justify-between border border-white/5 hover:border-white/10 transition-colors bg-black/20">
+                    <div className="glossy-panel rounded-[1.5rem] p-6 flex items-start justify-between border border-white/5 hover:border-white/10 transition-colors bg-black/20 sm:col-span-2 lg:col-span-1">
                         <div>
                             <p className="text-gray-500 text-[10px] font-black uppercase tracking-widest mb-1">Out of Stock</p>
                             <h3 className="text-3xl font-black text-white tracking-tight">{stats.outOfStock}</h3>
@@ -166,12 +171,12 @@ const AdminProductsPage = () => {
                         <span className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500 material-symbols-outlined text-[20px] group-focus-within:text-white transition-colors">search</span>
                         <input className="glossy-input w-full rounded-xl pl-11 pr-4 h-11 text-sm outline-none focus:ring-1 focus:ring-primary/40 transition-all placeholder:text-gray-600 bg-black/40 text-white" placeholder="Search products, SKU, category..." type="text" />
                     </div>
-                    <div className="flex gap-3 w-full md:w-auto overflow-x-auto pb-2 md:pb-0 scroll-touch">
+                    <div className="flex gap-3 w-full md:w-auto overflow-x-auto pb-2 md:pb-0 scroll-touch scrollbar-hide">
                         <button className="whitespace-nowrap flex items-center gap-2 px-4 h-11 rounded-xl bg-white/5 hover:bg-white/10 text-sm font-bold text-gray-300 transition-colors border border-white/5">
                             <span className="material-symbols-outlined text-[18px]">filter_list</span>
                             Filters
                         </button>
-                        <div className="h-11 w-px bg-white/10 mx-1"></div>
+                        <div className="h-11 w-px bg-white/10 mx-1 shrink-0"></div>
                         <select className="h-11 bg-transparent text-sm font-bold text-gray-300 outline-none cursor-pointer hover:text-white px-2">
                             <option className="bg-black">Category: All</option>
                             <option className="bg-black">Men</option>
@@ -190,13 +195,13 @@ const AdminProductsPage = () => {
                 {/* Table container */}
                 <div className="glossy-panel rounded-[2rem] overflow-hidden flex flex-col relative border border-white/5 bg-black/40 shadow-2xl">
                     <div className="absolute top-0 right-0 w-64 h-64 bg-primary/5 rounded-full blur-3xl pointer-events-none"></div>
-                    <div className="overflow-x-auto">
-                        <table className="w-full text-left border-collapse">
+                    <div className="overflow-x-auto scrollbar-hide">
+                        <table className="w-full text-left border-collapse min-w-[800px]">
                             <thead>
                                 <tr className="border-b border-white/10 bg-white/[0.02] backdrop-blur-sm">
                                     <th className="p-5 pl-8 text-[10px] font-black uppercase tracking-widest text-gray-500">
                                         <div className="flex items-center gap-3">
-                                            <input className="admin-checkbox" type="checkbox" />
+                                            <input className="admin-checkbox" type="checkbox" onClick={(e) => e.stopPropagation()} />
                                             <span>Product</span>
                                         </div>
                                     </th>
@@ -229,11 +234,15 @@ const AdminProductsPage = () => {
                                     </tr>
                                 ) : (
                                     products.map((product) => (
-                                        <tr key={product.id} className="group hover:bg-white/[0.03] transition-colors relative">
+                                        <tr
+                                            key={product.id}
+                                            onClick={() => navigate(`/admin/products/edit/${product.id}`)}
+                                            className="group hover:bg-white/[0.03] transition-colors relative cursor-pointer"
+                                        >
                                             <td className="p-5 pl-8">
                                                 <div className="flex items-center gap-4">
-                                                    <input className="admin-checkbox" type="checkbox" />
-                                                    <div className="size-14 rounded-xl bg-gradient-to-br from-gray-800 to-gray-900 border border-white/10 overflow-hidden flex items-center justify-center shrink-0 shadow-inner group-hover:scale-105 transition-transform duration-300">
+                                                    <input className="admin-checkbox" type="checkbox" onClick={(e) => e.stopPropagation()} />
+                                                    <div className="size-14 rounded-xl bg-gradient-to-br from-gray-800 to-gray-900 border border-white/10 overflow-hidden flex items-center justify-center shrink-0 shadow-inner group-hover:scale-110 transition-transform duration-300">
                                                         {product.images && product.images.length > 0 ? (
                                                             <img src={product.images[0]} alt={product.name} className="w-full h-full object-cover" />
                                                         ) : (
@@ -252,7 +261,7 @@ const AdminProductsPage = () => {
                                             <td className="p-5">
                                                 <div className="flex items-center gap-3">
                                                     <button
-                                                        onClick={() => toggleProductStatus(product.id, product.is_draft)}
+                                                        onClick={(e) => toggleProductStatus(product.id, product.is_draft, e)}
                                                         className={`relative inline-flex h-5 w-10 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none ring-1 ring-white/10 ${product.is_draft ? 'bg-white/5' : 'bg-green-500/40'}`}
                                                     >
                                                         <span className={`pointer-events-none inline-block size-4 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out ${product.is_draft ? 'translate-x-0' : 'translate-x-5'}`}></span>
@@ -269,21 +278,24 @@ const AdminProductsPage = () => {
                                             <td className="p-5">
                                                 <div className="flex flex-col gap-1.5 w-24">
                                                     <div className="flex justify-between items-center px-0.5">
-                                                        <span className="text-white font-black text-xs">{product.stock || 120}</span>
+                                                        <span className="text-white font-black text-xs">{product.stock || 0}</span>
                                                         <span className="text-[9px] text-gray-500 font-bold uppercase tracking-tighter">Units</span>
                                                     </div>
                                                     <div className="w-full h-1.5 bg-white/5 rounded-full overflow-hidden border border-white/5 shadow-inner">
-                                                        <div className="h-full bg-gradient-to-r from-primary to-primary-light" style={{ width: '80%' }}></div>
+                                                        <div
+                                                            className={`h-full ${product.stock > 10 ? 'bg-gradient-to-r from-primary to-primary-light' : 'bg-red-500'}`}
+                                                            style={{ width: `${Math.min((product.stock / 20) * 100, 100)}%` }}
+                                                        ></div>
                                                     </div>
                                                 </div>
                                             </td>
-                                            <td className="p-5 text-right pr-8">
+                                            <td className="p-5 text-right pr-8" onClick={(e) => e.stopPropagation()}>
                                                 <div className="flex items-center justify-end gap-2 transition-all duration-300">
                                                     <Link to={`/admin/products/edit/${product.id}`} className="p-2.5 rounded-xl hover:bg-white/10 text-gray-400 hover:text-white transition-all border border-transparent hover:border-white/10" title="Edit">
                                                         <span className="material-symbols-outlined text-[18px]">edit_square</span>
                                                     </Link>
                                                     <button
-                                                        onClick={() => handleDeleteProduct(product.id, product.name)}
+                                                        onClick={(e) => handleDeleteProduct(product.id, product.name, e)}
                                                         className="p-2.5 rounded-xl hover:bg-red-500/10 text-gray-400 hover:text-red-400 transition-all border border-transparent hover:border-red-500/10"
                                                         title="Delete"
                                                     >
@@ -299,19 +311,19 @@ const AdminProductsPage = () => {
                     </div>
 
                     {/* Pagination */}
-                    <div className="p-6 bg-white/[0.01] border-t border-white/10 flex flex-col md:flex-row items-center justify-between gap-4">
-                        <span className="text-xs font-bold text-gray-500 uppercase tracking-widest">
+                    <div className="p-6 bg-white/[0.01] border-t border-white/10 flex flex-col md:flex-row items-center justify-between gap-6">
+                        <span className="text-xs font-bold text-gray-500 uppercase tracking-widest order-2 md:order-1">
                             Showing <span className="text-white font-black">1-{products.length}</span> of <span className="text-white font-black">{stats.totalProducts}</span> Items
                         </span>
-                        <div className="flex items-center gap-2">
+                        <div className="flex items-center gap-2 order-1 md:order-2">
                             <button className="size-9 rounded-xl flex items-center justify-center bg-white/5 hover:bg-white/10 text-gray-400 hover:text-white transition-all border border-white/5 disabled:opacity-30 disabled:cursor-not-allowed group">
                                 <span className="material-symbols-outlined text-[20px] group-hover:-translate-x-0.5 transition-transform">chevron_left</span>
                             </button>
                             <button className="size-9 rounded-xl flex items-center justify-center bg-primary text-white font-black text-sm shadow-xl shadow-primary/20 ring-1 ring-white/10">1</button>
-                            <button className="size-9 rounded-xl flex items-center justify-center bg-white/5 hover:bg-white/10 text-gray-400 hover:text-white transition-all border border-white/5 font-bold text-sm">2</button>
-                            <button className="size-9 rounded-xl flex items-center justify-center bg-white/5 hover:bg-white/10 text-gray-400 hover:text-white transition-all border border-white/5 font-bold text-sm">3</button>
-                            <span className="text-gray-600 px-1 font-black">...</span>
-                            <button className="size-9 rounded-xl flex items-center justify-center bg-white/5 hover:bg-white/10 text-gray-400 hover:text-white transition-all border border-white/5 font-bold text-sm">12</button>
+                            <button className="size-9 rounded-xl flex items-center justify-center bg-white/5 hover:bg-white/10 text-gray-400 hover:text-white transition-all border border-white/5 font-bold text-sm hidden sm:flex">2</button>
+                            <button className="size-9 rounded-xl flex items-center justify-center bg-white/5 hover:bg-white/10 text-gray-400 hover:text-white transition-all border border-white/5 font-bold text-sm hidden sm:flex">3</button>
+                            <span className="text-gray-600 px-1 font-black hidden sm:inline">...</span>
+                            <button className="size-9 rounded-xl flex items-center justify-center bg-white/5 hover:bg-white/10 text-gray-400 hover:text-white transition-all border border-white/5 font-bold text-sm hidden sm:flex">12</button>
                             <button className="size-9 rounded-xl flex items-center justify-center bg-white/5 hover:bg-white/10 text-gray-400 hover:text-white transition-all border border-white/5 group">
                                 <span className="material-symbols-outlined text-[20px] group-hover:translate-x-0.5 transition-transform">chevron_right</span>
                             </button>
@@ -320,38 +332,22 @@ const AdminProductsPage = () => {
                 </div>
 
                 {/* Footer Meta */}
-                <div className="flex items-center justify-between px-2 pt-4">
-                    <p className="text-[10px] text-gray-600 font-black uppercase tracking-[0.2em]">© 2026 Nakma Store • All Rights Reserved</p>
+                <div className="flex flex-col sm:flex-row items-center justify-between px-2 pt-6 gap-4 opacity-50">
+                    <p className="text-[10px] text-gray-500 font-black uppercase tracking-[0.2em] text-center sm:text-left">© 2026 Nakma Store • All Rights Reserved</p>
                     <div className="flex gap-6">
-                        <a className="text-[10px] text-gray-600 hover:text-white transition-colors font-bold uppercase tracking-widest" href="#">Help Center</a>
-                        <a className="text-[10px] text-gray-600 hover:text-white transition-colors font-bold uppercase tracking-widest" href="#">Terms of Use</a>
+                        <a className="text-[10px] text-gray-500 hover:text-white transition-colors font-bold uppercase tracking-widest" href="#">Help Center</a>
+                        <a className="text-[10px] text-gray-500 hover:text-white transition-colors font-bold uppercase tracking-widest" href="#">Terms of Use</a>
                     </div>
                 </div>
             </div>
 
-
-
             <style jsx>{`
-                @keyframes fade-in-up {
-                    from { opacity: 0; transform: translateY(20px); }
-                    to { opacity: 1; transform: translateY(0); }
+                .scrollbar-hide::-webkit-scrollbar {
+                    display: none;
                 }
-                @keyframes fade-in {
-                    from { opacity: 0; }
-                    to { opacity: 1; }
-                }
-                @keyframes scale-in {
-                    from { opacity: 0; transform: scale(0.95); }
-                    to { opacity: 1; transform: scale(1); }
-                }
-                .animate-fade-in-up {
-                    animation: fade-in-up 0.4s ease-out forwards;
-                }
-                .animate-fade-in {
-                    animation: fade-in 0.3s ease-out forwards;
-                }
-                .animate-scale-in {
-                    animation: scale-in 0.3s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+                .scrollbar-hide {
+                    -ms-overflow-style: none;
+                    scrollbar-width: none;
                 }
             `}</style>
         </AdminLayout>

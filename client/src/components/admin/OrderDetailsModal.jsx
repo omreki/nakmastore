@@ -232,57 +232,59 @@ const OrderDetailsModal = ({ orderId, onClose, onUpdate }) => {
                                 <div className="space-y-4">
                                     <label className="text-[10px] font-black text-gray-500 uppercase tracking-widest ml-1">Manifest Breakdown</label>
                                     <div className="glossy-panel bg-black/40 border border-white/5 rounded-3xl overflow-hidden">
-                                        <table className="w-full text-left border-collapse">
-                                            <thead>
-                                                <tr className="bg-white/5 text-[9px] font-black text-gray-500 uppercase tracking-widest border-b border-white/5">
-                                                    <th className="p-4">SKU/Item</th>
-                                                    <th className="p-4 text-center">Qty</th>
-                                                    <th className="p-4 text-right">Unit Price</th>
-                                                    <th className="p-4 text-right">Total</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody className="divide-y divide-white/5">
-                                                {order.items?.map(item => (
-                                                    <tr key={item.id} className="text-xs">
-                                                        <td className="p-4">
-                                                            <div className="flex items-center gap-3">
-                                                                <div className="size-10 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center overflow-hidden">
-                                                                    {item.product?.images?.[0] ? (
-                                                                        <img src={item.product.images[0]} className="w-full h-full object-cover" alt="" />
-                                                                    ) : (
-                                                                        <span className="material-symbols-outlined text-gray-600 text-sm">image</span>
-                                                                    )}
-                                                                </div>
-                                                                <div className="flex flex-col">
-                                                                    <span className="text-white font-bold">{item.product?.name || 'Unknown Product'}</span>
-                                                                    <div className="flex flex-wrap gap-2 mt-1">
-                                                                        {[
-                                                                            item.variation_name && <span key="v-name" className="text-[9px] text-primary-light font-black uppercase tracking-tighter bg-primary/10 px-1.5 py-0.5 rounded-md">{item.variation_name}</span>,
-                                                                            item.selected_size && <span key="v-size" className="text-[9px] text-gray-400 font-bold uppercase tracking-tighter border border-white/10 px-1.5 py-0.5 rounded-md">Size: {item.selected_size}</span>,
-                                                                            item.selected_color && <span key="v-color" className="text-[9px] text-gray-400 font-bold uppercase tracking-tighter border border-white/10 px-1.5 py-0.5 rounded-md">Color: {item.selected_color}</span>,
-                                                                            item.selected_weight && <span key="v-weight" className="text-[9px] text-gray-400 font-bold uppercase tracking-tighter border border-white/10 px-1.5 py-0.5 rounded-md">{item.selected_weight}</span>,
-                                                                            item.selected_dimension && <span key="v-dim" className="text-[9px] text-gray-400 font-bold uppercase tracking-tighter border border-white/10 px-1.5 py-0.5 rounded-md">{item.selected_dimension}</span>
-                                                                        ].filter(Boolean)}
-                                                                    </div>
-                                                                    <span className="text-[9px] text-gray-600 font-bold uppercase tracking-tighter mt-1">ID: {item.product_id.substring(0, 8)}</span>
-                                                                </div>
-                                                            </div>
-                                                        </td>
-                                                        <td className="p-4 text-center font-black text-gray-400">{item.quantity}</td>
-                                                        <td className="p-4 text-right text-gray-400">{formatPrice(item.price)}</td>
-                                                        <td className="p-4 text-right font-black text-white">{formatPrice(item.price * item.quantity)}</td>
+                                        <div className="overflow-x-auto scrollbar-hide">
+                                            <table className="w-full text-left border-collapse min-w-[500px]">
+                                                <thead>
+                                                    <tr className="bg-white/5 text-[9px] font-black text-gray-500 uppercase tracking-widest border-b border-white/5">
+                                                        <th className="p-4">SKU/Item</th>
+                                                        <th className="p-4 text-center">Qty</th>
+                                                        <th className="p-4 text-right">Unit Price</th>
+                                                        <th className="p-4 text-right">Total</th>
                                                     </tr>
-                                                ))}
-                                            </tbody>
-                                            <tfoot>
-                                                <tr className="bg-white/[0.02]">
-                                                    <td colSpan="3" className="p-6 text-right text-[10px] font-black text-gray-500 uppercase tracking-widest">Total Valuation</td>
-                                                    <td className="p-6 text-right">
-                                                        <span className="text-2xl font-black text-white tracking-tighter">{formatPrice(order.total_amount)}</span>
-                                                    </td>
-                                                </tr>
-                                            </tfoot>
-                                        </table>
+                                                </thead>
+                                                <tbody className="divide-y divide-white/5">
+                                                    {order.items?.map(item => (
+                                                        <tr key={item.id} className="text-xs">
+                                                            <td className="p-4">
+                                                                <div className="flex items-center gap-3">
+                                                                    <div className="size-10 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center overflow-hidden">
+                                                                        {item.product?.images?.[0] ? (
+                                                                            <img src={item.product.images[0]} className="w-full h-full object-cover" alt="" />
+                                                                        ) : (
+                                                                            <span className="material-symbols-outlined text-gray-600 text-sm">image</span>
+                                                                        )}
+                                                                    </div>
+                                                                    <div className="flex flex-col">
+                                                                        <span className="text-white font-bold">{item.product?.name || 'Unknown Product'}</span>
+                                                                        <div className="flex flex-wrap gap-2 mt-1">
+                                                                            {[
+                                                                                item.variation_name && <span key="v-name" className="text-[9px] text-primary-light font-black uppercase tracking-tighter bg-primary/10 px-1.5 py-0.5 rounded-md">{item.variation_name}</span>,
+                                                                                item.selected_size && <span key="v-size" className="text-[9px] text-gray-400 font-bold uppercase tracking-tighter border border-white/10 px-1.5 py-0.5 rounded-md">Size: {item.selected_size}</span>,
+                                                                                item.selected_color && <span key="v-color" className="text-[9px] text-gray-400 font-bold uppercase tracking-tighter border border-white/10 px-1.5 py-0.5 rounded-md">Color: {item.selected_color}</span>,
+                                                                                item.selected_weight && <span key="v-weight" className="text-[9px] text-gray-400 font-bold uppercase tracking-tighter border border-white/10 px-1.5 py-0.5 rounded-md">{item.selected_weight}</span>,
+                                                                                item.selected_dimension && <span key="v-dimension" className="text-[9px] text-gray-400 font-bold uppercase tracking-tighter border border-white/10 px-1.5 py-0.5 rounded-md">{item.selected_dimension}</span>
+                                                                            ].filter(Boolean)}
+                                                                        </div>
+                                                                        <span className="text-[9px] text-gray-600 font-bold uppercase tracking-tighter mt-1">ID: {item.product_id.substring(0, 8)}</span>
+                                                                    </div>
+                                                                </div>
+                                                            </td>
+                                                            <td className="p-4 text-center font-black text-gray-400">{item.quantity}</td>
+                                                            <td className="p-4 text-right text-gray-400">{formatPrice(item.price)}</td>
+                                                            <td className="p-4 text-right font-black text-white">{formatPrice(item.price * item.quantity)}</td>
+                                                        </tr>
+                                                    ))}
+                                                </tbody>
+                                                <tfoot>
+                                                    <tr className="bg-white/[0.02]">
+                                                        <td colSpan="3" className="p-6 text-right text-[10px] font-black text-gray-500 uppercase tracking-widest">Total Valuation</td>
+                                                        <td className="p-6 text-right">
+                                                            <span className="text-2xl font-black text-white tracking-tighter">{formatPrice(order.total_amount)}</span>
+                                                        </td>
+                                                    </tr>
+                                                </tfoot>
+                                            </table>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
