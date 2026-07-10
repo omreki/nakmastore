@@ -6,7 +6,15 @@ import react from '@vitejs/plugin-react'
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 
 export default defineConfig({
-  plugins: [react()],
+  plugins: [
+    react(),
+    {
+      name: 'html-build-version',
+      transformIndexHtml(html) {
+        return html.replace('</head>', `  <!-- build: ${new Date().toISOString()} -->\n</head>`);
+      },
+    },
+  ],
   envDir: path.resolve(__dirname, '..'),
   server: {
     proxy: {

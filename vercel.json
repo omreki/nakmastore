@@ -1,9 +1,14 @@
 {
     "version": 2,
-    "buildCommand": "npm run build",
+    "framework": null,
+    "installCommand": "npm install --prefix client --legacy-peer-deps",
+    "buildCommand": "npm run build --prefix client",
     "outputDirectory": "client/dist",
-    "installCommand": "npm install && npm install --prefix client --legacy-peer-deps",
-    "devCommand": "npm run dev --prefix client",
+    "build": {
+        "env": {
+            "VERCEL_FORCE_NO_BUILD_CACHE": "1"
+        }
+    },
     "headers": [
         {
             "source": "/assets/(.*)",
@@ -15,7 +20,24 @@
             ]
         },
         {
-            "source": "/((?!assets/).*)",
+            "source": "/index.html",
+            "headers": [
+                {
+                    "key": "Cache-Control",
+                    "value": "no-cache, no-store, must-revalidate"
+                },
+                {
+                    "key": "CDN-Cache-Control",
+                    "value": "no-cache"
+                },
+                {
+                    "key": "Vercel-CDN-Cache-Control",
+                    "value": "no-cache"
+                }
+            ]
+        },
+        {
+            "source": "/",
             "headers": [
                 {
                     "key": "Cache-Control",
@@ -34,7 +56,7 @@
     ],
     "rewrites": [
         {
-            "source": "/((?!assets/).*)",
+            "source": "/((?!assets/)(?!.*\\..*).*)",
             "destination": "/index.html"
         }
     ]
