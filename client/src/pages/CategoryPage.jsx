@@ -4,11 +4,10 @@ import { supabase } from '../lib/supabase';
 import { useStoreSettings } from '../context/StoreSettingsContext';
 import { useCart } from '../context/CartContext';
 import SEO from '../components/SEO';
+import ListingPrice from '../components/product/ListingPrice';
 import {
-    LISTING_PRODUCT_COMPARE_PRICE,
     LISTING_PRODUCT_NAME,
-    LISTING_PRODUCT_PRICE,
-    LISTING_PRODUCT_SALE_PRICE,
+    formatListingProductName,
 } from '../constants/productListingStyles';
 
 const CategoryPage = () => {
@@ -203,19 +202,12 @@ const ProductCard = ({ product, formatPrice, index, settings }) => {
             <div className="mt-4 flex justify-between items-start gap-4">
                 <div>
                     <h3 className={LISTING_PRODUCT_NAME}>
-                        {product.name}
+                        {formatListingProductName(product.name)}
                     </h3>
                     <p className="mt-1 text-xs text-gray-500 font-medium">{settings?.storeName || 'Nakma Ltd'}</p>
                 </div>
                 <div className="text-right">
-                    {product.is_sale ? (
-                        <div className="flex flex-col items-end">
-                            <span className={LISTING_PRODUCT_SALE_PRICE}>{formatPrice(product.sale_price)}</span>
-                            <span className={LISTING_PRODUCT_COMPARE_PRICE}>{formatPrice(product.price)}</span>
-                        </div>
-                    ) : (
-                        <span className={LISTING_PRODUCT_PRICE}>{formatPrice(product.price)}</span>
-                    )}
+                    <ListingPrice product={product} formatPrice={formatPrice} />
                 </div>
             </div>
         </Link>

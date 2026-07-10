@@ -3,14 +3,12 @@ import { Link, useSearchParams } from 'react-router-dom';
 import { supabase } from '../lib/supabase';
 import { useCart } from '../context/CartContext';
 import { useStoreSettings } from '../context/StoreSettingsContext';
-import shopHeroImage from '../assets/shop_hero.png';
 import SEO from '../components/SEO';
-import { formatSectionTitle } from '../constants/homepageDefaults';
+import ListingMarketingHero from '../components/product/ListingMarketingHero';
+import ListingPrice from '../components/product/ListingPrice';
 import {
-    LISTING_PRODUCT_COMPARE_PRICE,
     LISTING_PRODUCT_NAME,
-    LISTING_PRODUCT_PRICE,
-    LISTING_PRODUCT_SALE_PRICE,
+    formatListingProductName,
 } from '../constants/productListingStyles';
 
 const ShopPage = () => {
@@ -177,32 +175,14 @@ const ShopPage = () => {
             )}
             {/* Hero / Header Section */}
             {!searchQuery && (
-                <div className="layout-container mb-12 md:mb-16">
-                    <div className="relative w-full h-[260px] md:h-[400px] rounded-[40px] md:rounded-[56px] overflow-hidden group shadow-2xl bg-white/[0.03]">
-                        {pageSettings?.hero_image_url && (
-                            <div className="absolute inset-0">
-                                <img
-                                    src={`${pageSettings.hero_image_url}${pageSettings.hero_image_url.includes('?') ? '&' : '?'}t=${new Date(pageSettings.updated_at).getTime()}`}
-                                    alt={pageSettings.title || "Shop"}
-                                    className="w-full h-full object-cover object-center transition-transform duration-[2s] group-hover:scale-105"
-                                />
-                            </div>
-                        )}
-
-                        {/* Sophisticated Overlays */}
-                        <div className="absolute inset-0 bg-gradient-to-r from-black via-black/40 to-transparent z-[1]"></div>
-                        <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent z-[1]"></div>
-
-                        <div className="absolute inset-0 flex flex-col justify-center px-8 md:px-20 z-10">
-                            <h1 className="text-4xl md:text-8xl font-black text-white tracking-tight leading-[0.9] mb-4 md:mb-6 drop-shadow-2xl">
-                                {formatSectionTitle(pageSettings?.title || 'Timeless African Elegance')}
-                            </h1>
-                            <p className="text-white/70 text-base md:text-xl font-medium max-w-xl line-clamp-3 md:line-clamp-none leading-relaxed drop-shadow-lg">
-                                {pageSettings?.hero_subtitle || "Our complete range of unique African-inspired shirts. Crafted for comfort, designed for cultural expression."}
-                            </p>
-                        </div>
-                    </div>
-                </div>
+                <ListingMarketingHero
+                    imageUrl={
+                        pageSettings?.hero_image_url
+                            ? `${pageSettings.hero_image_url}${pageSettings.hero_image_url.includes('?') ? '&' : '?'}t=${new Date(pageSettings.updated_at || Date.now()).getTime()}`
+                            : null
+                    }
+                    imageAlt={pageSettings?.title || 'Shop collection'}
+                />
             )}
 
 
@@ -345,17 +325,8 @@ const ShopPage = () => {
                                     </div>
                                     <div className="px-1">
                                         <div className="flex flex-col gap-0.5">
-                                            <h3 className={LISTING_PRODUCT_NAME}>{product.name}</h3>
-                                            <div className="flex items-center gap-2">
-                                                {product.is_sale && product.sale_price ? (
-                                                    <>
-                                                        <span className={LISTING_PRODUCT_SALE_PRICE}>{formatPrice(product.sale_price)}</span>
-                                                        <span className={LISTING_PRODUCT_COMPARE_PRICE}>{formatPrice(product.price)}</span>
-                                                    </>
-                                                ) : (
-                                                    <span className={LISTING_PRODUCT_PRICE}>{formatPrice(product.price)}</span>
-                                                )}
-                                            </div>
+                                            <h3 className={LISTING_PRODUCT_NAME}>{formatListingProductName(product.name)}</h3>
+                                            <ListingPrice product={product} formatPrice={formatPrice} />
                                         </div>
                                     </div>
                                 </div>

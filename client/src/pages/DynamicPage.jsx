@@ -4,11 +4,10 @@ import { supabase } from '../lib/supabase';
 import { useCart } from '../context/CartContext';
 import { useStoreSettings } from '../context/StoreSettingsContext';
 import SEO from '../components/SEO';
+import ListingPrice from '../components/product/ListingPrice';
 import {
-    LISTING_PRODUCT_COMPARE_PRICE,
     LISTING_PRODUCT_NAME,
-    LISTING_PRODUCT_PRICE,
-    LISTING_PRODUCT_SALE_PRICE,
+    formatListingProductName,
 } from '../constants/productListingStyles';
 
 const DynamicPage = () => {
@@ -324,17 +323,8 @@ const DynamicPage = () => {
                                         </div>
                                         <div className="px-2">
                                             <div className="flex flex-col gap-1 mb-1">
-                                                <h3 className={LISTING_PRODUCT_NAME}>{product.name}</h3>
-                                                <div className="flex items-center gap-2">
-                                                    {product.is_sale && product.sale_price ? (
-                                                        <>
-                                                            <span className={LISTING_PRODUCT_SALE_PRICE}>{formatPrice(product.sale_price)}</span>
-                                                            <span className={LISTING_PRODUCT_COMPARE_PRICE}>{formatPrice(product.price)}</span>
-                                                        </>
-                                                    ) : (
-                                                        <span className={LISTING_PRODUCT_PRICE}>{formatPrice(product.price)}</span>
-                                                    )}
-                                                </div>
+                                                <h3 className={LISTING_PRODUCT_NAME}>{formatListingProductName(product.name)}</h3>
+                                                <ListingPrice product={product} formatPrice={formatPrice} />
                                             </div>
                                             <p className="text-white/40 text-[10px] font-black uppercase tracking-widest">{mainCategory?.name}</p>
                                         </div>

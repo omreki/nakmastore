@@ -5,12 +5,12 @@ import { useCart } from '../context/CartContext';
 import { useStoreSettings } from '../context/StoreSettingsContext';
 import { normalizeHomepageSections, getSectionConfig, getListingGridClass, formatSectionTitle } from '../constants/homepageDefaults';
 import {
-    LISTING_PRODUCT_COMPARE_PRICE,
     LISTING_PRODUCT_NAME,
-    LISTING_PRODUCT_PRICE,
-    LISTING_PRODUCT_SALE_PRICE,
+    formatListingProductName,
 } from '../constants/productListingStyles';
 import SEO from '../components/SEO';
+import ListingMarketingHero from '../components/product/ListingMarketingHero';
+import ListingPrice from '../components/product/ListingPrice';
 
 const fetchSectionProducts = async (section, page, batchSize) => {
     const from = (page - 1) * batchSize;
@@ -80,7 +80,7 @@ const HomePageProductSection = ({ section, formatPrice, onQuickAdd, showShopAllL
 
     return (
         <div className={isFirst ? 'pb-16' : 'py-16'}>
-            <div className={`layout-container ${isFirst ? 'pt-24 md:pt-28 pb-8' : ''} flex items-end justify-between`}>
+            <div className={`layout-container ${isFirst ? 'pb-8' : ''} flex items-end justify-between`}>
                 <div>
                     <h2 className="text-white text-2xl md:text-4xl font-black tracking-tight leading-none">{formatSectionTitle(config.title)}</h2>
                     <p className="text-white/40 mt-3 text-sm md:text-lg font-medium italic">{config.subtitle}</p>
@@ -122,17 +122,8 @@ const HomePageProductSection = ({ section, formatPrice, onQuickAdd, showShopAllL
                                 </div>
                                 <div className="px-1">
                                     <div className="flex flex-col gap-0.5">
-                                        <h3 className={LISTING_PRODUCT_NAME}>{product.name}</h3>
-                                        <div className="flex items-center gap-2">
-                                            {product.is_sale && product.sale_price ? (
-                                                <>
-                                                    <span className={LISTING_PRODUCT_SALE_PRICE}>{formatPrice(product.sale_price)}</span>
-                                                    <span className={LISTING_PRODUCT_COMPARE_PRICE}>{formatPrice(product.price)}</span>
-                                                </>
-                                            ) : (
-                                                <span className={LISTING_PRODUCT_PRICE}>{formatPrice(product.price)}</span>
-                                            )}
-                                        </div>
+                                        <h3 className={LISTING_PRODUCT_NAME}>{formatListingProductName(product.name)}</h3>
+                                        <ListingPrice product={product} formatPrice={formatPrice} />
                                     </div>
                                 </div>
                             </Link>
@@ -179,6 +170,13 @@ const HomePage = () => {
                 title={settings?.homepageSettings?.seo?.metaTitle || 'Home'}
                 description={settings?.homepageSettings?.seo?.metaDescription || 'Nakma Ltd — an African inspired fashion house.'}
             />
+            <div className="pt-20 md:pt-24">
+                <ListingMarketingHero
+                    imageUrl={settings?.heroImageUrl || null}
+                    imageAlt={settings?.storeName || 'Nakma Ltd'}
+                    eyebrow="Welcome to Nakma"
+                />
+            </div>
             {sections.map((section, index) => (
                 <HomePageProductSection
                     key={section.id}
