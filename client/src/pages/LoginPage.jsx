@@ -54,7 +54,7 @@ const LoginPage = () => {
                             </svg>
                         </div>
                     )}
-                    <h1 className="text-xl font-bold tracking-tight text-white">{settings?.storeName || 'Nakma Store'}</h1>
+                    <h1 className="text-xl font-bold tracking-tight text-white">{settings?.storeName || 'Nakma Ltd'}</h1>
                 </Link>
                 <Link to="#" className="text-sm font-medium text-white/70 hover:text-white transition-colors">
                     Need help?
@@ -82,7 +82,7 @@ const LoginPage = () => {
                                 {settings?.loginPageSettings?.login_title ?? "Crafting African Heritage."}
                             </h2>
                             <p className="text-white/80 text-sm lg:text-base font-light leading-relaxed max-w-md drop-shadow-md">
-                                {settings?.loginPageSettings?.login_subtitle ?? `Join the ${settings?.storeName ?? 'Nakma Store'} community to access exclusive prints, track your orders, and manage your profile.`}
+                                {settings?.loginPageSettings?.login_subtitle ?? `Join the ${settings?.storeName ?? 'Nakma Ltd'} community to access exclusive prints, track your orders, and manage your profile.`}
                             </p>
                         </div>
                     </div>
@@ -207,7 +207,7 @@ const LoginPage = () => {
                 </div>
 
                 <div className="fixed bottom-4 w-full text-center pointer-events-none z-0 hidden lg:block">
-                    <p className="text-xs text-white/30">© {new Date().getFullYear()} {settings?.storeName || 'Nakma Store'}. All rights reserved.</p>
+                    <p className="text-xs text-white/30">© {new Date().getFullYear()} {settings?.storeName || 'Nakma Ltd'}. All rights reserved.</p>
                 </div>
             </div>
         </div >

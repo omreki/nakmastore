@@ -4,6 +4,12 @@ import { supabase } from '../lib/supabase';
 import { useStoreSettings } from '../context/StoreSettingsContext';
 import { useCart } from '../context/CartContext';
 import SEO from '../components/SEO';
+import {
+    LISTING_PRODUCT_COMPARE_PRICE,
+    LISTING_PRODUCT_NAME,
+    LISTING_PRODUCT_PRICE,
+    LISTING_PRODUCT_SALE_PRICE,
+} from '../constants/productListingStyles';
 
 const CategoryPage = () => {
     const { slug } = useParams();
@@ -170,7 +176,7 @@ const ProductCard = ({ product, formatPrice, index, settings }) => {
             className="group block relative animate-fade-in-up"
             style={{ animationDelay: `${0.1 + (index * 0.05)}s` }}
         >
-            <div className="aspect-[3/4] w-full overflow-hidden rounded-xl bg-black border border-white/5 relative">
+            <div className="aspect-[3/4] w-full overflow-hidden bg-black border border-white/5 relative">
                 {product.images && product.images[0] && (
                     <img
                         src={product.images[0]}
@@ -196,19 +202,19 @@ const ProductCard = ({ product, formatPrice, index, settings }) => {
 
             <div className="mt-4 flex justify-between items-start gap-4">
                 <div>
-                    <h3 className="text-sm text-gray-200 font-bold group-hover:text-white transition-colors uppercase tracking-wide">
+                    <h3 className={LISTING_PRODUCT_NAME}>
                         {product.name}
                     </h3>
-                    <p className="mt-1 text-xs text-gray-500 font-medium">{settings?.storeName || 'Nakma Store'}</p>
+                    <p className="mt-1 text-xs text-gray-500 font-medium">{settings?.storeName || 'Nakma Ltd'}</p>
                 </div>
                 <div className="text-right">
                     {product.is_sale ? (
                         <div className="flex flex-col items-end">
-                            <span className="text-xs text-[#b82063] font-bold">{formatPrice(product.sale_price)}</span>
-                            <span className="text-[10px] text-gray-600 line-through">{formatPrice(product.price)}</span>
+                            <span className={LISTING_PRODUCT_SALE_PRICE}>{formatPrice(product.sale_price)}</span>
+                            <span className={LISTING_PRODUCT_COMPARE_PRICE}>{formatPrice(product.price)}</span>
                         </div>
                     ) : (
-                        <span className="text-xs text-white font-bold">{formatPrice(product.price)}</span>
+                        <span className={LISTING_PRODUCT_PRICE}>{formatPrice(product.price)}</span>
                     )}
                 </div>
             </div>

@@ -24,7 +24,6 @@ const ProductDetailView = ({
     const [selectedColor, setSelectedColor] = useState(null);
     const [selectedWeight, setSelectedWeight] = useState(null);
     const [selectedDimension, setSelectedDimension] = useState(null);
-    const [quantity, setQuantity] = useState(1);
     const [activeAccordion, setActiveAccordion] = useState(null);
 
     if (!product) return null;
@@ -71,13 +70,13 @@ const ProductDetailView = ({
     // Classes & Styles
     const getContainerClasses = () => {
         const base = "w-full mx-auto transition-all duration-300";
-        if (isMobileView) return `${base} flex flex-col gap-8 px-4 pt-4 pb-8`;
+        if (isMobileView) return `${base} flex flex-col gap-8 px-4 pt-16 md:pt-20 pb-8`;
 
         switch (layoutStyle) {
-            case 'narrow': return `${base} max-w-4xl flex flex-col gap-12 px-8 pb-12 pt-8`;
-            case 'full': return `${base} max-w-none flex flex-col gap-16`;
-            case 'magazine': return `${base} max-w-[1400px] grid grid-cols-12 gap-12 px-12 items-start pb-12 pt-8`;
-            case 'classic': default: return `${base} max-w-[1400px] flex flex-col lg:flex-row gap-12 lg:gap-20 px-6 lg:px-16 items-start pb-12 pt-8`;
+            case 'narrow': return `${base} max-w-4xl flex flex-col gap-12 px-8 pb-12 pt-16 md:pt-20`;
+            case 'full': return `${base} max-w-none flex flex-col gap-16 pt-16 md:pt-20`;
+            case 'magazine': return `${base} max-w-[1400px] grid grid-cols-12 gap-12 px-12 items-start pb-12 pt-16 md:pt-20`;
+            case 'classic': default: return `${base} max-w-[1400px] flex flex-col lg:flex-row gap-12 lg:gap-20 px-6 lg:px-16 items-start pb-12 pt-16 md:pt-20`;
         }
     };
 
@@ -149,26 +148,34 @@ const ProductDetailView = ({
             }
         }
         const item = selectedVariation ? { ...product, price: selectedVariation.price, variation_id: selectedVariation.id } : product;
-        addToCart(item, quantity, selectedSize, selectedColor, selectedWeight, selectedDimension);
-        setQuantity(1);
+        addToCart(item, 1, selectedSize, selectedColor, selectedWeight, selectedDimension);
     };
 
     const handleAccordion = (id) => {
         setActiveAccordion(activeAccordion === id ? null : id);
     };
 
-    // --- Sub-Components ---
-    // 0. Breadcrumbs
-    const Breadcrumbs = () => (
-        <nav className="flex items-center gap-2 text-[10px] font-bold uppercase tracking-widest text-secondary-text">
-            <Link to="/" className="hover:text-primary transition-colors">Home</Link>
-            <span className="material-symbols-outlined text-[10px] opacity-40">chevron_right</span>
-            <Link to={`/shop?category=${product.category}`} className="hover:text-primary transition-colors">{product.category || 'Collection'}</Link>
-            <span className="material-symbols-outlined text-[10px] opacity-40">chevron_right</span>
-            <span className="text-white">{product.name}</span>
-        </nav>
-    );
+    const hasAccordionContent = (value) => typeof value === 'string' && value.trim().length > 0;
+    const descriptionFitContent = hasAccordionContent(product.description_fit) ? product.description_fit.trim() : null;
+    const materialsCareContent = hasAccordionContent(product.materials_care) ? product.materials_care.trim() : null;
+    const showProductAccordions = Boolean(descriptionFitContent || materialsCareContent);
 
+    const ProductAccordions = () => {
+        if (!showProductAccordions) return null;
+
+        return (
+            <>
+                {descriptionFitContent && (
+                    <AccordionItem id="features" title="Description & Fit" icon="info" content={descriptionFitContent} />
+                )}
+                {materialsCareContent && (
+                    <AccordionItem id="care" title="Materials & Care" icon="wash" content={materialsCareContent} />
+                )}
+            </>
+        );
+    };
+
+    // --- Sub-Components ---
     // 1. Rating
     const Rating = () => (
         <div className="flex items-center gap-3 mb-6">
@@ -181,26 +188,7 @@ const ProductDetailView = ({
         </div>
     );
 
-    // 2. Quantity Selector (Styled like image)
-    const QuantitySelector = () => (
-        <div className="flex items-center bg-white/5 rounded-full border border-white/10 p-1 w-36 h-12 shadow-inner group hover:border-white/20 transition-all">
-            <button
-                onClick={() => setQuantity(Math.max(1, quantity - 1))}
-                className="size-10 flex items-center justify-center text-white hover:bg-white/10 rounded-full transition-colors"
-            >
-                <span className="material-symbols-outlined text-[18px]">remove</span>
-            </button>
-            <div className="flex-1 text-center font-black text-lg text-white">{quantity}</div>
-            <button
-                onClick={() => setQuantity(Math.min(maxStock, quantity + 1))}
-                className="size-10 flex items-center justify-center text-white hover:bg-white/10 rounded-full transition-colors"
-            >
-                <span className="material-symbols-outlined text-[18px]">add</span>
-            </button>
-        </div>
-    );
-
-    // 3. Trust Badges
+    // 2. Trust Badges
     const TrustBadges = () => (
         <div className="flex items-center gap-2 py-4 mt-2">
             <span className="material-symbols-outlined text-green-500 text-[18px]">local_shipping</span>
@@ -226,7 +214,7 @@ const ProductDetailView = ({
             <div className={`overflow-hidden transition-all duration-500 ease-in-out ${activeAccordion === id ? 'max-h-[500px] opacity-100 pb-6' : 'max-h-0 opacity-0'}`}>
                 <div className="pl-8">
                     <p className="text-sm text-secondary-text leading-relaxed font-medium">
-                        {content || "No details provided for this section."}
+                        {content}
                     </p>
                 </div>
             </div>
@@ -235,7 +223,7 @@ const ProductDetailView = ({
 
     // Header Render
     const renderHeader = () => (
-        <div className="space-y-4">
+        <div className="space-y-4 pt-8 md:pt-10">
             <div className="flex items-start justify-between gap-4">
                 <h1 style={{
                     fontFamily: typo.productTitle?.fontFamily || 'inherit',
@@ -398,13 +386,6 @@ const ProductDetailView = ({
                 )}
 
                 <div className="space-y-6">
-                    <div className="flex items-center gap-4">
-                        <QuantitySelector />
-                        <div className="text-[10px] font-bold uppercase tracking-widest text-secondary-text">
-                            Quantity
-                        </div>
-                    </div>
-
                     {/* Mobile Wrapper - Full Width by default */}
                     <div className="lg:hidden relative py-4">
                         <div
@@ -416,10 +397,10 @@ const ProductDetailView = ({
                                     ...settings,
                                     addToCart: {
                                         ...settings?.addToCart,
-                                        showIcon: true,
+                                        showIcon: false,
                                         iconPosition: 'left',
                                         showPrice: false,
-                                        customText: 'Add to Bag',
+                                        customText: 'Shop this look',
                                         borderRadius: settings.roundingStyle === 'sharp' ? 0 : 99,
                                         alignment: settings.addToCartAlignmentMobile || 'full',
                                         styling: {
@@ -458,10 +439,10 @@ const ProductDetailView = ({
                                     ...settings,
                                     addToCart: {
                                         ...settings?.addToCart,
-                                        showIcon: true,
+                                        showIcon: false,
                                         iconPosition: 'left',
                                         showPrice: false,
-                                        customText: 'Add to Bag',
+                                        customText: 'Shop this look',
                                         borderRadius: settings.roundingStyle === 'sharp' ? 0 : 99,
                                         alignment: settings.addToCartAlignment || 'stretch',
                                         styling: {
@@ -496,21 +477,19 @@ const ProductDetailView = ({
                 </div>
 
                 {/* Info Tabs / Accordions */}
-                {!widths.side && (
+                {!widths.side && showProductAccordions && (
                     <div className="pt-4 space-y-2">
-                        <AccordionItem id="features" title="Description & Fit" icon="info" content={product.description_fit || product.description} />
-                        <AccordionItem id="care" title="Materials & Care" icon="wash" content={product.materials_care || product.features} />
+                        <ProductAccordions />
                     </div>
                 )}
             </div>
         </div>
     );
 
-    const SideSection = widths.side ? (
+    const SideSection = widths.side && showProductAccordions ? (
         <div className={`flex flex-col ${widths.side} pt-12`}>
             <div className="space-y-2">
-                <AccordionItem id="features" title="Description & Fit" icon="info" content={product.description_fit || product.description} />
-                <AccordionItem id="care" title="Materials & Care" icon="wash" content={product.materials_care || product.features} />
+                <ProductAccordions />
             </div>
         </div>
     ) : null;
@@ -546,11 +525,6 @@ const ProductDetailView = ({
 
     return (
         <div className="bg-black min-h-screen">
-            {/* Breadcrumbs Top Container */}
-            <div className="w-full max-w-[1400px] mx-auto px-6 lg:px-16 pt-16 md:pt-20 pb-4">
-                <Breadcrumbs />
-            </div>
-
             <div className={getContainerClasses()}>
                 {layoutStyle === 'magazine' && !isMobileView ? (
                     <>
@@ -558,7 +532,7 @@ const ProductDetailView = ({
                             {MediaSection}
                         </div>
                         <div className="col-span-1 h-full mx-auto"></div>
-                        <div className="col-span-4 pt-12">
+                        <div className="col-span-4">
                             {InfoSection}
                         </div>
                     </>

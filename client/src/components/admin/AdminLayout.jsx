@@ -89,17 +89,8 @@ const AdminLayout = ({ children }) => {
                             <NavLink to="/admin/categories" onClick={() => setIsMobileMenuOpen(false)} className="flex items-center gap-3 px-4 py-3 rounded-xl text-gray-400 hover:text-white hover:bg-white/5">
                                 <span className="material-symbols-outlined">category</span> Categories
                             </NavLink>
-                            <NavLink to="/admin/customers" onClick={() => setIsMobileMenuOpen(false)} className="flex items-center gap-3 px-4 py-3 rounded-xl text-gray-400 hover:text-white hover:bg-white/5">
-                                <span className="material-symbols-outlined">group</span> Customers
-                            </NavLink>
-                            <NavLink to="/admin/articles" onClick={() => setIsMobileMenuOpen(false)} className="flex items-center gap-3 px-4 py-3 rounded-xl text-gray-400 hover:text-white hover:bg-white/5">
-                                <span className="material-symbols-outlined">article</span> Articles
-                            </NavLink>
-                            <NavLink to="/admin/analytics" onClick={() => setIsMobileMenuOpen(false)} className="flex items-center gap-3 px-4 py-3 rounded-xl text-gray-400 hover:text-white hover:bg-white/5">
-                                <span className="material-symbols-outlined">analytics</span> Analytics
-                            </NavLink>
                             <NavLink to="/admin/settings" onClick={() => setIsMobileMenuOpen(false)} className="flex items-center gap-3 px-4 py-3 rounded-xl text-gray-400 hover:text-white hover:bg-white/5">
-                                <span className="material-symbols-outlined">settings</span> Settings
+                                <span className="material-symbols-outlined">settings</span> General
                             </NavLink>
                         </nav>
                         <div className="p-6 border-t border-white/5">

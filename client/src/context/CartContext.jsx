@@ -33,7 +33,15 @@ export const CartProvider = ({ children }) => {
                 newCart[existingItemIndex].quantity += quantity;
                 return newCart;
             } else {
-                return [...prevCart, { ...product, quantity, selectedSize, selectedColor, selectedWeight, selectedDimension }];
+                return [...prevCart, {
+                    ...product,
+                    payment_method: product.payment_method || 'cod',
+                    quantity,
+                    selectedSize,
+                    selectedColor,
+                    selectedWeight,
+                    selectedDimension,
+                }];
             }
         });
         analyticsService.trackCartAction('Add to Cart', product, { quantity, selectedSize, selectedColor, selectedWeight, selectedDimension });

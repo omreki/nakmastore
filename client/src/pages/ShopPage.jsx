@@ -5,6 +5,13 @@ import { useCart } from '../context/CartContext';
 import { useStoreSettings } from '../context/StoreSettingsContext';
 import shopHeroImage from '../assets/shop_hero.png';
 import SEO from '../components/SEO';
+import { formatSectionTitle } from '../constants/homepageDefaults';
+import {
+    LISTING_PRODUCT_COMPARE_PRICE,
+    LISTING_PRODUCT_NAME,
+    LISTING_PRODUCT_PRICE,
+    LISTING_PRODUCT_SALE_PRICE,
+} from '../constants/productListingStyles';
 
 const ShopPage = () => {
     const [searchParams] = useSearchParams();
@@ -80,7 +87,6 @@ const ShopPage = () => {
             const { data, error } = await supabase
                 .from('categories')
                 .select('*')
-                .is('parent_id', null)
                 .eq('status', 'Active')
                 .order('name');
 
@@ -102,7 +108,11 @@ const ShopPage = () => {
             if (searchQuery) {
                 query = query.or(`name.ilike.%${searchQuery}%,category.ilike.%${searchQuery}%`);
             } else if (activeCategory.slug !== 'all') {
-                query = query.eq('category', activeCategory.slug);
+                if (activeCategory.parent_id) {
+                    query = query.eq('sub_category', activeCategory.slug);
+                } else {
+                    query = query.eq('category', activeCategory.slug);
+                }
             }
 
             const { data, error } = await query.order('created_at', { ascending: false });
@@ -125,8 +135,25 @@ const ShopPage = () => {
         addToCart(product, 1, 'M', color);
     };
 
-    const visibleCategories = categories.slice(0, 6);
-    const hiddenCategories = categories.slice(6);
+    const parentCategories = categories.filter((cat) => !cat.parent_id);
+    const visibleCategories = parentCategories.slice(0, 6);
+    const hiddenCategories = parentCategories.slice(6);
+
+    const handleCategorySelect = (value) => {
+        if (value === 'all') {
+            setActiveCategory({ name: 'All Products', slug: 'all' });
+            return;
+        }
+
+        const selected = categories.find((cat) => String(cat.id) === value);
+        if (selected) setActiveCategory(selected);
+    };
+
+    const getCategoryLabel = (cat) => {
+        if (!cat.parent_id) return cat.name;
+        const parent = categories.find((c) => c.id === cat.parent_id);
+        return parent ? `${parent.name} — ${cat.name}` : cat.name;
+    };
 
     // Pagination logic
     const indexOfLastProduct = currentPage * productsPerPage;
@@ -167,13 +194,10 @@ const ShopPage = () => {
                         <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent z-[1]"></div>
 
                         <div className="absolute inset-0 flex flex-col justify-center px-8 md:px-20 z-10">
-                            <span className="text-primary text-[10px] md:text-xs font-black uppercase tracking-[0.6em] mb-4 drop-shadow-lg">
-                                {pageSettings?.hero_title || "THE FULL COLLECTION"}
-                            </span>
-                            <h1 className="text-4xl md:text-8xl font-black text-white tracking-tighter leading-[0.9] mb-4 md:mb-6 uppercase drop-shadow-2xl">
-                                {pageSettings?.title || "Timeless African Elegance"}
+                            <h1 className="text-4xl md:text-8xl font-black text-white tracking-tight leading-[0.9] mb-4 md:mb-6 drop-shadow-2xl">
+                                {formatSectionTitle(pageSettings?.title || 'Timeless African Elegance')}
                             </h1>
-                            <p className="text-white/70 text-base md:text-xl font-medium max-w-xl line-clamp-3 md:line-clamp-none leading-relaxed uppercase drop-shadow-lg">
+                            <p className="text-white/70 text-base md:text-xl font-medium max-w-xl line-clamp-3 md:line-clamp-none leading-relaxed drop-shadow-lg">
                                 {pageSettings?.hero_subtitle || "Our complete range of unique African-inspired shirts. Crafted for comfort, designed for cultural expression."}
                             </p>
                         </div>
@@ -181,25 +205,31 @@ const ShopPage = () => {
                 </div>
             )}
 
-            {/* Breadcrumbs */}
-            <div className="layout-container mb-8">
-                <nav className="flex items-center gap-2 text-sm font-medium text-white/40">
-                    <Link to="/" className="hover:text-white transition-colors">Home</Link>
-                    <span className="material-symbols-outlined text-xs">chevron_right</span>
-                    <Link to="/shop" className="hover:text-white transition-colors">Shop All</Link>
-                    {searchQuery && (
-                        <>
-                            <span className="material-symbols-outlined text-xs">chevron_right</span>
-                            <span className="text-white">Search: {searchQuery}</span>
-                        </>
-                    )}
-                </nav>
-            </div>
 
             {/* Filter Bar */}
             {!searchQuery && (
                 <div className="layout-container mb-12 flex flex-col md:flex-row md:items-center justify-between gap-6">
-                    <div className="flex items-center gap-3 overflow-x-visible pb-2 md:pb-0 scrollbar-hide relative">
+                    {/* Mobile: all categories in one dropdown */}
+                    <div className="md:hidden w-full relative">
+                        <label htmlFor="shop-category-filter" className="sr-only">Filter by category</label>
+                        <select
+                            id="shop-category-filter"
+                            value={activeCategory.slug === 'all' ? 'all' : String(activeCategory.id)}
+                            onChange={(e) => handleCategorySelect(e.target.value)}
+                            className="w-full h-12 bg-white/5 border border-white/10 rounded-full px-5 pr-12 text-white text-sm font-bold focus:outline-none focus:border-primary/50 appearance-none"
+                        >
+                            <option value="all" className="bg-black text-white">All Products</option>
+                            {categories.map((cat) => (
+                                <option key={cat.id} value={cat.id} className="bg-black text-white">
+                                    {getCategoryLabel(cat)}
+                                </option>
+                            ))}
+                        </select>
+                        <span className="material-symbols-outlined absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-white/60 text-[20px]">expand_more</span>
+                    </div>
+
+                    {/* Desktop: category pills */}
+                    <div className="hidden md:flex items-center gap-3 overflow-x-visible pb-2 md:pb-0 scrollbar-hide relative">
                         <button
                             onClick={() => setActiveCategory({ name: 'All Products', slug: 'all' })}
                             className={`px-6 py-2.5 rounded-full text-sm font-bold transition-all whitespace-nowrap ${activeCategory.slug === 'all' ? 'bg-white text-black' : 'bg-white/5 border border-white/10 text-white/60 hover:text-white hover:bg-white/10'}`}>
@@ -239,12 +269,6 @@ const ShopPage = () => {
                                 )}
                             </div>
                         )}
-                    </div>
-                    <div className="flex items-center gap-4">
-                        <span className="text-white/40 text-[10px] font-black uppercase tracking-[0.2em] px-1">Sort:</span>
-                        <button className="flex items-center gap-2 text-white font-black hover:text-primary transition-colors group text-sm">
-                            Newest Arrivals <span className="material-symbols-outlined text-[20px] transition-transform group-hover:translate-y-0.5">expand_more</span>
-                        </button>
                     </div>
                 </div>
             )}
@@ -292,7 +316,7 @@ const ShopPage = () => {
 
                             return (
                                 <div key={product.id} className="group cursor-pointer">
-                                    <div className="relative aspect-[4/5] rounded-[24px] overflow-hidden mb-4 bg-[#1a1a1a] transition-transform duration-500 group-hover:-translate-y-2 border border-white/5">
+                                    <div className="relative aspect-[4/5] overflow-hidden mb-4 bg-[#1a1a1a] transition-transform duration-500 group-hover:-translate-y-2 border border-white/5">
                                         <Link to={`/product/${product.slug}`} className="block w-full h-full">
                                             <img
                                                 src={mainImage}
@@ -307,7 +331,7 @@ const ShopPage = () => {
                                                 onClick={(e) => handleQuickAdd(e, product)}
                                                 className="w-full h-10 bg-black text-white rounded-xl font-black text-[9px] uppercase tracking-widest hover:bg-primary transition-colors shadow-xl pointer-events-auto"
                                             >
-                                                Add to Bag
+                                                Shop this look
                                             </button>
                                         </div>
 
@@ -321,15 +345,15 @@ const ShopPage = () => {
                                     </div>
                                     <div className="px-1">
                                         <div className="flex flex-col gap-0.5">
-                                            <h3 className="text-white font-bold text-sm group-hover:text-primary transition-colors line-clamp-1 uppercase tracking-tight">{product.name}</h3>
+                                            <h3 className={LISTING_PRODUCT_NAME}>{product.name}</h3>
                                             <div className="flex items-center gap-2">
                                                 {product.is_sale && product.sale_price ? (
                                                     <>
-                                                        <span className="text-primary font-black italic text-base whitespace-nowrap leading-none">{formatPrice(product.sale_price)}</span>
-                                                        <span className="text-white/30 font-bold text-[10px] line-through decoration-1">{formatPrice(product.price)}</span>
+                                                        <span className={LISTING_PRODUCT_SALE_PRICE}>{formatPrice(product.sale_price)}</span>
+                                                        <span className={LISTING_PRODUCT_COMPARE_PRICE}>{formatPrice(product.price)}</span>
                                                     </>
                                                 ) : (
-                                                    <span className="text-white font-black italic text-base whitespace-nowrap leading-none">{formatPrice(product.price)}</span>
+                                                    <span className={LISTING_PRODUCT_PRICE}>{formatPrice(product.price)}</span>
                                                 )}
                                             </div>
                                         </div>

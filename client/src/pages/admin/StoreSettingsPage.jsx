@@ -8,12 +8,17 @@ import { useAuth } from '../../context/AuthContext';
 import { emailService } from '../../services/emailService';
 import { supabase } from '../../lib/supabase';
 import { useNotification } from '../../context/NotificationContext';
+import HomepageListingsSettings from '../../components/admin/HomepageListingsSettings';
+import ProductSettingsPanel from '../../components/admin/settings/ProductSettingsPanel';
+import { DEFAULT_HOMEPAGE_SECTIONS, mergeHomepageSettings } from '../../constants/homepageDefaults';
+import { PRODUCT_PAGE_PRESETS } from '../../utils/productPresets';
+import { deletePageHeroImage, isPersistedPageId, removePageFromNavigation } from '../../utils/pageCleanup';
 
 const StoreSettingsPage = () => {
     const { settings: contextSettings, updateSettings, loading: contextLoading, currencySymbol, formatPrice } = useStoreSettings();
     const { user, profile, refreshProfile } = useAuth();
     const { notify } = useNotification();
-    const [activeTab, setActiveTab] = useState('account');
+    const [activeTab, setActiveTab] = useState('general');
     const [isSaving, setIsSaving] = useState(false);
     const [showAddMethodModal, setShowAddMethodModal] = useState(false);
     const [showConfigModal, setShowConfigModal] = useState(false);
@@ -51,30 +56,11 @@ const StoreSettingsPage = () => {
         returnsPolicy: '',
         sizeGuide: '',
         homepageSettings: {
-            hero: {
-                subHeadline: "Collection 01",
-                headlineLine1: "HANDCRAFTED",
-                headlineLine2: "HERITAGE.",
-                descriptionLine1: "Premium African-inspired fashion.",
-                descriptionLine2: "Where tradition meets contemporary silhouette. Crafted for the modern man.",
-                imageUrl: "",
-                hollowText: "",
-                hollowTextOpacity: 20,
-                hollowTextViewMode: 'fit',
-                hollowTextStroke: 1,
-                hollowTextPadding: 5
+            sections: DEFAULT_HOMEPAGE_SECTIONS,
+            seo: {
+                metaTitle: '',
+                metaDescription: '',
             },
-            philosophy: {
-                subHeadline: "The Nakma Philosophy",
-                quote: "Your style is the reflection of your heritage and confidence.",
-                descriptionLine1: "Crafted for the modern African man.",
-                descriptionLine2: "Where tradition meets contemporary silhouette.",
-                imageUrl: ""
-            },
-            categories: {
-                prints: { title: "Vibrant Prints", subtitle: "Bold African Motifs", imageUrl: "" },
-                plains: { title: "Classic Plains", subtitle: "Minimalist Elegance", imageUrl: "" }
-            }
         },
         navigationSettings: [],
         aboutPageSettings: {
@@ -128,19 +114,6 @@ const StoreSettingsPage = () => {
     const [aboutPhilosophyPreview, setAboutPhilosophyPreview] = useState(null);
     const [aboutJoinFile, setAboutJoinFile] = useState(null);
     const [aboutJoinPreview, setAboutJoinPreview] = useState(null);
-
-    // Homepage Images State
-    const [homepageHeroFile, setHomepageHeroFile] = useState(null);
-    const [homepageHeroPreview, setHomepageHeroPreview] = useState(null);
-
-    const [homepagePhilosophyFile, setHomepagePhilosophyFile] = useState(null);
-    const [homepagePhilosophyPreview, setHomepagePhilosophyPreview] = useState(null);
-
-    const [homepagePrintsFile, setHomepagePrintsFile] = useState(null);
-    const [homepagePrintsPreview, setHomepagePrintsPreview] = useState(null);
-
-    const [homepagePlainsFile, setHomepagePlainsFile] = useState(null);
-    const [homepagePlainsPreview, setHomepagePlainsPreview] = useState(null);
 
     const [loginFile, setLoginFile] = useState(null);
     const [loginPreview, setLoginPreview] = useState(null);
@@ -245,11 +218,10 @@ const StoreSettingsPage = () => {
     };
 
     useEffect(() => {
-        if (activeTab === 'team') {
+        if (activeTab === 'general') {
             fetchTeamMembers();
         }
     }, [activeTab]);
-    const [pageSearchQuery, setPageSearchQuery] = useState('');
     const [selectedPages, setSelectedPages] = useState([]);
     const [pageStatusFilter, setPageStatusFilter] = useState('all');
     const [pageHeroFile, setPageHeroFile] = useState(null);
@@ -327,32 +299,7 @@ const StoreSettingsPage = () => {
                 instagramUrl: contextSettings.instagramUrl || '',
                 twitterUrl: contextSettings.twitterUrl || '',
                 facebookUrl: contextSettings.facebookUrl || '',
-                homepageSettings: contextSettings.homepageSettings || {
-                    hero: {
-                        subHeadline: "Collection 01",
-                        headlineLine1: "HANDCRAFTED",
-                        headlineLine2: "HERITAGE.",
-                        descriptionLine1: "Premium African-inspired fashion.",
-                        descriptionLine2: "Where tradition meets contemporary silhouette. Crafted for the modern man.",
-                        imageUrl: "",
-                        hollowText: "",
-                        hollowTextOpacity: 20,
-                        hollowTextViewMode: 'fit',
-                        hollowTextStroke: 1,
-                        hollowTextPadding: 5
-                    },
-                    philosophy: {
-                        subHeadline: "The Nakma Philosophy",
-                        quote: "Your style is the reflection of your heritage and confidence.",
-                        descriptionLine1: "Crafted for the modern African man.",
-                        descriptionLine2: "Where tradition meets contemporary silhouette.",
-                        imageUrl: ""
-                    },
-                    categories: {
-                        prints: { title: "Vibrant Prints", subtitle: "Bold African Motifs", imageUrl: "" },
-                        plains: { title: "Classic Plains", subtitle: "Minimalist Elegance", imageUrl: "" }
-                    }
-                },
+                homepageSettings: mergeHomepageSettings(contextSettings.homepageSettings),
                 navigationSettings: contextSettings.navigationSettings || [],
                 aboutPageSettings: contextSettings.aboutPageSettings || {
                     hero: { bgImage: '', estText: '', title: '', subtitle: '' },
@@ -400,22 +347,6 @@ const StoreSettingsPage = () => {
                 setHeroPreview(contextSettings.heroImageUrl);
             }
 
-            // Sync Homepage Previews
-            if (contextSettings.homepageSettings) {
-                if (contextSettings.homepageSettings.hero?.imageUrl) {
-                    setHomepageHeroPreview(contextSettings.homepageSettings.hero.imageUrl);
-                }
-                if (contextSettings.homepageSettings.philosophy?.imageUrl) {
-                    setHomepagePhilosophyPreview(contextSettings.homepageSettings.philosophy.imageUrl);
-                }
-                if (contextSettings.homepageSettings.categories?.prints?.imageUrl) {
-                    setHomepagePrintsPreview(contextSettings.homepageSettings.categories.prints.imageUrl);
-                }
-                if (contextSettings.homepageSettings.categories?.plains?.imageUrl) {
-                    setHomepagePlainsPreview(contextSettings.homepageSettings.categories.plains.imageUrl);
-                }
-            }
-
             // Sync About Page Previews
             if (contextSettings.aboutPageSettings) {
                 if (contextSettings.aboutPageSettings.hero?.bgImage) {
@@ -445,11 +376,7 @@ const StoreSettingsPage = () => {
         }
     }, [contextSettings]);
 
-    useEffect(() => {
-        if (activeTab === 'team') {
-            fetchTeamMembers();
-        }
-    }, [activeTab]);
+    const [pageSearchQuery, setPageSearchQuery] = useState('');
 
     useEffect(() => {
         if (activeTab === 'pages' || showAddNavItemModal) {
@@ -492,74 +419,7 @@ const StoreSettingsPage = () => {
         try {
             const { data, error } = await supabase.from('pages').select('*').order('created_at', { ascending: false });
             if (error) throw error;
-
-            let allPages = data || [];
-
-            // Ensure community page is in the list
-            const hasCommunity = allPages.some(p => p.slug === 'community');
-            if (!hasCommunity) {
-                allPages.push({
-                    id: 'community-init',
-                    title: 'Community',
-                    slug: 'community',
-                    hero_title: 'KNOWLEDGE HUB',
-                    hero_subtitle: 'Articles, insights, and stories from the world of African-inspired fashion and cultural heritage.',
-                    hero_image_url: '',
-                    status: 'published',
-                    is_system: true,
-                    created_at: new Date().toISOString()
-                });
-            }
-
-            // Ensure shop page is in the list
-            const hasShop = allPages.some(p => p.slug === 'shop');
-            if (!hasShop) {
-                allPages.push({
-                    id: 'shop-init',
-                    title: 'Shop',
-                    slug: 'shop',
-                    hero_title: 'OUR COLLECTION',
-                    hero_subtitle: 'Explore our curated selection of African-inspired designs and heritage pieces.',
-                    hero_image_url: '',
-                    status: 'published',
-                    is_system: true,
-                    created_at: new Date().toISOString()
-                });
-            }
-
-            // Ensure men page is in the list
-            const hasMen = allPages.some(p => p.slug === 'men');
-            if (!hasMen) {
-                allPages.push({
-                    id: 'men-init',
-                    title: 'Men',
-                    slug: 'men',
-                    hero_title: 'MODERN HERITAGE',
-                    hero_subtitle: 'Unique African-inspired shirts designed for the modern man. Blending cultural identity with sophisticated silhouettes.',
-                    hero_image_url: '',
-                    status: 'published',
-                    is_system: true,
-                    created_at: new Date().toISOString()
-                });
-            }
-
-            // Ensure women page is in the list
-            const hasWomen = allPages.some(p => p.slug === 'women');
-            if (!hasWomen) {
-                allPages.push({
-                    id: 'women-init',
-                    title: 'Women',
-                    slug: 'women',
-                    hero_title: 'CULTURAL ELEGANCE',
-                    hero_subtitle: 'Unique African-inspired fashion for the modern woman. Sophisticated silhouettes meeting timeless heritage.',
-                    hero_image_url: '',
-                    status: 'published',
-                    is_system: true,
-                    created_at: new Date().toISOString()
-                });
-            }
-
-            setPages(allPages);
+            setPages(data || []);
         } catch (error) {
             console.error('Error fetching pages:', error);
             notify('Failed to load pages', 'error');
@@ -611,17 +471,55 @@ const StoreSettingsPage = () => {
         }
     };
 
+    const cleanupAfterPageDelete = async (page) => {
+        const nextNav = removePageFromNavigation(settings.navigationSettings, page.slug);
+        const navChanged = nextNav.length !== (settings.navigationSettings?.length || 0);
+
+        await deletePageHeroImage(page.hero_image_url);
+
+        if (navChanged) {
+            const updatedSettings = { ...settings, navigationSettings: nextNav };
+            setSettings(updatedSettings);
+            await updateSettings(updatedSettings);
+        }
+    };
+
     const handleBulkDeletePages = async () => {
         if (!selectedPages.length) return;
         if (!window.confirm(`Are you sure you want to delete ${selectedPages.length} pages?`)) return;
 
         try {
-            const { error } = await supabase.from('pages').delete().in('id', selectedPages);
-            if (error) throw error;
-            setPages(prev => prev.filter(p => !selectedPages.includes(p.id)));
+            const pagesToDelete = pages.filter((page) => selectedPages.includes(page.id));
+            const persistedIds = pagesToDelete
+                .map((page) => page.id)
+                .filter((id) => isPersistedPageId(id));
+
+            if (persistedIds.length) {
+                const { error } = await supabase.from('pages').delete().in('id', persistedIds);
+                if (error) throw error;
+            }
+
+            for (const page of pagesToDelete) {
+                await deletePageHeroImage(page.hero_image_url);
+            }
+
+            const nextNav = pagesToDelete.reduce(
+                (nav, page) => removePageFromNavigation(nav, page.slug),
+                settings.navigationSettings || []
+            );
+            const navChanged = nextNav.length !== (settings.navigationSettings?.length || 0);
+
+            if (navChanged) {
+                const updatedSettings = { ...settings, navigationSettings: nextNav };
+                setSettings(updatedSettings);
+                await updateSettings(updatedSettings);
+            }
+
+            setPages((prev) => prev.filter((page) => !selectedPages.includes(page.id)));
             setSelectedPages([]);
             notify('Selected pages deleted successfully', 'success');
         } catch (error) {
+            console.error('Error deleting pages:', error);
             notify('Error deleting pages', 'error');
         }
     };
@@ -647,14 +545,21 @@ const StoreSettingsPage = () => {
         setActivePageModalTab('general'); // Reset to general tab when opening modal
     };
 
-    const handleDeletePage = async (id) => {
-        if (!window.confirm('Are you sure you want to delete this page?')) return;
+    const handleDeletePage = async (page) => {
+        if (!window.confirm(`Delete "${page.title}"? This removes the page and any navigation links to it.`)) return;
+
         try {
-            const { error } = await supabase.from('pages').delete().eq('id', id);
-            if (error) throw error;
-            setPages(prev => prev.filter(p => p.id !== id));
+            if (isPersistedPageId(page.id)) {
+                const { error } = await supabase.from('pages').delete().eq('id', page.id);
+                if (error) throw error;
+            }
+
+            await cleanupAfterPageDelete(page);
+            setPages((prev) => prev.filter((p) => p.id !== page.id));
+            setSelectedPages((prev) => prev.filter((id) => id !== page.id));
             notify('Page deleted successfully', 'success');
         } catch (error) {
+            console.error('Error deleting page:', error);
             notify('Error deleting page', 'error');
         }
     };
@@ -706,8 +611,7 @@ const StoreSettingsPage = () => {
                 updated_at: new Date().toISOString()
             };
 
-            const systemInitIds = ['community-init', 'shop-init', 'men-init', 'women-init'];
-            if (editingPageId && !systemInitIds.includes(editingPageId)) {
+            if (editingPageId) {
                 const { data, error } = await supabase
                     .from('pages')
                     .update(payload)
@@ -724,7 +628,7 @@ const StoreSettingsPage = () => {
                     .select()
                     .single();
                 if (error) throw error;
-                setPages(prev => [data, ...prev.filter(p => !systemInitIds.includes(p.id))]);
+                setPages(prev => [data, ...prev]);
                 notify('Page created successfully', 'success');
             }
             setShowPageModal(false);
@@ -737,25 +641,18 @@ const StoreSettingsPage = () => {
     };
 
     const settingsTabs = [
-        { id: 'account', label: 'Admin Identity', icon: 'badge' },
-        { id: 'branding', label: 'Branding', icon: 'palette' },
         { id: 'general', label: 'General', icon: 'tune' },
-        { id: 'seo', label: 'General SEO', icon: 'search' },
-        { id: 'notifications', label: 'Email Alerts', icon: 'mail' },
         { id: 'homepage', label: 'Homepage', icon: 'web' },
         { id: 'product', label: 'Product Page', icon: 'view_quilt' },
-        { id: 'about', label: 'About Us', icon: 'info' },
         { id: 'navigation', label: 'Navigation', icon: 'menu' },
-        { id: 'contact', label: 'Contact Details', icon: 'contact_support' },
-        { id: 'shipping', label: 'Shipping', icon: 'local_shipping' },
         { id: 'payments', label: 'Payments', icon: 'payments' },
-        { id: 'taxes', label: 'Taxes', icon: 'receipt_long' },
-        { id: 'policies', label: 'Policies', icon: 'policy' },
-        { id: 'team', label: 'Team Management', icon: 'group' },
         { id: 'pages', label: 'Pages', icon: 'layers' },
         { id: 'login', label: 'Login Page', icon: 'login' },
-        { id: 'checkout', label: 'Checkout Page', icon: 'shopping_bag' }
     ];
+
+    const resolvedProductPageSettings = settings.productPageSettings?.productImages
+        ? settings.productPageSettings
+        : { ...PRODUCT_PAGE_PRESETS.modern, ...(settings.productPageSettings || {}) };
 
     const handleInputChange = (field, value) => {
         setSettings(prev => ({ ...prev, [field]: value }));
@@ -862,26 +759,6 @@ const StoreSettingsPage = () => {
         if (file) {
             setHeroFile(file);
             setHeroPreview(URL.createObjectURL(file));
-        }
-    };
-
-    const handleHomepageImageChange = (section, e) => {
-        const file = e.target.files[0];
-        if (file) {
-            const previewUrl = URL.createObjectURL(file);
-            if (section === 'hero') {
-                setHomepageHeroFile(file);
-                setHomepageHeroPreview(previewUrl);
-            } else if (section === 'philosophy') {
-                setHomepagePhilosophyFile(file);
-                setHomepagePhilosophyPreview(previewUrl);
-            } else if (section === 'prints') {
-                setHomepagePrintsFile(file);
-                setHomepagePrintsPreview(previewUrl);
-            } else if (section === 'plains') {
-                setHomepagePlainsFile(file);
-                setHomepagePlainsPreview(previewUrl);
-            }
         }
     };
 
@@ -1021,7 +898,7 @@ const StoreSettingsPage = () => {
             paymentGateways,
             shippingMethods,
             navigationSettings: settings.navigationSettings,
-            homepageSettings: JSON.parse(JSON.stringify(settings.homepageSettings)), // Deep copy
+            homepageSettings: mergeHomepageSettings(settings.homepageSettings),
             aboutPageSettings: JSON.parse(JSON.stringify(settings.aboutPageSettings)) // Deep copy
         };
 
@@ -1050,43 +927,6 @@ const StoreSettingsPage = () => {
                     .from('product-images')
                     .getPublicUrl(fileName);
                 newSettings.heroImageUrl = UrlData.publicUrl;
-            }
-        }
-
-        // Upload Homepage Images
-        if (homepageHeroFile) {
-            const fileName = `hp-hero-${Date.now()}-${homepageHeroFile.name.replace(/\s/g, '-')}`;
-            const { error } = await supabase.storage.from('product-images').upload(fileName, homepageHeroFile);
-            if (!error) {
-                const { data } = supabase.storage.from('product-images').getPublicUrl(fileName);
-                newSettings.homepageSettings.hero.imageUrl = data.publicUrl;
-            }
-        }
-
-        if (homepagePhilosophyFile) {
-            const fileName = `hp-phil-${Date.now()}-${homepagePhilosophyFile.name.replace(/\s/g, '-')}`;
-            const { error } = await supabase.storage.from('product-images').upload(fileName, homepagePhilosophyFile);
-            if (!error) {
-                const { data } = supabase.storage.from('product-images').getPublicUrl(fileName);
-                newSettings.homepageSettings.philosophy.imageUrl = data.publicUrl;
-            }
-        }
-
-        if (homepagePrintsFile) {
-            const fileName = `hp-prints-${Date.now()}-${homepagePrintsFile.name.replace(/\s/g, '-')}`;
-            const { error } = await supabase.storage.from('product-images').upload(fileName, homepagePrintsFile);
-            if (!error) {
-                const { data } = supabase.storage.from('product-images').getPublicUrl(fileName);
-                newSettings.homepageSettings.categories.prints.imageUrl = data.publicUrl;
-            }
-        }
-
-        if (homepagePlainsFile) {
-            const fileName = `hp-plains-${Date.now()}-${homepagePlainsFile.name.replace(/\s/g, '-')}`;
-            const { error } = await supabase.storage.from('product-images').upload(fileName, homepagePlainsFile);
-            if (!error) {
-                const { data } = supabase.storage.from('product-images').getPublicUrl(fileName);
-                newSettings.homepageSettings.categories.plains.imageUrl = data.publicUrl;
             }
         }
 
@@ -1266,12 +1106,6 @@ const StoreSettingsPage = () => {
         else setHeroPreview(null);
         setHeroFile(null);
 
-        // Reset Homepage Files
-        setHomepageHeroFile(null);
-        setHomepagePhilosophyFile(null);
-        setHomepagePrintsFile(null);
-        setHomepagePlainsFile(null);
-
         // Reset About Files
         setAboutHeroFile(null);
         setAboutPhilosophyFile(null);
@@ -1294,17 +1128,6 @@ const StoreSettingsPage = () => {
         }
         setLoginFile(null);
 
-        if (contextSettings.homepageSettings) {
-            setHomepageHeroPreview(contextSettings.homepageSettings.hero?.imageUrl || null);
-            setHomepagePhilosophyPreview(contextSettings.homepageSettings.philosophy?.imageUrl || null);
-            setHomepagePrintsPreview(contextSettings.homepageSettings.categories?.prints?.imageUrl || null);
-            setHomepagePlainsPreview(contextSettings.homepageSettings.categories?.plains?.imageUrl || null);
-        } else {
-            setHomepageHeroPreview(null);
-            setHomepagePhilosophyPreview(null);
-            setHomepagePrintsPreview(null);
-            setHomepagePlainsPreview(null);
-        }
         if (contextSettings.shippingMethods) setShippingMethods(contextSettings.shippingMethods);
         if (contextSettings.paymentGateways) setPaymentGateways(contextSettings.paymentGateways);
         notify('Changes discarded.', 'info');
@@ -1330,14 +1153,8 @@ const StoreSettingsPage = () => {
                 {/* Page Header */}
                 <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 relative z-10">
                     <div>
-                        <div className="flex items-center gap-2 mb-2">
-                            <span className="inline-flex items-center rounded-full bg-primary/20 px-2.5 py-0.5 text-[10px] font-black uppercase tracking-widest text-primary-light ring-1 ring-inset ring-primary/30 backdrop-blur-sm">
-                                Core Configuration
-                            </span>
-                            <span className="text-gray-500 text-sm font-medium">/ System Registry</span>
-                        </div>
                         <h1 className="text-white text-4xl font-black leading-tight tracking-[-0.033em] drop-shadow-lg">
-                            Store <span className="text-transparent bg-clip-text bg-gradient-to-r from-white via-gray-200 to-gray-400 font-black">Settings</span>
+                            General
                         </h1>
                         <p className="text-gray-400 text-base font-medium mt-2 max-w-xl">
                             Architect your store preferences, global parameters, shipping protocols, and payment gateways.
@@ -1353,7 +1170,7 @@ const StoreSettingsPage = () => {
                             onClick={handleSave}
                             disabled={isSaving || contextLoading}
                             className="admin-button-primary h-12 px-8 rounded-xl flex items-center justify-center text-xs font-black uppercase tracking-[0.2em] shadow-2xl transition-all border border-white/10 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed uppercase tracking-widest">
-                            {isSaving ? 'Updating...' : 'Update Registry'}
+                            {isSaving ? 'Saving...' : 'Save Settings'}
                         </button>
                     </div>
                 </div>
@@ -1406,7 +1223,7 @@ const StoreSettingsPage = () => {
                                             <p className="text-gray-500">No navigation items configured.</p>
                                         </div>
                                     )}
-                                    {settings.navigationSettings?.map((item, index) => (
+                                    {settings.navigationSettings?.filter(item => !['about', 'community'].includes(item.id)).map((item, index) => (
                                         <div key={item.id} className="group p-4 rounded-xl bg-black/40 border border-white/5 flex items-center justify-between transition-all hover:bg-white/[0.02]">
                                             <div className="flex items-center gap-4">
                                                 <div className="p-2 rounded-lg bg-white/5 text-gray-400">
@@ -1593,1254 +1410,6 @@ const StoreSettingsPage = () => {
                             </div>
                         )}
 
-                        {activeTab === 'account' && (
-                            <div className="glossy-panel rounded-[2.5rem] p-8 md:p-10 relative overflow-hidden border border-white/5 bg-black/20 shadow-2xl">
-                                <div className="absolute top-0 right-0 w-80 h-80 bg-primary/10 rounded-full blur-3xl pointer-events-none -mr-40 -mt-40"></div>
-                                <div className="flex items-center gap-4 mb-10 relative z-10">
-                                    <div className="size-12 rounded-2xl bg-white/[0.03] flex items-center justify-center border border-white/5 shadow-inner">
-                                        <span className="material-symbols-outlined text-primary-light text-[24px]">badge</span>
-                                    </div>
-                                    <div>
-                                        <h3 className="text-xl font-black text-white tracking-tight uppercase tracking-widest text-sm">Admin Identity</h3>
-                                        <p className="text-[10px] text-gray-500 font-bold uppercase tracking-widest mt-1">Manage Personal Access Credentials</p>
-                                    </div>
-                                </div>
-
-                                <div className="grid grid-cols-1 md:grid-cols-2 gap-8 relative z-10">
-                                    <div className="flex flex-col gap-2.5">
-                                        <label className="text-gray-500 text-[10px] font-black tracking-[0.2em] uppercase ml-1">Full Name</label>
-                                        <input
-                                            className="glossy-input w-full rounded-2xl bg-black/40 border-white/5 text-white font-bold h-14 px-6 text-sm outline-none focus:ring-1 focus:ring-primary/40"
-                                            value={accountForm.fullName}
-                                            onChange={(e) => setAccountForm({ ...accountForm, fullName: e.target.value })}
-                                        />
-                                    </div>
-                                    <div className="flex flex-col gap-2.5">
-                                        <label className="text-gray-500 text-[10px] font-black tracking-[0.2em] uppercase ml-1">Email Address</label>
-                                        <input
-                                            type="email"
-                                            className="glossy-input w-full rounded-2xl bg-black/40 border-white/5 text-white font-bold h-14 px-6 text-sm outline-none focus:ring-1 focus:ring-primary/40"
-                                            value={accountForm.email}
-                                            onChange={(e) => setAccountForm({ ...accountForm, email: e.target.value })}
-                                        />
-                                    </div>
-                                    <div className="md:col-span-2 flex flex-col gap-2.5 mt-4">
-                                        <div className="flex items-center gap-2 mb-2">
-                                            <span className="material-symbols-outlined text-yellow-500 text-[16px]">lock</span>
-                                            <label className="text-gray-400 text-[10px] font-black tracking-[0.2em] uppercase">Security Verification</label>
-                                        </div>
-                                        <p className="text-gray-500 text-xs mb-3">Enter your current password to change email or password</p>
-                                    </div>
-                                    <div className="flex flex-col gap-2.5">
-                                        <label className="text-gray-500 text-[10px] font-black tracking-[0.2em] uppercase ml-1">Current Password</label>
-                                        <input
-                                            type="password"
-                                            className="glossy-input w-full rounded-2xl bg-black/40 border-white/5 text-white font-bold h-14 px-6 text-sm outline-none focus:ring-1 focus:ring-primary/40"
-                                            placeholder="Required for email/password changes"
-                                            value={accountForm.currentPassword}
-                                            onChange={(e) => setAccountForm({ ...accountForm, currentPassword: e.target.value })}
-                                        />
-                                    </div>
-                                    <div className="flex flex-col gap-2.5">
-                                        <label className="text-gray-500 text-[10px] font-black tracking-[0.2em] uppercase ml-1">New Password</label>
-                                        <input
-                                            type="password"
-                                            className="glossy-input w-full rounded-2xl bg-black/40 border-white/5 text-white font-bold h-14 px-6 text-sm outline-none focus:ring-1 focus:ring-primary/40"
-                                            placeholder="Leave empty to keep current"
-                                            value={accountForm.password}
-                                            onChange={(e) => setAccountForm({ ...accountForm, password: e.target.value })}
-                                        />
-                                    </div>
-                                    <div className="flex flex-col gap-2.5">
-                                        <label className="text-gray-500 text-[10px] font-black tracking-[0.2em] uppercase ml-1">Confirm New Password</label>
-                                        <input
-                                            type="password"
-                                            className="glossy-input w-full rounded-2xl bg-black/40 border-white/5 text-white font-bold h-14 px-6 text-sm outline-none focus:ring-1 focus:ring-primary/40"
-                                            placeholder="Leave empty to keep current"
-                                            value={accountForm.confirmPassword}
-                                            onChange={(e) => setAccountForm({ ...accountForm, confirmPassword: e.target.value })}
-                                        />
-                                    </div>
-                                    <div className="md:col-span-2 pt-4">
-                                        <button
-                                            onClick={handleUpdateAccount}
-                                            disabled={isSaving}
-                                            className="w-full h-14 admin-button-primary rounded-xl font-black text-xs uppercase tracking-[0.2em] transition-all shadow-xl disabled:opacity-50"
-                                        >
-                                            {isSaving ? 'Updating...' : 'Update Identity'}
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-                        )}
-
-                        {activeTab === 'branding' && (
-                            <div className="glossy-panel rounded-[2.5rem] p-8 md:p-10 relative overflow-hidden border border-white/5 bg-black/20 shadow-2xl">
-                                <div className="absolute top-0 right-0 w-80 h-80 bg-primary/10 rounded-full blur-3xl pointer-events-none -mr-40 -mt-40"></div>
-                                <div className="flex items-center gap-4 mb-10 relative z-10">
-                                    <div className="size-12 rounded-2xl bg-white/[0.03] flex items-center justify-center border border-white/5 shadow-inner">
-                                        <span className="material-symbols-outlined text-primary-light text-[24px]">palette</span>
-                                    </div>
-                                    <div>
-                                        <h3 className="text-xl font-black text-white tracking-tight uppercase tracking-widest text-sm">Brand Identity</h3>
-                                        <p className="text-[10px] text-gray-500 font-bold uppercase tracking-widest mt-1">Manage Brand Colors</p>
-                                    </div>
-                                </div>
-
-                                <div className="grid grid-cols-1 md:grid-cols-2 gap-8 relative z-10">
-                                    <div className="flex flex-col gap-2.5">
-                                        <label className="text-gray-500 text-[10px] font-black tracking-[0.2em] uppercase ml-1">Primary Color</label>
-                                        <div className="flex items-center gap-4">
-                                            <input
-                                                type="color"
-                                                value={settings.brandSettings?.primaryColor || '#b82063'}
-                                                onChange={(e) => setSettings({ ...settings, brandSettings: { ...settings.brandSettings, primaryColor: e.target.value } })}
-                                                className="size-12 rounded-xl border border-white/10 bg-transparent cursor-pointer p-1"
-                                            />
-                                            <input
-                                                type="text"
-                                                value={settings.brandSettings?.primaryColor || '#b82063'}
-                                                onChange={(e) => setSettings({ ...settings, brandSettings: { ...settings.brandSettings, primaryColor: e.target.value } })}
-                                                className="glossy-input flex-1 rounded-2xl bg-black/40 border-white/5 text-white font-bold h-12 px-6 text-sm outline-none focus:ring-1 focus:ring-primary/40 uppercase"
-                                            />
-                                        </div>
-                                    </div>
-                                    <div className="flex flex-col gap-2.5">
-                                        <label className="text-gray-500 text-[10px] font-black tracking-[0.2em] uppercase ml-1">Secondary Color</label>
-                                        <div className="flex items-center gap-4">
-                                            <input
-                                                type="color"
-                                                value={settings.brandSettings?.secondaryColor || '#000000'}
-                                                onChange={(e) => setSettings({ ...settings, brandSettings: { ...settings.brandSettings, secondaryColor: e.target.value } })}
-                                                className="size-12 rounded-xl border border-white/10 bg-transparent cursor-pointer p-1"
-                                            />
-                                            <input
-                                                type="text"
-                                                value={settings.brandSettings?.secondaryColor || '#000000'}
-                                                onChange={(e) => setSettings({ ...settings, brandSettings: { ...settings.brandSettings, secondaryColor: e.target.value } })}
-                                                className="glossy-input flex-1 rounded-2xl bg-black/40 border-white/5 text-white font-bold h-12 px-6 text-sm outline-none focus:ring-1 focus:ring-primary/40 uppercase"
-                                            />
-                                        </div>
-                                    </div>
-                                    <div className="flex flex-col gap-2.5">
-                                        <label className="text-gray-500 text-[10px] font-black tracking-[0.2em] uppercase ml-1">Accent Color</label>
-                                        <div className="flex items-center gap-4">
-                                            <input
-                                                type="color"
-                                                value={settings.brandSettings?.accentColor || '#d86928'}
-                                                onChange={(e) => setSettings({ ...settings, brandSettings: { ...settings.brandSettings, accentColor: e.target.value } })}
-                                                className="size-12 rounded-xl border border-white/10 bg-transparent cursor-pointer p-1"
-                                            />
-                                            <input
-                                                type="text"
-                                                value={settings.brandSettings?.accentColor || '#d86928'}
-                                                onChange={(e) => setSettings({ ...settings, brandSettings: { ...settings.brandSettings, accentColor: e.target.value } })}
-                                                className="glossy-input flex-1 rounded-2xl bg-black/40 border-white/5 text-white font-bold h-12 px-6 text-sm outline-none focus:ring-1 focus:ring-primary/40 uppercase"
-                                            />
-                                        </div>
-                                    </div>
-                                    <div className="flex flex-col gap-2.5">
-                                        <label className="text-gray-500 text-[10px] font-black tracking-[0.2em] uppercase ml-1">Label Text Color</label>
-                                        <div className="flex items-center gap-4">
-                                            <input
-                                                type="color"
-                                                value={settings.brandSettings?.labelColor || '#ffffff'}
-                                                onChange={(e) => setSettings({ ...settings, brandSettings: { ...settings.brandSettings, labelColor: e.target.value } })}
-                                                className="size-12 rounded-xl border border-white/10 bg-transparent cursor-pointer p-1"
-                                            />
-                                            <input
-                                                type="text"
-                                                value={settings.brandSettings?.labelColor || '#ffffff'}
-                                                onChange={(e) => setSettings({ ...settings, brandSettings: { ...settings.brandSettings, labelColor: e.target.value } })}
-                                                className="glossy-input flex-1 rounded-2xl bg-black/40 border-white/5 text-white font-bold h-12 px-6 text-sm outline-none focus:ring-1 focus:ring-primary/40 uppercase"
-                                            />
-                                        </div>
-                                    </div>
-                                    <div className="flex flex-col gap-2.5">
-                                        <label className="text-gray-500 text-[10px] font-black tracking-[0.2em] uppercase ml-1">Secondary Text Color</label>
-                                        <div className="flex items-center gap-4">
-                                            <input
-                                                type="color"
-                                                value={settings.brandSettings?.secondaryTextColor || '#ffffff'}
-                                                onChange={(e) => setSettings({ ...settings, brandSettings: { ...settings.brandSettings, secondaryTextColor: e.target.value } })}
-                                                className="size-12 rounded-xl border border-white/10 bg-transparent cursor-pointer p-1"
-                                            />
-                                            <input
-                                                type="text"
-                                                value={settings.brandSettings?.secondaryTextColor || '#ffffff'}
-                                                onChange={(e) => setSettings({ ...settings, brandSettings: { ...settings.brandSettings, secondaryTextColor: e.target.value } })}
-                                                className="glossy-input flex-1 rounded-2xl bg-black/40 border-white/5 text-white font-bold h-12 px-6 text-sm outline-none focus:ring-1 focus:ring-primary/40 uppercase"
-                                            />
-                                        </div>
-                                    </div>
-                                    <div className="flex flex-col gap-2.5">
-                                        <label className="text-gray-500 text-[10px] font-black tracking-[0.2em] uppercase ml-1">Background Color (Dark)</label>
-                                        <div className="flex items-center gap-4">
-                                            <input
-                                                type="color"
-                                                value={settings.brandSettings?.backgroundColor || '#000000'}
-                                                onChange={(e) => setSettings({ ...settings, brandSettings: { ...settings.brandSettings, backgroundColor: e.target.value } })}
-                                                className="size-12 rounded-xl border border-white/10 bg-transparent cursor-pointer p-1"
-                                            />
-                                            <input
-                                                type="text"
-                                                value={settings.brandSettings?.backgroundColor || '#000000'}
-                                                onChange={(e) => setSettings({ ...settings, brandSettings: { ...settings.brandSettings, backgroundColor: e.target.value } })}
-                                                className="glossy-input flex-1 rounded-2xl bg-black/40 border-white/5 text-white font-bold h-12 px-6 text-sm outline-none focus:ring-1 focus:ring-primary/40 uppercase"
-                                            />
-                                        </div>
-                                    </div>
-                                </div>
-                                <div className="flex flex-col gap-2.5">
-                                    <label className="text-gray-500 text-[10px] font-black tracking-[0.2em] uppercase ml-1">Navbar Background (RGBA/Hex)</label>
-                                    <div className="flex items-center gap-4">
-                                        <input
-                                            type="text"
-                                            value={settings.brandSettings?.navbarBg || 'rgba(0, 0, 0, 0.4)'}
-                                            onChange={(e) => setSettings({ ...settings, brandSettings: { ...settings.brandSettings, navbarBg: e.target.value } })}
-                                            className="glossy-input w-full rounded-2xl bg-black/40 border-white/5 text-white font-bold h-12 px-6 text-sm outline-none focus:ring-1 focus:ring-primary/40 uppercase"
-                                            placeholder="rgba(0,0,0,0.4) or #000000"
-                                        />
-                                    </div>
-                                </div>
-                                <div className="flex flex-col gap-2.5">
-                                    <label className="text-gray-500 text-[10px] font-black tracking-[0.2em] uppercase ml-1">Navbar Text Color</label>
-                                    <div className="flex items-center gap-4">
-                                        <input
-                                            type="color"
-                                            value={settings.brandSettings?.navbarText || '#ffffff'}
-                                            onChange={(e) => setSettings({ ...settings, brandSettings: { ...settings.brandSettings, navbarText: e.target.value } })}
-                                            className="size-12 rounded-xl border border-white/10 bg-transparent cursor-pointer p-1"
-                                        />
-                                        <input
-                                            type="text"
-                                            value={settings.brandSettings?.navbarText || '#ffffff'}
-                                            onChange={(e) => setSettings({ ...settings, brandSettings: { ...settings.brandSettings, navbarText: e.target.value } })}
-                                            className="glossy-input flex-1 rounded-2xl bg-black/40 border-white/5 text-white font-bold h-12 px-6 text-sm outline-none focus:ring-1 focus:ring-primary/40 uppercase"
-                                        />
-                                    </div>
-                                </div>
-                                <div className="flex flex-col gap-2.5">
-                                    <label className="text-gray-500 text-[10px] font-black tracking-[0.2em] uppercase ml-1">Primary Text Color</label>
-                                    <div className="flex items-center gap-4">
-                                        <input
-                                            type="color"
-                                            value={settings.brandSettings?.textMain || '#ffffff'}
-                                            onChange={(e) => setSettings({ ...settings, brandSettings: { ...settings.brandSettings, textMain: e.target.value } })}
-                                            className="size-12 rounded-xl border border-white/10 bg-transparent cursor-pointer p-1"
-                                        />
-                                        <input
-                                            type="text"
-                                            value={settings.brandSettings?.textMain || '#ffffff'}
-                                            onChange={(e) => setSettings({ ...settings, brandSettings: { ...settings.brandSettings, textMain: e.target.value } })}
-                                            className="glossy-input flex-1 rounded-2xl bg-black/40 border-white/5 text-white font-bold h-12 px-6 text-sm outline-none focus:ring-1 focus:ring-primary/40 uppercase"
-                                        />
-                                    </div>
-                                </div>
-                                <div className="flex flex-col gap-2.5">
-                                    <label className="text-gray-500 text-[10px] font-black tracking-[0.2em] uppercase ml-1">Secondary Text Color</label>
-                                    <div className="flex items-center gap-4">
-                                        <input
-                                            type="color"
-                                            value={settings.brandSettings?.textMuted || '#a1a1aa'}
-                                            onChange={(e) => setSettings({ ...settings, brandSettings: { ...settings.brandSettings, textMuted: e.target.value } })}
-                                            className="size-12 rounded-xl border border-white/10 bg-transparent cursor-pointer p-1"
-                                        />
-                                        <input
-                                            type="text"
-                                            value={settings.brandSettings?.textMuted || '#a1a1aa'}
-                                            onChange={(e) => setSettings({ ...settings, brandSettings: { ...settings.brandSettings, textMuted: e.target.value } })}
-                                            className="glossy-input flex-1 rounded-2xl bg-black/40 border-white/5 text-white font-bold h-12 px-6 text-sm outline-none focus:ring-1 focus:ring-primary/40 uppercase"
-                                        />
-                                    </div>
-                                </div>
-                            </div>
-                        )}
-
-                        {activeTab === 'product' && (
-                            <div className="glossy-panel rounded-[2.5rem] p-8 md:p-10 relative overflow-hidden border border-white/5 bg-black/20 shadow-2xl">
-                                <div className="flex items-center gap-4 mb-8 relative z-10">
-                                    <div className="size-12 rounded-2xl bg-white/[0.03] flex items-center justify-center border border-white/5 shadow-inner">
-                                        <span className="material-symbols-outlined text-primary-light text-[24px]">view_quilt</span>
-                                    </div>
-                                    <div>
-                                        <h3 className="text-xl font-black text-white tracking-tight uppercase tracking-widest text-sm">Product Page Layout</h3>
-                                        <p className="text-[10px] text-gray-500 font-bold uppercase tracking-widest mt-1">Configure individual product display</p>
-                                    </div>
-                                </div>
-
-                                <div className="grid grid-cols-1 md:grid-cols-2 gap-8 relative z-10">
-                                    {/* Layout Ratio */}
-                                    <div className="space-y-4">
-                                        <label className="text-[10px] font-black text-white/40 uppercase tracking-[0.2em] block">Desktop Layout Ratio</label>
-                                        <div className="grid grid-cols-3 gap-3">
-                                            {[
-                                                { value: '1/3,2/3', label: '1/3 | 2/3' },
-                                                { value: '1/2,1/2', label: '1/2 | 1/2' },
-                                                { value: '1/4,3/4', label: '1/4 | 3/4' },
-                                                { value: '1/3,1/3,1/3', label: '1/3 | 1/3 | 1/3' }
-                                            ].map((ratio) => (
-                                                <button
-                                                    key={ratio.value}
-                                                    onClick={() => setSettings(prev => ({
-                                                        ...prev,
-                                                        productPageSettings: { ...prev.productPageSettings, layoutRatio: ratio.value }
-                                                    }))}
-                                                    className={`px-3 py-4 rounded-xl border transition-all text-[10px] font-black uppercase tracking-widest ${settings.productPageSettings?.layoutRatio === ratio.value
-                                                        ? 'border-primary bg-primary/10 text-white shadow-[0_0_15px_rgba(255,0,127,0.1)]'
-                                                        : 'border-white/5 bg-white/[0.02] text-gray-500 hover:text-white hover:border-white/20'
-                                                        }`}
-                                                >
-                                                    {ratio.label}
-                                                </button>
-                                            ))}
-                                        </div>
-                                        <p className="text-[10px] text-gray-400">Controls the width split between product images and information on desktop.</p>
-                                    </div>
-
-                                    {/* Image Fit */}
-                                    <div className="space-y-4">
-                                        <label className="text-[10px] font-black text-white/40 uppercase tracking-[0.2em] block">Featured Image Fit</label>
-                                        <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
-                                            {['cover', 'contain', 'fill', 'fit'].map((fit) => (
-                                                <button
-                                                    key={fit}
-                                                    onClick={() => setSettings(prev => ({
-                                                        ...prev,
-                                                        productPageSettings: { ...prev.productPageSettings, imageFit: fit }
-                                                    }))}
-                                                    className={`px-3 py-4 rounded-xl border transition-all text-[10px] font-black uppercase tracking-widest ${settings.productPageSettings?.imageFit === fit
-                                                        ? 'border-primary bg-primary/10 text-white shadow-[0_0_15px_rgba(255,0,127,0.1)]'
-                                                        : 'border-white/5 bg-white/[0.02] text-gray-500 hover:text-white hover:border-white/20'
-                                                        }`}
-                                                >
-                                                    {fit}
-                                                </button>
-                                            ))}
-                                        </div>
-                                        <p className="text-[10px] text-gray-400">Determines how the product image fills the viewing area.</p>
-                                    </div>
-
-                                    {/* Thumbnail Gallery */}
-                                    <div className="space-y-4">
-                                        <label className="text-[10px] font-black text-white/40 uppercase tracking-[0.2em] block">Gallery Style</label>
-                                        <select
-                                            value={settings.productPageSettings?.galleryLayout || 'grid'}
-                                            onChange={(e) => setSettings(prev => ({
-                                                ...prev,
-                                                productPageSettings: { ...prev.productPageSettings, galleryLayout: e.target.value }
-                                            }))}
-                                            className="w-full bg-white/5 border border-white/10 rounded-xl px-4 h-12 text-white text-sm font-bold focus:outline-none focus:ring-2 focus:ring-primary/50 appearance-none"
-                                        >
-                                            <option value="grid">Grid Below</option>
-                                            <option value="scroll">Horizontal Scroll</option>
-                                        </select>
-                                    </div>
-
-                                    {/* Thumbnail Columns */}
-                                    {settings.productPageSettings?.galleryLayout === 'grid' && (
-                                        <div className="space-y-4">
-                                            <label className="text-[10px] font-black text-white/40 uppercase tracking-[0.2em] block">Grid Columns</label>
-                                            <input
-                                                type="number"
-                                                min="1"
-                                                max="6"
-                                                value={settings.productPageSettings?.thumbnailColumns || 4}
-                                                onChange={(e) => setSettings(prev => ({
-                                                    ...prev,
-                                                    productPageSettings: { ...prev.productPageSettings, thumbnailColumns: parseInt(e.target.value) }
-                                                }))}
-                                                className="w-full bg-white/5 border border-white/10 rounded-xl px-4 h-12 text-white text-sm font-bold focus:outline-none focus:ring-2 focus:ring-primary/50"
-                                            />
-                                        </div>
-                                    )}
-
-                                    {/* Design Aesthetics */}
-                                    <div className="space-y-4 md:col-span-2 border-t border-white/5 pt-8 mt-4">
-                                        <label className="text-[10px] font-black text-white/40 uppercase tracking-[0.2em] block">Design Aesthetics</label>
-                                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                            <div className="space-y-3">
-                                                <label className="text-[10px] font-bold text-gray-500 uppercase tracking-widest">Global Rounding Style</label>
-                                                <div className="flex bg-white/5 p-1 rounded-2xl border border-white/10">
-                                                    {['rounded', 'sharp'].map((style) => (
-                                                        <button
-                                                            key={style}
-                                                            onClick={() => setSettings(prev => ({
-                                                                ...prev,
-                                                                productPageSettings: { ...prev.productPageSettings, roundingStyle: style }
-                                                            }))}
-                                                            className={`flex-1 py-3 px-4 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all ${settings.productPageSettings?.roundingStyle === style
-                                                                ? 'bg-primary text-white shadow-lg'
-                                                                : 'text-gray-500 hover:text-white'
-                                                                }`}
-                                                        >
-                                                            {style}
-                                                        </button>
-                                                    ))}
-                                                </div>
-                                                <p className="text-[10px] text-gray-500 italic">Applies to product images, buttons, and variants.</p>
-                                            </div>
-
-                                            <div className="space-y-3">
-                                                <label className="text-[10px] font-bold text-gray-500 uppercase tracking-widest">Add to Cart Alignment (Desktop)</label>
-                                                <div className="flex bg-white/5 p-1 rounded-2xl border border-white/10">
-                                                    {['left', 'center', 'full'].map((align) => (
-                                                        <button
-                                                            key={align}
-                                                            onClick={() => setSettings(prev => ({
-                                                                ...prev,
-                                                                productPageSettings: { ...prev.productPageSettings, addToCartAlignment: align }
-                                                            }))}
-                                                            className={`flex-1 py-3 px-4 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all ${settings.productPageSettings?.addToCartAlignment === align
-                                                                ? 'bg-primary text-white shadow-lg'
-                                                                : 'text-gray-500 hover:text-white'
-                                                                }`}
-                                                        >
-                                                            {align}
-                                                        </button>
-                                                    ))}
-                                                </div>
-                                            </div>
-
-                                            <div className="space-y-3">
-                                                <label className="text-[10px] font-bold text-gray-500 uppercase tracking-widest">Add to Cart Alignment (Mobile)</label>
-                                                <div className="flex bg-white/5 p-1 rounded-2xl border border-white/10">
-                                                    {['left', 'center', 'full'].map((align) => (
-                                                        <button
-                                                            key={align}
-                                                            onClick={() => setSettings(prev => ({
-                                                                ...prev,
-                                                                productPageSettings: { ...prev.productPageSettings, addToCartAlignmentMobile: align }
-                                                            }))}
-                                                            className={`flex-1 py-3 px-4 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all ${settings.productPageSettings?.addToCartAlignmentMobile === align
-                                                                ? 'bg-primary text-white shadow-lg'
-                                                                : 'text-gray-500 hover:text-white'
-                                                                }`}
-                                                        >
-                                                            {align}
-                                                        </button>
-                                                    ))}
-                                                </div>
-                                            </div>
-
-                                            <div className="space-y-3">
-                                                <label className="text-[10px] font-bold text-gray-500 uppercase tracking-widest">Stock Visibility</label>
-                                                <div className="flex bg-white/5 p-1 rounded-2xl border border-white/10">
-                                                    <button
-                                                        onClick={() => setSettings(prev => ({
-                                                            ...prev,
-                                                            productPageSettings: { ...prev.productPageSettings, showStock: true }
-                                                        }))}
-                                                        className={`flex-1 py-3 px-4 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all ${settings.productPageSettings?.showStock !== false
-                                                            ? 'bg-primary text-white shadow-lg'
-                                                            : 'text-gray-500 hover:text-white'
-                                                            }`}
-                                                    >
-                                                        Show
-                                                    </button>
-                                                    <button
-                                                        onClick={() => setSettings(prev => ({
-                                                            ...prev,
-                                                            productPageSettings: { ...prev.productPageSettings, showStock: false }
-                                                        }))}
-                                                        className={`flex-1 py-3 px-4 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all ${settings.productPageSettings?.showStock === false
-                                                            ? 'bg-primary text-white shadow-lg'
-                                                            : 'text-gray-500 hover:text-white'
-                                                            }`}
-                                                    >
-                                                        Hide
-                                                    </button>
-                                                </div>
-                                            </div>
-
-                                            <div className="space-y-3 md:col-span-2">
-                                                <label className="text-[10px] font-bold text-gray-500 uppercase tracking-widest">Free Shipping Trust Message</label>
-                                                <input
-                                                    type="text"
-                                                    value={settings.productPageSettings?.freeShippingText || ''}
-                                                    onChange={(e) => setSettings(prev => ({
-                                                        ...prev,
-                                                        productPageSettings: { ...prev.productPageSettings, freeShippingText: e.target.value }
-                                                    }))}
-                                                    className="w-full bg-white/5 border border-white/10 rounded-xl px-4 h-12 text-white text-sm font-bold focus:outline-none focus:ring-2 focus:ring-primary/50"
-                                                    placeholder="e.g. Free shipping on qualifying orders"
-                                                />
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        )}
-                        {activeTab === 'homepage' && (
-                            <div className="glossy-panel rounded-[2.5rem] p-8 md:p-10 relative overflow-hidden border border-white/5 bg-black/20 shadow-2xl">
-                                <div className="absolute top-0 right-0 w-80 h-80 bg-primary/10 rounded-full blur-3xl pointer-events-none -mr-40 -mt-40"></div>
-                                <div className="flex items-center gap-4 mb-10 relative z-10">
-                                    <div className="size-12 rounded-2xl bg-white/[0.03] flex items-center justify-center border border-white/5 shadow-inner">
-                                        <span className="material-symbols-outlined text-primary-light text-[24px]">web</span>
-                                    </div>
-                                    <div>
-                                        <h3 className="text-xl font-black text-white tracking-tight uppercase tracking-widest text-sm">Frontend Dynamics</h3>
-                                        <p className="text-[10px] text-gray-500 font-bold uppercase tracking-widest mt-1">Hero, Philosophy & Category Displays</p>
-                                    </div>
-                                </div>
-
-                                <div className="space-y-12 relative z-10">
-                                    {/* Hero Section */}
-                                    <div className="space-y-6">
-                                        <h4 className="text-white text-sm font-bold border-b border-white/10 pb-2">Hero Section Metrics</h4>
-                                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                            <div className="flex flex-col gap-2.5">
-                                                <label className="text-gray-500 text-[10px] font-black tracking-[0.2em] uppercase ml-1">Sub-Headline</label>
-                                                <input
-                                                    type="text"
-                                                    value={settings.homepageSettings?.hero?.subHeadline || ''}
-                                                    onChange={(e) => setSettings({ ...settings, homepageSettings: { ...settings.homepageSettings, hero: { ...settings.homepageSettings?.hero, subHeadline: e.target.value } } })}
-                                                    className="w-full h-12 bg-black/40 border border-white/5 rounded-xl px-4 text-white text-sm font-bold focus:outline-none focus:border-primary/50 transition-colors shadow-inner placeholder-white/20"
-                                                />
-                                            </div>
-                                            <div className="flex flex-col gap-2.5">
-                                                <label className="text-gray-500 text-[10px] font-black tracking-[0.2em] uppercase ml-1">Background Hollow Text</label>
-                                                <input
-                                                    type="text"
-                                                    value={settings.homepageSettings?.hero?.hollowText || ''}
-                                                    onChange={(e) => setSettings({ ...settings, homepageSettings: { ...settings.homepageSettings, hero: { ...settings.homepageSettings?.hero, hollowText: e.target.value } } })}
-                                                    className="w-full h-12 bg-black/40 border border-white/5 rounded-xl px-4 text-white text-sm font-bold focus:outline-none focus:border-primary/50 transition-colors shadow-inner placeholder-white/20"
-                                                    placeholder="Leave empty to hide"
-                                                />
-                                            </div>
-                                            <div className="flex flex-col gap-2.5">
-                                                <div className="flex justify-between items-center ml-1">
-                                                    <label className="text-gray-500 text-[10px] font-black tracking-[0.2em] uppercase">Hollow Text Opacity</label>
-                                                    <span className="text-primary text-[10px] font-black">{settings.homepageSettings?.hero?.hollowTextOpacity ?? 20}%</span>
-                                                </div>
-                                                <input
-                                                    type="range"
-                                                    min="0"
-                                                    max="100"
-                                                    value={settings.homepageSettings?.hero?.hollowTextOpacity ?? 20}
-                                                    onChange={(e) => setSettings({ ...settings, homepageSettings: { ...settings.homepageSettings, hero: { ...settings.homepageSettings?.hero, hollowTextOpacity: parseInt(e.target.value) } } })}
-                                                    className="w-full h-1.5 bg-black/40 rounded-lg appearance-none cursor-pointer accent-primary border border-white/5"
-                                                />
-                                            </div>
-                                            <div className="flex flex-col gap-2.5">
-                                                <label className="text-gray-500 text-[10px] font-black tracking-[0.2em] uppercase ml-1">Hollow Text View Mode</label>
-                                                <select
-                                                    value={settings.homepageSettings?.hero?.hollowTextViewMode || 'fit'}
-                                                    onChange={(e) => setSettings({ ...settings, homepageSettings: { ...settings.homepageSettings, hero: { ...settings.homepageSettings?.hero, hollowTextViewMode: e.target.value } } })}
-                                                    className="w-full h-12 bg-black/40 border border-white/5 rounded-xl px-4 text-white text-sm font-bold focus:outline-none focus:border-primary/50 transition-colors shadow-inner"
-                                                >
-                                                    <option value="fit" className="bg-secondary text-white">Fit</option>
-                                                    <option value="fill" className="bg-secondary text-white">Fill</option>
-                                                    <option value="cover" className="bg-secondary text-white">Cover</option>
-                                                    <option value="contain" className="bg-secondary text-white">Contain</option>
-                                                </select>
-                                            </div>
-                                            <div className="grid grid-cols-2 gap-4">
-                                                <div className="flex flex-col gap-2.5">
-                                                    <div className="flex justify-between items-center ml-1">
-                                                        <label className="text-gray-500 text-[10px] font-black tracking-[0.2em] uppercase">Stroke Width</label>
-                                                        <span className="text-primary text-[10px] font-black">{settings.homepageSettings?.hero?.hollowTextStroke ?? 1}px</span>
-                                                    </div>
-                                                    <input
-                                                        type="range"
-                                                        min="0.1"
-                                                        max="5"
-                                                        step="0.1"
-                                                        value={settings.homepageSettings?.hero?.hollowTextStroke ?? 1}
-                                                        onChange={(e) => setSettings({ ...settings, homepageSettings: { ...settings.homepageSettings, hero: { ...settings.homepageSettings?.hero, hollowTextStroke: parseFloat(e.target.value) } } })}
-                                                        className="w-full h-1.5 bg-black/40 rounded-lg appearance-none cursor-pointer accent-primary border border-white/5"
-                                                    />
-                                                </div>
-                                                <div className="flex flex-col gap-2.5">
-                                                    <div className="flex justify-between items-center ml-1">
-                                                        <label className="text-gray-500 text-[10px] font-black tracking-[0.2em] uppercase">Side Padding</label>
-                                                        <span className="text-primary text-[10px] font-black">{settings.homepageSettings?.hero?.hollowTextPadding ?? 5}%</span>
-                                                    </div>
-                                                    <input
-                                                        type="range"
-                                                        min="0"
-                                                        max="20"
-                                                        value={settings.homepageSettings?.hero?.hollowTextPadding ?? 5}
-                                                        onChange={(e) => setSettings({ ...settings, homepageSettings: { ...settings.homepageSettings, hero: { ...settings.homepageSettings?.hero, hollowTextPadding: parseInt(e.target.value) } } })}
-                                                        className="w-full h-1.5 bg-black/40 rounded-lg appearance-none cursor-pointer accent-primary border border-white/5"
-                                                    />
-                                                </div>
-                                            </div>
-                                            <div className="flex flex-col gap-2.5">
-                                                <label className="text-gray-500 text-[10px] font-black tracking-[0.2em] uppercase ml-1">Hero Image</label>
-                                                <div className="flex items-center gap-4">
-                                                    <div className="relative group size-24 flex-shrink-0">
-                                                        <div className="w-full h-full rounded-2xl bg-black/40 border-2 border-dashed border-white/10 flex items-center justify-center overflow-hidden transition-all group-hover:border-primary/50 group-hover:bg-black/60">
-                                                            {homepageHeroPreview ? (
-                                                                <img src={homepageHeroPreview} alt="Preview" className="w-full h-full object-cover" />
-                                                            ) : (
-                                                                <span className="material-symbols-outlined text-white/20 text-3xl group-hover:text-primary transition-colors">image</span>
-                                                            )}
-                                                        </div>
-                                                        <input
-                                                            type="file"
-                                                            accept="image/*"
-                                                            onChange={(e) => handleHomepageImageChange('hero', e)}
-                                                            className="absolute inset-0 opacity-0 cursor-pointer"
-                                                        />
-                                                    </div>
-                                                    <div className="flex flex-col gap-1">
-                                                        <p className="text-[10px] text-gray-500 font-bold uppercase tracking-widest">Recommended: 1920x1080px</p>
-                                                        <div className="flex gap-2">
-                                                            <label className="cursor-pointer px-3 py-1.5 rounded-lg bg-white/5 hover:bg-white/10 border border-white/5 text-[9px] font-black uppercase tracking-widest text-white transition-all flex items-center gap-1 w-fit">
-                                                                Upload
-                                                                <input type="file" accept="image/*" onChange={(e) => handleHomepageImageChange('hero', e)} className="hidden" />
-                                                            </label>
-                                                            {homepageHeroPreview && (
-                                                                <button onClick={() => {
-                                                                    setHomepageHeroFile(null);
-                                                                    setHomepageHeroPreview(null);
-                                                                    setSettings(prev => ({ ...prev, homepageSettings: { ...prev.homepageSettings, hero: { ...prev.homepageSettings.hero, imageUrl: '' } } }));
-                                                                }} className="px-3 py-1.5 rounded-lg bg-red-500/10 hover:bg-red-500/20 border border-red-500/10 text-[9px] font-black uppercase tracking-widest text-red-500 transition-all">
-                                                                    Clear
-                                                                </button>
-                                                            )}
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div className="flex flex-col gap-2.5">
-                                                <label className="text-gray-500 text-[10px] font-black tracking-[0.2em] uppercase ml-1">Headline Line 1</label>
-                                                <input
-                                                    type="text"
-                                                    value={settings.homepageSettings?.hero?.headlineLine1 || ''}
-                                                    onChange={(e) => setSettings({ ...settings, homepageSettings: { ...settings.homepageSettings, hero: { ...settings.homepageSettings?.hero, headlineLine1: e.target.value } } })}
-                                                    className="w-full h-12 bg-black/40 border border-white/5 rounded-xl px-4 text-white text-sm font-bold focus:outline-none focus:border-primary/50 transition-colors shadow-inner placeholder-white/20"
-                                                />
-                                            </div>
-                                            <div className="flex flex-col gap-2.5">
-                                                <label className="text-gray-500 text-[10px] font-black tracking-[0.2em] uppercase ml-1">Headline Line 2</label>
-                                                <input
-                                                    type="text"
-                                                    value={settings.homepageSettings?.hero?.headlineLine2 || ''}
-                                                    onChange={(e) => setSettings({ ...settings, homepageSettings: { ...settings.homepageSettings, hero: { ...settings.homepageSettings?.hero, headlineLine2: e.target.value } } })}
-                                                    className="w-full h-12 bg-black/40 border border-white/5 rounded-xl px-4 text-white text-sm font-bold focus:outline-none focus:border-primary/50 transition-colors shadow-inner placeholder-white/20"
-                                                />
-                                            </div>
-                                            <div className="md:col-span-2 flex flex-col gap-2.5">
-                                                <label className="text-gray-500 text-[10px] font-black tracking-[0.2em] uppercase ml-1">Description</label>
-                                                <input
-                                                    type="text"
-                                                    value={settings.homepageSettings?.hero?.descriptionLine1 || ''}
-                                                    onChange={(e) => setSettings({ ...settings, homepageSettings: { ...settings.homepageSettings, hero: { ...settings.homepageSettings.hero, descriptionLine1: e.target.value } } })}
-                                                    className="w-full h-12 bg-black/40 border border-white/5 rounded-xl px-4 text-white text-sm font-bold focus:outline-none focus:border-primary/50 transition-colors shadow-inner placeholder-white/20 mb-2"
-                                                    placeholder="Line 1"
-                                                />
-                                                <input
-                                                    type="text"
-                                                    value={settings.homepageSettings?.hero?.descriptionLine2 || ''}
-                                                    onChange={(e) => setSettings({ ...settings, homepageSettings: { ...settings.homepageSettings, hero: { ...settings.homepageSettings.hero, descriptionLine2: e.target.value } } })}
-                                                    className="w-full h-12 bg-black/40 border border-white/5 rounded-xl px-4 text-white text-sm font-bold focus:outline-none focus:border-primary/50 transition-colors shadow-inner placeholder-white/20"
-                                                    placeholder="Line 2"
-                                                />
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    {/* Philosophy Section */}
-                                    <div className="space-y-6">
-                                        <h4 className="text-white text-sm font-bold border-b border-white/10 pb-2">Philosophy Section Metrics</h4>
-                                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                            <div className="flex flex-col gap-2.5">
-                                                <label className="text-gray-500 text-[10px] font-black tracking-[0.2em] uppercase ml-1">Sub-Headline</label>
-                                                <input
-                                                    type="text"
-                                                    value={settings.homepageSettings?.philosophy?.subHeadline || ''}
-                                                    onChange={(e) => setSettings({ ...settings, homepageSettings: { ...settings.homepageSettings, philosophy: { ...settings.homepageSettings?.philosophy, subHeadline: e.target.value } } })}
-                                                    className="w-full h-12 bg-black/40 border border-white/5 rounded-xl px-4 text-white text-sm font-bold focus:outline-none focus:border-primary/50 transition-colors shadow-inner placeholder-white/20"
-                                                />
-                                            </div>
-                                            <div className="flex flex-col gap-2.5">
-                                                <label className="text-gray-500 text-[10px] font-black tracking-[0.2em] uppercase ml-1">Bg Image</label>
-                                                <div className="flex items-center gap-4">
-                                                    <div className="relative group size-24 flex-shrink-0">
-                                                        <div className="w-full h-full rounded-2xl bg-black/40 border-2 border-dashed border-white/10 flex items-center justify-center overflow-hidden transition-all group-hover:border-primary/50 group-hover:bg-black/60">
-                                                            {homepagePhilosophyPreview ? (
-                                                                <img src={homepagePhilosophyPreview} alt="Preview" className="w-full h-full object-cover" />
-                                                            ) : (
-                                                                <span className="material-symbols-outlined text-white/20 text-3xl group-hover:text-primary transition-colors">image</span>
-                                                            )}
-                                                        </div>
-                                                        <input
-                                                            type="file"
-                                                            accept="image/*"
-                                                            onChange={(e) => handleHomepageImageChange('philosophy', e)}
-                                                            className="absolute inset-0 opacity-0 cursor-pointer"
-                                                        />
-                                                    </div>
-                                                    <div className="flex flex-col gap-1">
-                                                        <p className="text-[10px] text-gray-500 font-bold uppercase tracking-widest">Recommended: 1920x800px</p>
-                                                        <div className="flex gap-2">
-                                                            <label className="cursor-pointer px-3 py-1.5 rounded-lg bg-white/5 hover:bg-white/10 border border-white/5 text-[9px] font-black uppercase tracking-widest text-white transition-all flex items-center gap-1 w-fit">
-                                                                Upload
-                                                                <input type="file" accept="image/*" onChange={(e) => handleHomepageImageChange('philosophy', e)} className="hidden" />
-                                                            </label>
-                                                            {homepagePhilosophyPreview && (
-                                                                <button onClick={() => {
-                                                                    setHomepagePhilosophyFile(null);
-                                                                    setHomepagePhilosophyPreview(null);
-                                                                    setSettings(prev => ({ ...prev, homepageSettings: { ...prev.homepageSettings, philosophy: { ...prev.homepageSettings.philosophy, imageUrl: '' } } }));
-                                                                }} className="px-3 py-1.5 rounded-lg bg-red-500/10 hover:bg-red-500/20 border border-red-500/10 text-[9px] font-black uppercase tracking-widest text-red-500 transition-all">
-                                                                    Clear
-                                                                </button>
-                                                            )}
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div className="md:col-span-2 flex flex-col gap-2.5">
-                                                <label className="text-gray-500 text-[10px] font-black tracking-[0.2em] uppercase ml-1">Main Quote</label>
-                                                <textarea
-                                                    value={settings.homepageSettings?.philosophy?.quote || ''}
-                                                    onChange={(e) => setSettings({ ...settings, homepageSettings: { ...settings.homepageSettings, philosophy: { ...settings.homepageSettings?.philosophy, quote: e.target.value } } })}
-                                                    className="w-full h-24 pt-3 bg-black/40 border border-white/5 rounded-xl px-4 text-white text-sm font-bold focus:outline-none focus:border-primary/50 transition-colors shadow-inner placeholder-white/20"
-                                                />
-                                            </div>
-                                            <div className="md:col-span-2 flex flex-col gap-2.5">
-                                                <label className="text-gray-500 text-[10px] font-black tracking-[0.2em] uppercase ml-1">Description</label>
-                                                <input
-                                                    type="text"
-                                                    value={settings.homepageSettings?.philosophy?.descriptionLine1 || ''}
-                                                    onChange={(e) => setSettings({ ...settings, homepageSettings: { ...settings.homepageSettings, philosophy: { ...settings.homepageSettings?.philosophy, descriptionLine1: e.target.value } } })}
-                                                    className="w-full h-12 bg-black/40 border border-white/5 rounded-xl px-4 text-white text-sm font-bold focus:outline-none focus:border-primary/50 transition-colors shadow-inner placeholder-white/20 mb-2"
-                                                    placeholder="Line 1"
-                                                />
-                                                <input
-                                                    type="text"
-                                                    value={settings.homepageSettings?.philosophy?.descriptionLine2 || ''}
-                                                    onChange={(e) => setSettings({ ...settings, homepageSettings: { ...settings.homepageSettings, philosophy: { ...settings.homepageSettings?.philosophy, descriptionLine2: e.target.value } } })}
-                                                    className="w-full h-12 bg-black/40 border border-white/5 rounded-xl px-4 text-white text-sm font-bold focus:outline-none focus:border-primary/50 transition-colors shadow-inner placeholder-white/20"
-                                                    placeholder="Line 2"
-                                                />
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    {/* Categories Section */}
-                                    <div className="space-y-6">
-                                        <h4 className="text-white text-sm font-bold border-b border-white/10 pb-2">Category Display Metrics</h4>
-                                        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                                            {/* Prints */}
-                                            <div className="space-y-4 p-4 rounded-2xl bg-white/5 border border-white/5">
-                                                <h5 className="text-white text-xs font-bold uppercase tracking-widest text-[#a14550]">Prints Card</h5>
-                                                <div className="flex flex-col gap-2.5">
-                                                    <label className="text-gray-500 text-[10px] font-black tracking-[0.2em] uppercase ml-1">Title</label>
-                                                    <input
-                                                        type="text"
-                                                        value={settings.homepageSettings?.categories?.prints?.title || ''}
-                                                        onChange={(e) => setSettings({ ...settings, homepageSettings: { ...settings.homepageSettings, categories: { ...settings.homepageSettings.categories, prints: { ...settings.homepageSettings.categories.prints, title: e.target.value } } } })}
-                                                        className="w-full h-10 bg-black/40 border border-white/5 rounded-xl px-4 text-white text-xs font-bold focus:outline-none focus:border-primary/50 transition-colors shadow-inner"
-                                                    />
-                                                </div>
-                                                <div className="flex flex-col gap-2.5">
-                                                    <label className="text-gray-500 text-[10px] font-black tracking-[0.2em] uppercase ml-1">Subtitle</label>
-                                                    <input
-                                                        type="text"
-                                                        value={settings.homepageSettings?.categories?.prints?.subtitle || ''}
-                                                        onChange={(e) => setSettings({ ...settings, homepageSettings: { ...settings.homepageSettings, categories: { ...settings.homepageSettings.categories, prints: { ...settings.homepageSettings.categories.prints, subtitle: e.target.value } } } })}
-                                                        className="w-full h-10 bg-black/40 border border-white/5 rounded-xl px-4 text-white text-xs font-bold focus:outline-none focus:border-primary/50 transition-colors shadow-inner"
-                                                    />
-                                                </div>
-                                                <div className="flex flex-col gap-2.5">
-                                                    <label className="text-gray-500 text-[10px] font-black tracking-[0.2em] uppercase ml-1">Image</label>
-                                                    <div className="flex items-center gap-4">
-                                                        <div className="relative group size-20 flex-shrink-0">
-                                                            <div className="w-full h-full rounded-2xl bg-black/40 border-2 border-dashed border-white/10 flex items-center justify-center overflow-hidden transition-all group-hover:border-primary/50 group-hover:bg-black/60">
-                                                                {homepagePrintsPreview ? (
-                                                                    <img src={homepagePrintsPreview} alt="Preview" className="w-full h-full object-cover" />
-                                                                ) : (
-                                                                    <span className="material-symbols-outlined text-white/20 text-3xl group-hover:text-primary transition-colors">image</span>
-                                                                )}
-                                                            </div>
-                                                            <input
-                                                                type="file"
-                                                                accept="image/*"
-                                                                onChange={(e) => handleHomepageImageChange('prints', e)}
-                                                                className="absolute inset-0 opacity-0 cursor-pointer"
-                                                            />
-                                                        </div>
-                                                        <div className="flex flex-col gap-1">
-                                                            <p className="text-[10px] text-gray-500 font-bold uppercase tracking-widest">800x1200px</p>
-                                                            <div className="flex gap-2">
-                                                                <label className="cursor-pointer px-3 py-1.5 rounded-lg bg-white/5 hover:bg-white/10 border border-white/5 text-[9px] font-black uppercase tracking-widest text-white transition-all flex items-center gap-1 w-fit">
-                                                                    Upload
-                                                                    <input type="file" accept="image/*" onChange={(e) => handleHomepageImageChange('prints', e)} className="hidden" />
-                                                                </label>
-                                                                {homepagePrintsPreview && (
-                                                                    <button onClick={() => {
-                                                                        setHomepagePrintsFile(null);
-                                                                        setHomepagePrintsPreview(null);
-                                                                        setSettings(prev => ({ ...prev, homepageSettings: { ...prev.homepageSettings, categories: { ...prev.homepageSettings.categories, prints: { ...prev.homepageSettings.categories.prints, imageUrl: '' } } } }));
-                                                                    }} className="px-3 py-1.5 rounded-lg bg-red-500/10 hover:bg-red-500/20 border border-red-500/10 text-[9px] font-black uppercase tracking-widest text-red-500 transition-all">
-                                                                        Clear
-                                                                    </button>
-                                                                )}
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            {/* Plains */}
-                                            <div className="space-y-4 p-4 rounded-2xl bg-white/5 border border-white/5">
-                                                <h5 className="text-white text-xs font-bold uppercase tracking-widest text-[#a14550]">Plains Card</h5>
-                                                <div className="flex flex-col gap-2.5">
-                                                    <label className="text-gray-500 text-[10px] font-black tracking-[0.2em] uppercase ml-1">Title</label>
-                                                    <input
-                                                        type="text"
-                                                        value={settings.homepageSettings?.categories?.plains?.title || ''}
-                                                        onChange={(e) => setSettings({ ...settings, homepageSettings: { ...settings.homepageSettings, categories: { ...settings.homepageSettings.categories, plains: { ...settings.homepageSettings.categories.plains, title: e.target.value } } } })}
-                                                        className="w-full h-10 bg-black/40 border border-white/5 rounded-xl px-4 text-white text-xs font-bold focus:outline-none focus:border-primary/50 transition-colors shadow-inner"
-                                                    />
-                                                </div>
-                                                <div className="flex flex-col gap-2.5">
-                                                    <label className="text-gray-500 text-[10px] font-black tracking-[0.2em] uppercase ml-1">Subtitle</label>
-                                                    <input
-                                                        type="text"
-                                                        value={settings.homepageSettings?.categories?.plains?.subtitle || ''}
-                                                        onChange={(e) => setSettings({ ...settings, homepageSettings: { ...settings.homepageSettings, categories: { ...settings.homepageSettings.categories, plains: { ...settings.homepageSettings.categories.plains, subtitle: e.target.value } } } })}
-                                                        className="w-full h-10 bg-black/40 border border-white/5 rounded-xl px-4 text-white text-xs font-bold focus:outline-none focus:border-primary/50 transition-colors shadow-inner"
-                                                    />
-                                                </div>
-                                                <div className="flex flex-col gap-2.5">
-                                                    <label className="text-gray-500 text-[10px] font-black tracking-[0.2em] uppercase ml-1">Image</label>
-                                                    <div className="flex items-center gap-4">
-                                                        <div className="relative group size-20 flex-shrink-0">
-                                                            <div className="w-full h-full rounded-2xl bg-black/40 border-2 border-dashed border-white/10 flex items-center justify-center overflow-hidden transition-all group-hover:border-primary/50 group-hover:bg-black/60">
-                                                                {homepagePlainsPreview ? (
-                                                                    <img src={homepagePlainsPreview} alt="Preview" className="w-full h-full object-cover" />
-                                                                ) : (
-                                                                    <span className="material-symbols-outlined text-white/20 text-3xl group-hover:text-primary transition-colors">image</span>
-                                                                )}
-                                                            </div>
-                                                            <input
-                                                                type="file"
-                                                                accept="image/*"
-                                                                onChange={(e) => handleHomepageImageChange('plains', e)}
-                                                                className="absolute inset-0 opacity-0 cursor-pointer"
-                                                            />
-                                                        </div>
-                                                        <div className="flex flex-col gap-1">
-                                                            <p className="text-[10px] text-gray-500 font-bold uppercase tracking-widest">800x1200px</p>
-                                                            <div className="flex gap-2">
-                                                                <label className="cursor-pointer px-3 py-1.5 rounded-lg bg-white/5 hover:bg-white/10 border border-white/5 text-[9px] font-black uppercase tracking-widest text-white transition-all flex items-center gap-1 w-fit">
-                                                                    Upload
-                                                                    <input type="file" accept="image/*" onChange={(e) => handleHomepageImageChange('plains', e)} className="hidden" />
-                                                                </label>
-                                                                {homepagePlainsPreview && (
-                                                                    <button onClick={() => {
-                                                                        setHomepagePlainsFile(null);
-                                                                        setHomepagePlainsPreview(null);
-                                                                        setSettings(prev => ({ ...prev, homepageSettings: { ...prev.homepageSettings, categories: { ...prev.homepageSettings.categories, plains: { ...prev.homepageSettings.categories.plains, imageUrl: '' } } } }));
-                                                                    }} className="px-3 py-1.5 rounded-lg bg-red-500/10 hover:bg-red-500/20 border border-red-500/10 text-[9px] font-black uppercase tracking-widest text-red-500 transition-all">
-                                                                        Clear
-                                                                    </button>
-                                                                )}
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        {/* SEO Section */}
-                                        <div className="space-y-6">
-                                            <h4 className="text-white text-sm font-bold border-b border-white/10 pb-2">Search Engine Optimization (SEO)</h4>
-                                            <div className="grid grid-cols-1 gap-6">
-                                                <div className="flex flex-col gap-2.5">
-                                                    <label className="text-gray-500 text-[10px] font-black tracking-[0.2em] uppercase ml-1">Meta Title</label>
-                                                    <input
-                                                        type="text"
-                                                        value={settings.homepageSettings.seo?.metaTitle || ''}
-                                                        onChange={(e) => setSettings({ ...settings, homepageSettings: { ...settings.homepageSettings, seo: { ...settings.homepageSettings.seo, metaTitle: e.target.value } } })}
-                                                        className="w-full h-12 bg-black/40 border border-white/5 rounded-xl px-4 text-white text-sm font-bold focus:outline-none focus:border-primary/50 transition-colors shadow-inner"
-                                                        placeholder="Homepage SEO Title (e.g. Nakma | Premium Fitness Apparel)"
-                                                    />
-                                                </div>
-                                                <div className="flex flex-col gap-2.5">
-                                                    <label className="text-gray-500 text-[10px] font-black tracking-[0.2em] uppercase ml-1">Meta Description</label>
-                                                    <textarea
-                                                        value={settings.homepageSettings.seo?.metaDescription || ''}
-                                                        onChange={(e) => setSettings({ ...settings, homepageSettings: { ...settings.homepageSettings, seo: { ...settings.homepageSettings.seo, metaDescription: e.target.value } } })}
-                                                        className="w-full h-24 pt-3 bg-black/40 border border-white/5 rounded-xl px-4 text-white text-sm font-bold focus:outline-none focus:border-primary/50 transition-colors shadow-inner"
-                                                        placeholder="Homepage SEO Description..."
-                                                    />
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div className="flex justify-end pt-4">
-                                        <button
-                                            onClick={handleSave}
-                                            disabled={isSaving || contextLoading}
-                                            className="h-14 bg-primary hover:bg-primary-light text-white rounded-xl font-black text-xs uppercase tracking-[0.2em] transition-all shadow-xl disabled:opacity-50 px-8"
-                                        >
-                                            {isSaving ? 'Synchronizing...' : 'Synchronize Dynamics'}
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-                        )}
-                        {activeTab === 'about' && (
-                            <div className="glossy-panel rounded-[2.5rem] p-8 md:p-10 relative overflow-hidden border border-white/5 bg-black/20 shadow-2xl">
-                                <div className="absolute top-0 right-0 w-80 h-80 bg-primary/10 rounded-full blur-3xl pointer-events-none -mr-40 -mt-40"></div>
-                                <div className="flex items-center gap-4 mb-10 relative z-10">
-                                    <div className="size-12 rounded-2xl bg-white/[0.03] flex items-center justify-center border border-white/5 shadow-inner">
-                                        <span className="material-symbols-outlined text-primary-light text-[24px]">info</span>
-                                    </div>
-                                    <div>
-                                        <h3 className="text-xl font-black text-white tracking-tight uppercase tracking-widest text-sm">About Us Narrative</h3>
-                                        <p className="text-[10px] text-gray-500 font-bold uppercase tracking-widest mt-1">Manage brand story, mission, and philosophy</p>
-                                    </div>
-                                </div>
-
-                                <div className="space-y-12 relative z-10">
-                                    {/* About Hero Section */}
-                                    <div className="space-y-6">
-                                        <h4 className="text-white text-sm font-bold border-b border-white/10 pb-2">Hero Narrative</h4>
-                                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                            <div className="flex flex-col gap-2.5">
-                                                <label className="text-gray-500 text-[10px] font-black tracking-[0.2em] uppercase ml-1">EST Text (e.g. EST. 2024)</label>
-                                                <input
-                                                    type="text"
-                                                    value={settings.aboutPageSettings.hero.estText}
-                                                    onChange={(e) => setSettings({ ...settings, aboutPageSettings: { ...settings.aboutPageSettings, hero: { ...settings.aboutPageSettings.hero, estText: e.target.value } } })}
-                                                    className="w-full h-12 bg-black/40 border border-white/5 rounded-xl px-4 text-white text-sm font-bold focus:outline-none focus:border-primary/50 transition-colors shadow-inner"
-                                                />
-                                            </div>
-                                            <div className="flex flex-col gap-2.5">
-                                                <label className="text-gray-500 text-[10px] font-black tracking-[0.2em] uppercase ml-1">Background Image</label>
-                                                <div className="flex items-center gap-4">
-                                                    <div className="relative group size-12 flex-shrink-0">
-                                                        <div className="w-full h-full rounded-xl bg-black/40 border-2 border-dashed border-white/10 flex items-center justify-center overflow-hidden transition-all group-hover:border-primary/50">
-                                                            {aboutHeroPreview ? (
-                                                                <img src={aboutHeroPreview} alt="Preview" className="w-full h-full object-cover" />
-                                                            ) : (
-                                                                <span className="material-symbols-outlined text-white/20 text-xl">image</span>
-                                                            )}
-                                                        </div>
-                                                        <input type="file" accept="image/*" onChange={(e) => handleAboutImageChange('hero', e)} className="absolute inset-0 opacity-0 cursor-pointer" />
-                                                    </div>
-                                                    <div className="flex flex-col">
-                                                        <p className="text-[9px] text-gray-500 font-bold uppercase tracking-widest leading-none mb-1">Recommended: 1920x1080px</p>
-                                                        <div className="flex gap-2">
-                                                            <label className="cursor-pointer text-[9px] font-black uppercase tracking-widest text-primary hover:text-primary-light transition-all">
-                                                                Upload <input type="file" accept="image/*" onChange={(e) => handleAboutImageChange('hero', e)} className="hidden" />
-                                                            </label>
-                                                            {aboutHeroPreview && (
-                                                                <button onClick={() => { setAboutHeroFile(null); setAboutHeroPreview(null); setSettings(prev => ({ ...prev, aboutPageSettings: { ...prev.aboutPageSettings, hero: { ...prev.aboutPageSettings.hero, bgImage: '' } } })); }} className="text-[9px] font-black uppercase tracking-widest text-red-500 hover:text-red-400">Clear</button>
-                                                            )}
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div className="flex flex-col gap-2.5">
-                                                <label className="text-gray-500 text-[10px] font-black tracking-[0.2em] uppercase ml-1">Hero Title</label>
-                                                <textarea
-                                                    value={settings.aboutPageSettings.hero.title}
-                                                    onChange={(e) => setSettings({ ...settings, aboutPageSettings: { ...settings.aboutPageSettings, hero: { ...settings.aboutPageSettings.hero, title: e.target.value } } })}
-                                                    className="w-full h-20 pt-3 bg-black/40 border border-white/5 rounded-xl px-4 text-white text-sm font-bold focus:outline-none focus:border-primary/50 transition-colors shadow-inner"
-                                                    placeholder="Use \n for line breaks"
-                                                />
-                                            </div>
-                                            <div className="flex flex-col gap-2.5">
-                                                <label className="text-gray-500 text-[10px] font-black tracking-[0.2em] uppercase ml-1">Hero Subtitle</label>
-                                                <textarea
-                                                    value={settings.aboutPageSettings.hero.subtitle}
-                                                    onChange={(e) => setSettings({ ...settings, aboutPageSettings: { ...settings.aboutPageSettings, hero: { ...settings.aboutPageSettings.hero, subtitle: e.target.value } } })}
-                                                    className="w-full h-20 pt-3 bg-black/40 border border-white/5 rounded-xl px-4 text-white text-sm font-bold focus:outline-none focus:border-primary/50 transition-colors shadow-inner"
-                                                />
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    {/* Philosophy Section */}
-                                    <div className="space-y-6">
-                                        <h4 className="text-white text-sm font-bold border-b border-white/10 pb-2">Philosophy Section</h4>
-                                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                            <div className="flex flex-col gap-2.5">
-                                                <label className="text-gray-500 text-[10px] font-black tracking-[0.2em] uppercase ml-1">Section Label</label>
-                                                <input
-                                                    type="text"
-                                                    value={settings.aboutPageSettings.philosophy.label}
-                                                    onChange={(e) => setSettings({ ...settings, aboutPageSettings: { ...settings.aboutPageSettings, philosophy: { ...settings.aboutPageSettings.philosophy, label: e.target.value } } })}
-                                                    className="w-full h-12 bg-black/40 border border-white/5 rounded-xl px-4 text-white text-sm font-bold focus:outline-none focus:border-primary/50 transition-colors shadow-inner"
-                                                />
-                                            </div>
-                                            <div className="flex flex-col gap-2.5">
-                                                <label className="text-gray-500 text-[10px] font-black tracking-[0.2em] uppercase ml-1">Main Image</label>
-                                                <div className="flex items-center gap-4">
-                                                    <div className="relative group size-12 flex-shrink-0">
-                                                        <div className="w-full h-full rounded-xl bg-black/40 border-2 border-dashed border-white/10 flex items-center justify-center overflow-hidden transition-all group-hover:border-primary/50">
-                                                            {aboutPhilosophyPreview ? (
-                                                                <img src={aboutPhilosophyPreview} alt="Preview" className="w-full h-full object-cover" />
-                                                            ) : (
-                                                                <span className="material-symbols-outlined text-white/20 text-xl">image</span>
-                                                            )}
-                                                        </div>
-                                                        <input type="file" accept="image/*" onChange={(e) => handleAboutImageChange('philosophy', e)} className="absolute inset-0 opacity-0 cursor-pointer" />
-                                                    </div>
-                                                    <div className="flex flex-col">
-                                                        <p className="text-[9px] text-gray-500 font-bold uppercase tracking-widest leading-none mb-1">Recommended: 1200x1600px</p>
-                                                        <div className="flex gap-2">
-                                                            <label className="cursor-pointer text-[9px] font-black uppercase tracking-widest text-primary hover:text-primary-light transition-all">
-                                                                Upload <input type="file" accept="image/*" onChange={(e) => handleAboutImageChange('philosophy', e)} className="hidden" />
-                                                            </label>
-                                                            {aboutPhilosophyPreview && (
-                                                                <button onClick={() => { setAboutPhilosophyFile(null); setAboutPhilosophyPreview(null); setSettings(prev => ({ ...prev, aboutPageSettings: { ...prev.aboutPageSettings, philosophy: { ...prev.aboutPageSettings.philosophy, imageUrl: '' } } })); }} className="text-[9px] font-black uppercase tracking-widest text-red-500 hover:text-red-400">Clear</button>
-                                                            )}
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div className="md:col-span-2 flex flex-col gap-2.5">
-                                                <label className="text-gray-500 text-[10px] font-black tracking-[0.2em] uppercase ml-1">Section Title</label>
-                                                <input
-                                                    type="text"
-                                                    value={settings.aboutPageSettings.philosophy.title}
-                                                    onChange={(e) => setSettings({ ...settings, aboutPageSettings: { ...settings.aboutPageSettings, philosophy: { ...settings.aboutPageSettings.philosophy, title: e.target.value } } })}
-                                                    className="w-full h-12 bg-black/40 border border-white/5 rounded-xl px-4 text-white text-sm font-bold focus:outline-none focus:border-primary/50 transition-colors shadow-inner"
-                                                />
-                                            </div>
-                                            <div className="md:col-span-2 flex flex-col gap-2.5">
-                                                <label className="text-gray-500 text-[10px] font-black tracking-[0.2em] uppercase ml-1">Philosophy Description</label>
-                                                <textarea
-                                                    value={settings.aboutPageSettings.philosophy.description}
-                                                    onChange={(e) => setSettings({ ...settings, aboutPageSettings: { ...settings.aboutPageSettings, philosophy: { ...settings.aboutPageSettings.philosophy, description: e.target.value } } })}
-                                                    className="w-full h-32 pt-3 bg-black/40 border border-white/5 rounded-xl px-4 text-white text-sm font-medium leading-relaxed focus:outline-none focus:border-primary/50 transition-colors shadow-inner"
-                                                />
-                                            </div>
-                                            {/* Stats Management */}
-                                            {settings.aboutPageSettings.philosophy.stats.map((stat, idx) => (
-                                                <div key={idx} className="flex flex-col gap-2.5 p-4 rounded-xl bg-white/5 border border-white/5">
-                                                    <label className="text-gray-500 text-[9px] font-black tracking-[0.2em] uppercase">Stat {idx + 1}</label>
-                                                    <div className="grid grid-cols-2 gap-4">
-                                                        <input
-                                                            type="text"
-                                                            value={stat.value}
-                                                            placeholder="Value (e.g. 100%)"
-                                                            onChange={(e) => {
-                                                                const newStats = [...settings.aboutPageSettings.philosophy.stats];
-                                                                newStats[idx].value = e.target.value;
-                                                                setSettings({ ...settings, aboutPageSettings: { ...settings.aboutPageSettings, philosophy: { ...settings.aboutPageSettings.philosophy, stats: newStats } } });
-                                                            }}
-                                                            className="h-10 bg-black/40 border border-white/5 rounded-lg px-3 text-white text-xs font-bold focus:border-primary/50 focus:outline-none"
-                                                        />
-                                                        <input
-                                                            type="text"
-                                                            value={stat.label}
-                                                            placeholder="Label"
-                                                            onChange={(e) => {
-                                                                const newStats = [...settings.aboutPageSettings.philosophy.stats];
-                                                                newStats[idx].label = e.target.value;
-                                                                setSettings({ ...settings, aboutPageSettings: { ...settings.aboutPageSettings, philosophy: { ...settings.aboutPageSettings.philosophy, stats: newStats } } });
-                                                            }}
-                                                            className="h-10 bg-black/40 border border-white/5 rounded-lg px-3 text-white text-xs font-bold focus:border-primary/50 focus:outline-none"
-                                                        />
-                                                    </div>
-                                                </div>
-                                            ))}
-                                        </div>
-                                    </div>
-
-                                    {/* Core Values */}
-                                    <div className="space-y-6">
-                                        <h4 className="text-white text-sm font-bold border-b border-white/10 pb-2">Core Values Section</h4>
-                                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                            <div className="flex flex-col gap-2.5">
-                                                <label className="text-gray-500 text-[10px] font-black tracking-[0.2em] uppercase ml-1">Section Label</label>
-                                                <input
-                                                    type="text"
-                                                    value={settings.aboutPageSettings.coreValues.label}
-                                                    onChange={(e) => setSettings({ ...settings, aboutPageSettings: { ...settings.aboutPageSettings, coreValues: { ...settings.aboutPageSettings.coreValues, label: e.target.value } } })}
-                                                    className="w-full h-12 bg-black/40 border border-white/5 rounded-xl px-4 text-white text-sm font-bold focus:outline-none focus:border-primary/50 transition-colors shadow-inner"
-                                                />
-                                            </div>
-                                            <div className="flex flex-col gap-2.5">
-                                                <label className="text-gray-500 text-[10px] font-black tracking-[0.2em] uppercase ml-1">Section Title</label>
-                                                <input
-                                                    type="text"
-                                                    value={settings.aboutPageSettings.coreValues.title}
-                                                    onChange={(e) => setSettings({ ...settings, aboutPageSettings: { ...settings.aboutPageSettings, coreValues: { ...settings.aboutPageSettings.coreValues, title: e.target.value } } })}
-                                                    className="w-full h-12 bg-black/40 border border-white/5 rounded-xl px-4 text-white text-sm font-bold focus:outline-none focus:border-primary/50 transition-colors shadow-inner"
-                                                />
-                                            </div>
-                                            {/* Core Value Blocks */}
-                                            {settings.aboutPageSettings.coreValues.values.map((val, idx) => (
-                                                <div key={idx} className="md:col-span-2 p-6 rounded-2xl bg-white/5 border border-white/5 space-y-4">
-                                                    <div className="flex items-center justify-between">
-                                                        <label className="text-gray-500 text-[9px] font-black tracking-[0.2em] uppercase">Value Block {idx + 1}</label>
-                                                        <span className="material-symbols-outlined text-primary text-sm">{val.icon}</span>
-                                                    </div>
-                                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                                        <div className="flex flex-col gap-2">
-                                                            <label className="text-gray-600 text-[8px] font-black uppercase">Title</label>
-                                                            <input
-                                                                type="text"
-                                                                value={val.title}
-                                                                onChange={(e) => {
-                                                                    const newValues = [...settings.aboutPageSettings.coreValues.values];
-                                                                    newValues[idx].title = e.target.value;
-                                                                    setSettings({ ...settings, aboutPageSettings: { ...settings.aboutPageSettings, coreValues: { ...settings.aboutPageSettings.coreValues, values: newValues } } });
-                                                                }}
-                                                                className="h-10 bg-black/40 border border-white/5 rounded-lg px-3 text-white text-xs font-bold focus:border-primary/50 focus:outline-none"
-                                                            />
-                                                        </div>
-                                                        <div className="flex flex-col gap-2">
-                                                            <label className="text-gray-600 text-[8px] font-black uppercase">Material Icon Name</label>
-                                                            <input
-                                                                type="text"
-                                                                value={val.icon}
-                                                                onChange={(e) => {
-                                                                    const newValues = [...settings.aboutPageSettings.coreValues.values];
-                                                                    newValues[idx].icon = e.target.value;
-                                                                    setSettings({ ...settings, aboutPageSettings: { ...settings.aboutPageSettings, coreValues: { ...settings.aboutPageSettings.coreValues, values: newValues } } });
-                                                                }}
-                                                                className="h-10 bg-black/40 border border-white/5 rounded-lg px-3 text-white text-xs font-bold focus:border-primary/50 focus:outline-none"
-                                                            />
-                                                        </div>
-                                                        <div className="md:col-span-2 flex flex-col gap-2">
-                                                            <label className="text-gray-600 text-[8px] font-black uppercase">Description</label>
-                                                            <textarea
-                                                                value={val.desc}
-                                                                onChange={(e) => {
-                                                                    const newValues = [...settings.aboutPageSettings.coreValues.values];
-                                                                    newValues[idx].desc = e.target.value;
-                                                                    setSettings({ ...settings, aboutPageSettings: { ...settings.aboutPageSettings, coreValues: { ...settings.aboutPageSettings.coreValues, values: newValues } } });
-                                                                }}
-                                                                className="h-20 py-2 bg-black/40 border border-white/5 rounded-lg px-3 text-white text-xs font-medium focus:border-primary/50 focus:outline-none shadow-inner"
-                                                            />
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            ))}
-                                        </div>
-                                    </div>
-
-                                    {/* Quote Section */}
-                                    <div className="space-y-6">
-                                        <h4 className="text-white text-sm font-bold border-b border-white/10 pb-2">Manifesto Quote</h4>
-                                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                            <div className="md:col-span-2 flex flex-col gap-2.5">
-                                                <label className="text-gray-500 text-[10px] font-black tracking-[0.2em] uppercase ml-1">Quote Text</label>
-                                                <textarea
-                                                    value={settings.aboutPageSettings.quote.text}
-                                                    onChange={(e) => setSettings({ ...settings, aboutPageSettings: { ...settings.aboutPageSettings, quote: { ...settings.aboutPageSettings.quote, text: e.target.value } } })}
-                                                    className="w-full h-24 pt-3 bg-black/40 border border-white/5 rounded-xl px-4 text-white text-sm font-medium italic focus:outline-none focus:border-primary/50 transition-colors shadow-inner"
-                                                />
-                                            </div>
-                                            <div className="flex flex-col gap-2.5">
-                                                <label className="text-gray-500 text-[10px] font-black tracking-[0.2em] uppercase ml-1">Author Name</label>
-                                                <input
-                                                    type="text"
-                                                    value={settings.aboutPageSettings.quote.author}
-                                                    onChange={(e) => setSettings({ ...settings, aboutPageSettings: { ...settings.aboutPageSettings, quote: { ...settings.aboutPageSettings.quote, author: e.target.value } } })}
-                                                    className="w-full h-12 bg-black/40 border border-white/5 rounded-xl px-4 text-white text-sm font-bold focus:outline-none focus:border-primary/50 transition-colors shadow-inner"
-                                                />
-                                            </div>
-                                            <div className="flex flex-col gap-2.5">
-                                                <label className="text-gray-500 text-[10px] font-black tracking-[0.2em] uppercase ml-1">Author Title</label>
-                                                <input
-                                                    type="text"
-                                                    value={settings.aboutPageSettings.quote.authorTitle}
-                                                    onChange={(e) => setSettings({ ...settings, aboutPageSettings: { ...settings.aboutPageSettings, quote: { ...settings.aboutPageSettings.quote, authorTitle: e.target.value } } })}
-                                                    className="w-full h-12 bg-black/40 border border-white/5 rounded-xl px-4 text-white text-sm font-bold focus:outline-none focus:border-primary/50 transition-colors shadow-inner"
-                                                />
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    {/* Join Section */}
-                                    <div className="space-y-6">
-                                        <h4 className="text-white text-sm font-bold border-b border-white/10 pb-2">Call to Evolution (Join Section)</h4>
-                                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                            <div className="flex flex-col gap-2.5">
-                                                <label className="text-gray-500 text-[10px] font-black tracking-[0.2em] uppercase ml-1">Section Title</label>
-                                                <input
-                                                    type="text"
-                                                    value={settings.aboutPageSettings.join.title}
-                                                    onChange={(e) => setSettings({ ...settings, aboutPageSettings: { ...settings.aboutPageSettings, join: { ...settings.aboutPageSettings.join, title: e.target.value } } })}
-                                                    className="w-full h-12 bg-black/40 border border-white/5 rounded-xl px-4 text-white text-sm font-bold focus:outline-none focus:border-primary/50 transition-colors shadow-inner"
-                                                />
-                                            </div>
-                                            <div className="flex flex-col gap-2.5">
-                                                <label className="text-gray-500 text-[10px] font-black tracking-[0.2em] uppercase ml-1">Background Image</label>
-                                                <div className="flex items-center gap-4">
-                                                    <div className="relative group size-12 flex-shrink-0">
-                                                        <div className="w-full h-full rounded-xl bg-black/40 border-2 border-dashed border-white/10 flex items-center justify-center overflow-hidden transition-all group-hover:border-primary/50">
-                                                            {aboutJoinPreview ? (
-                                                                <img src={aboutJoinPreview} alt="Preview" className="w-full h-full object-cover" />
-                                                            ) : (
-                                                                <span className="material-symbols-outlined text-white/20 text-xl">image</span>
-                                                            )}
-                                                        </div>
-                                                        <input type="file" accept="image/*" onChange={(e) => handleAboutImageChange('join', e)} className="absolute inset-0 opacity-0 cursor-pointer" />
-                                                    </div>
-                                                    <div className="flex flex-col">
-                                                        <p className="text-[9px] text-gray-500 font-bold uppercase tracking-widest leading-none mb-1">Recommended: 1920x800px</p>
-                                                        <div className="flex gap-2">
-                                                            <label className="cursor-pointer text-[9px] font-black uppercase tracking-widest text-primary hover:text-primary-light transition-all">
-                                                                Upload <input type="file" accept="image/*" onChange={(e) => handleAboutImageChange('join', e)} className="hidden" />
-                                                            </label>
-                                                            {aboutJoinPreview && (
-                                                                <button onClick={() => { setAboutJoinFile(null); setAboutJoinPreview(null); setSettings(prev => ({ ...prev, aboutPageSettings: { ...prev.aboutPageSettings, join: { ...prev.aboutPageSettings.join, bgImage: '' } } })); }} className="text-[9px] font-black uppercase tracking-widest text-red-500 hover:text-red-400">Clear</button>
-                                                            )}
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div className="md:col-span-2 flex flex-col gap-2.5">
-                                                <label className="text-gray-500 text-[10px] font-black tracking-[0.2em] uppercase ml-1">Section Subtitle</label>
-                                                <input
-                                                    type="text"
-                                                    value={settings.aboutPageSettings.join.subtitle}
-                                                    onChange={(e) => setSettings({ ...settings, aboutPageSettings: { ...settings.aboutPageSettings, join: { ...settings.aboutPageSettings.join, subtitle: e.target.value } } })}
-                                                    className="w-full h-12 bg-black/40 border border-white/5 rounded-xl px-4 text-white text-sm font-bold focus:outline-none focus:border-primary/50 transition-colors shadow-inner"
-                                                />
-                                            </div>
-                                            <div className="flex flex-col gap-2.5">
-                                                <label className="text-gray-500 text-[10px] font-black tracking-[0.2em] uppercase ml-1">Button Text</label>
-                                                <input
-                                                    type="text"
-                                                    value={settings.aboutPageSettings.join.buttonText}
-                                                    onChange={(e) => setSettings({ ...settings, aboutPageSettings: { ...settings.aboutPageSettings, join: { ...settings.aboutPageSettings.join, buttonText: e.target.value } } })}
-                                                    className="w-full h-12 bg-black/40 border border-white/5 rounded-xl px-4 text-white text-sm font-bold focus:outline-none focus:border-primary/50 transition-colors shadow-inner"
-                                                />
-                                            </div>
-                                            <div className="flex flex-col gap-2.5">
-                                                <label className="text-gray-500 text-[10px] font-black tracking-[0.2em] uppercase ml-1">Button Link</label>
-                                                <input
-                                                    type="text"
-                                                    value={settings.aboutPageSettings.join.buttonLink}
-                                                    onChange={(e) => setSettings({ ...settings, aboutPageSettings: { ...settings.aboutPageSettings, join: { ...settings.aboutPageSettings.join, buttonLink: e.target.value } } })}
-                                                    className="w-full h-12 bg-black/40 border border-white/5 rounded-xl px-4 text-white text-sm font-bold focus:outline-none focus:border-primary/50 transition-colors shadow-inner"
-                                                />
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div className="flex justify-end pt-4 gap-4">
-                                        <button
-                                            onClick={handleDiscard}
-                                            className="h-14 bg-white/5 hover:bg-white/10 text-gray-400 hover:text-white rounded-xl font-black text-xs uppercase tracking-widest px-8 transition-all border border-white/5"
-                                        >
-                                            Discard Changes
-                                        </button>
-                                        <button
-                                            onClick={handleSave}
-                                            disabled={isSaving || contextLoading}
-                                            className="h-14 bg-primary hover:bg-primary-light text-white rounded-xl font-black text-xs uppercase tracking-[0.2em] transition-all shadow-xl disabled:opacity-50 px-8"
-                                        >
-                                            {isSaving ? 'Synchronizing...' : 'Synchronize Narrative'}
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-                        )}
                         {activeTab === 'general' && (
                             <div className="glossy-panel rounded-[2.5rem] p-8 md:p-10 relative overflow-hidden border border-white/5 bg-black/20 shadow-2xl">
                                 <div className="absolute top-0 right-0 w-80 h-80 bg-primary/10 rounded-full blur-3xl pointer-events-none -mr-40 -mt-40"></div>
@@ -2960,7 +1529,7 @@ const StoreSettingsPage = () => {
                                         <label className="text-gray-500 text-[10px] font-black tracking-[0.2em] uppercase ml-1">Site URL (Primary Domain)</label>
                                         <input
                                             className="glossy-input w-full rounded-2xl bg-black/40 border-white/5 text-white font-bold h-14 px-6 text-sm outline-none focus:ring-1 focus:ring-primary/40 focus:bg-black/60"
-                                            placeholder="https://nakmastore.com"
+                                            placeholder="https://www.nakmaltd.com"
                                             value={settings.siteUrl}
                                             onChange={(e) => handleInputChange('siteUrl', e.target.value)}
                                         />
@@ -3031,135 +1600,44 @@ const StoreSettingsPage = () => {
                             </div>
                         )}
 
-                        {activeTab === 'seo' && (
+                        {activeTab === 'homepage' && (
                             <div className="glossy-panel rounded-[2.5rem] p-8 md:p-10 relative overflow-hidden border border-white/5 bg-black/20 shadow-2xl">
                                 <div className="absolute top-0 right-0 w-80 h-80 bg-primary/10 rounded-full blur-3xl pointer-events-none -mr-40 -mt-40"></div>
                                 <div className="flex items-center gap-4 mb-10 relative z-10">
                                     <div className="size-12 rounded-2xl bg-white/[0.03] flex items-center justify-center border border-white/5 shadow-inner">
-                                        <span className="material-symbols-outlined text-primary-light text-[24px]">search</span>
+                                        <span className="material-symbols-outlined text-primary-light text-[24px]">web</span>
                                     </div>
                                     <div>
-                                        <h3 className="text-xl font-black text-white tracking-tight uppercase tracking-widest text-sm">General SEO</h3>
-                                        <p className="text-[10px] text-gray-500 font-bold uppercase tracking-widest mt-1">Search Engine & Discovery Settings</p>
+                                        <h3 className="text-xl font-black text-white tracking-tight uppercase tracking-widest text-sm">Homepage</h3>
+                                        <p className="text-[10px] text-gray-500 font-bold uppercase tracking-widest mt-1">Product listings and SEO</p>
                                     </div>
                                 </div>
-
-                                <div className="space-y-6 relative z-10">
-                                    <div className="flex flex-col gap-2.5">
-                                        <label className="text-gray-500 text-[10px] font-black tracking-[0.2em] uppercase ml-1">Global Meta Title</label>
-                                        <input
-                                            type="text"
-                                            value={settings.seoSettings?.metaTitle || ''}
-                                            onChange={(e) => setSettings({ ...settings, seoSettings: { ...settings.seoSettings, metaTitle: e.target.value } })}
-                                            className="w-full h-12 bg-black/40 border border-white/5 rounded-xl px-4 text-white text-sm font-bold focus:outline-none focus:border-primary/50 transition-colors shadow-inner"
-                                            placeholder="Default Site Title"
-                                        />
-                                        <p className="text-[10px] text-gray-600 font-bold ml-1">Used as default if no specific page title is set.</p>
-                                    </div>
-                                    <div className="flex flex-col gap-2.5">
-                                        <label className="text-gray-500 text-[10px] font-black tracking-[0.2em] uppercase ml-1">Global Meta Description</label>
-                                        <textarea
-                                            value={settings.seoSettings?.metaDescription || ''}
-                                            onChange={(e) => setSettings({ ...settings, seoSettings: { ...settings.seoSettings, metaDescription: e.target.value } })}
-                                            className="w-full h-24 pt-3 bg-black/40 border border-white/5 rounded-xl px-4 text-white text-sm font-bold focus:outline-none focus:border-primary/50 transition-colors shadow-inner"
-                                            placeholder="Default Site Description..."
-                                        />
-                                    </div>
-                                    <div className="flex flex-col gap-2.5">
-                                        <label className="text-gray-500 text-[10px] font-black tracking-[0.2em] uppercase ml-1">Global Keywords</label>
-                                        <input
-                                            type="text"
-                                            value={settings.seoSettings?.keywords || ''}
-                                            onChange={(e) => setSettings({ ...settings, seoSettings: { ...settings.seoSettings, keywords: e.target.value } })}
-                                            className="w-full h-12 bg-black/40 border border-white/5 rounded-xl px-4 text-white text-sm font-bold focus:outline-none focus:border-primary/50 transition-colors shadow-inner"
-                                            placeholder="Commas, separated, keywords"
-                                        />
-                                    </div>
-                                    <div className="flex flex-col gap-2.5">
-                                        <label className="text-gray-500 text-[10px] font-black tracking-[0.2em] uppercase ml-1">Google Site Verification Code</label>
-                                        <input
-                                            type="text"
-                                            value={settings.seoSettings?.googleSiteVerification || ''}
-                                            onChange={(e) => setSettings({ ...settings, seoSettings: { ...settings.seoSettings, googleSiteVerification: e.target.value } })}
-                                            className="w-full h-12 bg-black/40 border border-white/5 rounded-xl px-4 text-white text-sm font-bold focus:outline-none focus:border-primary/50 transition-colors shadow-inner"
-                                            placeholder="Paste the verification code (content attribute) or HTML tag"
-                                        />
-                                    </div>
-
-                                    <div className="flex justify-end pt-4">
-                                        <button
-                                            onClick={handleSave}
-                                            disabled={isSaving || contextLoading}
-                                            className="h-14 bg-primary hover:bg-primary-light text-white rounded-xl font-black text-xs uppercase tracking-[0.2em] transition-all shadow-xl disabled:opacity-50 px-8"
-                                        >
-                                            {isSaving ? 'Synchronizing...' : 'Synchronize Dynamics'}
-                                        </button>
-                                    </div>
+                                <div className="relative z-10">
+                                    <HomepageListingsSettings settings={settings} setSettings={setSettings} />
                                 </div>
                             </div>
                         )}
 
-                        {activeTab === 'shipping' && (
-                            <div className="glossy-panel rounded-[2.5rem] p-8 md:p-10 relative overflow-hidden border border-white/5 bg-black/20 shadow-2xl">
-                                <div className="flex items-center justify-between mb-10 relative z-10">
-                                    <div className="flex items-center gap-4">
-                                        <div className="size-12 rounded-2xl bg-white/[0.03] flex items-center justify-center border border-white/5 shadow-inner">
-                                            <span className="material-symbols-outlined text-primary-light text-[24px]">local_shipping</span>
-                                        </div>
-                                        <div>
-                                            <h3 className="text-xl font-black text-white tracking-tight uppercase tracking-widest text-sm">Logistics Nodes</h3>
-                                            <p className="text-[10px] text-gray-500 font-bold uppercase tracking-widest mt-1">Shipping Matrix & Distribution Grid</p>
-                                        </div>
+                        {activeTab === 'product' && (
+                            <div className="glossy-panel rounded-[2.5rem] p-6 md:p-8 relative overflow-hidden border border-white/5 bg-black/20 shadow-2xl">
+                                <div className="absolute top-0 right-0 w-80 h-80 bg-primary/10 rounded-full blur-3xl pointer-events-none -mr-40 -mt-40"></div>
+                                <div className="flex items-center gap-4 mb-6 relative z-10">
+                                    <div className="size-12 rounded-2xl bg-white/[0.03] flex items-center justify-center border border-white/5 shadow-inner">
+                                        <span className="material-symbols-outlined text-primary-light text-[24px]">view_quilt</span>
                                     </div>
-                                    <button onClick={() => setShowAddShippingModal(true)} className="text-[10px] font-black text-primary hover:text-white transition-colors flex items-center gap-2 uppercase tracking-widest group">
-                                        <span className="material-symbols-outlined text-[16px] group-hover:rotate-90 transition-transform duration-300">add_circle</span> Add Node
-                                    </button>
+                                    <div>
+                                        <h3 className="text-xl font-black text-white tracking-tight uppercase tracking-widest text-sm">Product Page</h3>
+                                        <p className="text-[10px] text-gray-500 font-bold uppercase tracking-widest mt-1">Layout, images, typography, and buttons</p>
+                                    </div>
                                 </div>
-
-                                <div className="w-full overflow-hidden rounded-3xl border border-white/5 bg-black/40">
-                                    <table className="w-full text-left border-collapse">
-                                        <thead className="bg-white/[0.01] border-b border-white/5">
-                                            <tr>
-                                                <th className="p-6 text-[10px] font-black text-gray-600 uppercase tracking-widest">Protocol</th>
-                                                <th className="p-6 text-[10px] font-black text-gray-600 uppercase tracking-widest text-center">Velocity</th>
-                                                <th className="p-6 text-[10px] font-black text-gray-600 uppercase tracking-widest text-center">Cost Model</th>
-                                                <th className="p-6 text-[10px] font-black text-gray-600 uppercase tracking-widest text-center">Actions</th>
-                                                <th className="p-6 text-[10px] font-black text-gray-600 uppercase tracking-widest text-right">State</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody className="divide-y divide-white/[0.03]">
-                                            {Array.isArray(shippingMethods) && shippingMethods.map((method) => (
-                                                <tr key={method.id} className="hover:bg-white/[0.02] transition-colors group">
-                                                    <td className="p-6">
-                                                        <div className="font-black text-white text-sm tracking-tight">{method.name}</div>
-                                                        <div className="text-[9px] text-gray-600 font-bold uppercase tracking-widest mt-0.5">{method.description}</div>
-                                                    </td>
-                                                    <td className="p-6 text-center text-xs font-bold text-gray-400">{method.deliveryTime}</td>
-                                                    <td className="p-6 text-center text-sm font-mono text-primary-light font-black">
-                                                        {formatPrice(method.cost)}
-                                                    </td>
-                                                    <td className="p-6 text-center">
-                                                        <div className="flex items-center justify-center gap-2">
-                                                            <button onClick={() => handleEditShipping(method)} className="size-8 rounded-lg hover:bg-white/10 flex items-center justify-center transition-colors text-blue-400">
-                                                                <span className="material-symbols-outlined text-[18px]">edit</span>
-                                                            </button>
-                                                            <button onClick={() => handleDeleteShipping(method.id)} className="size-8 rounded-lg hover:bg-white/10 flex items-center justify-center transition-colors text-red-400">
-                                                                <span className="material-symbols-outlined text-[18px]">delete</span>
-                                                            </button>
-                                                        </div>
-                                                    </td>
-                                                    <td className="p-6 text-right">
-                                                        <div className="flex justify-end">
-                                                            <div className="relative cursor-pointer" onClick={() => toggleShippingMethod(method.id)}>
-                                                                <div className={`w-10 h-5 rounded-full transition-colors duration-300 ${method.enabled ? 'bg-green-500/20 shadow-[0_0_15px_rgba(34,197,94,0.2)]' : 'bg-gray-800'}`}></div>
-                                                                <div className={`absolute top-0.5 size-4 bg-white rounded-full transition-all duration-300 ${method.enabled ? 'left-5.5' : 'left-0.5'}`}></div>
-                                                            </div>
-                                                        </div>
-                                                    </td>
-                                                </tr>
-                                            ))}
-                                        </tbody>
-                                    </table>
+                                <div className="relative z-10 min-h-[600px]">
+                                    <ProductSettingsPanel
+                                        settings={resolvedProductPageSettings}
+                                        onChange={(next) => setSettings((prev) => ({ ...prev, productPageSettings: next }))}
+                                        onReset={() => setSettings((prev) => ({ ...prev, productPageSettings: PRODUCT_PAGE_PRESETS.modern }))}
+                                        onSave={handleSave}
+                                        isSaving={isSaving}
+                                    />
                                 </div>
                             </div>
                         )}
@@ -3429,7 +1907,7 @@ const StoreSettingsPage = () => {
                                                     <button
                                                         onClick={(e) => {
                                                             e.stopPropagation();
-                                                            handleDeletePage(page.id);
+                                                            handleDeletePage(page);
                                                         }}
                                                         className="size-8 rounded-lg text-gray-600 hover:text-red-500 hover:bg-red-500/10 flex items-center justify-center transition-all"
                                                     >
@@ -3445,32 +1923,7 @@ const StoreSettingsPage = () => {
 
 
 
-                        {activeTab === 'taxes' && (
-                            <div className="glossy-panel rounded-[2.5rem] p-8 md:p-10 relative overflow-hidden border border-white/5 bg-black/20 shadow-2xl">
-                                <div className="absolute top-0 right-0 w-80 h-80 bg-primary/10 rounded-full blur-3xl pointer-events-none -mr-40 -mt-40"></div>
-                                <div className="flex items-center gap-4 mb-10 relative z-10">
-                                    <div className="size-12 rounded-2xl bg-white/[0.03] flex items-center justify-center border border-white/5 shadow-inner">
-                                        <span className="material-symbols-outlined text-primary-light text-[24px]">receipt_long</span>
-                                    </div>
-                                    <div>
-                                        <h3 className="text-xl font-black text-white tracking-tight uppercase tracking-widest text-sm">Fiscal Policy</h3>
-                                        <p className="text-[10px] text-gray-500 font-bold uppercase tracking-widest mt-1">Configure Global Tax Parameters</p>
-                                    </div>
-                                </div>
-
-                                <div className="relative z-10">
-                                    <TaxSettingsForm
-                                        settings={settings}
-                                        onUpdate={(updates) => {
-                                            const updatedSettings = { ...settings, ...updates };
-                                            setSettings(updatedSettings);
-                                        }}
-                                    />
-                                </div>
-                            </div>
-                        )}
-
-                        {activeTab === 'team' && (
+                        {activeTab === 'general' && (
                             <div className="glossy-panel rounded-[2.5rem] p-8 md:p-10 relative overflow-hidden border border-white/5 bg-black/20 shadow-2xl">
                                 <div className="absolute top-0 right-0 w-80 h-80 bg-primary/10 rounded-full blur-3xl pointer-events-none -mr-40 -mt-40"></div>
                                 <div className="flex items-center justify-between mb-10 relative z-10">
@@ -3553,7 +2006,7 @@ const StoreSettingsPage = () => {
                             </div>
                         )}
 
-                        {activeTab === 'notifications' && (
+                        {activeTab === 'general' && (
                             <div className="glossy-panel rounded-[2.5rem] p-8 md:p-10 relative overflow-hidden border border-white/5 bg-black/20 shadow-2xl">
                                 <div className="absolute top-0 right-0 w-80 h-80 bg-primary/10 rounded-full blur-3xl pointer-events-none -mr-40 -mt-40"></div>
                                 <div className="flex items-center gap-4 mb-10 relative z-10">
@@ -3562,11 +2015,11 @@ const StoreSettingsPage = () => {
                                     </div>
                                     <div>
                                         <h3 className="text-xl font-black text-white tracking-tight uppercase tracking-widest text-sm">Signal Dispatch</h3>
-                                        <p className="text-[10px] text-gray-500 font-bold uppercase tracking-widest mt-1">Alert Configuration & Mail Engine</p>
+                                        <p className="text-[10px] text-gray-500 font-bold uppercase tracking-widest mt-1">Alert Configuration</p>
                                     </div>
                                 </div>
 
-                                <div className="grid grid-cols-1 md:grid-cols-2 gap-10 relative z-10">
+                                <div className="relative z-10 max-w-xl">
                                     {/* Alert Recipients */}
                                     <div className="space-y-6">
                                         <div>
@@ -3624,50 +2077,11 @@ const StoreSettingsPage = () => {
                                             </div>
                                         </div>
                                     </div>
-
-                                    {/* Resend Configuration */}
-                                    <div className="space-y-6">
-                                        <div>
-                                            <h4 className="text-sm font-black text-white uppercase tracking-widest mb-4 flex items-center gap-2">
-                                                <span className="material-symbols-outlined text-primary-light text-sm">hub</span> Mail Service (Resend)
-                                            </h4>
-                                            <div className="flex flex-col gap-4">
-                                                <div className="flex flex-col gap-2">
-                                                    <label className="text-gray-500 text-[10px] font-black tracking-[0.2em] uppercase ml-1">Resend API Key</label>
-                                                    <input
-                                                        className="glossy-input w-full rounded-2xl bg-black/40 border-white/5 text-white font-bold h-12 px-5 text-xs outline-none focus:ring-1 focus:ring-primary/40 focus:bg-black/60"
-                                                        type="password"
-                                                        placeholder="re_xxxxxxxxxxxxxxxxx"
-                                                        value={settings.resendConfig.apiKey}
-                                                        onChange={(e) => handleInputChange('resendConfig', { ...settings.resendConfig, apiKey: e.target.value })}
-                                                    />
-                                                </div>
-                                                <div className="flex flex-col gap-2">
-                                                    <label className="text-gray-500 text-[10px] font-black tracking-[0.2em] uppercase ml-1">Verified Sender (From)</label>
-                                                    <input
-                                                        className="glossy-input w-full rounded-2xl bg-black/40 border-white/5 text-white font-bold h-12 px-5 text-xs outline-none focus:ring-1 focus:ring-primary/40 focus:bg-black/60"
-                                                        placeholder="onboarding@resend.dev"
-                                                        value={settings.resendConfig.fromEmail}
-                                                        onChange={(e) => handleInputChange('resendConfig', { ...settings.resendConfig, fromEmail: e.target.value })}
-                                                    />
-                                                </div>
-                                                <div className="flex flex-col gap-2">
-                                                    <label className="text-gray-500 text-[10px] font-black tracking-[0.2em] uppercase ml-1">Connect Domain</label>
-                                                    <input
-                                                        className="glossy-input w-full rounded-2xl bg-black/40 border-white/5 text-white font-bold h-12 px-5 text-xs outline-none focus:ring-1 focus:ring-primary/40 focus:bg-black/60"
-                                                        placeholder="nakmastore.com"
-                                                        value={settings.resendConfig.verifiedDomain}
-                                                        onChange={(e) => handleInputChange('resendConfig', { ...settings.resendConfig, verifiedDomain: e.target.value })}
-                                                    />
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
                                 </div>
                             </div>
                         )}
 
-                        {activeTab === 'policies' && (
+                        {activeTab === 'general' && (
                             <div className="glossy-panel rounded-[2.5rem] p-8 md:p-10 relative overflow-hidden border border-white/5 bg-black/20 shadow-2xl">
                                 <div className="absolute top-0 right-0 w-80 h-80 bg-primary/10 rounded-full blur-3xl pointer-events-none -mr-40 -mt-40"></div>
                                 <div className="flex items-center gap-4 mb-10 relative z-10">
@@ -3728,7 +2142,7 @@ const StoreSettingsPage = () => {
                             </div>
                         )}
 
-                        {activeTab === 'contact' && (
+                        {activeTab === 'general' && (
                             <div className="glossy-panel rounded-[2.5rem] p-8 md:p-10 relative overflow-hidden border border-white/5 bg-black/20 shadow-2xl">
                                 <div className="absolute top-0 right-0 w-80 h-80 bg-primary/10 rounded-full blur-3xl pointer-events-none -mr-40 -mt-40"></div>
                                 <div className="flex items-center gap-4 mb-10 relative z-10">
@@ -3906,39 +2320,7 @@ const StoreSettingsPage = () => {
                                 </div>
                             </div>
                         )}
-                        {activeTab === 'checkout' && (
-                            <div className="glossy-panel rounded-[2.5rem] p-8 md:p-10 relative overflow-hidden border border-white/5 bg-black/20 shadow-2xl">
-                                <div className="absolute top-0 right-0 w-80 h-80 bg-primary/10 rounded-full blur-3xl pointer-events-none -mr-40 -mt-40"></div>
-                                <div className="flex items-center gap-4 mb-10 relative z-10">
-                                    <div className="size-12 rounded-2xl bg-white/[0.03] flex items-center justify-center border border-white/5 shadow-inner">
-                                        <span className="material-symbols-outlined text-primary-light text-[24px]">shopping_bag</span>
-                                    </div>
-                                    <div>
-                                        <h3 className="text-xl font-black text-white tracking-tight uppercase tracking-widest text-sm">Checkout Interface</h3>
-                                        <p className="text-[10px] text-gray-500 font-bold uppercase tracking-widest mt-1">Configure Checkout Experience</p>
-                                    </div>
-                                </div>
-
-                                <div className="grid grid-cols-1 gap-8 relative z-10">
-                                    <div className="flex flex-col gap-2.5">
-                                        <label className="text-gray-500 text-[10px] font-black tracking-[0.2em] uppercase ml-1">Gift Message (HTML Supported)</label>
-                                        <textarea
-                                            className="glossy-input w-full rounded-2xl bg-black/40 border-white/5 text-white font-medium p-6 min-h-[150px] text-sm outline-none focus:ring-1 focus:ring-primary/40 focus:bg-black/60 transition-all font-mono"
-                                            placeholder="Free gift included with <br /> <span class='text-[#a14550]'>first collection</span> purchase."
-                                            value={settings.checkoutPageSettings?.giftMessage || ''}
-                                            onChange={(e) => setSettings(prev => ({
-                                                ...prev,
-                                                checkoutPageSettings: { ...prev.checkoutPageSettings, giftMessage: e.target.value }
-                                            }))}
-                                        />
-                                        <p className="text-[10px] text-gray-600 font-bold uppercase tracking-widest mt-1 ml-1">
-                                            This text appears in the sidebar during checkout. Leave blank to hide.
-                                        </p>
-                                    </div>
-                                </div>
-                            </div>
-                        )}
-                    </div>
+                                            </div>
                 </div>
 
                 {/* System Telemetry Footer */}
@@ -4324,7 +2706,7 @@ const StoreSettingsPage = () => {
                                     <label className="text-gray-500 text-[10px] font-black tracking-[0.2em] uppercase ml-1">Personnel Email</label>
                                     <input
                                         className="glossy-input w-full rounded-2xl bg-black/40 border-white/5 text-white font-bold h-14 px-6 text-sm outline-none"
-                                        placeholder="admin@nakmastore.com"
+                                        placeholder="admin@nakmaltd.com"
                                         value={inviteForm.email}
                                         onChange={(e) => setInviteForm({ ...inviteForm, email: e.target.value })}
                                     />

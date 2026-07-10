@@ -45,7 +45,9 @@ const Navbar = () => {
     const { user, signOut, isAdmin, setIsLoginModalOpen } = useAuth();
     const { settings, loading } = useStoreSettings();
     const cartCount = getCartCount();
-    const navItems = settings.navigationSettings?.filter(i => i.visible) || [];
+    const navItems = settings.navigationSettings?.filter(
+        i => i.visible && i.id !== 'about' && i.id !== 'community'
+    ) || [];
 
     const isHomePage = location.pathname === '/';
 
@@ -220,10 +222,10 @@ const Navbar = () => {
                             initial={{ opacity: 0 }}
                             animate={{ opacity: 1 }}
                             exit={{ opacity: 0 }}
-                            className="fixed inset-0 bg-black/98 backdrop-blur-2xl z-50 md:hidden flex flex-col h-[100dvh]"
+                            className="fixed inset-0 bg-black/98 backdrop-blur-2xl z-50 md:hidden overflow-y-auto"
                         >
-                            <div className="flex flex-col h-full pt-20 pb-8 overflow-y-auto no-scrollbar">
-                                <div className="px-8 mt-4 mb-8">
+                            <div className="flex flex-col pt-20 pb-8">
+                                <div className="px-8 mb-6">
                                     <div className="relative group">
                                         <span className="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-white/40 group-focus-within:text-primary transition-colors">search</span>
                                         <input
@@ -253,8 +255,8 @@ const Navbar = () => {
                                 <motion.div
                                     initial={{ opacity: 0, y: 20 }}
                                     animate={{ opacity: 1, y: 0 }}
-                                    transition={{ delay: 0.4 }}
-                                    className="mt-auto px-8 space-y-4"
+                                    transition={{ delay: 0.2 }}
+                                    className="mt-8 pt-6 border-t border-white/5 px-8 space-y-4"
                                 >
                                     {user ? (
                                         <div className="grid grid-cols-2 gap-4">
@@ -332,7 +334,7 @@ const Navbar = () => {
                                                 <path d="M44 11.2727C44 14.0109 39.8386 16.3957 33.69 17.6364C39.8386 18.877 44 21.2618 44 24C44 26.7382 39.8386 29.123 33.69 30.3636C39.8386 31.6043 44 33.9891 44 36.7273C44 40.7439 35.0457 44 24 44C12.9543 44 4 40.7439 4 36.7273C4 33.9891 8.16144 31.6043 14.31 30.3636C8.16144 29.123 4 26.7382 4 24C4 21.2618 8.16144 18.877 14.31 17.6364C8.16144 16.3957 4 14.0109 4 11.2727C4 7.25611 12.9543 4 24 4C35.0457 4 44 7.25611 44 11.2727Z" fill="currentColor"></path>
                                             </svg>
                                         </div>
-                                        <span className="text-2xl font-bold tracking-tight text-navbar-text">Nakma Store</span>
+                                        <span className="text-2xl font-bold tracking-tight text-navbar-text">Nakma Ltd</span>
                                     </>
                                 )}
                             </Link>
@@ -436,10 +438,10 @@ const Navbar = () => {
                             initial={{ opacity: 0 }}
                             animate={{ opacity: 1 }}
                             exit={{ opacity: 0 }}
-                            className="fixed inset-0 bg-black/98 backdrop-blur-2xl z-50 md:hidden flex flex-col h-[100dvh]"
+                            className="fixed inset-0 bg-black/98 backdrop-blur-2xl z-50 md:hidden overflow-y-auto"
                         >
-                            <div className="flex flex-col h-full pt-20 pb-8 overflow-y-auto no-scrollbar">
-                                <div className="px-8 mt-4 mb-8">
+                            <div className="flex flex-col pt-20 pb-8">
+                                <div className="px-8 mb-6">
                                     <div className="relative group">
                                         <span className="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-white/40 group-focus-within:text-primary transition-colors">search</span>
                                         <input
@@ -469,8 +471,8 @@ const Navbar = () => {
                                 <motion.div
                                     initial={{ opacity: 0 }}
                                     animate={{ opacity: 1 }}
-                                    transition={{ delay: 0.4 }}
-                                    className="mt-auto px-8 space-y-4"
+                                    transition={{ delay: 0.2 }}
+                                    className="mt-8 pt-6 border-t border-white/5 px-8 space-y-4"
                                 >
                                     {user ? (
                                         <div className="grid grid-cols-2 gap-4">

@@ -5,32 +5,44 @@ import { useStoreSettings } from '../context/StoreSettingsContext';
 import { useAuth } from '../context/AuthContext';
 import { useNotification } from '../context/NotificationContext';
 import { supabase } from '../lib/supabase';
-import { emailService } from '../services/emailService';
+import { sendOrderPlacementNotifications } from '../utils/orderNotifications';
 import { analyticsService } from '../services/analyticsService';
+import DeliveryLocationPicker from '../components/checkout/DeliveryLocationPicker';
+import { NETWORK_DELIVERY_FLAT_RATE } from '../constants/deliveryLocations';
+import {
+    getPaymentMethodLabel,
+    resolveCartPaymentMethod,
+} from '../utils/paymentMethod';
 // Removed react-paystack hook to use direct Inline JS for better stability with async flows
 
 const CheckoutPage = () => {
     const { formatPrice, settings, calculateTax, getTaxName, shouldShowTax } = useStoreSettings();
-    const { user, setIsLoginModalOpen } = useAuth();
+    const { user } = useAuth();
     const { cart, getCartTotal, clearCart } = useCart();
     const { notify } = useNotification();
     const navigate = useNavigate();
     const [step, setStep] = useState(1);
-    const [selectedPayment, setSelectedPayment] = useState('');
-    const [selectedShippingId, setSelectedShippingId] = useState('');
-    const [isGuestCheckout, setIsGuestCheckout] = useState(false);
-    const [showAuthPrompt, setShowAuthPrompt] = useState(false);
     const [isProcessing, setIsProcessing] = useState(false);
+    const [deliveryLocation, setDeliveryLocation] = useState({
+        type: 'custom',
+        location: '',
+        routeId: null,
+        routeName: null,
+    });
+
+    const getCheckoutEmail = () => {
+        if (user?.email) return user.email.toLowerCase().trim();
+        const phoneDigits = (formData.phoneNumber || '').replace(/\D/g, '');
+        if (phoneDigits) return `guest+${phoneDigits}@nakmaltd.com`;
+        return 'guest@nakmaltd.com';
+    };
 
     useEffect(() => {
         analyticsService.trackEvent('checkout', 'Checkout Start', { step: 1 });
     }, []);
 
     const [formData, setFormData] = useState({
-        email: '',
-        firstName: '',
-        lastName: '',
-        address: '',
+        fullName: '',
         phoneNumber: '',
         country: 'Kenya',
         cardNumber: '',
@@ -38,52 +50,52 @@ const CheckoutPage = () => {
         cvv: ''
     });
 
-    useEffect(() => {
-        if (user?.email) {
-            setFormData(prev => ({ ...prev, email: user.email }));
-            // If user logs in while prompt is open, close it and advance to payment
-            if (showAuthPrompt) {
-                setShowAuthPrompt(false);
-                setStep(3);
-                notify('Authenticated! Continuing to payment...', 'success');
-            }
+    const getCustomerFullName = () => formData.fullName.trim();
+    const getDeliveryLocationLabel = () => deliveryLocation.location?.trim() || '';
+
+    const getShippingMethodLabel = () => {
+        if (deliveryLocation.type === 'network' && deliveryLocation.routeName) {
+            return `${deliveryLocation.routeName} · Flat Rate`;
         }
-    }, [user, showAuthPrompt]);
+        return getDeliveryLocationLabel() || 'Delivery';
+    };
+
+    const buildShippingDetails = () => ({
+        fullName: getCustomerFullName(),
+        firstName: getCustomerFullName(),
+        lastName: '',
+        email: getCheckoutEmail(),
+        line1: getDeliveryLocationLabel(),
+        country: formData.country,
+        phone: formData.phoneNumber,
+        method: getShippingMethodLabel(),
+        deliveryLocation: getDeliveryLocationLabel(),
+        deliveryRoute: deliveryLocation.routeName || null,
+        deliveryLocationType: deliveryLocation.type,
+        isNetworkDelivery: deliveryLocation.type === 'network',
+    });
+
+    const getPaystackNameParts = () => {
+        const parts = getCustomerFullName().split(/\s+/).filter(Boolean);
+        if (!parts.length) return { firstname: '', lastname: '' };
+        return {
+            firstname: parts[0],
+            lastname: parts.slice(1).join(' ') || parts[0],
+        };
+    };
 
     const subtotal = getCartTotal();
-    const activeMethods = settings?.shippingMethods?.filter(m => m.enabled) || [];
+    const orderPaymentMethod = resolveCartPaymentMethod(cart);
+    const isPaymentGatewayEnabled = settings?.paymentGateways?.[orderPaymentMethod] ?? orderPaymentMethod === 'cod';
 
-    useEffect(() => {
-        if (activeMethods.length > 0) {
-            const currentIsValid = activeMethods.some(m => m.id === selectedShippingId);
-            if (!selectedShippingId || !currentIsValid) {
-                setSelectedShippingId(activeMethods[0].id);
-            }
-        } else if (selectedShippingId) {
-            setSelectedShippingId('');
-        }
-    }, [activeMethods, selectedShippingId]);
-
-    const activePaymentGateways = settings?.paymentGateways ?
-        Object.entries(settings.paymentGateways)
-            .filter(([_, enabled]) => enabled)
-            .map(([key]) => key) : [];
-
-    useEffect(() => {
-        if (activePaymentGateways.length > 0) {
-            const currentIsValid = activePaymentGateways.includes(selectedPayment);
-            if (!selectedPayment || !currentIsValid) {
-                setSelectedPayment(activePaymentGateways[0]);
-            }
-        } else if (selectedPayment) {
-            setSelectedPayment('');
-        }
-    }, [activePaymentGateways, selectedPayment]);
-
-    const selectedMethod = activeMethods.find(m => m.id === selectedShippingId);
-    const shipping = selectedMethod ? selectedMethod.cost : 0;
+    const shipping = deliveryLocation.type === 'network' ? NETWORK_DELIVERY_FLAT_RATE : 0;
     const tax = calculateTax(subtotal);
     const total = subtotal + shipping + tax;
+
+    const getShippingDisplay = () => {
+        if (deliveryLocation.type === 'network') return formatPrice(NETWORK_DELIVERY_FLAT_RATE);
+        return '—';
+    };
 
     // Paystack is now handled directly in handleSubmit using PaystackPop.setup()
     // for better stability in live Mobile Money environments.
@@ -92,91 +104,90 @@ const CheckoutPage = () => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
     };
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        if (step === 2) {
-            // Before moving to payment (Step 3), enforce authentication unless guest
-            if (!user && !isGuestCheckout) {
-                setShowAuthPrompt(true);
+    const placeOrder = async () => {
+        if (!isPaymentGatewayEnabled) {
+            notify(`Payment method "${getPaymentMethodLabel(orderPaymentMethod)}" is not available.`, 'error');
+            return;
+        }
+
+        if (orderPaymentMethod === 'paystack') {
+            const publicKey = settings?.paymentConfigs?.paystack?.publicKey;
+            if (!publicKey) {
+                notify('Paystack configuration missing.', 'error');
                 return;
             }
-            setStep(3);
-        } else if (step === 1) {
-            setStep(2);
-            analyticsService.trackEvent('checkout', 'Checkout Step 2', { from_step: 1 });
-        } else if (step === 3) {
-            if (selectedPayment === 'paystack') {
-                const publicKey = settings?.paymentConfigs?.paystack?.publicKey;
-                if (!publicKey) {
-                    notify('Paystack configuration missing.', 'error');
+
+            try {
+                setIsProcessing(true);
+                notify('Preparing your order...', 'info');
+
+                const currentRef = `REF${Date.now()}${(Math.random() * 10000).toFixed(0)}`;
+                const amountInCents = Math.round(Number(total) * 100);
+                const order = await processOrder('Unpaid', currentRef, true);
+
+                if (!order) {
+                    console.error('Database: Order creation failed before payment');
+                    setIsProcessing(false);
                     return;
                 }
 
-                try {
-                    setIsProcessing(true);
-                    notify('Preparing your order...', 'info');
-
-                    // 1. Generate local fresh data
-                    const currentRef = `REF${Date.now()}${(Math.random() * 10000).toFixed(0)}`;
-                    const amountInCents = Math.round(Number(total) * 100);
-
-                    // 2. Create the order in your database first
-                    const order = await processOrder('Unpaid', currentRef, true);
-
-                    if (!order) {
-                        console.error('Database: Order creation failed before payment');
+                const paystackNames = getPaystackNameParts();
+                const handler = window.PaystackPop.setup({
+                    key: publicKey.trim(),
+                    email: getCheckoutEmail(),
+                    amount: amountInCents,
+                    currency: (settings?.currency || 'KES').toUpperCase().trim(),
+                    ref: currentRef,
+                    firstname: paystackNames.firstname,
+                    lastname: paystackNames.lastname,
+                    metadata: {
+                        order_id: order.id,
+                        custom_fields: [
+                            {
+                                display_name: 'Customer Name',
+                                variable_name: 'customer_name',
+                                value: getCustomerFullName(),
+                            },
+                            {
+                                display_name: 'Order ID',
+                                variable_name: 'order_id',
+                                value: order.id,
+                            },
+                        ],
+                    },
+                    callback: (response) => {
+                        notify('Payment confirmed!', 'success');
+                        finalizeOrderAfterPayment(order, response.reference);
+                    },
+                    onClose: () => {
                         setIsProcessing(false);
-                        return;
-                    }
+                        notify('Payment was cancelled.', 'info');
+                    },
+                });
 
-                    console.log('Database: Order created successfully. Initializing Paystack...', order.id);
-
-                    // 3. Trigger Paystack Inline directly (more stable than the hook for async flows)
-                    const handler = window.PaystackPop.setup({
-                        key: publicKey.trim(),
-                        email: (formData.email || '').toLowerCase().trim(),
-                        amount: amountInCents,
-                        currency: (settings?.currency || 'KES').toUpperCase().trim(),
-                        ref: currentRef,
-                        firstname: formData.firstName,
-                        lastname: formData.lastName,
-                        metadata: {
-                            order_id: order.id,
-                            custom_fields: [
-                                {
-                                    display_name: "Customer Name",
-                                    variable_name: "customer_name",
-                                    value: `${formData.firstName} ${formData.lastName}`
-                                },
-                                {
-                                    display_name: "Order ID",
-                                    variable_name: "order_id",
-                                    value: order.id
-                                }
-                            ]
-                        },
-                        callback: (response) => {
-                            console.log('Paystack SUCCESS:', response);
-                            notify('Payment confirmed!', 'success');
-                            finalizeOrderAfterPayment(order, response.reference);
-                        },
-                        onClose: () => {
-                            console.log('Paystack CANCELLED');
-                            setIsProcessing(false);
-                            notify('Payment was cancelled.', 'info');
-                        }
-                    });
-
-                    handler.openIframe();
-
-                } catch (err) {
-                    console.error('Checkout logic error:', err);
-                    notify('Failed to start checkout. Please try again.', 'error');
-                    setIsProcessing(false);
-                }
-            } else {
-                processOrder(selectedPayment === 'cod' ? 'Unpaid' : 'Paid');
+                handler.openIframe();
+            } catch (err) {
+                console.error('Checkout logic error:', err);
+                notify('Failed to start checkout. Please try again.', 'error');
+                setIsProcessing(false);
             }
+            return;
+        }
+
+        processOrder(orderPaymentMethod === 'cod' ? 'Unpaid' : 'Paid');
+    };
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        if (step === 2) {
+            await placeOrder();
+        } else if (step === 1) {
+            if (!getDeliveryLocationLabel()) {
+                notify('Please enter a delivery location.', 'error');
+                return;
+            }
+            setStep(2);
+            analyticsService.trackEvent('checkout', 'Checkout Step 2', { from_step: 1 });
         }
     };
 
@@ -190,15 +201,7 @@ const CheckoutPage = () => {
                 id: originalOrder.id || reference,
                 payment_status: 'Paid',
                 paymentMethod: 'paystack',
-                shippingDetails: {
-                    firstName: formData.firstName,
-                    lastName: formData.lastName,
-                    email: formData.email,
-                    line1: formData.address,
-                    country: formData.country,
-                    phone: formData.phoneNumber,
-                    method: selectedMethod?.name || 'Standard Shipping'
-                },
+                shippingDetails: buildShippingDetails(),
                 items: cart.map(item => ({
                     name: item.name,
                     images: item.images || [],
@@ -234,25 +237,13 @@ const CheckoutPage = () => {
         // 3. AWAIT BACKGROUND NOTIFICATIONS (Ensure they are sent before moving)
         try {
             console.log('Sending notifications...');
-            const customerData = { email: (formData.email || '').trim(), full_name: `${formData.firstName} ${formData.lastName}` };
-            const emailItems = confirmationData.order.items.map(item => ({
-                product_name: item.name,
-                quantity: item.quantity,
-                price: item.price
-            }));
-
-            // Fetch admin emails
-            const { data: teamMembers } = await supabase.from('team_members').select('email').in('role', ['admin', 'editor', 'shop_manager']);
-            const allRecipients = [...new Set([(teamMembers || []).map(m => m.email), settings?.alertEmails || []].flat())].filter(Boolean);
-
-            await Promise.all([
-                emailService.sendOrderConfirmation(confirmationData.order, customerData, emailItems)
-                    .catch(e => console.error('Customer email failed:', e)),
-                allRecipients.length > 0
-                    ? emailService.sendAdminOrderNotification(confirmationData.order, allRecipients, customerData, emailItems)
-                        .catch(e => console.error('Admin email failed:', e))
-                    : Promise.resolve()
-            ]);
+            const customerData = { email: getCheckoutEmail(), full_name: getCustomerFullName() };
+            await sendOrderPlacementNotifications({
+                order: confirmationData.order,
+                customer: customerData,
+                items: confirmationData.order.items,
+                settings,
+            });
             console.log('Notifications sent.');
         } catch (e) {
             console.error('Notification error:', e);
@@ -272,61 +263,10 @@ const CheckoutPage = () => {
         setIsProcessing(true);
 
         // Construct Shipping Address
-        const shippingAddress = {
-            line1: formData.address,
-            country: formData.country,
-            firstName: formData.firstName,
-            lastName: formData.lastName,
-            email: formData.email,
-            phone: formData.phoneNumber
-        };
+        const shippingAddress = buildShippingDetails();
 
         try {
-            let finalCustomerId = user?.id || null;
-
-            // Handle Guest Auto-Account Creation
-            if (!user && isGuestCheckout) {
-                try {
-                    // Check if profile exists first to avoid Auth 422 error noise
-                    const { data: existingProfile } = await supabase
-                        .from('profiles')
-                        .select('id')
-                        .eq('email', formData.email)
-                        .maybeSingle();
-
-                    if (existingProfile) {
-                        finalCustomerId = existingProfile.id;
-                        console.log('Found existing customer profile. Linking order.');
-                    } else {
-                        const { data: authData, error: authError } = await supabase.auth.signUp({
-                            email: formData.email,
-                            password: 'NakmaStore@2026',
-                            options: {
-                                data: {
-                                    full_name: `${formData.firstName} ${formData.lastName}`,
-                                }
-                            }
-                        });
-
-                        if (!authError && authData.user) {
-                            finalCustomerId = authData.user.id;
-                            // Create profile manually as backup
-                            supabase.from('profiles').upsert([{
-                                id: authData.user.id,
-                                email: formData.email,
-                                full_name: `${formData.firstName} ${formData.lastName}`,
-                                role: 'user'
-                            }]).then(({ error }) => error && console.error('Profile backup error:', error));
-
-                            // Send account details email
-                            emailService.sendGuestAccountDetails(formData.email, 'NakmaStore@2026').catch(console.error);
-                        }
-                    }
-                } catch (err) {
-                    console.error('Guest prep error:', err);
-                }
-            }
-
+            const finalCustomerId = user?.id || null;
             // 1. Create the order in Supabase
             const generatedRef = paymentReference || `REF-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
 
@@ -337,7 +277,7 @@ const CheckoutPage = () => {
                     total_amount: total,
                     status: onlyCreate ? 'Pending' : 'Processing',
                     payment_status: paymentStatus,
-                    payment_method: selectedPayment,
+                    payment_method: orderPaymentMethod,
                     payment_reference: generatedRef,
                     shipping_address: shippingAddress,
                     currency: settings?.currency || 'USD'
@@ -386,25 +326,13 @@ const CheckoutPage = () => {
             // Background Notifications
             // AWAIT Notifications before navigation
             try {
-                const customerData = { email: (formData.email || '').trim(), full_name: `${formData.firstName} ${formData.lastName}` };
-                const emailItems = cart.map(item => ({
-                    product_name: item.name,
-                    quantity: item.quantity,
-                    price: item.price
-                }));
-
-                // Admin Email Fetch
-                const { data: teamMembers } = await supabase.from('team_members').select('email').in('role', ['admin', 'editor', 'shop_manager']);
-                const allRecipients = [...new Set([(teamMembers || []).map(m => m.email), settings?.alertEmails || []].flat())].filter(Boolean);
-
-                await Promise.all([
-                    emailService.sendOrderConfirmation(order, customerData, emailItems)
-                        .catch(e => console.error('Customer email failed:', e)),
-                    allRecipients.length > 0
-                        ? emailService.sendAdminOrderNotification(order, allRecipients, customerData, emailItems)
-                            .catch(e => console.error('Admin email failed:', e))
-                        : Promise.resolve()
-                ]);
+                const customerData = { email: getCheckoutEmail(), full_name: getCustomerFullName() };
+                await sendOrderPlacementNotifications({
+                    order,
+                    customer: customerData,
+                    items: cart,
+                    settings,
+                });
             } catch (e) {
                 console.error('Notification background error:', e);
             }
@@ -415,16 +343,8 @@ const CheckoutPage = () => {
                 state: {
                     order: {
                         ...order,
-                        paymentMethod: selectedPayment,
-                        shippingDetails: {
-                            firstName: formData.firstName,
-                            lastName: formData.lastName,
-                            email: formData.email,
-                            line1: formData.address,
-                            country: formData.country,
-                            phone: formData.phoneNumber,
-                            method: selectedMethod?.name || 'Standard Shipping'
-                        },
+                        paymentMethod: orderPaymentMethod,
+                        shippingDetails: buildShippingDetails(),
                         items: cart.map(item => ({
                             name: item.name,
                             images: item.images || [],
@@ -453,17 +373,6 @@ const CheckoutPage = () => {
         }
     };
 
-    const handleGuestCheckout = () => {
-        setIsGuestCheckout(true);
-        setShowAuthPrompt(false);
-        setStep(3);
-    };
-
-    const handleLoginClick = () => {
-        setShowAuthPrompt(false);
-        setIsLoginModalOpen(true);
-    };
-
     return (
         <div className="bg-black min-h-screen text-white font-['Manrope'] pt-20 md:pt-32 pb-10 md:pb-20 relative">
             {/* Ambient Lighting */}
@@ -471,49 +380,6 @@ const CheckoutPage = () => {
                 <div className="absolute top-[-10%] right-[-10%] w-[800px] h-[800px] bg-primary/10 rounded-full blur-[120px]"></div>
                 <div className="absolute bottom-[-10%] left-[-10%] w-[600px] h-[600px] bg-black/10 rounded-full blur-[100px]"></div>
             </div>
-
-            {/* Auth Prompt Modal */}
-            {showAuthPrompt && (
-                <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 animate-fade-in">
-                    <div
-                        onClick={() => setShowAuthPrompt(false)}
-                        className="absolute inset-0 bg-black/80 backdrop-blur-sm"
-                    />
-                    <div className="relative w-full max-w-md bg-black glass-panel p-10 rounded-[40px] border border-white/10 shadow-2xl overflow-hidden animate-scale-in">
-                        <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-[#b82063] to-transparent opacity-50"></div>
-
-                        <h2 className="text-2xl font-black italic tracking-tight mb-4 text-center uppercase">Secure Your Order</h2>
-                        <p className="text-white/60 text-center mb-10 text-sm leading-relaxed">
-                            Sign in or create an account to complete your purchase. This ensures you can track your delivery and access your order history.
-                        </p>
-
-                        <div className="space-y-4">
-                            <button
-                                onClick={handleLoginClick}
-                                className="w-full h-14 store-button-primary rounded-full text-[10px]"
-                            >
-                                <span>Sign In / Create Account</span>
-                                <span className="material-symbols-outlined text-sm">login</span>
-                            </button>
-                            <button
-                                onClick={handleGuestCheckout}
-                                className="w-full h-14 store-button-secondary rounded-full text-[10px]"
-                            >
-                                <span>Continue as Guest</span>
-                                <span className="material-symbols-outlined text-sm">arrow_forward</span>
-                            </button>
-                            <p className="text-[9px] text-white/20 text-center uppercase tracking-widest font-bold">Authentication is recommended but optional</p>
-                        </div>
-
-                        <button
-                            onClick={() => setShowAuthPrompt(false)}
-                            className="absolute top-6 right-6 text-white/20 hover:text-white transition-colors"
-                        >
-                            <span className="material-symbols-outlined">close</span>
-                        </button>
-                    </div>
-                </div>
-            )}
 
             <main className="max-w-[1440px] mx-auto px-4 md:px-10">
                 <div className="flex flex-col lg:flex-row gap-8 lg:gap-24">
@@ -525,137 +391,79 @@ const CheckoutPage = () => {
                             <div className="flex items-center gap-3 md:gap-4 text-[9px] md:text-xs font-bold uppercase tracking-[0.2em] md:tracking-[0.3em]">
                                 <span className={step >= 1 ? 'text-[#b82063]' : 'text-white/20'}>Info</span>
                                 <span className="text-white/10">/</span>
-                                <span className={step >= 2 ? 'text-[#b82063]' : 'text-white/20'}>Delivery</span>
-                                <span className="text-white/10">/</span>
-                                <span className={step >= 3 ? 'text-[#b82063]' : 'text-white/20'}>Pay</span>
+                                <span className={step >= 2 ? 'text-[#b82063]' : 'text-white/20'}>Review</span>
                             </div>
                         </div>
 
                         <form onSubmit={handleSubmit} className="space-y-8 md:space-y-12">
                             {step === 1 && (
-                                <div className="space-y-6 md:space-y-10 animate-fade-in">
-                                    <div className="space-y-4 md:space-y-6">
-                                        <h2 className="text-xl md:text-2xl font-bold italic">Contact Information</h2>
-                                        <div className="group relative">
-                                            <input
-                                                required
-                                                type="email"
-                                                name="email"
-                                                placeholder="Email Address"
-                                                value={formData.email}
-                                                onChange={handleInputChange}
-                                                className="w-full h-12 bg-white/[0.03] border border-white/10 rounded-xl px-4 text-sm text-white outline-none focus:border-[#b82063] transition-all placeholder:text-white/50"
-                                            />
-                                        </div>
-                                    </div>
+                                <div className="space-y-4 md:space-y-6 animate-fade-in">
+                                    <h2 className="text-xl md:text-2xl font-bold italic">Delivery Address</h2>
+                                    <input
+                                        required
+                                        name="fullName"
+                                        placeholder="Your name"
+                                        value={formData.fullName}
+                                        onChange={handleInputChange}
+                                        className="w-full h-12 bg-white/[0.03] border border-white/10 rounded-xl px-4 text-sm text-white outline-none focus:border-[#b82063] transition-all placeholder:text-white/50"
+                                    />
+                                    <DeliveryLocationPicker
+                                        value={deliveryLocation}
+                                        onChange={setDeliveryLocation}
+                                    />
 
-                                    <div className="space-y-4 md:space-y-6">
-                                        <h2 className="text-xl md:text-2xl font-bold italic">Delivery Address</h2>
-                                        <div className="grid grid-cols-2 gap-4">
-                                            <input
-                                                required
-                                                name="firstName"
-                                                placeholder="First Name"
-                                                onChange={handleInputChange}
-                                                className="h-12 bg-white/[0.03] border border-white/10 rounded-xl px-4 text-sm text-white outline-none focus:border-[#b82063] transition-all placeholder:text-white/50"
-                                            />
-                                            <input
-                                                required
-                                                name="lastName"
-                                                placeholder="Last Name"
-                                                onChange={handleInputChange}
-                                                className="h-12 bg-white/[0.03] border border-white/10 rounded-xl px-4 text-sm text-white outline-none focus:border-[#b82063] transition-all placeholder:text-white/50"
-                                            />
-                                        </div>
+                                    <div className="group relative">
                                         <input
                                             required
-                                            name="address"
-                                            placeholder="Street Address"
-                                            value={formData.address}
+                                            type="tel"
+                                            name="phoneNumber"
+                                            placeholder="Phone Number"
+                                            value={formData.phoneNumber}
                                             onChange={handleInputChange}
                                             className="w-full h-12 bg-white/[0.03] border border-white/10 rounded-xl px-4 text-sm text-white outline-none focus:border-[#b82063] transition-all placeholder:text-white/50"
                                         />
-
-                                        <div className="group relative">
-                                            <input
-                                                required
-                                                type="tel"
-                                                name="phoneNumber"
-                                                placeholder="Phone Number"
-                                                onChange={handleInputChange}
-                                                className="w-full h-12 bg-white/[0.03] border border-white/10 rounded-xl px-4 text-sm text-white outline-none focus:border-[#b82063] transition-all placeholder:text-white/50"
-                                            />
-                                        </div>
                                     </div>
                                 </div>
                             )}
 
                             {step === 2 && (
                                 <div className="space-y-6 md:space-y-10 animate-fade-in">
-                                    <h2 className="text-xl md:text-2xl font-bold italic">Choose Delivery Method</h2>
-                                    <div className="space-y-3 md:space-y-4">
-                                        {activeMethods.length > 0 ? (
-                                            activeMethods.map((method) => (
-                                                <label key={method.id} className={`flex items-center justify-between p-4 md:p-8 rounded-2xl md:rounded-[30px] border transition-all group cursor-pointer ${selectedShippingId === method.id ? 'bg-primary/10 border-[#b82063]' : 'bg-white/[0.03] border-white/10 hover:border-white/20'}`}>
-                                                    <div className="flex items-center gap-4 md:gap-6">
-                                                        <input
-                                                            type="radio"
-                                                            name="shipping"
-                                                            checked={selectedShippingId === method.id}
-                                                            onChange={() => setSelectedShippingId(method.id)}
-                                                            className="size-6 accent-[#b82063]"
-                                                        />
-                                                        <div>
-                                                            <p className="font-bold text-lg md:text-xl">{method.name}</p>
-                                                            <p className="text-white/40 text-[10px] md:text-sm">{method.deliveryTime || method.time}</p>
-                                                            {method.description && <p className="text-white/20 text-xs mt-1">{method.description}</p>}
-                                                        </div>
-                                                    </div>
-                                                    <span className="font-bold">{method.cost === 0 ? 'FREE' : formatPrice(method.cost)}</span>
-                                                </label>
-                                            ))
-                                        ) : (
-                                            <p className="text-white/50 text-center py-10">No delivery methods available.</p>
-                                        )}
+                                    <h2 className="text-xl md:text-2xl font-bold italic">Delivery Summary</h2>
+                                    <div className="p-6 md:p-8 rounded-2xl md:rounded-[30px] border bg-primary/10 border-[#b82063] space-y-4">
+                                        <div>
+                                            <p className="text-[10px] font-black uppercase tracking-[0.2em] text-white/40">Location</p>
+                                            <p className="font-bold text-lg md:text-xl mt-1">{getDeliveryLocationLabel()}</p>
+                                            {deliveryLocation.routeName && (
+                                                <p className="text-white/50 text-sm mt-1">{deliveryLocation.routeName}</p>
+                                            )}
+                                        </div>
+                                        <div className="flex items-center justify-between pt-4 border-t border-white/10">
+                                            <div>
+                                                <p className="font-bold text-lg md:text-xl">Delivery Fee</p>
+                                                {deliveryLocation.type === 'network' && (
+                                                    <p className="text-white/40 text-[10px] md:text-sm">
+                                                        Flat rate across our delivery network
+                                                    </p>
+                                                )}
+                                            </div>
+                                            <span className="font-bold text-lg md:text-xl">
+                                                {deliveryLocation.type === 'network'
+                                                    ? formatPrice(NETWORK_DELIVERY_FLAT_RATE)
+                                                    : '—'}
+                                            </span>
+                                        </div>
+                                        <div className="flex items-center justify-between pt-4 border-t border-white/10">
+                                            <div>
+                                                <p className="font-bold text-lg md:text-xl">Payment</p>
+                                                <p className="text-white/40 text-[10px] md:text-sm">
+                                                    Set per product in your bag
+                                                </p>
+                                            </div>
+                                            <span className="font-bold text-lg md:text-xl">
+                                                {getPaymentMethodLabel(orderPaymentMethod)}
+                                            </span>
+                                        </div>
                                     </div>
-                                </div>
-                            )}
-
-                            {step === 3 && (
-                                <div className="space-y-6 md:space-y-10 animate-fade-in">
-                                    <h2 className="text-xl md:text-2xl font-bold italic">Payment Method</h2>
-
-                                    <div className="space-y-4">
-                                        {['paystack', 'stripe', 'paypal', 'cod'].map((key) => {
-                                            const enabled = settings?.paymentGateways?.[key];
-                                            if (!enabled) return null;
-
-                                            let label = key;
-                                            if (key === 'stripe') label = 'Credit Card (Stripe)';
-                                            if (key === 'paypal') label = 'PayPal';
-                                            if (key === 'paystack') label = 'Mpesa/Cards';
-                                            if (key === 'cod') label = 'Cash on Delivery';
-
-                                            return (
-                                                <label key={key} className={`flex items-center gap-3 md:gap-4 p-4 md:p-6 rounded-xl border cursor-pointer transition-all ${selectedPayment === key ? 'bg-primary/10 border-[#b82063]' : 'bg-white/[0.03] border-white/10 hover:border-white/20'}`}>
-                                                    <input
-                                                        type="radio"
-                                                        name="paymentMethod"
-                                                        value={key}
-                                                        checked={selectedPayment === key}
-                                                        onChange={(e) => setSelectedPayment(e.target.value)}
-                                                        className="accent-[#b82063] size-4 md:size-5"
-                                                    />
-                                                    <span className="font-bold text-sm uppercase tracking-wider">{label}</span>
-                                                </label>
-                                            );
-                                        })}
-
-                                        {(!settings?.paymentGateways || Object.values(settings.paymentGateways).every(v => !v)) && (
-                                            <p className="text-white/50 text-sm">No payment methods available.</p>
-                                        )}
-                                    </div>
-
                                 </div>
                             )}
 
@@ -679,7 +487,7 @@ const CheckoutPage = () => {
                                         </>
                                     ) : (
                                         <>
-                                            {step === 3 ? 'Place Order' : (step === 2 ? 'Continue to Payment' : 'Continue')}
+                                            {step === 2 ? 'Place Order' : 'Continue'}
                                             <span className="material-symbols-outlined">east</span>
                                         </>
                                     )}
@@ -696,7 +504,7 @@ const CheckoutPage = () => {
                             <div className="space-y-6 max-h-[400px] overflow-y-auto pr-4 custom-scrollbar">
                                 {cart.map((item) => (
                                     <div key={`${item.id}-${item.variation_id || 'base'}-${item.selectedSize}-${item.selectedColor?.name || item.selectedColor}-${item.selectedWeight}-${item.selectedDimension}`} className="flex gap-6 items-center">
-                                        <div className="size-20 rounded-[16px] overflow-hidden bg-[#f5f5f5] p-2 flex-shrink-0 border border-white/5">
+                                        <div className="size-20 overflow-hidden bg-[#f5f5f5] p-2 flex-shrink-0 border border-white/5">
                                             <img src={item.images?.[0]} className="w-full h-full object-contain mix-blend-multiply" alt="" />
                                         </div>
                                         <div className="flex-grow">
@@ -729,7 +537,7 @@ const CheckoutPage = () => {
                                 </div>
                                 <div className="flex justify-between items-center text-white/40 text-sm font-bold uppercase tracking-widest">
                                     <span>Delivery</span>
-                                    <span className="text-white">{shipping === 0 ? 'FREE' : formatPrice(shipping)}</span>
+                                    <span className="text-white">{getShippingDisplay()}</span>
                                 </div>
                                 {shouldShowTax() && (
                                     <div className="flex justify-between items-center text-white/40 text-sm font-bold uppercase tracking-widest">
@@ -741,18 +549,6 @@ const CheckoutPage = () => {
                                     <span>Total</span>
                                     <span className="text-[#b82063]">{formatPrice(total)}</span>
                                 </div>
-                            </div>
-
-                            <div className="pt-4 space-y-4">
-                                {settings?.checkoutPageSettings?.giftMessage && (
-                                    <div className="flex items-center gap-3 p-4 rounded-2xl bg-primary/10 border border-[#b82063]/20">
-                                        <span className="material-symbols-outlined text-[#b82063]">redeem</span>
-                                        <p
-                                            className="text-[10px] font-bold uppercase tracking-widest leading-tight"
-                                            dangerouslySetInnerHTML={{ __html: settings.checkoutPageSettings.giftMessage }}
-                                        />
-                                    </div>
-                                )}
                             </div>
                         </div>
                     </div>

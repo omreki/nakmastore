@@ -4,6 +4,7 @@ import { supabase } from '../../lib/supabase';
 import AdminLayout from '../../components/admin/AdminLayout';
 import { useNotification } from '../../context/NotificationContext';
 import ProductVariationManager from '../../components/admin/ProductVariationManager';
+import { PAYMENT_METHOD_OPTIONS } from '../../utils/paymentMethod';
 
 const EditProductPage = () => {
     const { id } = useParams();
@@ -30,7 +31,8 @@ const EditProductPage = () => {
         sizes: [],
         weights: [],
         dimensions: [],
-        sku: '' // Added SKU field
+        sku: '',
+        payment_method: 'cod',
     });
 
     const [variations, setVariations] = useState([]); // Variations state
@@ -107,7 +109,8 @@ const EditProductPage = () => {
                 sizes: data.sizes || [],
                 weights: data.weights || [],
                 dimensions: data.dimensions || [],
-                sku: data.sku || ''
+                sku: data.sku || '',
+                payment_method: data.payment_method || 'cod',
             });
 
             setOriginalProduct(data);
@@ -354,8 +357,8 @@ const EditProductPage = () => {
                 price: price,
                 sale_price: sale_price,
                 description: formData.description,
-                description_fit: formData.description_fit,
-                materials_care: formData.materials_care,
+                description_fit: formData.description_fit?.trim() || null,
+                materials_care: formData.materials_care?.trim() || null,
                 category: primaryCat ? primaryCat.slug : 'uncategorized',
                 sub_category: subCat ? subCat.slug : null,
                 is_new: formData.is_new,
@@ -367,6 +370,7 @@ const EditProductPage = () => {
                 sizes: formData.sizes,
                 weights: formData.weights,
                 dimensions: formData.dimensions,
+                payment_method: formData.payment_method || 'cod',
                 updated_at: new Date().toISOString()
             };
 
@@ -508,14 +512,8 @@ const EditProductPage = () => {
             <div className="flex flex-col gap-8 pb-10">
                 <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 relative z-10">
                     <div className="flex flex-col gap-2">
-                        <div className="flex items-center gap-2 mb-1 justify-center md:justify-start">
-                            <span className="inline-flex items-center rounded-full bg-primary/20 px-2.5 py-0.5 text-[10px] font-black uppercase tracking-widest text-primary-light ring-1 ring-inset ring-primary/30 backdrop-blur-sm">
-                                Collection Management
-                            </span>
-                            <span className="text-gray-500 text-sm font-medium">/ Edit Product</span>
-                        </div>
                         <h1 className="text-white text-4xl md:text-5xl font-black leading-tight tracking-[-0.033em] drop-shadow-lg">
-                            Edit <span className="text-transparent bg-clip-text bg-gradient-to-r from-white via-gray-200 to-gray-400 font-black">Product</span>
+                            Edit Product
                         </h1>
                         <p className="text-gray-400 text-base font-medium leading-relaxed max-w-2xl mt-2">
                             Update the details, pricing, and visual presentation for this collection piece.
@@ -669,6 +667,22 @@ const EditProductPage = () => {
                                     </div>
 
                                     <div className="flex flex-col gap-2.5">
+                                        <label className="text-gray-500 text-[10px] font-black tracking-[0.2em] uppercase ml-1">Payment Method</label>
+                                        <select
+                                            name="payment_method"
+                                            value={formData.payment_method}
+                                            onChange={handleInputChange}
+                                            className="glossy-input w-full rounded-2xl bg-black/40 border-white/5 text-white font-black h-14 px-6 text-sm transition-all outline-none focus:ring-1 focus:ring-primary/40 focus:bg-black/60"
+                                        >
+                                            {PAYMENT_METHOD_OPTIONS.map((option) => (
+                                                <option key={option.value} value={option.value}>
+                                                    {option.label}
+                                                </option>
+                                            ))}
+                                        </select>
+                                    </div>
+
+                                    <div className="flex flex-col gap-2.5">
                                         <label className="text-gray-500 text-[10px] font-black tracking-[0.2em] uppercase ml-1">Total Stock</label>
                                         <input
                                             type="number"
@@ -696,7 +710,7 @@ const EditProductPage = () => {
 
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mt-8 relative z-10">
                                     <div className="flex flex-col gap-2.5">
-                                        <label className="text-gray-500 text-[10px] font-black tracking-[0.2em] uppercase ml-1">Description & Fit</label>
+                                        <label className="text-gray-500 text-[10px] font-black tracking-[0.2em] uppercase ml-1">Description & Fit <span className="text-gray-600 normal-case tracking-normal">(Optional)</span></label>
                                         <textarea
                                             name="description_fit"
                                             value={formData.description_fit}
@@ -707,7 +721,7 @@ const EditProductPage = () => {
                                         ></textarea>
                                     </div>
                                     <div className="flex flex-col gap-2.5">
-                                        <label className="text-gray-500 text-[10px] font-black tracking-[0.2em] uppercase ml-1">Materials & Care</label>
+                                        <label className="text-gray-500 text-[10px] font-black tracking-[0.2em] uppercase ml-1">Materials & Care <span className="text-gray-600 normal-case tracking-normal">(Optional)</span></label>
                                         <textarea
                                             name="materials_care"
                                             value={formData.materials_care}

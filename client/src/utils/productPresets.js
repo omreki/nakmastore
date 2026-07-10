@@ -14,8 +14,8 @@ export const PRODUCT_PAGE_PRESETS = {
             galleryColumns: 4,
             galleryGap: 16,
             thumbnailSize: 100,
-            thumbnailRadius: 16,
-            mainImageRadius: 32,
+            thumbnailRadius: 0,
+            mainImageRadius: 0,
             lazyLoad: true,
             zoom: true
         },

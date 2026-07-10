@@ -4,6 +4,7 @@ import AdminLayout from '../../components/admin/AdminLayout';
 import { supabase } from '../../lib/supabase';
 import { useNotification } from '../../context/NotificationContext';
 import ProductVariationManager from '../../components/admin/ProductVariationManager';
+import { PAYMENT_METHOD_OPTIONS } from '../../utils/paymentMethod';
 
 const AddProductPage = () => {
     const navigate = useNavigate();
@@ -18,7 +19,6 @@ const AddProductPage = () => {
         sale_price: '',
         description: '',
         is_new: false,
-        is_sale: false,
         stock: 0,
         features: '',
         description_fit: '',
@@ -27,8 +27,11 @@ const AddProductPage = () => {
         sizes: [],
         weights: [],
         dimensions: [],
-        sku: '' // Added base SKU
+        payment_method: 'cod',
     });
+
+    const [newCategory, setNewCategory] = useState({ name: '', parent_id: '' });
+    const [creatingCategory, setCreatingCategory] = useState(false);
 
     const [variations, setVariations] = useState([]); // Added variations state
 
@@ -83,21 +86,55 @@ const AddProductPage = () => {
         setSelectedCategoryIds(newSelected);
     };
 
+    useEffect(() => {
+        if (variations.length === 0) return;
+        const total = variations.reduce((sum, v) => sum + (parseInt(v.stock, 10) || 0), 0);
+        setFormData((prev) => (prev.stock === total ? prev : { ...prev, stock: total }));
+    }, [variations]);
+
     const handleInputChange = (e) => {
         const { name, value, type, checked } = e.target;
-        setFormData(prev => {
-            const newState = {
-                ...prev,
-                [name]: type === 'checkbox' ? checked : value
-            };
+        setFormData(prev => ({
+            ...prev,
+            [name]: type === 'checkbox' ? checked : value
+        }));
+    };
 
-            // Automatically deactivate sale if price is removed
-            if (name === 'price' && !value) {
-                newState.is_sale = false;
-            }
+    const slugifyCategory = (name) =>
+        name.toLowerCase().replace(/[^\w\s-]/g, '').replace(/\s+/g, '-').replace(/-+/g, '-');
 
-            return newState;
-        });
+    const handleCreateCategory = async () => {
+        const name = newCategory.name.trim();
+        if (!name) {
+            notify('Enter a category name.', 'error');
+            return;
+        }
+
+        setCreatingCategory(true);
+        try {
+            const baseSlug = slugifyCategory(name) || 'category';
+            const { data, error } = await supabase
+                .from('categories')
+                .insert([{
+                    name,
+                    slug: `${baseSlug}-${Date.now().toString(36).slice(-4)}`,
+                    parent_id: newCategory.parent_id || null,
+                }])
+                .select()
+                .single();
+
+            if (error) throw error;
+
+            setCategories((prev) => [...prev, data].sort((a, b) => a.name.localeCompare(b.name)));
+            setSelectedCategoryIds((prev) => new Set([...prev, String(data.id)]));
+            setNewCategory({ name: '', parent_id: '' });
+            notify(`Category "${name}" created.`, 'success');
+        } catch (error) {
+            console.error('Error creating category:', error);
+            notify(error.message || 'Failed to create category.', 'error');
+        } finally {
+            setCreatingCategory(false);
+        }
     };
 
     const handleImageChange = (e) => {
@@ -239,15 +276,20 @@ const AddProductPage = () => {
 
             // 2. Prepare Data
             const price = parseFloat(formData.price);
-            const sale_price = formData.is_sale ? parseFloat(formData.sale_price) : null;
+            const salePriceRaw = formData.sale_price?.toString().trim();
+            const sale_price = salePriceRaw ? parseFloat(salePriceRaw) : null;
+            const is_sale = sale_price !== null && !Number.isNaN(sale_price);
 
             // Derive total stock from variations if they exist, otherwise use manual stock
             const totalStock = variations.length > 0
-                ? variations.reduce((sum, v) => sum + (parseInt(v.stock) || 0), 0)
-                : parseInt(formData.stock);
+                ? variations.reduce((sum, v) => sum + (parseInt(v.stock, 10) || 0), 0)
+                : parseInt(formData.stock, 10);
 
             if (isNaN(price)) throw new Error('Invalid price value.');
-            if (formData.is_sale && isNaN(sale_price)) throw new Error('Invalid sale price value.');
+            if (is_sale && isNaN(sale_price)) throw new Error('Invalid sale price value.');
+            if (is_sale && sale_price <= price) {
+                throw new Error('Sale price must be higher than the regular price.');
+            }
 
             // derive legacy category strings from selection for backward compatibility
             const selectedCatsList = categories.filter(c => selectedCategoryIds.has(String(c.id)));
@@ -260,19 +302,19 @@ const AddProductPage = () => {
                 price: price,
                 sale_price: sale_price,
                 description: formData.description,
-                description_fit: formData.description_fit,
-                materials_care: formData.materials_care,
+                description_fit: formData.description_fit?.trim() || null,
+                materials_care: formData.materials_care?.trim() || null,
                 category: primaryCat ? primaryCat.slug : 'uncategorized', // Legacy field
                 sub_category: subCat ? subCat.slug : null, // Legacy field
                 is_new: formData.is_new,
-                is_sale: formData.is_sale,
+                is_sale,
                 stock: totalStock,
-                sku: formData.sku?.trim() || null,
                 images: imageUrls,
                 colors: formData.colors,
                 sizes: formData.sizes,
                 weights: formData.weights,
                 dimensions: formData.dimensions,
+                payment_method: formData.payment_method || 'cod',
                 rating: 0,
                 reviews_count: 0,
                 created_at: new Date().toISOString()
@@ -289,7 +331,6 @@ const AddProductPage = () => {
 
             // 4. Insert Variations if any
             if (variations.length > 0) {
-                const mainSku = formData.sku?.trim();
                 const varSkus = variations
                     .map(v => v.sku?.trim())
                     .filter(sku => sku && sku !== '');
@@ -297,10 +338,6 @@ const AddProductPage = () => {
                 const uniqueSkus = new Set(varSkus);
                 if (varSkus.length !== uniqueSkus.size) {
                     throw new Error('Duplicate SKUs detected within the variations matrix. Each variation must have a unique SKU.');
-                }
-
-                if (mainSku && uniqueSkus.has(mainSku)) {
-                    throw new Error(`The main product SKU "${mainSku}" is already assigned to a variation. Each SKU must be globally unique.`);
                 }
 
                 const variationInserts = variations.map(v => ({
@@ -363,14 +400,8 @@ const AddProductPage = () => {
                 {/* Page Header */}
                 <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 relative z-10">
                     <div className="flex flex-col gap-2">
-                        <div className="flex items-center gap-2 mb-1 justify-center md:justify-start">
-                            <span className="inline-flex items-center rounded-full bg-primary/20 px-2.5 py-0.5 text-[10px] font-black uppercase tracking-widest text-primary-light ring-1 ring-inset ring-primary/30 backdrop-blur-sm">
-                                Collection Management
-                            </span>
-                            <span className="text-gray-500 text-sm font-medium">/ New Product</span>
-                        </div>
                         <h1 className="text-white text-4xl md:text-5xl font-black leading-tight tracking-[-0.033em] drop-shadow-lg">
-                            Add New <span className="text-transparent bg-clip-text bg-gradient-to-r from-white via-gray-200 to-gray-400 font-black">Product</span>
+                            Add Product
                         </h1>
                         <p className="text-gray-400 text-base font-medium leading-relaxed max-w-2xl mt-2">
                             Define the heritage, craftsmanship, and visual presentation for your new collection piece.
@@ -385,9 +416,7 @@ const AddProductPage = () => {
 
 
 
-                <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start">
-                    {/* Primary Data Column */}
-                    <div className="lg:col-span-8">
+                <div className="max-w-5xl mx-auto">
                         <form onSubmit={handleSubmit} id="add-product-form" className="flex flex-col gap-8">
                             {/* Entity Metadata Card */}
                             <div className="glossy-panel rounded-[2.5rem] p-8 md:p-10 relative overflow-hidden border border-white/5 bg-black/20 shadow-2xl">
@@ -404,7 +433,7 @@ const AddProductPage = () => {
                                 </div>
 
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8 relative z-10">
-                                    <div className="flex flex-col gap-2.5">
+                                    <div className="flex flex-col gap-2.5 md:col-span-2">
                                         <label className="text-gray-500 text-[10px] font-black tracking-[0.2em] uppercase ml-1">Product Name</label>
                                         <input
                                             type="text"
@@ -414,17 +443,6 @@ const AddProductPage = () => {
                                             onChange={handleInputChange}
                                             className="glossy-input w-full rounded-2xl bg-black/40 border-white/5 text-white font-bold h-14 px-6 text-sm transition-all outline-none focus:ring-1 focus:ring-primary/40 focus:bg-black/60"
                                             placeholder="e.g. African Print Silk Shirt"
-                                        />
-                                    </div>
-                                    <div className="flex flex-col gap-2.5">
-                                        <label className="text-gray-500 text-[10px] font-black tracking-[0.2em] uppercase ml-1">Product SKU</label>
-                                        <input
-                                            type="text"
-                                            name="sku"
-                                            value={formData.sku}
-                                            onChange={handleInputChange}
-                                            className="glossy-input w-full rounded-2xl bg-black/40 border-white/5 text-white font-bold h-14 px-6 text-sm transition-all outline-none focus:ring-1 focus:ring-primary/40 focus:bg-black/60"
-                                            placeholder="SKU-BASE001"
                                         />
                                     </div>
                                     <div className="flex flex-col gap-2.5">
@@ -440,8 +458,8 @@ const AddProductPage = () => {
                                             placeholder="0.00"
                                         />
                                     </div>
-                                    <div className={`flex flex-col gap-2.5 transition-all duration-500 ${formData.is_sale ? 'opacity-100 translate-y-0' : 'opacity-20 pointer-events-none md:translate-y-2'}`}>
-                                        <label className="text-[#b82063] text-[10px] font-black tracking-[0.2em] uppercase ml-1">Sale Price ($)</label>
+                                    <div className="flex flex-col gap-2.5">
+                                        <label className="text-[#b82063] text-[10px] font-black tracking-[0.2em] uppercase ml-1">Sale Price ($) <span className="text-gray-600 normal-case tracking-normal">(Optional)</span></label>
                                         <input
                                             type="number"
                                             name="sale_price"
@@ -449,8 +467,9 @@ const AddProductPage = () => {
                                             value={formData.sale_price}
                                             onChange={handleInputChange}
                                             className="glossy-input w-full rounded-2xl bg-black/40 border-[#b82063]/20 text-[#b82063] font-black h-14 px-6 text-sm transition-all outline-none focus:ring-1 focus:ring-[#b82063]/40 focus:bg-black/60 font-mono"
-                                            placeholder="0.00"
+                                            placeholder="Higher than regular price"
                                         />
+                                        <p className="text-[8px] text-gray-500 font-bold ml-1">Leave blank for standard pricing. Must be higher than regular price.</p>
                                     </div>
                                 </div>
 
@@ -469,7 +488,7 @@ const AddProductPage = () => {
 
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mt-8 relative z-10">
                                     <div className="flex flex-col gap-2.5">
-                                        <label className="text-gray-500 text-[10px] font-black tracking-[0.2em] uppercase ml-1">Description & Fit</label>
+                                        <label className="text-gray-500 text-[10px] font-black tracking-[0.2em] uppercase ml-1">Description & Fit <span className="text-gray-600 normal-case tracking-normal">(Optional)</span></label>
                                         <textarea
                                             name="description_fit"
                                             value={formData.description_fit}
@@ -480,7 +499,7 @@ const AddProductPage = () => {
                                         ></textarea>
                                     </div>
                                     <div className="flex flex-col gap-2.5">
-                                        <label className="text-gray-500 text-[10px] font-black tracking-[0.2em] uppercase ml-1">Materials & Care</label>
+                                        <label className="text-gray-500 text-[10px] font-black tracking-[0.2em] uppercase ml-1">Materials & Care <span className="text-gray-600 normal-case tracking-normal">(Optional)</span></label>
                                         <textarea
                                             name="materials_care"
                                             value={formData.materials_care}
@@ -706,7 +725,7 @@ const AddProductPage = () => {
                                             {categories.length === 0 ? (
                                                 <div className="flex flex-col items-center justify-center py-10 opacity-40">
                                                     <span className="material-symbols-outlined text-4xl mb-2">category</span>
-                                                    <p className="text-[10px] font-bold uppercase tracking-widest text-center">No categories found.<br /><Link to="/admin/categories" className="text-primary-light hover:underline mt-2 inline-block">Create one here</Link></p>
+                                                    <p className="text-[10px] font-bold uppercase tracking-widest text-center">No categories yet.<br />Create one below.</p>
                                                 </div>
                                             ) : categories.filter(c =>
                                                 c.name.toLowerCase().includes(categorySearch.toLowerCase()) ||
@@ -758,6 +777,52 @@ const AddProductPage = () => {
                                                 );
                                             })}
                                         </div>
+                                        <div className="flex flex-col gap-3 pt-4 border-t border-white/5">
+                                            <label className="text-gray-500 text-[10px] font-black tracking-[0.2em] uppercase ml-1">Create New Category</label>
+                                            <div className="flex flex-col md:flex-row gap-3">
+                                                <input
+                                                    type="text"
+                                                    placeholder="Category name"
+                                                    value={newCategory.name}
+                                                    onChange={(e) => setNewCategory({ ...newCategory, name: e.target.value })}
+                                                    className="glossy-input flex-1 rounded-xl bg-black/40 border-white/5 text-white font-bold h-11 px-4 text-xs outline-none focus:ring-1 focus:ring-primary/40"
+                                                />
+                                                <select
+                                                    value={newCategory.parent_id}
+                                                    onChange={(e) => setNewCategory({ ...newCategory, parent_id: e.target.value })}
+                                                    className="glossy-input rounded-xl bg-black/40 border-white/5 text-white font-bold h-11 px-4 text-xs outline-none focus:ring-1 focus:ring-primary/40 md:w-48"
+                                                >
+                                                    <option value="">Top-level category</option>
+                                                    {categories.filter((c) => !c.parent_id).map((parent) => (
+                                                        <option key={parent.id} value={parent.id}>{parent.name}</option>
+                                                    ))}
+                                                </select>
+                                                <button
+                                                    type="button"
+                                                    onClick={handleCreateCategory}
+                                                    disabled={creatingCategory}
+                                                    className="h-11 px-5 rounded-xl bg-primary/20 hover:bg-primary/30 text-primary-light text-[10px] font-black uppercase tracking-widest border border-primary/20 transition-all disabled:opacity-50"
+                                                >
+                                                    {creatingCategory ? 'Saving...' : 'Add Category'}
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div className="flex flex-col gap-2.5">
+                                        <label className="text-gray-500 text-[10px] font-black tracking-[0.2em] uppercase ml-1">Payment Method</label>
+                                        <select
+                                            name="payment_method"
+                                            value={formData.payment_method}
+                                            onChange={handleInputChange}
+                                            className="glossy-input w-full rounded-2xl bg-black/40 border-white/5 text-white font-black h-14 px-6 text-sm transition-all outline-none focus:ring-1 focus:ring-primary/40 focus:bg-black/60"
+                                        >
+                                            {PAYMENT_METHOD_OPTIONS.map((option) => (
+                                                <option key={option.value} value={option.value}>
+                                                    {option.label}
+                                                </option>
+                                            ))}
+                                        </select>
                                     </div>
 
                                     <div className="flex flex-col gap-2.5">
@@ -766,12 +831,17 @@ const AddProductPage = () => {
                                             type="number"
                                             name="stock"
                                             required
+                                            readOnly={variations.length > 0}
                                             value={formData.stock}
                                             onChange={handleInputChange}
-                                            className="glossy-input w-full rounded-2xl bg-black/40 border-white/5 text-white font-black h-14 px-6 text-sm transition-all outline-none focus:ring-1 focus:ring-primary/40 focus:bg-black/60 font-mono"
+                                            className={`glossy-input w-full rounded-2xl bg-black/40 border-white/5 text-white font-black h-14 px-6 text-sm transition-all outline-none focus:ring-1 focus:ring-primary/40 focus:bg-black/60 font-mono ${variations.length > 0 ? 'opacity-70 cursor-not-allowed' : ''}`}
                                             placeholder="100"
                                         />
-                                        <p className="text-[8px] text-gray-500 italic mt-1 font-bold">Note: If variations are defined, this will be automatically calculated as the sum of all variant stock.</p>
+                                        <p className="text-[8px] text-gray-500 italic mt-1 font-bold">
+                                            {variations.length > 0
+                                                ? 'Auto-calculated from variation stock.'
+                                                : 'Enter stock manually, or define variations to calculate automatically.'}
+                                        </p>
                                     </div>
                                 </div>
 
@@ -790,127 +860,82 @@ const AddProductPage = () => {
                                         </div>
                                         <span className="text-[10px] font-black text-gray-500 uppercase tracking-widest group-hover:text-white transition-colors">NEW ARRIVAL</span>
                                     </label>
+                                </div>
+                            </div>
 
-                                    <label className={`flex items-center gap-4 cursor-pointer group transition-all duration-300 ${!formData.price ? 'opacity-40 cursor-not-allowed grayscale' : 'hover:opacity-100'}`}>
-                                        <div className="relative">
-                                            <input
-                                                type="checkbox"
-                                                name="is_sale"
-                                                disabled={!formData.price}
-                                                checked={formData.is_sale}
-                                                onChange={handleInputChange}
-                                                className="peer sr-only"
-                                            />
-                                            <div className="w-12 h-6 rounded-full bg-gray-800 transition-colors duration-300 peer-checked:bg-primary/40 shadow-inner ring-1 ring-white/5"></div>
-                                            <div className="absolute top-1 left-1 size-4 bg-white rounded-full transition-all duration-300 peer-checked:left-7 shadow-xl"></div>
+                            <div className="glossy-panel rounded-[2.5rem] p-8 md:p-10 relative overflow-hidden border border-white/5 bg-black/20 shadow-2xl">
+                                <label className="text-gray-500 text-[10px] font-black tracking-[0.2em] uppercase ml-1 block mb-4">Product Images</label>
+                                <div className="flex flex-col gap-6">
+                                    <div className="border-2 border-dashed border-white/10 rounded-3xl p-10 flex flex-col items-center justify-center gap-4 hover:border-primary/40 transition-all cursor-pointer relative group bg-black/30 shadow-inner">
+                                        <input
+                                            type="file"
+                                            multiple
+                                            accept="image/*"
+                                            onChange={handleImageChange}
+                                            className="absolute inset-0 opacity-0 cursor-pointer w-full h-full z-10"
+                                        />
+                                        <div className="size-16 rounded-3xl bg-white/[0.02] border border-white/5 flex items-center justify-center text-gray-500 group-hover:scale-110 group-hover:text-primary-light transition-all shadow-xl">
+                                            <span className="material-symbols-outlined text-[32px]">upload_file</span>
                                         </div>
-                                        <span className={`text-[10px] font-black uppercase tracking-widest transition-colors ${!formData.price ? 'text-gray-700' : 'text-gray-500 group-hover:text-white'}`}>
-                                            {formData.price ? 'MARK AS SALE' : 'ENTER PRICE TO ACTIVATE SALE'}
-                                        </span>
-                                    </label>
-                                </div>
-                            </div>
-                        </form>
-                    </div>
-
-                    {/* Visual Assets Sidebar */}
-                    <div className="lg:col-span-4 flex flex-col gap-8">
-                        {/* Asset Injection Card */}
-                        <div className="glossy-panel rounded-[2.5rem] p-8 relative overflow-hidden border border-white/5 bg-black/20 shadow-2xl flex flex-col h-full">
-                            <div className="flex items-center gap-4 mb-8">
-                                <div className="size-11 rounded-2xl bg-white/[0.03] flex items-center justify-center border border-white/5 shadow-inner">
-                                    <span className="material-symbols-outlined text-primary-light text-[22px]">add_a_photo</span>
-                                </div>
-                                <div>
-                                    <h4 className="text-white font-black text-sm tracking-tight uppercase tracking-widest text-xs">Product Images</h4>
-                                    <p className="text-[10px] text-gray-600 font-bold uppercase tracking-widest">Visual Presentation</p>
-                                </div>
-                            </div>
-
-                            <div className="flex-1 flex flex-col gap-6">
-                                <div className="border-2 border-dashed border-white/10 rounded-3xl p-10 flex flex-col items-center justify-center gap-4 hover:border-primary/40 transition-all cursor-pointer relative group bg-black/30 shadow-inner">
-                                    <input
-                                        type="file"
-                                        multiple
-                                        accept="image/*"
-                                        onChange={handleImageChange}
-                                        className="absolute inset-0 opacity-0 cursor-pointer w-full h-full z-10"
-                                    />
-                                    <div className="size-16 rounded-3xl bg-white/[0.02] border border-white/5 flex items-center justify-center text-gray-500 group-hover:scale-110 group-hover:text-primary-light transition-all shadow-xl group-hover:rotate-12">
-                                        <span className="material-symbols-outlined text-[32px]">upload_file</span>
+                                        <div className="text-center">
+                                            <p className="text-gray-400 text-xs font-black uppercase tracking-[0.2em] group-hover:text-white transition-colors">Upload Photos</p>
+                                            <p className="text-[8px] text-gray-700 font-bold uppercase tracking-tighter mt-1">MAX 10MB // PNG or JPG</p>
+                                        </div>
                                     </div>
-                                    <div className="text-center">
-                                        <p className="text-gray-400 text-xs font-black uppercase tracking-[0.2em] group-hover:text-white transition-colors">Upload Photos</p>
-                                        <p className="text-[8px] text-gray-700 font-bold uppercase tracking-tighter mt-1">MAX 10MB // PNG or JPG</p>
-                                    </div>
-                                </div>
 
-                                {imagePreviews.length > 0 ? (
-                                    <div className="grid grid-cols-2 gap-4 auto-rows-fr">
-                                        {imagePreviews.map((src, idx) => (
-                                            <div key={idx} className={`relative aspect-square rounded-2xl overflow-hidden group border transition-all duration-300 shadow-xl ring-1 ring-white/5 animate-fade-in-up ${idx === 0 ? 'border-primary ring-2 ring-primary/20' : 'border-white/10'}`}>
-                                                <img src={src} alt="Preview" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
-
-                                                {/* Overlay */}
-                                                <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col items-center justify-center gap-2">
-                                                    {idx !== 0 && (
+                                    {imagePreviews.length > 0 ? (
+                                        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                                            {imagePreviews.map((src, idx) => (
+                                                <div key={idx} className={`relative aspect-square rounded-2xl overflow-hidden group border transition-all duration-300 shadow-xl ring-1 ring-white/5 ${idx === 0 ? 'border-primary ring-2 ring-primary/20' : 'border-white/10'}`}>
+                                                    <img src={src} alt="Preview" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
+                                                    <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col items-center justify-center gap-2">
+                                                        {idx !== 0 && (
+                                                            <button
+                                                                type="button"
+                                                                onClick={() => setAsFeatured(idx)}
+                                                                className="px-3 py-1.5 rounded-lg bg-white text-black text-[9px] font-black uppercase tracking-widest hover:bg-primary hover:text-white transition-all"
+                                                            >
+                                                                Set Featured
+                                                            </button>
+                                                        )}
                                                         <button
                                                             type="button"
-                                                            onClick={() => setAsFeatured(idx)}
-                                                            className="px-3 py-1.5 rounded-lg bg-white text-black text-[9px] font-black uppercase tracking-widest hover:bg-primary hover:text-white transition-all transform translate-y-2 group-hover:translate-y-0"
+                                                            onClick={() => removeImage(idx)}
+                                                            className="px-3 py-1.5 rounded-lg bg-red-500 text-white text-[9px] font-black uppercase tracking-widest hover:bg-red-600 transition-all"
                                                         >
-                                                            Set Featured
+                                                            Delete
                                                         </button>
-                                                    )}
-                                                    <button
-                                                        type="button"
-                                                        onClick={() => removeImage(idx)}
-                                                        className="px-3 py-1.5 rounded-lg bg-red-500 text-white text-[9px] font-black uppercase tracking-widest hover:bg-red-600 transition-all transform translate-y-2 group-hover:translate-y-0"
-                                                    >
-                                                        Delete
-                                                    </button>
-                                                </div>
-
-                                                {/* Featured Badge */}
-                                                {idx === 0 && (
-                                                    <div className="absolute top-2 left-2 px-2 py-1 rounded-md bg-primary text-white text-[8px] font-black uppercase tracking-widest shadow-lg">
-                                                        Featured
                                                     </div>
-                                                )}
-                                            </div>
-                                        ))}
-                                    </div>
+                                                    {idx === 0 && (
+                                                        <div className="absolute top-2 left-2 px-2 py-1 rounded-md bg-primary text-white text-[8px] font-black uppercase tracking-widest shadow-lg">
+                                                            Featured
+                                                        </div>
+                                                    )}
+                                                </div>
+                                            ))}
+                                        </div>
+                                    ) : null}
+                                </div>
+                            </div>
+
+                            <button
+                                type="submit"
+                                disabled={loading}
+                                className={`w-full group h-16 rounded-2xl flex items-center justify-center gap-3 font-black text-[10px] uppercase tracking-[0.3em] admin-button-primary shadow-2xl transition-all duration-500 hover:-translate-y-1 active:scale-95 disabled:opacity-20 disabled:cursor-not-allowed ${loading ? 'cursor-wait' : ''}`}
+                            >
+                                {loading ? (
+                                    <>
+                                        <span className="animate-spin size-4 border-2 border-black/20 border-t-black group-hover:border-white/20 group-hover:border-t-white rounded-full"></span>
+                                        {uploading ? 'UPLOADING...' : 'SAVING...'}
+                                    </>
                                 ) : (
-                                    <div className="flex-1 flex flex-col items-center justify-center py-20 opacity-20 border border-white/5 rounded-3xl bg-black/10">
-                                        <span className="material-symbols-outlined text-[48px] text-gray-700">image_not_supported</span>
-                                        <p className="text-[10px] font-black uppercase tracking-widest mt-4">No Images</p>
-                                    </div>
+                                    <>
+                                        Add Product
+                                        <span className="material-symbols-outlined text-[18px] group-hover:translate-x-2 transition-transform duration-300">check</span>
+                                    </>
                                 )}
-                            </div>
-
-                            <div className="pt-8 mt-auto">
-                                <button
-                                    form="add-product-form"
-                                    type="submit"
-                                    disabled={loading}
-                                    className={`w-full group h-16 rounded-2xl flex items-center justify-center gap-3 font-black text-[10px] uppercase tracking-[0.3em] admin-button-primary shadow-2xl transition-all duration-500 hover:-translate-y-1 active:scale-95 disabled:opacity-20 disabled:cursor-not-allowed ${loading ? 'cursor-wait' : ''}`}
-                                >
-                                    {loading ? (
-                                        <>
-                                            <span className="animate-spin size-4 border-2 border-black/20 border-t-black group-hover:border-white/20 group-hover:border-t-white rounded-full"></span>
-                                            {uploading ? 'UPLOADING...' : 'SAVING...'}
-                                        </>
-                                    ) : (
-                                        <>
-                                            Add Product
-                                            <span className="material-symbols-outlined text-[18px] group-hover:translate-x-2 transition-transform duration-300">check</span>
-                                        </>
-                                    )}
-                                </button>
-
-                            </div>
-                        </div>
-                    </div>
+                            </button>
+                        </form>
                 </div>
 
                 {/* System Registry Footer Meta */}

@@ -39,9 +39,6 @@ const AdminSidebar = () => {
         { name: 'Orders', icon: 'shopping_bag', path: '/admin/orders', badge: unreadOrdersCount },
         { name: 'Products', icon: 'inventory_2', path: '/admin/products' },
         { name: 'Categories', icon: 'category', path: '/admin/categories' },
-        { name: 'Customers', icon: 'group', path: '/admin/customers' },
-        { name: 'Articles', icon: 'article', path: '/admin/articles' },
-        { name: 'Analytics', icon: 'analytics', path: '/admin/analytics' },
     ];
 
     const settingsItems = [

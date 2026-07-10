@@ -141,13 +141,13 @@ export const emailService = {
                         ` : ''}
                         
                         <div style="text-align: center; margin: 40px 0 30px 0;">
-                            <a href="${typeof window !== 'undefined' ? window.location.origin : 'https://nakmastore.com'}/account?orderId=${order.id}" style="background: #b82063; color: #ffffff; padding: 14px 32px; text-decoration: none; border-radius: 8px; font-weight: 600; font-size: 15px; display: inline-block;">
+                            <a href="${typeof window !== 'undefined' ? window.location.origin : 'https://www.nakmaltd.com'}/account?orderId=${order.id}" style="background: #b82063; color: #ffffff; padding: 14px 32px; text-decoration: none; border-radius: 8px; font-weight: 600; font-size: 15px; display: inline-block;">
                                 Track Your Order
                             </a>
                         </div>
                         
                         <p style="color: #9ca3af; font-size: 13px; line-height: 1.6; margin: 30px 0 0 0; text-align: center;">
-                            If you have any questions, contact us at <a href="mailto:info@nakmastore.com" style="color: #b82063; text-decoration: none;">info@nakmastore.com</a>
+                            If you have any questions, contact us at <a href="mailto:store@nakmaltd.com" style="color: #b82063; text-decoration: none;">store@nakmaltd.com</a>
                         </p>
                     </div>
                     
@@ -168,6 +168,15 @@ export const emailService = {
     },
 
     sendAdminOrderNotification: async (order, adminEmail, customer, orderItems = []) => {
+        const recipients = (Array.isArray(adminEmail) ? adminEmail : [adminEmail])
+            .map((email) => email?.trim())
+            .filter(Boolean);
+
+        if (!recipients.length) {
+            console.warn('Admin order notification skipped: no recipients');
+            return { success: false, error: 'No admin recipients configured' };
+        }
+
         const subject = `🛍️ New Order #${order.id.slice(0, 8).toUpperCase()}`;
 
         const itemsHtml = orderItems.map(item => `
@@ -259,7 +268,7 @@ export const emailService = {
             </html>
         `;
 
-        return await sendEmail(adminEmail, subject, html);
+        return await sendEmail(recipients, subject, html);
     },
 
     sendOrderStatusUpdate: async (order, customer, newStatus) => {
@@ -342,13 +351,13 @@ export const emailService = {
                         ` : ''}
                         
                         <div style="text-align: center; margin: 40px 0 30px 0;">
-                            <a href="${typeof window !== 'undefined' ? window.location.origin : 'https://nakmastore.com'}/account?orderId=${order.id}" style="background: #b82063; color: #ffffff; padding: 14px 32px; text-decoration: none; border-radius: 8px; font-weight: 600; font-size: 15px; display: inline-block;">
+                            <a href="${typeof window !== 'undefined' ? window.location.origin : 'https://www.nakmaltd.com'}/account?orderId=${order.id}" style="background: #b82063; color: #ffffff; padding: 14px 32px; text-decoration: none; border-radius: 8px; font-weight: 600; font-size: 15px; display: inline-block;">
                                 View Order Details
                             </a>
                         </div>
                         
                         <p style="color: #9ca3af; font-size: 13px; line-height: 1.6; margin: 30px 0 0 0; text-align: center;">
-                            Questions? Contact us at <a href="mailto:info@nakmastore.com" style="color: #b82063; text-decoration: none;">info@nakmastore.com</a>
+                            Questions? Contact us at <a href="mailto:store@nakmaltd.com" style="color: #b82063; text-decoration: none;">store@nakmaltd.com</a>
                         </p>
                     </div>
                     
@@ -507,7 +516,7 @@ export const emailService = {
                         </p>
                         
                         <div style="text-align: center;">
-                            <a href="${typeof window !== 'undefined' ? window.location.origin : 'https://nakmastore.com'}/account" style="background: #b82063; color: #ffffff; padding: 14px 32px; text-decoration: none; border-radius: 8px; font-weight: 600; font-size: 15px; display: inline-block;">
+                            <a href="${typeof window !== 'undefined' ? window.location.origin : 'https://www.nakmaltd.com'}/account" style="background: #b82063; color: #ffffff; padding: 14px 32px; text-decoration: none; border-radius: 8px; font-weight: 600; font-size: 15px; display: inline-block;">
                                 Go to My Account
                             </a>
                         </div>

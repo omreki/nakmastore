@@ -104,14 +104,8 @@ const CategoryManagementPage = () => {
                 {/* Header */}
                 <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 relative z-10">
                     <div>
-                        <div className="flex items-center gap-2 mb-2">
-                            <span className="inline-flex items-center rounded-full bg-primary/20 px-2.5 py-0.5 text-[10px] font-black uppercase tracking-widest text-primary-light ring-1 ring-inset ring-primary/30 backdrop-blur-sm">
-                                Taxonomy
-                            </span>
-                            <span className="text-gray-500 text-sm font-medium">/ Categories</span>
-                        </div>
                         <h1 className="text-white text-3xl md:text-5xl font-black leading-tight tracking-[-0.033em] drop-shadow-lg">
-                            Category <span className="text-transparent bg-clip-text bg-gradient-to-r from-white via-gray-200 to-gray-400 font-black">Architecture</span>
+                            Categories
                         </h1>
                         <p className="text-gray-400 text-sm md:text-base font-medium mt-2 max-w-xl">
                             Organize your collection with precision. Define the structural hierarchy of your store.

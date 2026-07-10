@@ -5,6 +5,12 @@ import { useCart } from '../context/CartContext';
 import { useStoreSettings } from '../context/StoreSettingsContext';
 import womenHeroImage from '../assets/women_hero.png';
 import SEO from '../components/SEO';
+import {
+    LISTING_PRODUCT_COMPARE_PRICE,
+    LISTING_PRODUCT_NAME,
+    LISTING_PRODUCT_PRICE,
+    LISTING_PRODUCT_SALE_PRICE,
+} from '../constants/productListingStyles';
 
 const WomenPage = () => {
     const { formatPrice } = useStoreSettings();
@@ -267,7 +273,7 @@ const WomenPage = () => {
                     <div className="grid grid-cols-2 lg:grid-cols-4 gap-8 md:gap-12">
                         {products.map(product => (
                             <Link to={`/product/${product.slug}`} key={product.id} className="group cursor-pointer">
-                                <div className="relative aspect-[4/5] rounded-[32px] overflow-hidden mb-6 bg-black transition-transform duration-500 group-hover:-translate-y-2">
+                                <div className="relative aspect-[4/5] overflow-hidden mb-6 bg-black transition-transform duration-500 group-hover:-translate-y-2">
                                     <img
                                         src={product.images?.[0] || 'https://via.placeholder.com/400x500?text=No+Image'}
                                         alt={product.name}
@@ -280,7 +286,7 @@ const WomenPage = () => {
                                             onClick={(e) => handleQuickAdd(e, product)}
                                             className="w-full h-10 md:h-12 bg-black text-white rounded-xl md:rounded-2xl font-black text-[9px] md:text-[10px] uppercase tracking-widest hover:bg-black transition-colors shadow-xl pointer-events-auto"
                                         >
-                                            Add to Bag
+                                            Shop this look
                                         </button>
                                     </div>
 
@@ -294,15 +300,15 @@ const WomenPage = () => {
                                 </div>
                                 <div className="px-2">
                                     <div className="flex flex-col gap-1 mb-1">
-                                        <h3 className="text-white font-bold text-lg group-hover:text-[#b82063] transition-colors line-clamp-1 uppercase tracking-tight">{product.name}</h3>
+                                        <h3 className={LISTING_PRODUCT_NAME}>{product.name}</h3>
                                         <div className="flex items-center gap-2">
                                             {product.is_sale && product.sale_price ? (
                                                 <>
-                                                    <span className="text-[#b82063] font-black italic text-lg whitespace-nowrap leading-none">{formatPrice(product.sale_price)}</span>
-                                                    <span className="text-white/30 font-bold text-[10px] line-through decoration-1">{formatPrice(product.price)}</span>
+                                                    <span className={LISTING_PRODUCT_SALE_PRICE}>{formatPrice(product.sale_price)}</span>
+                                                    <span className={LISTING_PRODUCT_COMPARE_PRICE}>{formatPrice(product.price)}</span>
                                                 </>
                                             ) : (
-                                                <span className="text-white font-black italic text-lg whitespace-nowrap leading-none">{formatPrice(product.price)}</span>
+                                                <span className={LISTING_PRODUCT_PRICE}>{formatPrice(product.price)}</span>
                                             )}
                                         </div>
                                     </div>

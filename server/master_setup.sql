@@ -97,7 +97,7 @@ FOR ALL USING (auth.role() = 'authenticated');
 
 -- Insert default settings
 INSERT INTO public.store_settings (id, store_name, support_email, currency)
-VALUES (1, 'NAKMA Store', 'info@nakmaltd.com', 'USD')
+VALUES (1, 'NAKMA Store', 'store@nakmaltd.com', 'USD')
 ON CONFLICT (id) DO UPDATE SET
     store_name = EXCLUDED.store_name,
     support_email = EXCLUDED.support_email;
@@ -184,8 +184,10 @@ BEGIN
     ALTER TABLE products ADD COLUMN IF NOT EXISTS sku TEXT;
     ALTER TABLE products ADD COLUMN IF NOT EXISTS is_featured BOOLEAN DEFAULT false;
     ALTER TABLE products ADD COLUMN IF NOT EXISTS is_archived BOOLEAN DEFAULT false;
+    ALTER TABLE products ADD COLUMN IF NOT EXISTS weights JSONB DEFAULT '[]';
+    ALTER TABLE products ADD COLUMN IF NOT EXISTS dimensions JSONB DEFAULT '[]';
     ALTER TABLE products ADD COLUMN IF NOT EXISTS created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW();
-    ALTER TABLE products ADD COLUMN IF NOT EXISTS updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW();
+    ALTER TABLE products ADD COLUMN IF NOT EXISTS payment_method TEXT DEFAULT 'cod';
 END $$;
 
 ALTER TABLE products ENABLE ROW LEVEL SECURITY;
@@ -197,7 +199,7 @@ CREATE POLICY "Public read products" ON products FOR SELECT USING (true);
 CREATE POLICY "Admins manage products" ON products FOR ALL USING (auth.role() = 'authenticated');
 
 
-CREATE TABLE IF NOT EXISTS product_variations (
+CREATE TABLE IF NOT EXISTS public.product_variations (
     id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
     product_id UUID REFERENCES products(id) ON DELETE CASCADE,
     name TEXT NOT NULL
@@ -208,11 +210,37 @@ BEGIN
     ALTER TABLE product_variations ADD COLUMN IF NOT EXISTS sku TEXT;
     ALTER TABLE product_variations ADD COLUMN IF NOT EXISTS price DECIMAL(10,2);
     ALTER TABLE product_variations ADD COLUMN IF NOT EXISTS stock INTEGER DEFAULT 0;
-    ALTER TABLE product_variations ADD COLUMN IF NOT EXISTS options JSONB;
+    ALTER TABLE product_variations ADD COLUMN IF NOT EXISTS options JSONB DEFAULT '[]'::jsonb;
+    ALTER TABLE product_variations ADD COLUMN IF NOT EXISTS weight TEXT;
+    ALTER TABLE product_variations ADD COLUMN IF NOT EXISTS dimension TEXT;
     ALTER TABLE product_variations ADD COLUMN IF NOT EXISTS created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW();
 END $$;
 
 CREATE INDEX IF NOT EXISTS idx_product_variations_product_id ON product_variations(product_id);
+
+--------------------------------------------------------------------------------
+-- 4.5 Product Taxonomy (Categories)
+--------------------------------------------------------------------------------
+
+CREATE TABLE IF NOT EXISTS public.categories (
+    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    name TEXT NOT NULL,
+    slug TEXT NOT NULL UNIQUE,
+    description TEXT,
+    image_url TEXT,
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+    updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+);
+
+ALTER TABLE public.categories ENABLE ROW LEVEL SECURITY;
+
+DROP POLICY IF EXISTS "Public read categories" ON public.categories;
+DROP POLICY IF EXISTS "Admins manage categories" ON public.categories;
+
+CREATE POLICY "Public read categories" ON public.categories FOR SELECT USING (true);
+CREATE POLICY "Admins manage categories" ON public.categories FOR ALL USING (
+    EXISTS (SELECT 1 FROM profiles WHERE id = auth.uid() AND role = 'admin')
+);
 
 CREATE TABLE IF NOT EXISTS admin_notifications (
     id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
@@ -262,6 +290,10 @@ DO $$
 BEGIN
     ALTER TABLE order_items ADD COLUMN IF NOT EXISTS variation_id UUID REFERENCES product_variations(id) ON DELETE SET NULL;
     ALTER TABLE order_items ADD COLUMN IF NOT EXISTS variation_name TEXT;
+    ALTER TABLE order_items ADD COLUMN IF NOT EXISTS selected_size TEXT;
+    ALTER TABLE order_items ADD COLUMN IF NOT EXISTS selected_color TEXT;
+    ALTER TABLE order_items ADD COLUMN IF NOT EXISTS selected_weight TEXT;
+    ALTER TABLE order_items ADD COLUMN IF NOT EXISTS selected_dimension TEXT;
     ALTER TABLE order_items ADD COLUMN IF NOT EXISTS created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW();
 END $$;
 
@@ -438,6 +470,11 @@ BEGIN
     UPDATE product_variations SET stock = GREATEST(0, stock - qty) WHERE id = var_id;
 END;
 $$ LANGUAGE plpgsql;
+
+-- Trigger to update updated_at
+CREATE TRIGGER tr_categories_updated_at
+    BEFORE UPDATE ON public.categories
+    FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
 
 CREATE OR REPLACE FUNCTION handle_low_stock_notification()
 RETURNS TRIGGER AS $$

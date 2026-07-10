@@ -4,6 +4,7 @@ import { supabase } from '../../lib/supabase';
 import AdminLayout from '../../components/admin/AdminLayout';
 import { useStoreSettings } from '../../context/StoreSettingsContext';
 import OrderDetailsModal from '../../components/admin/OrderDetailsModal';
+import AdminAnalyticsPanel from '../../components/admin/AdminAnalyticsPanel';
 
 const AdminDashboard = () => {
     const { formatPrice } = useStoreSettings();
@@ -22,6 +23,10 @@ const AdminDashboard = () => {
     const [dailyRevenue, setDailyRevenue] = useState(new Array(7).fill(0));
     const [selectedOrderId, setSelectedOrderId] = useState(null);
     const [isLoading, setIsLoading] = useState(true);
+
+    const scrollToAnalytics = () => {
+        document.getElementById('analytics')?.scrollIntoView({ behavior: 'smooth' });
+    };
 
     useEffect(() => {
         fetchDashboardData();
@@ -47,6 +52,13 @@ const AdminDashboard = () => {
             supabase.removeChannel(profilesChannel);
             supabase.removeChannel(productsChannel);
         };
+    }, []);
+
+    useEffect(() => {
+        if (window.location.hash === '#analytics') {
+            const timer = setTimeout(scrollToAnalytics, 150);
+            return () => clearTimeout(timer);
+        }
     }, []);
 
     const fetchDashboardData = async () => {
@@ -187,12 +199,8 @@ const AdminDashboard = () => {
                 {/* Header Section */}
                 <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 relative z-10">
                     <div>
-                        <div className="flex items-center gap-2 mb-2">
-                            <span className="inline-flex items-center rounded-full bg-primary/20 px-2.5 py-0.5 text-[10px] font-black uppercase tracking-wider text-primary-light ring-1 ring-inset ring-primary/30">Nakma House</span>
-                            <span className="text-gray-500 text-xs font-bold uppercase tracking-widest px-2">/ Status Overview</span>
-                        </div>
                         <h1 className="text-white text-3xl md:text-5xl font-black leading-tight tracking-[-0.033em] drop-shadow-lg">
-                            Command <span className="text-transparent bg-clip-text bg-gradient-to-r from-white via-gray-200 to-gray-400 font-black">Center</span>
+                            Dashboard
                         </h1>
                         <p className="text-gray-400 text-sm md:text-base font-medium mt-2 max-w-xl">
                             Live operational metrics and store performance heartbeat.
@@ -217,7 +225,8 @@ const AdminDashboard = () => {
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 mt-4">
                     {/* Total Sales Card */}
                     <button
-                        onClick={() => navigate('/admin/analytics')}
+                        type="button"
+                        onClick={scrollToAnalytics}
                         className="glossy-card p-6 rounded-2xl relative overflow-hidden group border border-white/5 hover:border-primary/30 transition-all text-left block w-full hover:shadow-[0_0_30px_rgba(var(--primary-rgb),0.1)] hover:-translate-y-1"
                     >
                         <div className="absolute top-0 right-0 -mr-4 -mt-4 w-24 h-24 bg-primary/20 rounded-full blur-2xl group-hover:bg-primary/30 transition-all duration-500"></div>
@@ -461,6 +470,8 @@ const AdminDashboard = () => {
                         </div>
                     </div>
                 </div>
+
+                <AdminAnalyticsPanel />
 
                 {/* Order Details Modal */}
                 {selectedOrderId && (

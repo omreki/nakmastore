@@ -1,6 +1,6 @@
-# White-Labeling & Cloning Guide (2026 Ultimate Edition)
+# White-Labeling & Cloning Guide (2026 Nakma OS Edition)
 
-This document is the definitive source of truth for cloning the NAKMA store codebase for a new client. It includes all recent system features (Community Articles, Stock Visibility, Dynamic Tax, Paystack Integration, etc.) and provides "Antigravity Prompts" to automate the process with your AI agent.
+This document is the definitive source of truth for cloning the NAKMA store codebase for a new client. It includes all current system features (Community Articles, Stock Visibility, Dynamic Tax, Paystack Integration, **Admin Responsiveness overhaul**, etc.) and provides "Antigravity Prompts" to automate the process with your AI agent.
 
 ---
 
@@ -16,7 +16,7 @@ This document is the definitive source of truth for cloning the NAKMA store code
 > 3. Running the `server/master_setup.sql` on the new Supabase project.
 > 4. Deploying the `paystack-webhook` and `send-email` edge functions.
 > 5. Updating the brand colors to `[brand_primary_hex]` and logo.
-> 6. Verifying that the 'Community' and 'Stock Visibility' features are active."
+> 6. Verifying that the 'Community', 'Stock Visibility', and **Responsive Admin Dashboard** features are active."
 
 ---
 
@@ -28,10 +28,14 @@ This document is the definitive source of truth for cloning the NAKMA store code
     -   Delete `.git` folder.
     -   Delete `node_modules` (root and `client/`).
     -   Delete `dist` or `build` folders.
-3.  **Rename**: Update `package.json` names.
+3.  **Site Identity**:
+    -   Update `client/index.html` title and meta description.
+    -   Replace `client/public/favicon.png` and `favicon.ico` with the new client's icons.
+    -   Update `package.json` names.
 
 ### 🤖 Antigravity Prompts
 > "Wipe the `.git` folder and all `node_modules` directories to ensure a fresh start. Then initialize a new git repository."
+> "I want to change the site name to `[SITE_NAME]`. Update `client/index.html` and let me know where to upload the new favicon."
 
 ---
 
@@ -42,10 +46,10 @@ This document is the definitive source of truth for cloning the NAKMA store code
 2.  **Run Migration**:
     -   Open SQL Editor in Supabase.
     -   Copy/Paste contents of `store/server/master_setup.sql`.
-    -   **Run**. This script is idempotent and sets up:
-        -   Tables: `products`, `orders`, `profiles`, `team_members`, `store_settings`, `articles`, `pages`, etc.
-        -   Security: RLS Policies for all tables.
-        -   Defaults: Initial store settings (including `hollowText`, `product_page_settings`).
+    -   **Run**. This script sets up:
+        -   Tables: `products`, `categories`, `orders`, `profiles`, `team_members`, `store_settings`, `articles`, `pages`, `analytics_events`, etc.
+        -   Security: Enhanced RLS Policies for all tables (Admins only for sensitive data).
+        -   Defaults: Initial store settings (including `hollowText`, `brand_settings`, `product_page_settings`).
 3.  **Storage Buckets**:
     -   Create **Public** buckets: `product-images`, `logo`, `assets`, `article-images`.
     -   *Tip: Ensure policies allow public read access.*
@@ -56,7 +60,7 @@ This document is the definitive source of truth for cloning the NAKMA store code
 
 ### 🤖 Antigravity Prompts
 > "Analyze `server/master_setup.sql` and explain what tables it creates. Then, help me run it on my new Supabase project."
-> "Generate a SQL script to explicitly insert my admin email `[YOUR_EMAIL]` into the `team_members` table as an 'admin'."
+> "Generate a SQL script to explicitly insert my admin email `[YOUR_EMAIL]` into the `team_members` table with the role 'admin'."
 
 ---
 
@@ -80,9 +84,6 @@ The store relies on Supabase Edge Functions for secure operations.
 5.  **Webhook Configuration**:
     -   In Paystack Dashboard, set Webhook URL to: `https://[PROJECT_REF].supabase.co/functions/v1/paystack-webhook`
 
-### 🤖 Antigravity Prompts
-> "Help me deploy the `paystack-webhook` function. What secrets do I need to set in Supabase first?"
-
 ---
 
 ## Phase 4: Frontend Configuration
@@ -95,47 +96,43 @@ VITE_ADMIN_EMAILS=[YOUR_EMAIL] (Comma separated)
 VITE_PAYSTACK_PUBLIC_KEY=[pk_...]
 ```
 
-### 🤖 Antigravity Prompts
-> "Create a new `.env` file in the client directory with these placeholders and ask me for the values."
-
 ---
 
 ## Phase 5: White-Labeling & Branding
 
 ### 1. Visual Identity
 -   **Tailwind Config**: Update `primary` color in `client/tailwind.config.js`.
--   **Store Settings**: Update `brand_settings` in the DB (can be done via Admin Panel).
-    -   *Primary Color*
-    -   *Hollow Text* (Leave empty to disable, or set to "BRANDNAME")
--   **Logo**: Upload to `General Settings`.
+-   **Store Settings**: Update `brand_settings` in the DB (Admin Panel > Settings > Branding).
+    -   *Primary Color (Hex)*
+    -   *Hollow Text*
+-   **Favicon**: Replace files in `client/public/`.
 
-### 2. Feature Toggles
+### 2. Feature Toggles (Admin Controlled)
 -   **Stock Visibility**: Go to **Admin > Products > Settings** and toggle "Show Stock Info".
 -   **Tax**: Configure in **Admin > Settings > Taxes**.
--   **Community**: The blog/article system is active by default. Create categories in **Admin > Community**.
+-   **Interactive Admin Dashboard**: Full row-click interactivity is active by default. Rows in Orders, Products, and Customers will navigate you to their respective detail/edit views automatically.
 
 ### 🤖 Antigravity Prompts
-> "Update the global primary color to `[HEX]` in tailwind config and `StoreSettingsContext` defaults."
-> "I want to disable the 'Hollow Text' on the homepage. How do I do that?"
+> "Update the global primary color to `[HEX]` in tailwind config and ensure the `StoreSettingsContext` defaults are aligned."
+> "Check the `OrderManagementPage` and `AdminProductsPage` to ensure all row-click navigation is working for the new client."
 
 ---
 
-## Phase 6: Launch & Verification Checklist
+## Phase 6: System Verification
 
-1.  **Payment Flow**: Test a purchase with Paystack (Test Mode).
-2.  **Webhooks**: Verify that a successful payment updates the order `payment_status` to `Paid` in Supabase `orders` table.
-3.  **Emails**: Ensure `send-email` logs success for order confirmations.
-4.  **Responsiveness**: Check Mobile Menu (Framer Motion animations) and Checkout flow on phone.
-5.  **SEO**: Verify `SEO.jsx` is pulling dynamic titles for Products and Articles.
+1.  **Admin Responsiveness**: Open the Admin Dashboard on a mobile device to verify the glossy card layout and interactive widgets.
+2.  **Payment Flow**: Test a purchase with Paystack (Test Mode).
+3.  **Webhooks**: Verify that a successful payment updates the order `payment_status` to `Paid` in Supabase.
+4.  **SEO**: Verify `SEO.jsx` is pulling dynamic titles for Products and Articles.
 
 ---
 
 ## Troubleshooting
 
--   **Paystack 400 Error**: Check if `PAYSTACK_SECRET_KEY` is set in Edge Function secrets. Check if `VITE_PAYSTACK_PUBLIC_KEY` is correct in client.
+-   **Paystack 400 Error**: Check if `PAYSTACK_SECRET_KEY` is set in Edge Function secrets.
 -   **Images Broken**: Verify Storage Bucket policies are "Public".
--   **"Duplicate Key" Error**: Common in `StoreSettingsContext`. Check for duplicate JSON keys in the file if you recently edited it.
--   **Emails Not Sending**: Check `store_settings.resend_config` is valid JSON and the API Key is active.
+-   **"Duplicate Key" Error**: Common in `StoreSettingsContext`. Check for duplicate JSON keys.
+-   **RLS Denied**: Ensure `master_setup.sql` was run successfully and you are logged in as a user listed in `team_members` or `profiles` with `admin` role.
 
 ---
 *Maintained by NAKMA Engineering.*

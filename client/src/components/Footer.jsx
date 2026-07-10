@@ -81,7 +81,7 @@ const Footer = () => {
 
                 {/* Bottom Bar */}
                 <div className="pt-12 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-8">
-                    <p className="text-sm text-white/30 font-medium">© {new Date().getFullYear()} {settings.storeName || 'Nakma Store'}. All rights reserved.</p>
+                    <p className="text-sm text-white/30 font-medium">© {new Date().getFullYear()} {settings.storeName || 'Nakma Ltd'}. All rights reserved.</p>
                     <div className="flex gap-10 text-sm text-white/30 font-medium">
                         <Link to="/privacy-policy" className="hover:text-white transition-colors">Privacy Policy</Link>
                         <Link to="/terms-of-service" className="hover:text-white transition-colors">Terms of Service</Link>

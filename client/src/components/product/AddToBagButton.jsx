@@ -84,7 +84,7 @@ const AddToBagButton = ({ settings, onClick, disabled, loading, price }) => {
                 )}
 
                 {/* Text */}
-                <span>{s.customText || 'Add to Bag'}</span>
+                <span>{s.customText || 'Shop this look'}</span>
 
                 {/* Price if requested (optional feature) */}
                 {s.showPrice && <span className="opacity-70 ml-1"> - {formatPrice(price)}</span>}

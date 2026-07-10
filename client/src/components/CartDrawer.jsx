@@ -56,7 +56,7 @@ const CartDrawer = () => {
                     ) : (
                         cart.map((item) => (
                             <div key={`${item.id}-${item.variation_id || 'base'}-${item.selectedSize}-${item.selectedColor?.name || item.selectedColor}-${item.selectedWeight}-${item.selectedDimension}`} className="flex gap-6 group">
-                                <div className="size-24 rounded-2xl overflow-hidden bg-[#f5f5f5] p-3 flex-shrink-0 relative border border-white/5">
+                                <div className="size-24 overflow-hidden bg-[#f5f5f5] p-3 flex-shrink-0 relative border border-white/5">
                                     <img
                                         src={item.images?.[0] || 'https://via.placeholder.com/100'}
                                         className="w-full h-full object-contain mix-blend-multiply"

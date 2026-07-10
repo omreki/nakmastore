@@ -1,5 +1,7 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { supabase } from '../lib/supabase';
+import { mergeHomepageSettings, DEFAULT_HOMEPAGE_SECTIONS } from '../constants/homepageDefaults';
+import { setSiteFavicon, getDefaultFavicon } from '../utils/favicon';
 
 const DEFAULT_LOGIN_SETTINGS = {
     login_bg_url: "https://images.unsplash.com/photo-1490730141103-6cac27aaab94?q=80&w=2070&auto=format&fit=crop",
@@ -26,22 +28,22 @@ const addTimestamp = (url, timestamp) => {
 
 export const StoreSettingsProvider = ({ children }) => {
     const [settings, setSettings] = useState({
-        storeName: 'Nakma Store',
-        supportEmail: 'info@nakmastore.com',
+        storeName: 'Nakma Ltd',
+        supportEmail: 'store@nakmaltd.com',
         currency: 'KES',
         timezone: 'EAT',
         showDecimals: false,
         paymentGateways: { stripe: true, paypal: false, paystack: false, cod: true },
-        logoUrl: '',
+        logoUrl: '/logo.png',
         heroImageUrl: '',
         shippingMethods: [
             { id: 'standard', name: 'Standard Shipping', description: 'Standard Delivery', deliveryTime: '3-5 Days', cost: 5, enabled: true },
             { id: 'express', name: 'Express Shipping', description: 'Priority Delivery', deliveryTime: '1-2 Days', cost: 15, enabled: true },
             { id: 'free', name: 'Free Shipping', description: 'Over KSh 10,000', deliveryTime: '5-7 Days', cost: 0, enabled: true }
         ],
-        siteUrl: 'https://nakmastore.com',
+        siteUrl: 'https://www.nakmaltd.com',
         alertEmails: [],
-        resendConfig: { apiKey: '', fromEmail: '', verifiedDomain: '' },
+        resendConfig: { apiKey: '', fromEmail: 'Nakma Ltd <store@nakmaltd.com>', verifiedDomain: 'nakmaltd.com' },
         taxesEnabled: true,
         brandSettings: {
             primaryColor: '#ff007f',
@@ -79,30 +81,7 @@ export const StoreSettingsProvider = ({ children }) => {
         },
         paymentConfigs: {},
         homepageSettings: {
-            hero: {
-                subHeadline: "Collection 01",
-                headlineLine1: "PRECISION",
-                headlineLine2: "APPAREL.",
-                descriptionLine1: "Premium African-inspired fashion.",
-                descriptionLine2: "Where tradition meets contemporary silhouette. Crafted for the modern man.",
-                imageUrl: "",
-                hollowText: "",
-                hollowTextOpacity: 20,
-                hollowTextViewMode: 'fit',
-                hollowTextStroke: 1,
-                hollowTextPadding: 5
-            },
-            philosophy: {
-                subHeadline: "The Nakma Philosophy",
-                quote: "Your style is the reflection of your heritage and confidence.",
-                descriptionLine1: "Crafted for the modern African man.",
-                descriptionLine2: "Where tradition meets contemporary silhouette.",
-                imageUrl: ""
-            },
-            categories: {
-                prints: { title: "Vibrant Prints", subtitle: "Bold African Motifs", imageUrl: "" },
-                plains: { title: "Classic Plains", subtitle: "Minimalist Elegance", imageUrl: "" }
-            },
+            sections: DEFAULT_HOMEPAGE_SECTIONS,
             seo: {
                 metaTitle: "",
                 metaDescription: ""
@@ -112,8 +91,6 @@ export const StoreSettingsProvider = ({ children }) => {
             { id: 'shop', label: 'Shop', path: '/shop', type: 'link', visible: true },
 
             { id: 'accessories', label: 'Accessories', path: '/accessories', type: 'link', visible: true },
-            { id: 'about', label: 'About', path: '/about', type: 'link', visible: true },
-            { id: 'community', label: 'Community', path: '/community', type: 'link', visible: true },
             { id: 'contact', label: 'Contact', path: '/contact', type: 'link', visible: true }
         ],
         aboutPageSettings: {
@@ -121,7 +98,7 @@ export const StoreSettingsProvider = ({ children }) => {
                 bgImage: "",
                 estText: "EST. 2024",
                 title: "Beyond \n The Limits",
-                subtitle: "Nakma Store is dedicated to blending African heritage with modern design for the contemporary man."
+                subtitle: "Nakma Ltd is an African inspired fashion house."
             },
             philosophy: {
                 imageUrl: "",
@@ -202,12 +179,12 @@ export const StoreSettingsProvider = ({ children }) => {
                             timezone: data.timezone,
                             showDecimals: data.show_decimals !== undefined ? data.show_decimals : false,
                             paymentGateways: data.payment_gateways || { stripe: true, paypal: false, paystack: false, cod: true },
-                            logoUrl: data.logo_url ? addTimestamp(data.logo_url, timestamp) : '',
+                            logoUrl: data.logo_url ? addTimestamp(data.logo_url, timestamp) : getDefaultFavicon(),
                             heroImageUrl: data.hero_image_url ? addTimestamp(data.hero_image_url, timestamp) : '',
                             shippingMethods: data.shipping_methods || [], // Simplified fallbacks for brevity in update
-                            siteUrl: data.site_url || 'https://nakmastore.com',
+                            siteUrl: data.site_url || 'https://www.nakmaltd.com',
                             alertEmails: data.alert_emails || [],
-                            resendConfig: data.resend_config || { apiKey: '', fromEmail: '', verifiedDomain: '' },
+                            resendConfig: data.resend_config || { apiKey: '', fromEmail: 'Nakma Ltd <store@nakmaltd.com>', verifiedDomain: 'nakmaltd.com' },
                             // Handle tax_rates legacy (array) vs new (object) format
                             taxesEnabled: Array.isArray(data.tax_rates) ? true : (data.tax_rates?.enabled ?? true),
                             taxRates: Array.isArray(data.tax_rates) ? data.tax_rates : (data.tax_rates?.rates || []),
@@ -229,60 +206,7 @@ export const StoreSettingsProvider = ({ children }) => {
                             twitterUrl: data.twitter_url || '',
                             facebookUrl: data.facebook_url || '',
                             paymentConfigs: data.payment_configs || {},
-                            homepageSettings: data.homepage_settings ? {
-                                ...data.homepage_settings,
-                                hero: {
-                                    ...data.homepage_settings.hero,
-                                    imageUrl: data.homepage_settings.hero?.imageUrl ? addTimestamp(data.homepage_settings.hero.imageUrl, timestamp) : "",
-                                    hollowText: data.homepage_settings.hero?.hollowText || ""
-                                },
-                                philosophy: {
-                                    ...data.homepage_settings.philosophy,
-                                    imageUrl: data.homepage_settings.philosophy?.imageUrl ? addTimestamp(data.homepage_settings.philosophy.imageUrl, timestamp) : ""
-                                },
-                                categories: data.homepage_settings.categories ? {
-                                    prints: {
-                                        ...data.homepage_settings.categories.prints,
-                                        imageUrl: data.homepage_settings.categories.prints?.imageUrl ? addTimestamp(data.homepage_settings.categories.prints.imageUrl, timestamp) : ""
-                                    },
-                                    plains: {
-                                        ...data.homepage_settings.categories.plains,
-                                        imageUrl: data.homepage_settings.categories.plains?.imageUrl ? addTimestamp(data.homepage_settings.categories.plains.imageUrl, timestamp) : ""
-                                    }
-                                } : {
-                                    prints: { title: "Vibrant Prints", subtitle: "Bold African Motifs", imageUrl: "" },
-                                    plains: { title: "Classic Plains", subtitle: "Minimalist Elegance", imageUrl: "" }
-                                },
-                                seo: {
-                                    metaTitle: data.homepage_settings.seo?.metaTitle || "",
-                                    metaDescription: data.homepage_settings.seo?.metaDescription || ""
-                                }
-                            } : {
-                                hero: {
-                                    subHeadline: "Collection 01",
-                                    headlineLine1: "PRECISION",
-                                    headlineLine2: "APPAREL.",
-                                    descriptionLine1: "Premium African-inspired fashion.",
-                                    descriptionLine2: "Where tradition meets contemporary silhouette. Crafted for the modern man. Built for the cultural expression.",
-                                    imageUrl: "/hero-clothes-bg.png",
-                                    hollowText: ""
-                                },
-                                philosophy: {
-                                    subHeadline: "The Nakma Philosophy",
-                                    quote: "Your style is the reflection of your heritage and confidence.",
-                                    descriptionLine1: "Crafted for the modern African man.",
-                                    descriptionLine2: "Where tradition meets contemporary silhouette.",
-                                    imageUrl: "/philosophy-bg.png"
-                                },
-                                categories: {
-                                    prints: { title: "Vibrant Prints", subtitle: "Bold African Motifs", imageUrl: "" },
-                                    plains: { title: "Classic Plains", subtitle: "Minimalist Elegance", imageUrl: "" }
-                                },
-                                seo: {
-                                    metaTitle: "",
-                                    metaDescription: ""
-                                }
-                            },
+                            homepageSettings: mergeHomepageSettings(data.homepage_settings),
                             aboutPageSettings: data.about_page_settings ? {
                                 ...data.about_page_settings,
                                 hero: {
@@ -407,16 +331,16 @@ export const StoreSettingsProvider = ({ children }) => {
                     timezone: data.timezone,
                     showDecimals: data.show_decimals !== undefined ? data.show_decimals : false,
                     paymentGateways: data.payment_gateways || { stripe: true, paypal: false, paystack: false, cod: true },
-                    logoUrl: data.logo_url ? addTimestamp(data.logo_url, timestamp) : '',
+                    logoUrl: data.logo_url ? addTimestamp(data.logo_url, timestamp) : getDefaultFavicon(),
                     heroImageUrl: data.hero_image_url ? addTimestamp(data.hero_image_url, timestamp) : '',
                     shippingMethods: data.shipping_methods || [
                         { id: 'standard', name: 'Standard Ground', description: 'Primary Distribution', deliveryTime: '5-7 CYCLES', cost: 5, enabled: true },
                         { id: 'express', name: 'Exosphere Velocity', description: 'Priority Transit', deliveryTime: '2-3 CYCLES', cost: 15, enabled: true },
                         { id: 'free', name: 'Zero-Cost Yield', description: 'Volume Reward Tier', deliveryTime: '10+ CYCLES', cost: 0, enabled: true }
                     ],
-                    siteUrl: data.site_url || 'https://nakmastore.com',
+                    siteUrl: data.site_url || 'https://www.nakmaltd.com',
                     alertEmails: data.alert_emails || [],
-                    resendConfig: data.resend_config || { apiKey: '', fromEmail: '', verifiedDomain: '' },
+                    resendConfig: data.resend_config || { apiKey: '', fromEmail: 'Nakma Ltd <store@nakmaltd.com>', verifiedDomain: 'nakmaltd.com' },
                     // Removed SMTP settings
                     // Handle tax_rates legacy (array) vs new (object) format
                     taxesEnabled: Array.isArray(data.tax_rates) ? true : (data.tax_rates?.enabled ?? true),
@@ -439,70 +363,11 @@ export const StoreSettingsProvider = ({ children }) => {
                     facebookUrl: data.facebook_url || '',
 
                     paymentConfigs: data.payment_configs || {},
-                    homepageSettings: data.homepage_settings ? {
-                        ...data.homepage_settings,
-                        hero: {
-                            ...data.homepage_settings.hero,
-                            imageUrl: data.homepage_settings.hero?.imageUrl ? addTimestamp(data.homepage_settings.hero.imageUrl, timestamp) : "",
-                            hollowText: data.homepage_settings.hero?.hollowText || "",
-                            hollowTextOpacity: data.homepage_settings.hero?.hollowTextOpacity ?? 20,
-                            hollowTextViewMode: data.homepage_settings.hero?.hollowTextViewMode || 'fit',
-                            hollowTextStroke: data.homepage_settings.hero?.hollowTextStroke ?? 1,
-                            hollowTextPadding: data.homepage_settings.hero?.hollowTextPadding ?? 5
-                        },
-                        philosophy: {
-                            ...data.homepage_settings.philosophy,
-                            imageUrl: data.homepage_settings.philosophy?.imageUrl ? addTimestamp(data.homepage_settings.philosophy.imageUrl, timestamp) : ""
-                        },
-                        categories: data.homepage_settings.categories ? {
-                            prints: {
-                                ...data.homepage_settings.categories.prints,
-                                imageUrl: data.homepage_settings.categories.prints?.imageUrl ? addTimestamp(data.homepage_settings.categories.prints.imageUrl, timestamp) : ""
-                            },
-                            plains: {
-                                ...data.homepage_settings.categories.plains,
-                                imageUrl: data.homepage_settings.categories.plains?.imageUrl ? addTimestamp(data.homepage_settings.categories.plains.imageUrl, timestamp) : ""
-                            }
-                        } : {
-                            prints: { title: "Vibrant Prints", subtitle: "Bold African Motifs", imageUrl: "" },
-                            plains: { title: "Classic Plains", subtitle: "Minimalist Elegance", imageUrl: "" }
-                        },
-                        seo: {
-                            metaTitle: data.homepage_settings.seo?.metaTitle || "",
-                            metaDescription: data.homepage_settings.seo?.metaDescription || ""
-                        }
-                    } : {
-                        hero: {
-                            subHeadline: "Collection 2024",
-                            headlineLine1: "AFRICAN",
-                            headlineLine2: "HERITAGE.",
-                            descriptionLine1: "Premium African-inspired fashion.",
-                            descriptionLine2: "Where tradition meets contemporary silhouette. Crafted for the modern man.",
-                            imageUrl: "",
-                            hollowText: "NAKMA"
-                        },
-                        philosophy: {
-                            subHeadline: "The Nakma Philosophy",
-                            quote: "Your style is the reflection of your heritage and confidence.",
-                            descriptionLine1: "Crafted for the modern African man.",
-                            descriptionLine2: "Where tradition meets contemporary silhouette.",
-                            imageUrl: ""
-                        },
-                        categories: {
-                            prints: { title: "Vibrant Prints", subtitle: "Bold African Motifs", imageUrl: "" },
-                            plains: { title: "Classic Plains", subtitle: "Minimalist Elegance", imageUrl: "" }
-                        },
-                        seo: {
-                            metaTitle: "Nakma Store | Modern African Fashion",
-                            metaDescription: "Discover unique African-inspired men's fashion at Nakma Store. Blending heritage with modern design."
-                        }
-                    },
+                    homepageSettings: mergeHomepageSettings(data.homepage_settings),
                     navigationSettings: data.navigation_settings || [
                         { id: 'shop', label: 'Shop', path: '/shop', type: 'link', visible: true, subtitle: 'Global archive' },
 
                         { id: 'accessories', label: 'Accessories', path: '/accessories', type: 'link', visible: true, subtitle: 'Final details' },
-                        { id: 'about', label: 'About', path: '/about', type: 'link', visible: true, subtitle: 'Manifesto' },
-                        { id: 'community', label: 'Community', path: '/community', type: 'link', visible: true, subtitle: 'Joined forces' },
                         { id: 'contact', label: 'Contact', path: '/contact', type: 'link', visible: true, subtitle: 'Support core' }
                     ],
                     aboutPageSettings: data.about_page_settings ? {
@@ -524,7 +389,7 @@ export const StoreSettingsProvider = ({ children }) => {
                             bgImage: "https://images.unsplash.com/photo-1534438327276-14e5300c3a48?q=80&w=2070&auto=format&fit=crop",
                             estText: "EST. 2024",
                             title: "Beyond \n The Limits",
-                            subtitle: "Nakma Store is dedicated to blending African heritage with modern design for the contemporary man."
+                            subtitle: "Nakma Ltd is an African inspired fashion house."
                         },
                         philosophy: {
                             imageUrl: "",
@@ -648,28 +513,10 @@ export const StoreSettingsProvider = ({ children }) => {
                 facebook_url: newSettings.facebookUrl,
                 brand_settings: newSettings.brandSettings,
                 payment_configs: newSettings.paymentConfigs,
-                homepage_settings: newSettings.homepageSettings ? {
-                    ...newSettings.homepageSettings,
-                    hero: {
-                        ...newSettings.homepageSettings.hero,
-                        imageUrl: stripTimestamp(newSettings.homepageSettings.hero?.imageUrl)
-                    },
-                    philosophy: {
-                        ...newSettings.homepageSettings.philosophy,
-                        imageUrl: stripTimestamp(newSettings.homepageSettings.philosophy?.imageUrl)
-                    },
-                    categories: newSettings.homepageSettings.categories ? {
-                        prints: {
-                            ...newSettings.homepageSettings.categories.prints,
-                            imageUrl: stripTimestamp(newSettings.homepageSettings.categories.prints?.imageUrl)
-                        },
-                        plains: {
-                            ...newSettings.homepageSettings.categories.plains,
-                            imageUrl: stripTimestamp(newSettings.homepageSettings.categories.plains?.imageUrl)
-                        }
-                    } : undefined,
-                    productPageSettings: newSettings.productPageSettings
-                } : undefined,
+                homepage_settings: {
+                    ...mergeHomepageSettings(newSettings.homepageSettings),
+                    productPageSettings: newSettings.productPageSettings,
+                },
                 about_page_settings: newSettings.aboutPageSettings ? {
                     ...newSettings.aboutPageSettings,
                     hero: {
@@ -718,8 +565,8 @@ export const StoreSettingsProvider = ({ children }) => {
                     showDecimals: data.show_decimals,
                     siteUrl: data.site_url,
                     alertEmails: data.alert_emails || [],
-                    resendConfig: data.resend_config || { apiKey: '', fromEmail: '', verifiedDomain: '' },
-                    logoUrl: data.logo_url ? addTimestamp(data.logo_url, timestamp) : '',
+                    resendConfig: data.resend_config || { apiKey: '', fromEmail: 'Nakma Ltd <store@nakmaltd.com>', verifiedDomain: 'nakmaltd.com' },
+                    logoUrl: data.logo_url ? addTimestamp(data.logo_url, timestamp) : getDefaultFavicon(),
                     heroImageUrl: data.hero_image_url ? addTimestamp(data.hero_image_url, timestamp) : '',
                     taxesEnabled: Array.isArray(data.tax_rates) ? true : (data.tax_rates?.enabled ?? newSettings.taxesEnabled),
                     taxRates: (Array.isArray(data.tax_rates) ? data.tax_rates : data.tax_rates?.rates) || newSettings.taxRates,
@@ -735,30 +582,7 @@ export const StoreSettingsProvider = ({ children }) => {
                     twitterUrl: data.twitter_url || '',
                     facebookUrl: data.facebook_url || '',
                     paymentConfigs: data.payment_configs || {},
-                    homepageSettings: data.homepage_settings ? {
-                        ...data.homepage_settings,
-                        hero: {
-                            ...data.homepage_settings.hero,
-                            imageUrl: data.homepage_settings.hero?.imageUrl ? addTimestamp(data.homepage_settings.hero.imageUrl, timestamp) : "",
-                        },
-                        philosophy: {
-                            ...data.homepage_settings.philosophy,
-                            imageUrl: data.homepage_settings.philosophy?.imageUrl ? addTimestamp(data.homepage_settings.philosophy.imageUrl, timestamp) : ""
-                        },
-                        categories: data.homepage_settings.categories ? {
-                            prints: {
-                                ...data.homepage_settings.categories.prints,
-                                imageUrl: data.homepage_settings.categories.prints?.imageUrl ? addTimestamp(data.homepage_settings.categories.prints.imageUrl, timestamp) : ""
-                            },
-                            plains: {
-                                ...data.homepage_settings.categories.plains,
-                                imageUrl: data.homepage_settings.categories.plains?.imageUrl ? addTimestamp(data.homepage_settings.categories.plains.imageUrl, timestamp) : ""
-                            }
-                        } : {
-                            prints: { title: "Vibrant Prints", subtitle: "Bold African Motifs", imageUrl: "" },
-                            plains: { title: "Classic Plains", subtitle: "Minimalist Elegance", imageUrl: "" }
-                        }
-                    } : newSettings.homepageSettings,
+                    homepageSettings: mergeHomepageSettings(data.homepage_settings || newSettings.homepageSettings),
                     navigationSettings: data.navigation_settings || newSettings.navigationSettings,
                     aboutPageSettings: data.about_page_settings ? {
                         ...data.about_page_settings,
@@ -823,15 +647,11 @@ export const StoreSettingsProvider = ({ children }) => {
     // Dynamic SEO and Favicon updates
     useEffect(() => {
         if (settings.storeName) {
-            document.title = `${settings.storeName} | Heritage & Modern Design`;
+            document.title = `${settings.storeName} — An African Inspired Fashion House`;
         }
 
-        if (settings.logoUrl) {
-            const favicons = document.querySelectorAll('link[rel="icon"], link[rel="shortcut icon"]');
-            favicons.forEach(favicon => {
-                favicon.href = settings.logoUrl;
-            });
-        }
+        const faviconUrl = settings.logoUrl || getDefaultFavicon();
+        setSiteFavicon(faviconUrl);
     }, [settings.storeName, settings.logoUrl]);
 
     // Dynamic Brand Colors Injection

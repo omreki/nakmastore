@@ -30,6 +30,7 @@ const SizeGuidePage = lazy(() => import('./pages/SizeGuidePage'));
 const DynamicPage = lazy(() => import('./pages/DynamicPage'));
 const CommunityPage = lazy(() => import('./pages/CommunityPage'));
 const ArticleDetailPage = lazy(() => import('./pages/ArticleDetailPage'));
+const LoginPage = lazy(() => import('./pages/LoginPage'));
 
 // Admin Pages
 const AdminDashboard = lazy(() => import('./pages/admin/AdminDashboard'));
@@ -123,6 +124,7 @@ function App() {
                           <Route path="/shop" element={<ShopPage />} />
                           <Route path="/about" element={<AboutPage />} />
                           <Route path="/contact" element={<ContactPage />} />
+                          <Route path="/login" element={<LoginPage />} />
                           <Route path="/cart" element={<CartPage />} />
                           <Route path="/checkout" element={<CheckoutPage />} />
                           <Route path="/confirmation" element={<ConfirmationPage />} />

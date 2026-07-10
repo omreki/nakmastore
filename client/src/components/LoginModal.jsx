@@ -81,7 +81,7 @@ const LoginModal = () => {
                             style={{
                                 backgroundImage: settings?.loginPageSettings?.login_bg_url
                                     ? `url('${settings.loginPageSettings.login_bg_url}')`
-                                    : (settings?.loginPageSettings?.login_bg_url === '' ? 'none' : "url('/hero-clothes-bg.png')")
+                                    : 'none'
                             }}
                         ></div>
                         <div className="absolute inset-0 bg-gradient-to-t from-black via-[#1e0c42]/40 to-transparent"></div>

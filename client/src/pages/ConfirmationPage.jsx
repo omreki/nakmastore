@@ -3,7 +3,10 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useStoreSettings } from '../context/StoreSettingsContext';
 import { useCart } from '../context/CartContext';
 import { supabase } from '../lib/supabase';
-import { emailService } from '../services/emailService';
+import { sendOrderPlacementNotifications } from '../utils/orderNotifications';
+
+const getShippingName = (details = {}) => details.fullName?.trim()
+    || `${details.firstName || ''} ${details.lastName || ''}`.trim();
 
 const ConfirmationPage = () => {
     const { formatPrice, currencySymbol, settings, getTaxName, shouldShowTax } = useStoreSettings();
@@ -62,21 +65,15 @@ const ConfirmationPage = () => {
                 try {
                     const customerData = {
                         email: formattedOrder.shippingDetails?.email,
-                        full_name: `${formattedOrder.shippingDetails?.firstName} ${formattedOrder.shippingDetails?.lastName}`
+                        full_name: getShippingName(formattedOrder.shippingDetails),
                     };
-                    const emailItems = formattedOrder.items.map(item => ({
-                        product_name: item.name,
-                        quantity: item.quantity,
-                        price: item.price
-                    }));
 
-                    emailService.sendOrderConfirmation(formattedOrder, customerData, emailItems).catch(console.error);
-
-                    const { data: teamMembers } = await supabase.from('team_members').select('email').in('role', ['admin', 'editor', 'shop_manager']);
-                    const allRecipients = [...new Set([(teamMembers || []).map(m => m.email), settings?.alertEmails || []].flat())].filter(Boolean);
-                    if (allRecipients.length > 0) {
-                        emailService.sendAdminOrderNotification(formattedOrder, allRecipients, customerData, emailItems).catch(console.error);
-                    }
+                    await sendOrderPlacementNotifications({
+                        order: formattedOrder,
+                        customer: customerData,
+                        items: formattedOrder.items,
+                        settings,
+                    });
                 } catch (e) { console.error('Recovery notification fail:', e); }
 
             } catch (err) {
@@ -161,7 +158,7 @@ const ConfirmationPage = () => {
                     </div>
                     <h2 className="text-2xl md:text-5xl font-black tracking-tight text-white drop-shadow-md">Order Confirmed</h2>
                     <div className="flex flex-col gap-1 text-zinc-300">
-                        <p className="text-base md:text-lg font-medium px-4">Thank you{order.shippingDetails?.firstName ? `, ${order.shippingDetails.firstName}` : ''}! Your order is confirmed.</p>
+                        <p className="text-base md:text-lg font-medium px-4">Thank you{getShippingName(order.shippingDetails) ? `, ${getShippingName(order.shippingDetails)}` : ''}! Your order is confirmed.</p>
                         <p className="text-xs md:text-sm opacity-60 font-body px-6">Order #{order.id} {order.shippingDetails?.email ? `• We sent a confirmation email to ${order.shippingDetails.email}` : ''}</p>
                     </div>
                 </div>
@@ -179,7 +176,7 @@ const ConfirmationPage = () => {
                                 {order.items.map((item, index) => (
                                     <React.Fragment key={index}>
                                         <div className="flex gap-4 md:gap-6 items-start group">
-                                            <div className="shrink-0 relative overflow-hidden rounded-xl bg-zinc-800 border border-white/10 size-24 md:size-28 shadow-lg">
+                                            <div className="shrink-0 relative overflow-hidden bg-zinc-800 border border-white/10 size-24 md:size-28 shadow-lg">
                                                 <div className="bg-center bg-no-repeat w-full h-full bg-cover transition-transform duration-500 group-hover:scale-110 opacity-90" style={{ backgroundImage: `url('${item.images?.[0] || 'https://via.placeholder.com/200'}')` }}></div>
                                             </div>
                                             <div className="flex flex-1 flex-col h-full justify-between py-1">
@@ -218,8 +215,11 @@ const ConfirmationPage = () => {
                                     <h4 className="font-bold text-white">Delivery Details</h4>
                                 </div>
                                 <div className="text-sm text-zinc-400 leading-relaxed">
-                                    <p className="font-semibold text-white mb-1">{order.shippingDetails.firstName} {order.shippingDetails.lastName}</p>
-                                    <p>{order.shippingDetails.line1}</p>
+                                    <p className="font-semibold text-white mb-1">{getShippingName(order.shippingDetails)}</p>
+                                    <p>{order.shippingDetails.deliveryLocation || order.shippingDetails.line1}</p>
+                                    {order.shippingDetails.deliveryRoute && (
+                                        <p className="text-white/60">{order.shippingDetails.deliveryRoute}</p>
+                                    )}
                                     <p>{order.shippingDetails.country}</p>
                                     <p>{order.shippingDetails.phone}</p>
                                     <p className="mt-2 text-accent font-medium">{order.shippingDetails.method}</p>
@@ -266,7 +266,11 @@ const ConfirmationPage = () => {
                                 <div className="flex justify-between text-sm">
                                     <span className="text-zinc-400">Delivery</span>
                                     <span className="font-medium text-emerald-400">
-                                        {order.totals.shipping === 0 ? 'Free' : formatPrice(order.totals.shipping)}
+                                        {order.shippingDetails?.isNetworkDelivery
+                                            ? formatPrice(order.totals.shipping)
+                                            : order.totals.shipping === 0
+                                                ? '—'
+                                                : formatPrice(order.totals.shipping)}
                                     </span>
                                 </div>
                                 {shouldShowTax() && (

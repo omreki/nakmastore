@@ -63,7 +63,7 @@ const CartPage = () => {
                         <div className="space-y-8">
                             {cart.map((item) => (
                                 <div key={`${item.id}-${item.variation_id || 'base'}-${item.selectedSize}-${item.selectedColor}`} className="flex flex-col md:flex-row gap-6 md:gap-8 py-6 md:py-8 border-b border-white/5 group">
-                                    <div className="w-full md:w-48 aspect-video md:aspect-[4/5] rounded-[24px] overflow-hidden bg-[#f5f5f5] p-4 md:p-6 relative flex-shrink-0">
+                                    <div className="w-full md:w-48 aspect-video md:aspect-[4/5] overflow-hidden bg-[#f5f5f5] p-4 md:p-6 relative flex-shrink-0">
                                         <img
                                             src={item.images?.[0] || 'https://via.placeholder.com/200x250'}
                                             alt={item.name}
@@ -176,7 +176,7 @@ const CartPage = () => {
                                     <div className="space-y-4">
                                         {suggestedProducts.map((p) => (
                                             <Link to={`/product/${p.slug}`} key={p.id} className="flex gap-6 p-4 rounded-[24px] bg-white/[0.02] border border-white/5 hover:bg-white/[0.05] transition-all group">
-                                                <div className="size-20 rounded-[16px] overflow-hidden bg-[#f5f5f5] p-2 flex-shrink-0">
+                                                <div className="size-20 overflow-hidden bg-[#f5f5f5] p-2 flex-shrink-0">
                                                     <img src={p.images?.[0] || 'https://via.placeholder.com/80'} className="w-full h-full object-contain mix-blend-multiply" alt="" />
                                                 </div>
                                                 <div className="flex flex-col justify-center">

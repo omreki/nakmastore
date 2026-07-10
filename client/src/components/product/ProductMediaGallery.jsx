@@ -1,15 +1,14 @@
 import React, { useState } from 'react';
 
 const ProductMediaGallery = ({ images = [], productTitle, settings, isNew }) => {
-    const isSharp = settings.roundingStyle === 'sharp';
     const s = {
         ...(settings.productImages || {}),
         fit: settings.imageFit || settings.productImages?.fit || 'cover',
         galleryLayout: settings.galleryLayout || settings.productImages?.galleryLayout || 'grid',
         galleryColumns: settings.thumbnailColumns || settings.productImages?.galleryColumns || 4,
         thumbnailSize: settings.thumbnailSize || settings.productImages?.thumbnailSize || 100,
-        mainImageRadius: isSharp ? 0 : (settings.mainImageRadius !== undefined ? settings.mainImageRadius : (settings.productImages?.mainImageRadius !== undefined ? settings.productImages.mainImageRadius : 40)),
-        thumbnailRadius: isSharp ? 0 : (settings.thumbnailRadius !== undefined ? settings.thumbnailRadius : (settings.productImages?.thumbnailRadius !== undefined ? settings.productImages.thumbnailRadius : 24))
+        mainImageRadius: settings.mainImageRadius ?? settings.productImages?.mainImageRadius ?? 0,
+        thumbnailRadius: settings.thumbnailRadius ?? settings.productImages?.thumbnailRadius ?? 0
     };
     const [activeIndex, setActiveIndex] = useState(0);
 
@@ -46,7 +45,7 @@ const ProductMediaGallery = ({ images = [], productTitle, settings, isNew }) => 
         const layout = s.galleryLayout || 'grid';
         const gap = s.galleryGap || 16;
         const colCount = s.galleryColumns || 4;
-        const radius = s.thumbnailRadius !== undefined ? s.thumbnailRadius : 24;
+        const radius = s.thumbnailRadius ?? 0;
 
         if (layout === 'scroll') {
             return (
@@ -80,7 +79,7 @@ const ProductMediaGallery = ({ images = [], productTitle, settings, isNew }) => 
                     {images.length > 1 && (
                         <div className="grid grid-cols-2 gap-6">
                             {images.slice(1, 3).map((img, idx) => (
-                                <div key={idx} className="aspect-square rounded-[2rem] overflow-hidden border border-white/5 bg-white/[0.02]">
+                                <div key={idx} className="aspect-square overflow-hidden border border-white/5 bg-white/[0.02]">
                                     <img src={img} alt="" className="w-full h-full object-cover" />
                                 </div>
                             ))}
@@ -88,7 +87,7 @@ const ProductMediaGallery = ({ images = [], productTitle, settings, isNew }) => 
                     )}
 
                     {images.length > 3 && (
-                        <div className="aspect-[21/9] rounded-[2rem] overflow-hidden border border-white/5 bg-white/[0.02]">
+                        <div className="aspect-[21/9] overflow-hidden border border-white/5 bg-white/[0.02]">
                             <img src={images[3]} alt="" className="w-full h-full object-cover" />
                         </div>
                     )}
@@ -97,7 +96,7 @@ const ProductMediaGallery = ({ images = [], productTitle, settings, isNew }) => 
                     {images.length > 4 && (
                         <div className="grid grid-cols-3 gap-6">
                             {images.slice(4).map((img, idx) => (
-                                <div key={idx} className="aspect-square rounded-[2rem] overflow-hidden border border-white/5 bg-white/[0.02]">
+                                <div key={idx} className="aspect-square overflow-hidden border border-white/5 bg-white/[0.02]">
                                     <img src={img} alt="" className="w-full h-full object-cover" />
                                 </div>
                             ))}
@@ -139,13 +138,8 @@ const ProductMediaGallery = ({ images = [], productTitle, settings, isNew }) => 
             {/* Main Featured Image */}
             <div
                 className={`relative w-full overflow-hidden group ${getAspectRatioClass(s.aspectRatio)}`}
-                style={{ borderRadius: `${s.mainImageRadius !== undefined ? s.mainImageRadius : 40}px` }}
+                style={{ borderRadius: `${s.mainImageRadius ?? 0}px` }}
             >
-                {/* Badge Overlay */}
-                <div className="absolute top-6 left-6 z-10 px-4 py-1.5 bg-white/10 backdrop-blur-md border border-white/10 text-white text-[10px] font-black uppercase tracking-[0.2em] rounded-lg shadow-2xl">
-                    Best Seller
-                </div>
-
                 {isNew && (
                     <div className="absolute top-6 right-6 z-10 px-4 py-1.5 bg-primary text-white text-[10px] font-black uppercase tracking-[0.2em] rounded-lg shadow-2xl">
                         New Arrivals

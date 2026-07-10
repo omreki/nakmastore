@@ -19,12 +19,12 @@ const SEO = ({
     const fullUrl = `${siteUrl}${pathname}`;
 
     const seoSettings = settings?.seoSettings || {};
-    const siteName = settings?.storeName || 'NakmaLtd';
+    const siteName = settings?.storeName || 'Nakma Ltd';
 
-    const defaultTitle = seoSettings.metaTitle || `${siteName} | Premium African-Inspired Fashion`;
-    const defaultDescription = seoSettings.metaDescription || 'NakmaLtd is a premium fashion house dedicated to unique, high-quality African-inspired men’s shirts. Blending heritage with modern design for the contemporary man.';
+    const defaultTitle = seoSettings.metaTitle || 'Nakma Ltd — An African Inspired Fashion House';
+    const defaultDescription = seoSettings.metaDescription || 'Nakma Ltd — an African inspired fashion house.';
     const defaultKeywords = seoSettings.keywords || 'african fashion, men shirts, premium apparel, nakmaltd, african tailoring, modern african wear';
-    const defaultImage = `${siteUrl}/hero-bg.png`; // Fallback to hero background
+    const defaultImage = settings?.logoUrl || `${siteUrl}/logo.png`;
 
     const metaTitle = title ? `${title} | ${siteName}` : defaultTitle;
     const metaDescription = description || defaultDescription;

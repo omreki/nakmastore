@@ -7,8 +7,8 @@ import { useStoreSettings } from '../context/StoreSettingsContext';
 const AboutPage = () => {
     const { settings, loading } = useStoreSettings();
     const aboutSettings = settings?.aboutPageSettings || {
-        hero: { bgImage: '', estText: 'EST. 2024', title: 'Crafting \n African Style', subtitle: 'Nakma Store is a fashion house dedicated to blending heritage with modern design for the modern man.' },
-        philosophy: { imageUrl: '', label: 'OUR IDENTITY', title: 'Confidence Meets \n Heritage.', description: 'At Nakma Store, we believe that true style lies in confidence, comfort, and cultural expression. Our collection is designed to empower men through vibrant cultural identity and sophisticated silhouettes.', stats: [{ value: '100%', label: 'Authentic' }, { value: '0', label: 'Compromise' }] },
+        hero: { bgImage: '', estText: 'EST. 2024', title: 'Crafting \n African Style', subtitle: 'Nakma Ltd is an African inspired fashion house.' },
+        philosophy: { imageUrl: '', label: 'OUR IDENTITY', title: 'Confidence Meets \n Heritage.', description: 'At Nakma Ltd, we believe that true style lies in confidence, comfort, and cultural expression. Our collection is designed to empower men through vibrant cultural identity and sophisticated silhouettes.', stats: [{ value: '100%', label: 'Authentic' }, { value: '0', label: 'Compromise' }] },
         coreValues: {
             label: 'CORE VALUES', title: 'Built On Tradition', values: [
                 { title: "Cultural Expression", desc: "We celebrate heritage through bold patterns and modern tailoring, ensuring every piece tells a story of identity.", icon: "stylus_note" },

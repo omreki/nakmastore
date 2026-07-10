@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { supabase } from '../../lib/supabase';
 import { useStoreSettings } from '../../context/StoreSettingsContext';
 import { useNotification } from '../../context/NotificationContext';
-import { emailService } from '../../services/emailService';
+import { sendOrderPlacementNotifications } from '../../utils/orderNotifications';
 
 const CreateOrderModal = ({ onClose, onSuccess }) => {
     const { formatPrice, settings: storeSettings } = useStoreSettings();
@@ -195,16 +195,16 @@ const CreateOrderModal = ({ onClose, onSuccess }) => {
 
             if (itemsError) throw itemsError;
 
-            // 4. Trigger Email Notifications (Async)
-            if (storeSettings?.emailNotificationsEnabled) {
-                const customerForEmail = customerMode === 'existing' ? selectedCustomer : { ...guestInfo, id: null };
-                emailService.sendOrderConfirmation(order, customerForEmail).catch(err => console.error('Confirmation email failed:', err));
+            const customerForEmail = customerMode === 'existing'
+                ? { email: selectedCustomer.email, full_name: selectedCustomer.full_name }
+                : { email: guestInfo.email, full_name: guestInfo.full_name };
 
-                const adminEmails = storeSettings?.alertEmails || [storeSettings?.supportEmail].filter(Boolean);
-                if (adminEmails.length > 0) {
-                    emailService.sendAdminOrderNotification(order, adminEmails, customerForEmail).catch(err => console.error('Admin notification failed:', err));
-                }
-            }
+            await sendOrderPlacementNotifications({
+                order,
+                customer: customerForEmail,
+                items: selectedItems,
+                settings: storeSettings,
+            }).catch((err) => console.error('Order notification failed:', err));
 
             notify('Order created successfully!', 'success');
             onSuccess();

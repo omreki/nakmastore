@@ -132,7 +132,7 @@ export const AuthProvider = ({ children }) => {
     const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
     const [isAdmin, setIsAdmin] = useState(false);
 
-    // Check admin access from both profiles and team_members tables
+    // Admin access: allowlisted emails, server API, profile role, or team_members
     useEffect(() => {
         const checkAdminAccess = async () => {
             if (!user?.email) {
@@ -140,37 +140,57 @@ export const AuthProvider = ({ children }) => {
                 return;
             }
 
-            // Check if user is in admin emails list
-            const adminEmails = (import.meta.env.VITE_ADMIN_EMAILS || '').split(',').map(e => e.trim().toLowerCase());
-            if (adminEmails.includes(user.email.toLowerCase())) {
-                setIsAdmin(true);
-                return;
+            const email = user.email.toLowerCase();
+            let hasAdminAccess = false;
+
+            const allowlistedEmails = (import.meta.env.VITE_ADMIN_EMAILS || '')
+                .split(',')
+                .map((entry) => entry.trim().toLowerCase())
+                .filter(Boolean);
+
+            if (allowlistedEmails.includes(email)) {
+                hasAdminAccess = true;
             }
 
-            // Check if user has admin role in profiles
-            if (profile?.role === 'admin') {
-                setIsAdmin(true);
-                return;
-            }
+            if (!hasAdminAccess) {
+                try {
+                    const { data: { session } } = await supabase.auth.getSession();
+                    const token = session?.access_token;
 
-            // Check if user is a team member with admin, editor, or shop_manager role
-            try {
-                const { data: teamMembers, error } = await supabase
-                    .from('team_members')
-                    .select('role')
-                    .eq('email', user.email)
-                    .in('role', ['admin', 'editor', 'shop_manager']);
+                    const response = await fetch('/api/auth/admin-status', {
+                        headers: token ? { Authorization: `Bearer ${token}` } : {},
+                    });
 
-                if (!error && teamMembers && teamMembers.length > 0) {
-                    setIsAdmin(true);
-                    return;
+                    if (response.ok) {
+                        const { isAdmin: apiIsAdmin } = await response.json();
+                        hasAdminAccess = !!apiIsAdmin;
+                    }
+                } catch (error) {
+                    console.error('Error checking admin access via API:', error);
                 }
-
-                setIsAdmin(false);
-            } catch (error) {
-                console.error('Error checking team member access:', error);
-                setIsAdmin(false);
             }
+
+            if (!hasAdminAccess && profile?.role === 'admin') {
+                hasAdminAccess = true;
+            }
+
+            if (!hasAdminAccess) {
+                try {
+                    const { data: teamMembers, error } = await supabase
+                        .from('team_members')
+                        .select('role')
+                        .eq('email', user.email)
+                        .in('role', ['admin', 'editor', 'shop_manager']);
+
+                    if (!error && teamMembers && teamMembers.length > 0) {
+                        hasAdminAccess = true;
+                    }
+                } catch (error) {
+                    console.error('Error checking team member access:', error);
+                }
+            }
+
+            setIsAdmin(hasAdminAccess);
         };
 
         checkAdminAccess();

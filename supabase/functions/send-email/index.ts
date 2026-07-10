@@ -50,7 +50,7 @@ serve(async (req) => {
         // 2. Determine Sender Email
         // Priority: DB Config (fromEmail) -> Default
         const dbFromEmail = settings?.resend_config?.fromEmail;
-        const fromEmail = dbFromEmail || "NAKMA Store <info@shop.nakmastore.com>";
+        const fromEmail = dbFromEmail || "Nakma Ltd <store@nakmaltd.com>";
 
         // Handle 'to' being string or array
         const recipients = Array.isArray(to) ? to : [to];
