@@ -5,7 +5,7 @@ WORKDIR /app/client
 
 # Copy frontend package files
 COPY client/package*.json ./
-RUN npm ci
+RUN npm ci --legacy-peer-deps
 
 # Copy frontend source files
 COPY client/ ./
