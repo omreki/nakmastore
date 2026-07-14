@@ -12,8 +12,8 @@ services:
       - ADMIN_EMAILS=${ADMIN_EMAILS}
       - VITE_ADMIN_EMAILS=${VITE_ADMIN_EMAILS}
       - RESEND_API_KEY=${RESEND_API_KEY}
-    ports:
-      - "5001:5001"
+    expose:
+      - "5001"
     restart: always
 
   client:
@@ -24,8 +24,8 @@ services:
         - VITE_SUPABASE_URL=${VITE_SUPABASE_URL}
         - VITE_SUPABASE_ANON_KEY=${VITE_SUPABASE_ANON_KEY}
         - VITE_ADMIN_EMAILS=${VITE_ADMIN_EMAILS}
-    ports:
-      - "8080:80"
+    expose:
+      - "80"
     depends_on:
       - server
     restart: always
