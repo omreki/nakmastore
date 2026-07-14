@@ -12,9 +12,24 @@ const PORT = process.env.PORT || 5000;
 app.use(cors());
 app.use(express.json());
 
-app.get('/', (req, res) => {
-  res.send('Nakma Server is Running');
-});
+// Serve static assets from the client build folder in production
+if (process.env.NODE_ENV === 'production') {
+  const clientBuildPath = path.join(__dirname, '../client/dist');
+  app.use(express.static(clientBuildPath));
+
+  // Catch-all route to serve the React SPA index.html for client-side routing
+  app.get('*splat', (req, res, next) => {
+    // Skip API routes so they fall through or return 404
+    if (req.path.startsWith('/api')) {
+      return next();
+    }
+    res.sendFile(path.join(clientBuildPath, 'index.html'));
+  });
+} else {
+  app.get('/', (req, res) => {
+    res.send('Nakma Server is Running');
+  });
+}
 
 app.get('/api/auth/admin-status', async (req, res) => {
   try {
