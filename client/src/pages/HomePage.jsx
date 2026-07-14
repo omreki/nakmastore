@@ -36,7 +36,7 @@ const fetchSectionProducts = async (section, page, batchSize) => {
     return data || [];
 };
 
-const HomePageProductSection = ({ section, formatPrice, onQuickAdd, showShopAllLink, isFirst }) => {
+const HomePageProductSection = ({ section, formatPrice, onQuickAdd, showShopAllLink, isFirst, mobileColumns }) => {
     const config = useMemo(() => getSectionConfig(section), [section]);
     const [products, setProducts] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -102,7 +102,7 @@ const HomePageProductSection = ({ section, formatPrice, onQuickAdd, showShopAllL
                         <p className="text-white/40 text-sm font-bold uppercase tracking-widest">No products to display</p>
                     </div>
                 ) : (
-                    <div className={`grid ${getListingGridClass(config.columnsPerRow)} gap-6 md:gap-8`}>
+                    <div className={`grid ${getListingGridClass(config.columnsPerRow, mobileColumns)} gap-6 md:gap-8`}>
                         {products.map((product) => (
                             <Link to={`/product/${product.slug}`} key={product.id} className="group cursor-pointer">
                                 <div className="relative aspect-[4/5] overflow-hidden mb-4 bg-[#1a1a1a] transition-transform duration-500 group-hover:-translate-y-2 border border-white/5">
@@ -185,6 +185,7 @@ const HomePage = () => {
                     onQuickAdd={handleQuickAdd}
                     showShopAllLink={index === 0}
                     isFirst={index === 0}
+                    mobileColumns={settings?.homepageSettings?.mobileColumns}
                 />
             ))}
         </div>

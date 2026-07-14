@@ -61,6 +61,7 @@ const StoreSettingsPage = () => {
                 metaTitle: '',
                 metaDescription: '',
             },
+            mobileColumns: 2,
         },
         navigationSettings: [],
         aboutPageSettings: {

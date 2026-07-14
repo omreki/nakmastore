@@ -85,7 +85,8 @@ export const StoreSettingsProvider = ({ children }) => {
             seo: {
                 metaTitle: "",
                 metaDescription: ""
-            }
+            },
+            mobileColumns: 2
         },
         navigationSettings: [
             { id: 'shop', label: 'Shop', path: '/shop', type: 'link', visible: true },

@@ -353,6 +353,32 @@ const HomepageListingsSettings = ({ settings, setSettings }) => {
                     </div>
                 </div>
             </div>
+
+            <div className="space-y-6">
+                <h4 className="text-white text-sm font-bold border-b border-white/10 pb-2">Mobile Layout Settings</h4>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div className="flex flex-col gap-2.5">
+                        <label className="text-gray-500 text-[10px] font-black tracking-[0.2em] uppercase ml-1">Mobile Grid Columns</label>
+                        <select
+                            value={settings.homepageSettings?.mobileColumns || 2}
+                            onChange={(e) => setSettings({
+                                ...settings,
+                                homepageSettings: {
+                                    ...settings.homepageSettings,
+                                    mobileColumns: parseInt(e.target.value, 10),
+                                },
+                            })}
+                            className="w-full h-12 bg-black/40 border border-white/5 rounded-xl px-4 text-white text-sm font-bold focus:outline-none focus:border-primary/50 transition-colors shadow-inner"
+                        >
+                            <option value={1} className="bg-secondary text-white">1 Column</option>
+                            <option value={2} className="bg-secondary text-white">2 Columns</option>
+                        </select>
+                        <p className="text-[10px] text-gray-500 font-bold uppercase tracking-widest mt-1">
+                            Set the number of columns to display on mobile screens for both Homepage and Shop page listings.
+                        </p>
+                    </div>
+                </div>
+            </div>
         </div>
     );
 };

@@ -29,7 +29,7 @@ const ShopPage = () => {
     const [currentPage, setCurrentPage] = useState(1);
     const productsPerPage = 18;
 
-    const { formatPrice } = useStoreSettings();
+    const { settings, formatPrice } = useStoreSettings();
     const [products, setProducts] = useState([]);
     const [categories, setCategories] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
@@ -290,7 +290,7 @@ const ShopPage = () => {
                         )}
                     </div>
                 ) : (
-                    <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-6 md:gap-8">
+                    <div className={`grid ${settings?.homepageSettings?.mobileColumns === 1 ? 'grid-cols-1' : 'grid-cols-2'} sm:grid-cols-3 lg:grid-cols-6 gap-6 md:gap-8`}>
                         {currentProducts.map((product) => {
                             const mainImage = product.images?.[0] || 'https://via.placeholder.com/400x500?text=No+Image';
 

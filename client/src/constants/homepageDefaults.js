@@ -106,15 +106,18 @@ export const mergeHomepageSettings = (homepageSettings = {}) => ({
         metaTitle: homepageSettings.seo?.metaTitle || '',
         metaDescription: homepageSettings.seo?.metaDescription || '',
     },
+    mobileColumns: Number(homepageSettings.mobileColumns) || 2,
 });
 
-export const getListingGridClass = (columnsPerRow) => {
+export const getListingGridClass = (columnsPerRow, mobileColumns = 2) => {
+    const mobileClass = Number(mobileColumns) === 1 ? 'grid-cols-1' : 'grid-cols-2';
+
     const map = {
-        2: 'grid-cols-2',
-        3: 'grid-cols-2 sm:grid-cols-3',
-        4: 'grid-cols-2 sm:grid-cols-3 md:grid-cols-4',
-        5: 'grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5',
-        6: 'grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6',
+        2: `${mobileClass}`,
+        3: `${mobileClass} sm:grid-cols-3`,
+        4: `${mobileClass} sm:grid-cols-3 md:grid-cols-4`,
+        5: `${mobileClass} sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5`,
+        6: `${mobileClass} sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6`,
     };
 
     return map[columnsPerRow] || map[6];
